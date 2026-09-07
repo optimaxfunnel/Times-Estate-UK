@@ -9,10 +9,10 @@ genuinely missing and must be filled by the business owner, not assumed.
 
 | Field | Value | Status |
 |---|---|---|
-| Legal company name | | Missing |
+| Legal company name | Times Estate Ltd | Confirmed (matches Companies House record "TIMES ESTATE LTD") |
 | Trading name (if different) | | Missing |
-| Companies House registration number | | Missing |
-| Registered office address | | Missing |
+| Companies House registration number | 09597081 | Confirmed (verified against Companies House register, active, incorporated 19 May 2015) |
+| Registered office address | 145 Upper Tooting Road, London, SW17 7TJ | Confirmed (owner confirmed this is the address to display; matches Companies House register) |
 | Trading/branch address(es) | | Missing |
 | VAT number (if applicable) | | Missing |
 
@@ -57,11 +57,11 @@ each must be confirmed or marked Missing until the owner supplies it.
 
 | Field | Value | Status |
 |---|---|---|
-| Redress scheme membership (e.g. The Property Ombudsman or Property Redress Scheme) | | Missing |
-| Client Money Protection (CMP) scheme membership | | Missing |
+| Redress scheme membership (e.g. The Property Ombudsman or Property Redress Scheme) | Property Redress Scheme, Membership No. PRS030616, valid 15/04/2026 – 14/04/2027 | Requires verification (certificate reviewed directly; no public online lookup tool found on propertyredress.co.uk to independently cross-check) |
+| Client Money Protection (CMP) scheme membership | Client Money Protect, Membership No. CMP013294, valid 20/06/2026 – 19/06/2027 | Requires verification (certificate reviewed directly; no public online lookup completed) |
 | Professional body membership (e.g. Propertymark/NAEA/ARLA) | | Missing |
 | Anti-money laundering (AML) supervision registration | | Missing |
-| Professional indemnity insurance | | Missing |
+| Professional indemnity insurance | Folgate Insurance Company Limited / APC Underwriting, "Surveyors' Professional Combined Policy" (ref #2391142793), for 2026-2027 | Requires verification (policy wording document supplied; the schedule showing insured name, policy number, limit of indemnity and period of cover has not yet been supplied) |
 | Fee/charges transparency information (lettings/management fees) | | Missing |
 | ICO / data protection registration number | | Missing |
 
