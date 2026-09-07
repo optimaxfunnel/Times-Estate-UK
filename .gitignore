@@ -38,5 +38,8 @@ Thumbs.db
 !.vscode/extensions.json
 .idea/
 
+# Claude Code local tooling config (machine-specific absolute paths)
+.claude/
+
 # Misc
 *.local
