@@ -4,6 +4,61 @@ All notable changes to this project are recorded here, most recent first.
 This is a project log, not a marketing document — it should stay accurate
 and plain.
 
+## 2026-09-07 — Day 3: Technical foundation, design system and core website
+
+**Blocker found and resolved**
+- Node.js was not installed on this computer (flagged since Day 1, never
+  resolved). With the owner's explicit approval, installed Node.js 24 LTS
+  via `winget`.
+
+**Added**
+- `TECHNICAL_ARCHITECTURE.md` — the chosen technology stack (Next.js 16,
+  React 19, TypeScript strict mode, Tailwind CSS 4, Zod), with current
+  versions verified against the npm registry.
+- `INTEGRATIONS.md` — a comparison of options for database, CMS, auth,
+  search, email, file storage, analytics, hosting and monitoring. Nothing
+  connected; every option needs the owner's approval.
+- `DESIGN_SYSTEM.md` — the implemented Brand Direction 1 design system:
+  colours, typography, components, and accessibility features.
+- `TEST_REPORT.md` — every check run today (TypeScript, lint, tests,
+  build, audit, secret scan, responsive testing, accessibility, form
+  functional testing) with commands and real results.
+- `web/` — the scaffolded Next.js application: eleven core public pages
+  (Home, About, Residential, Commercial, Sell, Let, Property Management,
+  Contact, and three legal placeholders), a shared design system, and a
+  server-validated enquiry form used across Sell/Let/Commercial/Property
+  Management/Contact.
+
+**Changed**
+- `CONTENT_REQUIRED.md` — corrected three items (legal name, Companies
+  House number, registered office) that were still marked "Missing" despite
+  being Confirmed since Day 1; updated regulatory items to "Requires
+  verification" to match `CONTENT_VERIFICATION_REGISTER.md`.
+- `PROJECT_PLAN.md` — Day 3 marked complete; the long-standing "no
+  command-line access" technical note removed now that it no longer
+  applies.
+
+**Findings (defects found and fixed today)**
+- Tablet-width (768px) navigation overlapped the logo and CTA button —
+  the mobile/desktop switch-over point was moved from 768px to 1024px.
+- The open mobile menu didn't fully cover the page beneath it at its
+  bottom edge — fixed to cover the full remaining screen height.
+- One transitive dependency (`unrs-resolver`) has an unreviewed
+  postinstall script — flagged, not approved or run.
+
+**Not done today (by design — out of scope for Day 3)**
+- No property database, CMS, email/CRM integration, authentication, or
+  hosting connected.
+- No production deployment.
+- No automated accessibility scan (axe-core) — planned for Day 6.
+
+**Open items carried to Day 4**
+- Owner to choose an email/notification provider (blocks every enquiry
+  journey from actually reaching staff — see `INTEGRATIONS.md`).
+- Owner to confirm whether a property feed/CRM exists for Buy/Rent search.
+- All Missing items from earlier days (contact details, fees, brand
+  assets, geographic coverage) remain outstanding.
+
 ## 2026-09-07 — Day 2: Research, positioning, brand, sitemap and user journeys
 
 **Added**

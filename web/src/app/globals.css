@@ -1,0 +1,71 @@
+@import "tailwindcss";
+
+/*
+  Times Estate Ltd design tokens — Brand Direction 1, "The Established Line".
+  Source: /BRAND_DIRECTIONS.md (approved as a working baseline, 2026-09-07).
+  Contrast ratios stated there were computed against these exact hex values.
+*/
+:root {
+  --color-ink: #12213c; /* Ink Navy — primary text/headings */
+  --color-background: #f7f4ee; /* Warm Off-White — page background */
+  --color-surface: #ffffff; /* card/surface background on top of the page bg */
+  --color-accent: #8c6a3f; /* Muted Bronze — buttons, links, dividers */
+  --color-accent-dark: #6e5330; /* hover/active state for accent, kept within AA on white text */
+  --color-secondary: #5b6b63; /* Slate Sage — supporting UI, icons, borders */
+  --color-border: #dcd5c8; /* soft hairline border derived from the palette */
+  --color-success: #2f6b4f;
+  --color-warning: #9a5b12;
+  --color-danger: #a3311f;
+  --focus-ring: #1f4b8c;
+}
+
+@theme inline {
+  --color-ink: var(--color-ink);
+  --color-background: var(--color-background);
+  --color-surface: var(--color-surface);
+  --color-accent: var(--color-accent);
+  --color-accent-dark: var(--color-accent-dark);
+  --color-secondary: var(--color-secondary);
+  --color-border: var(--color-border);
+  --color-success: var(--color-success);
+  --color-warning: var(--color-warning);
+  --color-danger: var(--color-danger);
+  --font-heading: var(--font-source-serif);
+  --font-sans: var(--font-inter);
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: var(--color-background);
+  color: var(--color-ink);
+  font-family: var(--font-sans), ui-sans-serif, system-ui, sans-serif;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  font-family: var(--font-heading), Georgia, serif;
+}
+
+/* Visible, high-contrast focus ring for every interactive element. */
+:focus-visible {
+  outline: 3px solid var(--focus-ring);
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+
+/* Respect the visitor's reduced-motion preference everywhere. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}

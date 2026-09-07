@@ -32,6 +32,15 @@ content item as soon as it is introduced anywhere in the project, however
 early-stage. Do not add rows retroactively "to catch up" without checking
 the actual source.)*
 
+## Day 3 note (2026-09-07)
+
+No new facts were confirmed today. The eight facts already in this
+register are now also reflected directly in the website's code
+(`web/src/lib/site-config.ts`) and rendered visibly on the built pages
+(e.g. the About page and footer), each with its correct status badge.
+Any future change to a status in this register must also be updated in
+that file, or the site will show a stale status.
+
 ## How to use this register
 
 1. Before adding any business fact, statistic, credential, testimonial, or

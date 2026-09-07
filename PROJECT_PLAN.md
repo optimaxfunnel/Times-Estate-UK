@@ -91,16 +91,44 @@ and planning work, but it does block later days:
 - **Services:** still recorded as "Supplied by owner (to reconfirm in
   detail)" rather than fully confirmed in scope/geography.
 
-### Day 3 — Brand confirmation and technical foundation (proposed)
+### Day 3 — Technical foundation, design system and core website
 
-- Owner approves or amends: business priorities, sitemap, user journeys,
-  brand direction, and navigation structure (see Day 2 end-of-day
-  approval request).
-- Confirm technology stack (proposed: Next.js + TypeScript front end, a
-  headless CMS for editable content, a managed Postgres database) —
-  subject to the owner's approval of any paid tier.
-- Scaffold the application skeleton only after the above is agreed —
-  still no real content, since most required content remains Missing.
+**Status: Complete.**
+
+- Found and reported a real blocker before starting: Node.js was not
+  installed on this computer. With the owner's explicit approval, Node.js
+  24 LTS was installed via `winget` (an official, free installer) — the
+  first thing actually installed on the owner's machine this project.
+- Chose and recorded the technology stack in `TECHNICAL_ARCHITECTURE.md`
+  (Next.js 16, React 19, TypeScript strict mode, Tailwind CSS 4, Zod for
+  server-side validation), all versions checked against the live npm
+  registry rather than assumed.
+- Compared options for every external service category (database, CMS,
+  auth, search, email, storage, analytics, hosting, monitoring) in
+  `INTEGRATIONS.md` — none connected, all pending owner approval.
+- Scaffolded the Next.js application into `web/` (kept separate from
+  planning documents at the repository root), with strict TypeScript, no
+  secrets, environment-variable validation, and a clean directory
+  structure.
+- Built and documented the approved Brand Direction 1 design system in
+  `DESIGN_SYSTEM.md` and in code — colours, typography, buttons, forms,
+  navigation, property cards, status badges, and a dedicated
+  "Placeholder Notice" component that enforces Rule 2 directly on the
+  page, not just in project documents.
+- Built eleven core public pages (Home, About, Residential, Commercial,
+  Sell, Let, Property Management, Contact, and three legal placeholders)
+  — every unverified fact visibly labelled with its real status.
+- Deliberately did not build Buy/Rent property search (needs a property
+  database — Day 4) or a dedicated "Areas We Cover" page (geographic
+  coverage still unconfirmed — see Rule 1).
+- Tested all six required breakpoints, found and fixed two real
+  responsive defects (a tablet-width navigation overlap, and a mobile
+  menu not fully covering the page beneath it) — see `TEST_REPORT.md`.
+- Ran and recorded every required check (TypeScript, lint, tests,
+  production build, dependency audit, secret scan) in `TEST_REPORT.md` —
+  all passed; one low-risk dependency install-script was flagged but not
+  approved.
+- Did not connect any external service, deploy anything, or begin Day 4.
 
 ### Day 4 — Core page build (residential + commercial)
 
@@ -130,27 +158,28 @@ and planning work, but it does block later days:
 - Deployment is only carried out once the owner states exactly:
   **"I approve production deployment."**
 
-## Immediate next steps (Day 3 starting position)
+## Immediate next steps (Day 4 starting position)
 
-1. Business priorities, sitemap, user journeys and Brand Direction 1 are
-   approved as a working baseline (2026-09-07) — Day 3 may proceed on
-   this basis.
-2. Owner still needs to supply the still-Missing items listed under "Day
+1. The application exists and runs (`web/`), with the design system and
+   eleven core pages built and tested — Day 4 can build on this directly.
+2. Decisions needed from the owner before Day 4 can go further (see the
+   Day 3 end-of-day report): an email/notification provider (see
+   `INTEGRATIONS.md`), and confirmation of whether a property feed/CRM
+   already exists for real listings, or whether one needs choosing.
+3. Owner still needs to supply the still-Missing items listed under "Day
    1 completeness check" above — particularly contact details (phone,
-   email, opening hours), which are needed before several approved
-   journeys can go live, and brand assets (logo, colours, photography) if
-   the owner would rather use real assets than Direction 1's proposed
-   palette/typography.
-3. Day 3 begins with technology-stack confirmation and scaffolding.
+   email, opening hours) and geographic coverage, both of which currently
+   block parts of the built pages from showing real content.
+4. Day 4 begins with property search/listing pages, once a data source
+   (even a temporary one) is agreed.
 
 ## Open technical notes for later days
 
-- This session currently has file read/write access to the project folder
-  on the owner's computer, but no command-line access to that machine
-  (no way to run `git`, `node`, `npm` etc. there remotely). Repository
-  initialisation and dependency installation will need either a short
-  set of commands run by the owner, or a session with that capability
-  enabled. See the Day 1 end-of-day report for details.
-- Proposed stack (Next.js/TypeScript, headless CMS, Postgres) is a
-  recommendation for Day 2 discussion, not a decision — alternatives can
-  be considered based on the owner's hosting preferences and budget.
+- **Resolved on Day 3:** Node.js 24 LTS is now installed on the owner's
+  computer (via `winget`, with the owner's explicit approval), and this
+  session has full command-line access to run `git`, `node`, `npm` etc.
+  directly. The earlier blocker recorded here on Days 1–2 no longer
+  applies.
+- The chosen stack (Next.js, React, TypeScript, Tailwind CSS, Zod) is
+  recorded and reasoned through in `TECHNICAL_ARCHITECTURE.md`. Database,
+  CMS, email and hosting remain undecided — see `INTEGRATIONS.md`.

@@ -11,9 +11,9 @@ Status key: Confirmed / Supplied by owner / Missing / Requires verification
 
 ## Company and legal
 
-- [ ] Full legal company name — Missing
-- [ ] Companies House number — Missing
-- [ ] Registered office address — Missing
+- [x] Full legal company name — Confirmed (verified against Companies House)
+- [x] Companies House number — Confirmed (verified against Companies House)
+- [x] Registered office address — Confirmed (owner-confirmed, matches Companies House)
 - [ ] Trading address(es), if different — Missing
 - [ ] VAT number, if applicable — Missing
 - [ ] Privacy policy text — Missing (Requires professional review once drafted)
@@ -23,11 +23,11 @@ Status key: Confirmed / Supplied by owner / Missing / Requires verification
 
 ## Regulatory and compliance
 
-- [ ] Redress scheme name and membership number — Missing
-- [ ] Client Money Protection scheme and certificate — Missing
+- [ ] Redress scheme name and membership number — Requires verification (certificate supplied, membership number not independently confirmed)
+- [ ] Client Money Protection scheme and certificate — Requires verification (certificate supplied, not independently confirmed)
 - [ ] Professional body membership(s) — Missing
 - [ ] AML supervision registration details — Missing
-- [ ] Professional indemnity insurer/policy reference — Missing
+- [ ] Professional indemnity insurer/policy reference — Requires verification (policy wording supplied; the schedule with the actual policy number/limit is still Missing)
 - [ ] Published fee schedule (lettings/management) — Missing
 
 ## Brand assets
@@ -71,6 +71,16 @@ Status key: Confirmed / Supplied by owner / Missing / Requires verification
 
 - [ ] Example websites the owner likes, with notes on what they like — Missing
 - [ ] Competitor websites to be aware of, if any — Missing
+
+## Day 3 note
+
+The website (`web/`) now displays every item above's real status directly
+on the page, not just in this document — e.g. the About page shows
+"MISSING" next to the team section, and the footer shows "Requires
+verification" next to the redress scheme. The single source of truth for
+these statuses in code is `web/src/lib/site-config.ts`, which must be kept
+in sync with this file and with `CONTENT_VERIFICATION_REGISTER.md`
+whenever either is updated.
 
 ## Demo/placeholder policy
 
