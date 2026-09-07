@@ -1,4 +1,9 @@
-import type { Lead, LeadCategory, LeadPriority, LeadStage } from "@/lib/leads/types";
+import type {
+  Lead,
+  LeadCategory,
+  LeadPriority,
+  LeadStage,
+} from "@/lib/leads/types";
 import { recordAuditEvent } from "@/lib/auth/audit-log";
 import { logNotificationAttempt } from "@/lib/leads/notify";
 
@@ -26,7 +31,10 @@ export interface CreateLeadInput {
 let leads: Lead[] = [];
 let counter = 0;
 
-function defaultPriority(category: LeadCategory, extra?: Record<string, string>): LeadPriority {
+function defaultPriority(
+  category: LeadCategory,
+  extra?: Record<string, string>,
+): LeadPriority {
   if (category === "repair_report") {
     const urgency = extra?.urgency;
     if (urgency === "emergency") return "emergency";
@@ -75,7 +83,10 @@ export function createLead(input: CreateLeadInput): Lead {
   return lead;
 }
 
-export function listLeads(filter?: { category?: LeadCategory; stage?: LeadStage }): Lead[] {
+export function listLeads(filter?: {
+  category?: LeadCategory;
+  stage?: LeadStage;
+}): Lead[] {
   // Newest first. Leads are always appended in creation order, so
   // reversing is correct even when two leads share the same millisecond
   // timestamp (sorting by createdAt alone can't distinguish those, and
@@ -91,7 +102,11 @@ export function getLeadById(id: string): Lead | null {
   return leads.find((l) => l.id === id) ?? null;
 }
 
-export function updateLeadStage(id: string, stage: LeadStage, actor: string): Lead | null {
+export function updateLeadStage(
+  id: string,
+  stage: LeadStage,
+  actor: string,
+): Lead | null {
   const lead = getLeadById(id);
   if (!lead) return null;
   const before = lead.stage;
@@ -106,17 +121,30 @@ export function updateLeadStage(id: string, stage: LeadStage, actor: string): Le
   return lead;
 }
 
-export function assignLead(id: string, assignee: string, actor: string): Lead | null {
+export function assignLead(
+  id: string,
+  assignee: string,
+  actor: string,
+): Lead | null {
   const lead = getLeadById(id);
   if (!lead) return null;
   lead.assignedTo = assignee;
   lead.stage = lead.stage === "new" ? "assigned" : lead.stage;
   lead.updatedAt = new Date().toISOString();
-  recordAuditEvent({ actor, action: "update", propertyId: lead.id, details: `Assigned to ${assignee}` });
+  recordAuditEvent({
+    actor,
+    action: "update",
+    propertyId: lead.id,
+    details: `Assigned to ${assignee}`,
+  });
   return lead;
 }
 
-export function addLeadNote(id: string, text: string, author: string): Lead | null {
+export function addLeadNote(
+  id: string,
+  text: string,
+  author: string,
+): Lead | null {
   const lead = getLeadById(id);
   if (!lead) return null;
   lead.notes.push({ timestamp: new Date().toISOString(), author, text });

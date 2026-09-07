@@ -23,16 +23,15 @@ export default function CookiePolicyPage() {
           <p className="mt-2 text-ink/80">
             No cookie consent banner is shown on this site because nothing
             requiring your consent under the UK Privacy and Electronic
-            Communications Regulations (PECR) is currently in use — there
-            is no analytics service, no advertising or social-media
-            tracking, and no third-party script of any kind (see{" "}
-            <code className="text-xs">/INTEGRATIONS.md</code>, which
-            confirms none of these has been connected). If that changes —
-            for example, if an analytics tool is approved in future — a
-            proper consent banner, offering &ldquo;Accept all&rdquo; and
-            &ldquo;Reject all&rdquo; with equal prominence, will be added
-            before that technology is switched on, and this page will be
-            updated to list it.
+            Communications Regulations (PECR) is currently in use — there is no
+            analytics service, no advertising or social-media tracking, and no
+            third-party script of any kind (see{" "}
+            <code className="text-xs">/INTEGRATIONS.md</code>, which confirms
+            none of these has been connected). If that changes — for example, if
+            an analytics tool is approved in future — a proper consent banner,
+            offering &ldquo;Accept all&rdquo; and &ldquo;Reject all&rdquo; with
+            equal prominence, will be added before that technology is switched
+            on, and this page will be updated to list it.
           </p>
         </div>
 
@@ -54,22 +53,23 @@ export default function CookiePolicyPage() {
                 <td className="py-2 pr-4 font-mono text-xs">dev_mock_role</td>
                 <td className="py-2 pr-4">Cookie (httpOnly)</td>
                 <td className="py-2 pr-4">
-                  Remembers a development-only demonstration role in the
-                  staff admin area. It carries no personal data and does
-                  not exist for any visitor browsing the public site — see{" "}
-                  <code className="text-xs">/ADMIN_AND_CMS.md</code>. It
-                  will be replaced entirely once real staff authentication
-                  is built.
+                  Remembers a development-only demonstration role in the staff
+                  admin area. It carries no personal data and does not exist for
+                  any visitor browsing the public site — see{" "}
+                  <code className="text-xs">/ADMIN_AND_CMS.md</code>. It will be
+                  replaced entirely once real staff authentication is built.
                 </td>
                 <td className="py-2">Strictly necessary</td>
               </tr>
               <tr>
-                <td className="py-2 pr-4 font-mono text-xs">times-estate-favourites</td>
+                <td className="py-2 pr-4 font-mono text-xs">
+                  times-estate-favourites
+                </td>
                 <td className="py-2 pr-4">Browser local storage</td>
                 <td className="py-2 pr-4">
-                  Remembers which properties you have saved, only on your
-                  own device, so your saved list is still there if you
-                  return. Nothing is sent to us or to any third party.
+                  Remembers which properties you have saved, only on your own
+                  device, so your saved list is still there if you return.
+                  Nothing is sent to us or to any third party.
                 </td>
                 <td className="py-2">Strictly necessary</td>
               </tr>
@@ -78,14 +78,16 @@ export default function CookiePolicyPage() {
         </div>
 
         <div>
-          <h2 className="text-xl font-semibold text-ink">How to control this</h2>
+          <h2 className="text-xl font-semibold text-ink">
+            How to control this
+          </h2>
           <p className="mt-2 text-ink/80">
-            Because everything above is strictly necessary for the feature
-            it supports, there is nothing on this site to opt out of today.
-            You can still clear your browser&rsquo;s cookies and local
-            storage at any time using your browser&rsquo;s own settings —
-            doing so will simply sign you out of the demonstration admin
-            area and clear your saved-properties list.
+            Because everything above is strictly necessary for the feature it
+            supports, there is nothing on this site to opt out of today. You can
+            still clear your browser&rsquo;s cookies and local storage at any
+            time using your browser&rsquo;s own settings — doing so will simply
+            sign you out of the demonstration admin area and clear your
+            saved-properties list.
           </p>
         </div>
 

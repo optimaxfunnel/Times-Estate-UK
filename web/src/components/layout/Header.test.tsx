@@ -5,7 +5,9 @@ import { Header } from "@/components/layout/Header";
 describe("Header", () => {
   it("exposes an accessible primary navigation landmark", () => {
     render(<Header />);
-    expect(screen.getByRole("navigation", { name: "Primary" })).toBeInTheDocument();
+    expect(
+      screen.getByRole("navigation", { name: "Primary" }),
+    ).toBeInTheDocument();
   });
 
   it("always shows the top business-priority call to action", () => {

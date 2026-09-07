@@ -44,7 +44,10 @@ export function AssistantWidget() {
     const question = input.trim();
     if (!question || isPending) return;
 
-    const history: AIMessage[] = messages.map((m) => ({ role: m.role, content: m.content }));
+    const history: AIMessage[] = messages.map((m) => ({
+      role: m.role,
+      content: m.content,
+    }));
     setMessages((prev) => [...prev, { role: "user", content: question }]);
     setInput("");
     setIsPending(true);
@@ -53,7 +56,11 @@ export function AssistantWidget() {
 
     setMessages((prev) => [
       ...prev,
-      { role: "assistant", content: response.content, sources: response.sources },
+      {
+        role: "assistant",
+        content: response.content,
+        sources: response.sources,
+      },
     ]);
     setIsPending(false);
   }
@@ -69,10 +76,15 @@ export function AssistantWidget() {
         >
           <div className="flex items-center justify-between border-b border-border p-3">
             <div>
-              <p id="assistant-heading" className="text-sm font-semibold text-ink">
+              <p
+                id="assistant-heading"
+                className="text-sm font-semibold text-ink"
+              >
                 Times Estate Ltd assistant
               </p>
-              <p className="text-xs text-warning-text">AI · Demonstration mode — not a real person</p>
+              <p className="text-xs text-warning-text">
+                AI · Demonstration mode — not a real person
+              </p>
             </div>
             <button
               type="button"
@@ -91,7 +103,10 @@ export function AssistantWidget() {
             className="flex-1 space-y-3 overflow-y-auto p-3 text-sm"
           >
             {messages.map((m, i) => (
-              <div key={i} className={m.role === "user" ? "text-right" : "text-left"}>
+              <div
+                key={i}
+                className={m.role === "user" ? "text-right" : "text-left"}
+              >
                 <div
                   className={
                     m.role === "user"
@@ -104,7 +119,11 @@ export function AssistantWidget() {
                 {m.sources && m.sources.length > 0 && (
                   <div className="mt-1 space-x-2">
                     {m.sources.map((s) => (
-                      <Link key={s.href} href={s.href} className="text-xs text-accent underline">
+                      <Link
+                        key={s.href}
+                        href={s.href}
+                        className="text-xs text-accent underline"
+                      >
                         {s.label}
                       </Link>
                     ))}
@@ -115,7 +134,10 @@ export function AssistantWidget() {
             {isPending && <p className="text-xs text-ink/70">Thinking…</p>}
           </div>
 
-          <form onSubmit={handleSubmit} className="flex gap-2 border-t border-border p-3">
+          <form
+            onSubmit={handleSubmit}
+            className="flex gap-2 border-t border-border p-3"
+          >
             <label htmlFor="assistant-input" className="sr-only">
               Ask a question
             </label>

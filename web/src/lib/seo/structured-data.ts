@@ -59,7 +59,9 @@ export function breadcrumbJsonLd(items: { name: string; path: string }[]) {
  * therefore returns `null` for any demo property — today, that means it
  * returns `null` for all of them, by design, until real listings exist.
  */
-export function propertyJsonLd(property: PublicProperty): Record<string, unknown> | null {
+export function propertyJsonLd(
+  property: PublicProperty,
+): Record<string, unknown> | null {
   if (property.isDemo) return null;
 
   return {
@@ -75,7 +77,9 @@ export function propertyJsonLd(property: PublicProperty): Record<string, unknown
       priceCurrency: "GBP",
       availability: "https://schema.org/InStock",
       businessFunction:
-        property.listingType === "sale" ? "https://schema.org/Sell" : "https://schema.org/LeaseOut",
+        property.listingType === "sale"
+          ? "https://schema.org/Sell"
+          : "https://schema.org/LeaseOut",
     },
   };
 }

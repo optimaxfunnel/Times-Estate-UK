@@ -13,9 +13,18 @@ const initialState: AlertFormState = { status: "idle" };
 export function AlertForm({
   defaults,
 }: {
-  defaults: { location?: string; minPrice?: string; maxPrice?: string; listingType?: string; category?: string };
+  defaults: {
+    location?: string;
+    minPrice?: string;
+    maxPrice?: string;
+    listingType?: string;
+    category?: string;
+  };
 }) {
-  const [state, formAction, isPending] = useActionState(submitPropertyAlert, initialState);
+  const [state, formAction, isPending] = useActionState(
+    submitPropertyAlert,
+    initialState,
+  );
 
   if (state.status === "success") {
     return (
@@ -28,7 +37,11 @@ export function AlertForm({
   return (
     <form action={formAction} className="space-y-4" noValidate>
       <HoneypotField />
-      <input type="hidden" name="listingType" value={defaults.listingType ?? ""} />
+      <input
+        type="hidden"
+        name="listingType"
+        value={defaults.listingType ?? ""}
+      />
       <input type="hidden" name="category" value={defaults.category ?? ""} />
       <TextField
         label="Email address"

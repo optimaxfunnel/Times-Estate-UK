@@ -23,9 +23,9 @@ export function EmergencyGuidance() {
         ))}
       </dl>
       <p className="mt-3 text-xs text-ink/70">
-        This is general safety information, not a judgement on your
-        specific situation — if in doubt, treat it as an emergency and
-        call the relevant number above.
+        This is general safety information, not a judgement on your specific
+        situation — if in doubt, treat it as an emergency and call the relevant
+        number above.
       </p>
     </div>
   );

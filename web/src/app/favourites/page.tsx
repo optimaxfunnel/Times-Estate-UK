@@ -38,8 +38,8 @@ export default function FavouritesPage() {
           <p className="text-sm text-ink/70">Loading…</p>
         ) : properties.length === 0 ? (
           <p className="text-sm text-ink/70">
-            You haven&rsquo;t saved any properties yet. Use the &ldquo;Save&rdquo;
-            button on any property to add it here.
+            You haven&rsquo;t saved any properties yet. Use the
+            &ldquo;Save&rdquo; button on any property to add it here.
           </p>
         ) : (
           <ul className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">

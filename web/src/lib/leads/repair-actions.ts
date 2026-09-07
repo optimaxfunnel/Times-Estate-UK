@@ -3,25 +3,47 @@
 import { z } from "zod";
 import { type LeadFormState } from "@/lib/leads/lead-schema";
 import { createLead } from "@/lib/leads/provider";
-import { isHoneypotTriggered, HONEYPOT_FIELD_NAME } from "@/lib/security/honeypot";
+import {
+  isHoneypotTriggered,
+  HONEYPOT_FIELD_NAME,
+} from "@/lib/security/honeypot";
 import { checkRateLimit } from "@/lib/security/rate-limit";
 import { sanitiseFields, sanitiseText } from "@/lib/security/sanitize";
 import { validateFile, sanitiseFilename } from "@/lib/security/file-upload";
-import { REPAIR_ISSUE_CATEGORIES, REPAIR_URGENCY_OPTIONS } from "@/lib/repair-terms";
+import {
+  REPAIR_ISSUE_CATEGORIES,
+  REPAIR_URGENCY_OPTIONS,
+} from "@/lib/repair-terms";
 
 const repairSchema = z
   .object({
     fullName: z.string().trim().min(2, "Please enter your full name."),
     email: z.string().trim().email("Please enter a valid email address."),
-    phone: z.string().trim().min(7, "Please enter a valid phone number.").max(20, "Please enter a valid phone number."),
-    propertyAddress: z.string().trim().min(5, "Please enter the property address."),
-    issueCategory: z.enum(REPAIR_ISSUE_CATEGORIES.map((c) => c.value) as [string, ...string[]], {
-      message: "Please select an issue category.",
-    }),
-    description: z.string().trim().min(10, "Please describe the issue (at least 10 characters)."),
-    urgency: z.enum(REPAIR_URGENCY_OPTIONS.map((u) => u.value) as [string, ...string[]], {
-      message: "Please select an urgency level.",
-    }),
+    phone: z
+      .string()
+      .trim()
+      .min(7, "Please enter a valid phone number.")
+      .max(20, "Please enter a valid phone number."),
+    propertyAddress: z
+      .string()
+      .trim()
+      .min(5, "Please enter the property address."),
+    issueCategory: z.enum(
+      REPAIR_ISSUE_CATEGORIES.map((c) => c.value) as [string, ...string[]],
+      {
+        message: "Please select an issue category.",
+      },
+    ),
+    description: z
+      .string()
+      .trim()
+      .min(10, "Please describe the issue (at least 10 characters)."),
+    urgency: z.enum(
+      REPAIR_URGENCY_OPTIONS.map((u) => u.value) as [string, ...string[]],
+      {
+        message: "Please select an urgency level.",
+      },
+    ),
     accessInformation: z.string().trim().optional().default(""),
     privacyConsent: z.string().optional(),
     contractorShareConsent: z.string().optional(),
@@ -31,7 +53,8 @@ const repairSchema = z
     path: ["privacyConsent"],
   })
   .refine((data) => data.contractorShareConsent === "on", {
-    message: "You must agree to share these details with a contractor to continue.",
+    message:
+      "You must agree to share these details with a contractor to continue.",
     path: ["contractorShareConsent"],
   });
 
@@ -40,7 +63,10 @@ export async function submitRepairReport(
   formData: FormData,
 ): Promise<LeadFormState> {
   if (isHoneypotTriggered(formData)) {
-    return { status: "success", message: "Thank you — your report has been received." };
+    return {
+      status: "success",
+      message: "Thank you — your report has been received.",
+    };
   }
 
   const rateLimit = await checkRateLimit("lead:repair_report");
@@ -70,7 +96,9 @@ export async function submitRepairReport(
   // Files: validated and their metadata kept, but no file storage
   // provider is approved yet — bytes are never written anywhere. See
   // /lib/security/file-upload.ts and /INTEGRATIONS.md.
-  const photoFiles = formData.getAll("photos").filter((f): f is File => f instanceof File && f.size > 0);
+  const photoFiles = formData
+    .getAll("photos")
+    .filter((f): f is File => f instanceof File && f.size > 0);
   const fileNotes: string[] = [];
   for (const file of photoFiles) {
     const validation = validateFile(file);
@@ -82,8 +110,16 @@ export async function submitRepairReport(
     );
   }
 
-  const { fullName, email, phone, propertyAddress, issueCategory, description, urgency, accessInformation } =
-    result.data;
+  const {
+    fullName,
+    email,
+    phone,
+    propertyAddress,
+    issueCategory,
+    description,
+    urgency,
+    accessInformation,
+  } = result.data;
 
   const lead = createLead({
     category: "repair_report",

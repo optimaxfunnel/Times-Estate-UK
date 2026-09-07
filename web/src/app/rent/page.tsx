@@ -4,11 +4,16 @@ import { Section } from "@/components/ui/Section";
 import { PropertySearchForm } from "@/components/property/PropertySearchForm";
 import { PropertyResultsGrid } from "@/components/property/PropertyResultsGrid";
 import { propertyProvider } from "@/lib/property/provider";
-import { buildListParams, toUrlSearchParams, type SearchParams } from "@/lib/property/search-params";
+import {
+  buildListParams,
+  toUrlSearchParams,
+  type SearchParams,
+} from "@/lib/property/search-params";
 
 export const metadata: Metadata = {
   title: "Property to Rent",
-  description: "Search residential property to rent with Times Estate Ltd, London.",
+  description:
+    "Search residential property to rent with Times Estate Ltd, London.",
   alternates: { canonical: "/rent" },
 };
 

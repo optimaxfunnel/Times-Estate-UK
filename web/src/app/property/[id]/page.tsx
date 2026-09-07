@@ -65,8 +65,14 @@ export default async function PropertyDetailPage({
       <JsonLd
         data={breadcrumbJsonLd([
           { name: "Home", path: "/" },
-          { name: publicProperty.listingType === "sale" ? "Buy" : "Rent", path: publicProperty.listingType === "sale" ? "/buy" : "/rent" },
-          { name: publicProperty.displayAddress, path: `/property/${publicProperty.id}` },
+          {
+            name: publicProperty.listingType === "sale" ? "Buy" : "Rent",
+            path: publicProperty.listingType === "sale" ? "/buy" : "/rent",
+          },
+          {
+            name: publicProperty.displayAddress,
+            path: `/property/${publicProperty.id}`,
+          },
         ])}
       />
       {listingJsonLd && <JsonLd data={listingJsonLd} />}
@@ -79,8 +85,8 @@ export default async function PropertyDetailPage({
         <div className="flex flex-wrap items-start justify-between gap-4">
           <div>
             <p className="text-sm font-semibold uppercase tracking-wide text-accent">
-              {publicProperty.listingType === "sale" ? "For Sale" : "To Let"} &middot;{" "}
-              {formatStatusLabel(publicProperty.status)}
+              {publicProperty.listingType === "sale" ? "For Sale" : "To Let"}{" "}
+              &middot; {formatStatusLabel(publicProperty.status)}
             </p>
             <h1 className="text-3xl font-semibold text-ink sm:text-4xl">
               {publicProperty.displayAddress}
@@ -96,7 +102,7 @@ export default async function PropertyDetailPage({
         </div>
       </Section>
 
-      <Section className="grid gap-10 lg:grid-cols-3">
+      <Section containerClassName="grid gap-10 lg:grid-cols-3">
         <div className="space-y-8 lg:col-span-2">
           <PropertyGallery images={publicProperty.media.images} />
 
@@ -118,44 +124,108 @@ export default async function PropertyDetailPage({
 
           {residential && (
             <div>
-              <h2 className="text-xl font-semibold text-ink">Property information</h2>
+              <h2 className="text-xl font-semibold text-ink">
+                Property information
+              </h2>
               <dl className="mt-2 grid grid-cols-2 gap-3 text-sm sm:grid-cols-3">
-                <Info label="Type" value={RESIDENTIAL_PROPERTY_TYPE_LABELS[residential.propertyType]} />
+                <Info
+                  label="Type"
+                  value={
+                    RESIDENTIAL_PROPERTY_TYPE_LABELS[residential.propertyType]
+                  }
+                />
                 <Info label="Bedrooms" value={String(residential.bedrooms)} />
                 <Info label="Bathrooms" value={String(residential.bathrooms)} />
                 {residential.receptionRooms !== undefined && (
-                  <Info label="Reception rooms" value={String(residential.receptionRooms)} />
+                  <Info
+                    label="Reception rooms"
+                    value={String(residential.receptionRooms)}
+                  />
                 )}
-                {residential.tenure && <Info label="Tenure" value={residential.tenure.replace("_", " ")} />}
-                {residential.councilTaxBand && <Info label="Council tax band" value={residential.councilTaxBand} />}
-                {residential.epcRating && <Info label="EPC rating" value={residential.epcRating} />}
-                {residential.furnishing && <Info label="Furnishing" value={residential.furnishing.replace("_", " ")} />}
+                {residential.tenure && (
+                  <Info
+                    label="Tenure"
+                    value={residential.tenure.replace("_", " ")}
+                  />
+                )}
+                {residential.councilTaxBand && (
+                  <Info
+                    label="Council tax band"
+                    value={residential.councilTaxBand}
+                  />
+                )}
+                {residential.epcRating && (
+                  <Info label="EPC rating" value={residential.epcRating} />
+                )}
+                {residential.furnishing && (
+                  <Info
+                    label="Furnishing"
+                    value={residential.furnishing.replace("_", " ")}
+                  />
+                )}
                 {residential.deposit !== undefined && (
-                  <Info label="Deposit" value={`£${residential.deposit.toLocaleString("en-GB")}`} />
+                  <Info
+                    label="Deposit"
+                    value={`£${residential.deposit.toLocaleString("en-GB")}`}
+                  />
                 )}
-                {residential.availableFrom && <Info label="Available from" value={residential.availableFrom} />}
+                {residential.availableFrom && (
+                  <Info
+                    label="Available from"
+                    value={residential.availableFrom}
+                  />
+                )}
                 {residential.leaseLengthYears !== undefined && (
-                  <Info label="Lease length remaining" value={`${residential.leaseLengthYears} years`} />
+                  <Info
+                    label="Lease length remaining"
+                    value={`${residential.leaseLengthYears} years`}
+                  />
                 )}
                 {residential.serviceCharge !== undefined && (
-                  <Info label="Service charge" value={`£${residential.serviceCharge.toLocaleString("en-GB")} pa`} />
+                  <Info
+                    label="Service charge"
+                    value={`£${residential.serviceCharge.toLocaleString("en-GB")} pa`}
+                  />
                 )}
                 {residential.groundRent !== undefined && (
-                  <Info label="Ground rent" value={`£${residential.groundRent.toLocaleString("en-GB")} pa`} />
+                  <Info
+                    label="Ground rent"
+                    value={`£${residential.groundRent.toLocaleString("en-GB")} pa`}
+                  />
                 )}
-                {residential.chainStatus && <Info label="Chain" value={residential.chainStatus.replace(/_/g, " ")} />}
+                {residential.chainStatus && (
+                  <Info
+                    label="Chain"
+                    value={residential.chainStatus.replace(/_/g, " ")}
+                  />
+                )}
               </dl>
             </div>
           )}
 
           {commercial && (
             <div>
-              <h2 className="text-xl font-semibold text-ink">Property information</h2>
+              <h2 className="text-xl font-semibold text-ink">
+                Property information
+              </h2>
               <dl className="mt-2 grid grid-cols-2 gap-3 text-sm sm:grid-cols-3">
-                <Info label="Use" value={COMMERCIAL_USE_LABELS[commercial.commercialUse]} />
-                <Info label="Floor area" value={`${commercial.floorAreaSqFt.toLocaleString("en-GB")} sq ft`} />
-                {commercial.units !== undefined && <Info label="Units" value={String(commercial.units)} />}
-                {commercial.tenure && <Info label="Tenure" value={commercial.tenure.replace("_", " ")} />}
+                <Info
+                  label="Use"
+                  value={COMMERCIAL_USE_LABELS[commercial.commercialUse]}
+                />
+                <Info
+                  label="Floor area"
+                  value={`${commercial.floorAreaSqFt.toLocaleString("en-GB")} sq ft`}
+                />
+                {commercial.units !== undefined && (
+                  <Info label="Units" value={String(commercial.units)} />
+                )}
+                {commercial.tenure && (
+                  <Info
+                    label="Tenure"
+                    value={commercial.tenure.replace("_", " ")}
+                  />
+                )}
                 {commercial.businessRatesPayable !== undefined && (
                   <Info
                     label="Business rates (indicative)"
@@ -169,12 +239,22 @@ export default async function PropertyDetailPage({
                   />
                 )}
                 {commercial.vatPosition && (
-                  <Info label="VAT position" value={commercial.vatPosition.replace(/_/g, " ")} />
+                  <Info
+                    label="VAT position"
+                    value={commercial.vatPosition.replace(/_/g, " ")}
+                  />
                 )}
-                {commercial.useClass && <Info label="Use class" value={commercial.useClass} />}
-                {commercial.possessionDate && <Info label="Possession" value={commercial.possessionDate} />}
+                {commercial.useClass && (
+                  <Info label="Use class" value={commercial.useClass} />
+                )}
+                {commercial.possessionDate && (
+                  <Info label="Possession" value={commercial.possessionDate} />
+                )}
                 {commercial.investmentYieldPercent && (
-                  <Info label="Investment yield (verified)" value={`${commercial.investmentYieldPercent.value}%`} />
+                  <Info
+                    label="Investment yield (verified)"
+                    value={`${commercial.investmentYieldPercent.value}%`}
+                  />
                 )}
               </dl>
               {commercial.leaseTermsSummary && (
@@ -192,10 +272,9 @@ export default async function PropertyDetailPage({
             </p>
             <p className="mt-1">
               A full, solicitor-reviewed material information / property
-              particulars disclaimer has not yet been drafted for this site
-              (see /CONTENT_REQUIRED.md). Nothing above should be relied upon
-              as a legal description of the property until that review is
-              complete.
+              particulars disclaimer has not yet been drafted for this site (see
+              /CONTENT_REQUIRED.md). Nothing above should be relied upon as a
+              legal description of the property until that review is complete.
             </p>
           </div>
         </div>
@@ -208,8 +287,8 @@ export default async function PropertyDetailPage({
             </p>
             <p className="mt-2 rounded-sm bg-warning/10 p-2 text-xs font-medium text-warning-text">
               This does not confirm a viewing — a member of the team will
-              contact you to agree an exact time, including with the
-              current occupier where applicable.
+              contact you to agree an exact time, including with the current
+              occupier where applicable.
             </p>
             <div className="mt-4">
               <LeadForm
@@ -218,10 +297,28 @@ export default async function PropertyDetailPage({
                 submitLabel="Request a Viewing"
                 propertyReference={publicProperty.displayAddress}
                 fields={[
-                  { type: "date", name: "preferredDate1", label: "Preferred date (1st choice)", required: true },
-                  { type: "time", name: "preferredTime1", label: "Preferred time (1st choice)", required: true },
-                  { type: "date", name: "preferredDate2", label: "Alternative date (optional)" },
-                  { type: "time", name: "preferredTime2", label: "Alternative time (optional)" },
+                  {
+                    type: "date",
+                    name: "preferredDate1",
+                    label: "Preferred date (1st choice)",
+                    required: true,
+                  },
+                  {
+                    type: "time",
+                    name: "preferredTime1",
+                    label: "Preferred time (1st choice)",
+                    required: true,
+                  },
+                  {
+                    type: "date",
+                    name: "preferredDate2",
+                    label: "Alternative date (optional)",
+                  },
+                  {
+                    type: "time",
+                    name: "preferredTime2",
+                    label: "Alternative time (optional)",
+                  },
                   {
                     type: "select",
                     name: "qualification",
@@ -234,8 +331,14 @@ export default async function PropertyDetailPage({
                       publicProperty.listingType === "sale"
                         ? [
                             { value: "cash_buyer", label: "Cash buyer" },
-                            { value: "mortgage_agreed", label: "Mortgage agreed in principle" },
-                            { value: "not_yet_arranged", label: "Not yet arranged" },
+                            {
+                              value: "mortgage_agreed",
+                              label: "Mortgage agreed in principle",
+                            },
+                            {
+                              value: "not_yet_arranged",
+                              label: "Not yet arranged",
+                            },
                           ]
                         : [
                             { value: "asap", label: "As soon as possible" },
@@ -243,7 +346,12 @@ export default async function PropertyDetailPage({
                             { value: "3_plus_months", label: "3+ months" },
                           ],
                   },
-                  { type: "textarea", name: "message", label: "Any accessibility needs for the viewing? (optional)" },
+                  {
+                    type: "textarea",
+                    name: "message",
+                    label:
+                      "Any accessibility needs for the viewing? (optional)",
+                  },
                 ]}
               />
             </div>
@@ -257,7 +365,9 @@ export default async function PropertyDetailPage({
 function Info({ label, value }: { label: string; value: string }) {
   return (
     <div>
-      <dt className="text-xs font-medium uppercase tracking-wide text-secondary">{label}</dt>
+      <dt className="text-xs font-medium uppercase tracking-wide text-secondary">
+        {label}
+      </dt>
       <dd className="text-ink">{value}</dd>
     </div>
   );

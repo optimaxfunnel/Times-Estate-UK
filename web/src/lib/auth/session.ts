@@ -41,5 +41,9 @@ export async function getCurrentRole(): Promise<Role> {
 
 export async function setMockRole(role: Role) {
   const store = await cookies();
-  store.set(SESSION_COOKIE, role, { httpOnly: true, sameSite: "lax", path: "/" });
+  store.set(SESSION_COOKIE, role, {
+    httpOnly: true,
+    sameSite: "lax",
+    path: "/",
+  });
 }

@@ -68,32 +68,66 @@ export interface PropertyProvider {
   list(params: PropertyListParams): Promise<PropertyListResult>;
   getById(id: string): Promise<Property | null>;
   create(input: Property, actor: string): Promise<Property>;
-  update(id: string, patch: Partial<Property>, actor: string): Promise<Property>;
+  update(
+    id: string,
+    patch: Partial<Property>,
+    actor: string,
+  ): Promise<Property>;
 }
 
 const DEFAULT_PAGE_SIZE = 6;
 
-function matchesFilter(property: Property, filter: PropertyFilter | undefined): boolean {
+function matchesFilter(
+  property: Property,
+  filter: PropertyFilter | undefined,
+): boolean {
   if (!filter) return true;
   if (filter.category && property.category !== filter.category) return false;
-  if (filter.listingType && property.listingType !== filter.listingType) return false;
+  if (filter.listingType && property.listingType !== filter.listingType)
+    return false;
   if (filter.location) {
     const needle = filter.location.trim().toLowerCase();
-    const haystack = `${property.displayAddress} ${property.postcode}`.toLowerCase();
+    const haystack =
+      `${property.displayAddress} ${property.postcode}`.toLowerCase();
     if (needle && !haystack.includes(needle)) return false;
   }
-  if (filter.minPrice !== undefined && (property.price ?? 0) < filter.minPrice) return false;
-  if (filter.maxPrice !== undefined && (property.price ?? Infinity) > filter.maxPrice) return false;
+  if (filter.minPrice !== undefined && (property.price ?? 0) < filter.minPrice)
+    return false;
+  if (
+    filter.maxPrice !== undefined &&
+    (property.price ?? Infinity) > filter.maxPrice
+  )
+    return false;
   if (filter.minBedrooms !== undefined) {
-    if (!property.residential || property.residential.bedrooms < filter.minBedrooms) return false;
+    if (
+      !property.residential ||
+      property.residential.bedrooms < filter.minBedrooms
+    )
+      return false;
   }
-  if (filter.propertyType && property.residential?.propertyType !== filter.propertyType) return false;
-  if (filter.commercialUse && property.commercial?.commercialUse !== filter.commercialUse) return false;
+  if (
+    filter.propertyType &&
+    property.residential?.propertyType !== filter.propertyType
+  )
+    return false;
+  if (
+    filter.commercialUse &&
+    property.commercial?.commercialUse !== filter.commercialUse
+  )
+    return false;
   if (filter.minFloorAreaSqFt !== undefined) {
-    if (!property.commercial || property.commercial.floorAreaSqFt < filter.minFloorAreaSqFt) return false;
+    if (
+      !property.commercial ||
+      property.commercial.floorAreaSqFt < filter.minFloorAreaSqFt
+    )
+      return false;
   }
   if (filter.maxFloorAreaSqFt !== undefined) {
-    if (!property.commercial || property.commercial.floorAreaSqFt > filter.maxFloorAreaSqFt) return false;
+    if (
+      !property.commercial ||
+      property.commercial.floorAreaSqFt > filter.maxFloorAreaSqFt
+    )
+      return false;
   }
   if (filter.tenure) {
     const tenure = property.residential?.tenure ?? property.commercial?.tenure;
@@ -107,17 +141,25 @@ function matchesFilter(property: Property, filter: PropertyFilter | undefined): 
   return true;
 }
 
-function sortProperties(items: Property[], sort: PropertySortKey | undefined): Property[] {
+function sortProperties(
+  items: Property[],
+  sort: PropertySortKey | undefined,
+): Property[] {
   const sorted = [...items];
   switch (sort) {
     case "price_asc":
-      return sorted.sort((a, b) => (a.price ?? Infinity) - (b.price ?? Infinity));
+      return sorted.sort(
+        (a, b) => (a.price ?? Infinity) - (b.price ?? Infinity),
+      );
     case "price_desc":
-      return sorted.sort((a, b) => (b.price ?? -Infinity) - (a.price ?? -Infinity));
+      return sorted.sort(
+        (a, b) => (b.price ?? -Infinity) - (a.price ?? -Infinity),
+      );
     case "newest":
     default:
       return sorted.sort(
-        (a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime(),
+        (a, b) =>
+          new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime(),
       );
   }
 }
@@ -138,7 +180,9 @@ class DemoPropertyProvider implements PropertyProvider {
     if (params.statuses) {
       scoped = scoped.filter((p) => params.statuses!.includes(p.status));
     } else if (!params.includeNonPublicStatuses) {
-      scoped = scoped.filter((p) => PUBLICLY_VISIBLE_STATUSES.includes(p.status));
+      scoped = scoped.filter((p) =>
+        PUBLICLY_VISIBLE_STATUSES.includes(p.status),
+      );
     }
 
     const filtered = sortProperties(
@@ -160,15 +204,28 @@ class DemoPropertyProvider implements PropertyProvider {
 
   async create(input: Property, actor: string): Promise<Property> {
     this.items.push(input);
-    recordAuditEvent({ actor, action: "create", propertyId: input.id, details: `status=${input.status}` });
+    recordAuditEvent({
+      actor,
+      action: "create",
+      propertyId: input.id,
+      details: `status=${input.status}`,
+    });
     return input;
   }
 
-  async update(id: string, patch: Partial<Property>, actor: string): Promise<Property> {
+  async update(
+    id: string,
+    patch: Partial<Property>,
+    actor: string,
+  ): Promise<Property> {
     const index = this.items.findIndex((p) => p.id === id);
     if (index === -1) throw new Error(`Property ${id} not found`);
     const before = this.items[index];
-    const updated: Property = { ...before, ...patch, updatedAt: new Date().toISOString() };
+    const updated: Property = {
+      ...before,
+      ...patch,
+      updatedAt: new Date().toISOString(),
+    };
     this.items[index] = updated;
     if (patch.status && patch.status !== before.status) {
       recordAuditEvent({
@@ -178,7 +235,12 @@ class DemoPropertyProvider implements PropertyProvider {
         details: `${before.status} -> ${patch.status}`,
       });
     } else {
-      recordAuditEvent({ actor, action: "update", propertyId: id, details: "fields edited" });
+      recordAuditEvent({
+        actor,
+        action: "update",
+        propertyId: id,
+        details: "fields edited",
+      });
     }
     return updated;
   }

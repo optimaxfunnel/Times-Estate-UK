@@ -5,7 +5,8 @@
  * but stored data may end up in emails, exports or a future CRM that
  * doesn't escape it, so it is cleaned at the point of entry too.
  */
-const CONTROL_CHARS_PATTERN = "[\\u0000-\\u0008\\u000B\\u000C\\u000E-\\u001F\\u007F]";
+const CONTROL_CHARS_PATTERN =
+  "[\\u0000-\\u0008\\u000B\\u000C\\u000E-\\u001F\\u007F]";
 const controlCharsRegex = new RegExp(CONTROL_CHARS_PATTERN, "g");
 
 export function sanitiseText(value: string, maxLength = 4000): string {
@@ -16,7 +17,9 @@ export function sanitiseText(value: string, maxLength = 4000): string {
     .slice(0, maxLength);
 }
 
-export function sanitiseFields<T extends Record<string, unknown>>(fields: T): T {
+export function sanitiseFields<T extends Record<string, unknown>>(
+  fields: T,
+): T {
   const result = { ...fields };
   for (const key of Object.keys(result)) {
     const value = result[key];

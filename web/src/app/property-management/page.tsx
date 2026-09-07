@@ -20,9 +20,11 @@ export default function PropertyManagementPage() {
         intro="From referencing to repairs, we manage the day-to-day so you don't have to."
       />
 
-      <Section className="grid gap-10 lg:grid-cols-2">
+      <Section containerClassName="grid gap-10 lg:grid-cols-2">
         <div>
-          <h2 className="text-2xl font-semibold text-ink">Landlords: request a management appraisal</h2>
+          <h2 className="text-2xl font-semibold text-ink">
+            Landlords: request a management appraisal
+          </h2>
           <p className="mt-2 text-sm text-ink/70">
             New to letting, switching agents, or adding full management to an
             existing let — tell us about your property.
@@ -33,7 +35,12 @@ export default function PropertyManagementPage() {
               sourcePage="/property-management"
               submitLabel="Request Appraisal"
               fields={[
-                { type: "text", name: "propertyAddress", label: "Property address", required: true },
+                {
+                  type: "text",
+                  name: "propertyAddress",
+                  label: "Property address",
+                  required: true,
+                },
                 {
                   type: "select",
                   name: "currentArrangement",
@@ -41,11 +48,18 @@ export default function PropertyManagementPage() {
                   required: true,
                   options: [
                     { value: "self_managed", label: "Currently self-managed" },
-                    { value: "another_agent", label: "Currently with another agent" },
+                    {
+                      value: "another_agent",
+                      label: "Currently with another agent",
+                    },
                     { value: "none", label: "Not currently let" },
                   ],
                 },
-                { type: "textarea", name: "message", label: "Anything else we should know? (optional)" },
+                {
+                  type: "textarea",
+                  name: "message",
+                  label: "Anything else we should know? (optional)",
+                },
               ]}
             />
           </div>
@@ -57,11 +71,15 @@ export default function PropertyManagementPage() {
               Existing tenants: report a repair
             </h2>
             <p className="mt-2 text-sm text-ink/70">
-              If something in your rented home needs fixing, tell us directly
-              — you don&rsquo;t need to wait for office hours to log it.
-              Emergency guidance is shown on that page before the form.
+              If something in your rented home needs fixing, tell us directly —
+              you don&rsquo;t need to wait for office hours to log it. Emergency
+              guidance is shown on that page before the form.
             </p>
-            <ButtonLink href="/report-a-repair" variant="secondary" className="mt-4">
+            <ButtonLink
+              href="/report-a-repair"
+              variant="secondary"
+              className="mt-4"
+            >
               Report a Repair
             </ButtonLink>
           </div>

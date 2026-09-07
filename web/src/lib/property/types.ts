@@ -100,9 +100,13 @@ export const RESIDENTIAL_PROPERTY_TYPES = [
   "studio",
   "other",
 ] as const;
-export type ResidentialPropertyType = (typeof RESIDENTIAL_PROPERTY_TYPES)[number];
+export type ResidentialPropertyType =
+  (typeof RESIDENTIAL_PROPERTY_TYPES)[number];
 
-export const RESIDENTIAL_PROPERTY_TYPE_LABELS: Record<ResidentialPropertyType, string> = {
+export const RESIDENTIAL_PROPERTY_TYPE_LABELS: Record<
+  ResidentialPropertyType,
+  string
+> = {
   flat: "Flat",
   terraced_house: "Terraced House",
   semi_detached_house: "Semi-Detached House",
@@ -113,7 +117,8 @@ export const RESIDENTIAL_PROPERTY_TYPE_LABELS: Record<ResidentialPropertyType, s
   other: "Other",
 };
 
-export type Tenure = "freehold" | "leasehold" | "share_of_freehold" | "commonhold";
+export type Tenure =
+  "freehold" | "leasehold" | "share_of_freehold" | "commonhold";
 export type EpcRating = "A" | "B" | "C" | "D" | "E" | "F" | "G" | "exempt";
 export type Furnishing = "furnished" | "unfurnished" | "part_furnished";
 export type ChainStatus = "no_chain" | "chain_free_seller" | "in_a_chain";
@@ -236,7 +241,10 @@ export function toPublicCommercialDetails(
   details: CommercialDetails | undefined,
 ): CommercialDetails | undefined {
   if (!details) return details;
-  if (details.investmentYieldPercent && !details.investmentYieldPercent.verified) {
+  if (
+    details.investmentYieldPercent &&
+    !details.investmentYieldPercent.verified
+  ) {
     const { investmentYieldPercent: _omitted, ...rest } = details;
     return rest;
   }

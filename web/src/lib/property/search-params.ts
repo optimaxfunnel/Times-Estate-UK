@@ -1,4 +1,8 @@
-import type { PropertyFilter, PropertyListParams, PropertySortKey } from "@/lib/property/provider";
+import type {
+  PropertyFilter,
+  PropertyListParams,
+  PropertySortKey,
+} from "@/lib/property/provider";
 import type {
   CommercialUse,
   ListingType,
@@ -34,13 +38,16 @@ export function buildListParams(
     minPrice: num(params, "minPrice"),
     maxPrice: num(params, "maxPrice"),
     minBedrooms: num(params, "minBedrooms"),
-    propertyType: (str(params, "propertyType") as ResidentialPropertyType) || undefined,
+    propertyType:
+      (str(params, "propertyType") as ResidentialPropertyType) || undefined,
     commercialUse: (str(params, "commercialUse") as CommercialUse) || undefined,
     minFloorAreaSqFt: num(params, "minFloorAreaSqFt"),
   };
 
   const sortValue = str(params, "sort");
-  const sort: PropertySortKey = VALID_SORT.includes(sortValue as PropertySortKey)
+  const sort: PropertySortKey = VALID_SORT.includes(
+    sortValue as PropertySortKey,
+  )
     ? (sortValue as PropertySortKey)
     : "newest";
 
@@ -72,7 +79,9 @@ export function summariseSearch(params: SearchParams): string {
   const minPrice = str(params, "minPrice");
   const maxPrice = str(params, "maxPrice");
   if (minPrice || maxPrice) {
-    parts.push(`priced ${minPrice ? `from £${minPrice}` : ""}${maxPrice ? ` up to £${maxPrice}` : ""}`.trim());
+    parts.push(
+      `priced ${minPrice ? `from £${minPrice}` : ""}${maxPrice ? ` up to £${maxPrice}` : ""}`.trim(),
+    );
   }
   const minBedrooms = str(params, "minBedrooms");
   if (minBedrooms) parts.push(`${minBedrooms}+ bedrooms`);

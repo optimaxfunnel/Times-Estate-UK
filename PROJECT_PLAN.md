@@ -305,27 +305,75 @@ and planning work, but it does block later days:
 - Did not deploy anything, did not claim legal compliance anywhere, and
   did not begin Day 7.
 
-### Day 7 — Review and launch readiness
+### Day 7 — Final quality assurance, documentation, handover and deployment preparation
 
-- Full walkthrough with the owner.
-- Final content verification against `CONTENT_VERIFICATION_REGISTER.md` —
-  nothing with a status other than Confirmed goes live.
-- Deployment is only carried out once the owner states exactly:
-  **"I approve production deployment."**
+**Status: Complete.**
 
-## Immediate next steps (Day 7 starting position)
+- Checked the baseline before changing anything: typecheck, lint, tests
+  and production build all passed on Day 6's code before today's work
+  began.
+- Built a full requirement-traceability audit against
+  `BUSINESS_REQUIREMENTS.md`, `SITEMAP.md`, `USER_JOURNEYS.md`,
+  `DESIGN_SYSTEM.md`, `DATA_MODEL.md`, `AUTOMATION_WORKFLOWS.md`,
+  `AI_SAFETY_RULES.md`, `ACCESSIBILITY.md`, `SEO_PLAN.md`,
+  `SECURITY.md` and `PRIVACY_DATA_MAP.md`, recorded in full in
+  `TEST_REPORT.md` §1, using only the six statuses required today.
+- Live-tested residential and commercial search/filters, a full lead
+  submission (validation error → correction → success), CMS property
+  editing with audit logging, the Property-Editor-cannot-publish RBAC
+  boundary, and the AI assistant's refusal/escalation behaviour.
+- **Found and fixed a major, previously-undetected layout defect**
+  affecting seven pages (`/sell`, `/let`, `/property-management`,
+  `/report-a-repair`, `/register`, `/contact`, `/property/[id]`): their
+  intended two-column desktop layouts were silently collapsing to a
+  single narrow column because layout classes were applied to the
+  wrong wrapper in the shared `Section` component. Fixed by using the
+  component's existing `containerClassName` prop; re-verified live and
+  re-confirmed the full check suite passes.
+- **Found and fixed** a Day 6 regression where the new Content-Security
+  -Policy silently broke `next dev` entirely (React's development build
+  needs `eval()`, which the policy hadn't allowed) — made the policy
+  dev/production-aware with no change to the production policy itself.
+- **Found, and extensively investigated, an unresolved CRITICAL
+  defect:** certain lead-form submissions cause the server (confirmed
+  in both dev and a real production build) to become completely
+  unresponsive to every visitor, requiring a manual restart. Ruled out
+  the Day 6 security headers, production-specific behaviour, and every
+  line of this project's own lead-submission code as the cause through
+  direct, methodical testing — the cause is not yet confirmed, but is
+  suspected to be a Next.js 16.3.4/Turbopack framework issue given
+  `TECHNICAL_ARCHITECTURE.md`'s existing version-risk flag. Full detail
+  in `TEST_REPORT.md` §5. **This is an absolute launch blocker.**
+- Ran a full cross-device visual review at six breakpoints (360–1920px)
+  across the home page, search/listing pages, the property detail
+  page, and key forms — the layout defect above was found this way.
+- Ran the complete final technical test suite (formatting, TypeScript,
+  lint, unit/component tests, production build, dependency audit,
+  secret scan, link check) and recorded what could and could not be
+  run (no automated end-to-end or API test suite exists in this
+  project) — all in `TEST_REPORT.md` §6, with nothing hidden.
+- Completed documentation: new `README.md` (repository root and
+  `web/`), `DEPLOYMENT.md`, and `OPERATIONS_MANUAL.md`; reviewed and
+  corrected `CLAUDE.md`'s project-status section (which had not been
+  updated since Day 4).
+- Prepared (but did not execute) the full deployment checklist,
+  environment-variable list, hosting/domain/DNS instructions, database
+  migration/backup/restoration procedures, monitoring configuration,
+  rollback procedure, and post-deployment verification steps — all in
+  `DEPLOYMENT.md`.
+- Did not deploy anything, did not create any account or cloud
+  resource, did not alter DNS, and did not claim the site is legally
+  compliant or fully complete anywhere.
 
-1. Content, SEO infrastructure, drafted legal/regulatory pages,
-   accessibility, performance and security hardening all exist and are
-   tested (`web/`, `SEO_PLAN.md`, `REGULATORY_READINESS.md`,
-   `ACCESSIBILITY.md`, `SECURITY.md`) — Day 7's review and
-   launch-readiness walkthrough can review this directly.
-2. **Every drafted legal/regulatory page (`/privacy-policy`,
+## Immediate next steps
+
+1. **Fix and re-test the critical defect in `TEST_REPORT.md` §5 before
+   anything else.** No other item on this list matters until the site
+   can reliably stay online.
+2. Every drafted legal/regulatory page (`/privacy-policy`,
    `/cookie-policy`, `/terms`, `/complaints`, `/fees`) needs a qualified
-   UK solicitor's review before it can be relied upon** — see
-   `REGULATORY_READINESS.md` for the topic-by-topic detail. None of
-   these has been reviewed by a professional; all are clearly marked
-   as drafts on the page itself.
+   UK solicitor's review before it can be relied upon — see
+   `REGULATORY_READINESS.md`.
 3. Decisions still needed from the owner before any of this work can go
    live for real visitors:
    - An email/notification provider, with approved recipient addresses,
@@ -340,17 +388,16 @@ and planning work, but it does block later days:
    - A real, persistent, access-controlled database, before any real
      personal data is accepted.
    - A real domain name — `SEO_PLAN.md` and `NEXT_PUBLIC_SITE_URL`
-     currently default to `localhost`, so every canonical URL, sitemap
-     entry, and structured-data `url` field needs the real domain
-     before today's SEO work has real effect.
+     currently default to `localhost`.
    - Actual fee amounts, a complaints response timescale, and
      geographic coverage — each currently a visible Placeholder.
 4. Owner still needs to supply the still-Missing items listed under "Day
    1 completeness check" above — particularly contact details (phone,
    email, opening hours).
-5. Day 7 begins with the full owner walkthrough and final content
-   verification described below — deployment remains gated on the
-   exact approval phrase in Rule 6.
+5. Once the critical defect is fixed and every applicable item above is
+   resolved or explicitly accepted, deployment remains gated on the
+   owner stating exactly, and only then: **"I approve production
+   deployment."**
 
 ## Open technical notes for later days
 

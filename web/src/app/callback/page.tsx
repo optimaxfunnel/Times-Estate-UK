@@ -30,7 +30,11 @@ export default function CallbackPage() {
                 { value: "evening", label: "Evening" },
               ],
             },
-            { type: "textarea", name: "message", label: "What's this about? (optional)" },
+            {
+              type: "textarea",
+              name: "message",
+              label: "What's this about? (optional)",
+            },
           ]}
         />
       </Section>

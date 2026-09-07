@@ -1,9 +1,20 @@
 "use client";
 
 import { useId, useState } from "react";
-import { ALLOWED_FILE_TYPES, MAX_FILES, MAX_FILE_SIZE_BYTES, validateFile } from "@/lib/security/file-upload";
+import {
+  ALLOWED_FILE_TYPES,
+  MAX_FILES,
+  MAX_FILE_SIZE_BYTES,
+  validateFile,
+} from "@/lib/security/file-upload";
 
-export function FileUploadField({ name, label }: { name: string; label: string }) {
+export function FileUploadField({
+  name,
+  label,
+}: {
+  name: string;
+  label: string;
+}) {
   const id = useId();
   const [files, setFiles] = useState<File[]>([]);
   const [errors, setErrors] = useState<string[]>([]);
@@ -46,8 +57,9 @@ export function FileUploadField({ name, label }: { name: string; label: string }
         className="block w-full text-sm text-ink file:mr-3 file:rounded-sm file:border file:border-border file:bg-surface file:px-3 file:py-1.5 file:text-sm"
       />
       <p id={`${id}-hint`} className="text-xs text-ink/70">
-        JPEG, PNG, HEIC or PDF, up to {MAX_FILE_SIZE_BYTES / (1024 * 1024)}MB each, up to {MAX_FILES}{" "}
-        files. Files are validated on submission but not yet stored anywhere — see /INTEGRATIONS.md.
+        JPEG, PNG, HEIC or PDF, up to {MAX_FILE_SIZE_BYTES / (1024 * 1024)}MB
+        each, up to {MAX_FILES} files. Files are validated on submission but not
+        yet stored anywhere — see /INTEGRATIONS.md.
       </p>
       {errors.length > 0 && (
         <ul className="text-sm text-danger">

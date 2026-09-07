@@ -39,8 +39,13 @@ export default function CommercialPage() {
       <Section>
         <div className="grid gap-6 sm:grid-cols-3">
           {offerings.map((offering) => (
-            <div key={offering.title} className="rounded-sm border border-border bg-surface p-6">
-              <h2 className="text-lg font-semibold text-ink">{offering.title}</h2>
+            <div
+              key={offering.title}
+              className="rounded-sm border border-border bg-surface p-6"
+            >
+              <h2 className="text-lg font-semibold text-ink">
+                {offering.title}
+              </h2>
               <p className="mt-2 text-sm text-ink/70">{offering.description}</p>
             </div>
           ))}
@@ -59,37 +64,68 @@ export default function CommercialPage() {
         <div className="grid gap-10 lg:grid-cols-3">
           <div>
             <h2 className="text-lg font-semibold text-ink">Sales appraisal</h2>
-            <p className="mt-1 text-sm text-ink/70">For landlords or investors looking to sell.</p>
+            <p className="mt-1 text-sm text-ink/70">
+              For landlords or investors looking to sell.
+            </p>
             <div className="mt-4">
               <LeadForm
                 category="commercial_sales_valuation"
                 sourcePage="/commercial"
                 submitLabel="Request Appraisal"
-                fields={[{ type: "text", name: "propertyAddress", label: "Property address", required: true }]}
+                fields={[
+                  {
+                    type: "text",
+                    name: "propertyAddress",
+                    label: "Property address",
+                    required: true,
+                  },
+                ]}
               />
             </div>
           </div>
           <div>
-            <h2 className="text-lg font-semibold text-ink">Lettings appraisal</h2>
-            <p className="mt-1 text-sm text-ink/70">For landlords looking to let premises.</p>
+            <h2 className="text-lg font-semibold text-ink">
+              Lettings appraisal
+            </h2>
+            <p className="mt-1 text-sm text-ink/70">
+              For landlords looking to let premises.
+            </p>
             <div className="mt-4">
               <LeadForm
                 category="commercial_rental_valuation"
                 sourcePage="/commercial"
                 submitLabel="Request Appraisal"
-                fields={[{ type: "text", name: "propertyAddress", label: "Property address", required: true }]}
+                fields={[
+                  {
+                    type: "text",
+                    name: "propertyAddress",
+                    label: "Property address",
+                    required: true,
+                  },
+                ]}
               />
             </div>
           </div>
           <div>
-            <h2 className="text-lg font-semibold text-ink">Occupier / management enquiry</h2>
-            <p className="mt-1 text-sm text-ink/70">Looking for premises, or want management for your property?</p>
+            <h2 className="text-lg font-semibold text-ink">
+              Occupier / management enquiry
+            </h2>
+            <p className="mt-1 text-sm text-ink/70">
+              Looking for premises, or want management for your property?
+            </p>
             <div className="mt-4">
               <LeadForm
                 category="commercial_enquiry"
                 sourcePage="/commercial"
                 submitLabel="Send Enquiry"
-                fields={[{ type: "textarea", name: "requirement", label: "Your requirement", required: true }]}
+                fields={[
+                  {
+                    type: "textarea",
+                    name: "requirement",
+                    label: "Your requirement",
+                    required: true,
+                  },
+                ]}
               />
             </div>
           </div>

@@ -8,7 +8,10 @@ import { HONEYPOT_FIELD_NAME } from "@/lib/security/honeypot";
  */
 export function HoneypotField() {
   return (
-    <div style={{ position: "absolute", left: "-9999px", top: "-9999px" }} aria-hidden="true">
+    <div
+      style={{ position: "absolute", left: "-9999px", top: "-9999px" }}
+      aria-hidden="true"
+    >
       <label htmlFor={HONEYPOT_FIELD_NAME}>Leave this field blank</label>
       <input
         type="text"

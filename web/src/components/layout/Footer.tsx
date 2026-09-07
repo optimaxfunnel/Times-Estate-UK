@@ -17,7 +17,10 @@ export function Footer() {
             <ul className="space-y-2">
               {links.map((link) => (
                 <li key={link.href}>
-                  <Link href={link.href} className="text-sm text-ink hover:text-accent">
+                  <Link
+                    href={link.href}
+                    className="text-sm text-ink hover:text-accent"
+                  >
                     {link.label}
                   </Link>
                 </li>

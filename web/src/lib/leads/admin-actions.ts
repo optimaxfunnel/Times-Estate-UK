@@ -7,7 +7,10 @@ import { updateLeadStage, addLeadNote } from "@/lib/leads/provider";
 import { getCurrentRole } from "@/lib/auth/session";
 import { hasPermission } from "@/lib/auth/roles";
 
-export type LeadAdminState = { status: "idle" | "success" | "error"; message?: string };
+export type LeadAdminState = {
+  status: "idle" | "success" | "error";
+  message?: string;
+};
 
 const stageUpdateSchema = z.object({
   id: z.string().min(1),
@@ -26,12 +29,20 @@ export async function updateLeadStageAction(
 ): Promise<LeadAdminState> {
   const role = await getCurrentRole();
   if (!hasPermission(role, "manage_leads")) {
-    return { status: "error", message: "Your current role cannot manage leads." };
+    return {
+      status: "error",
+      message: "Your current role cannot manage leads.",
+    };
   }
 
-  const parsed = stageUpdateSchema.safeParse(Object.fromEntries(formData.entries()));
+  const parsed = stageUpdateSchema.safeParse(
+    Object.fromEntries(formData.entries()),
+  );
   if (!parsed.success) {
-    return { status: "error", message: parsed.error.issues[0]?.message ?? "Invalid submission." };
+    return {
+      status: "error",
+      message: parsed.error.issues[0]?.message ?? "Invalid submission.",
+    };
   }
 
   const { id, stage, note } = parsed.data;

@@ -8,6 +8,27 @@ import type { NextConfig } from "next";
  * matching CLAUDE.md Rule 6 (nothing is deployed today; this simply
  * avoids re-deriving the header list later).
  */
+const isDev = process.env.NODE_ENV !== "production";
+
+/**
+ * Day 7 fix: the original CSP (`script-src 'self' 'unsafe-inline'`, no
+ * `unsafe-eval`) blocked every page from rendering in `next dev` —
+ * React's development build uses `eval()` for its debugging features
+ * (reconstructing call stacks across Fast Refresh boundaries) and
+ * silently fails without it, which showed up as every page stuck on
+ * the global "Loading…" fallback forever. React's own console warning
+ * confirms production never uses `eval()`, so this is a dev-only
+ * relaxation: `'unsafe-eval'` and a `ws:`/`wss:` allowance for
+ * Turbopack's hot-reload socket are added to `script-src`/`connect-src`
+ * only when `NODE_ENV !== "production"`. The production policy is
+ * unchanged from Day 6. See TEST_REPORT.md's Day 7 entry for how this
+ * was found and confirmed fixed.
+ */
+const scriptSrc = isDev
+  ? "script-src 'self' 'unsafe-inline' 'unsafe-eval'"
+  : "script-src 'self' 'unsafe-inline'";
+const connectSrc = isDev ? "connect-src 'self' ws: wss:" : "connect-src 'self'";
+
 const securityHeaders = [
   { key: "X-Frame-Options", value: "DENY" },
   { key: "X-Content-Type-Options", value: "nosniff" },
@@ -29,11 +50,11 @@ const securityHeaders = [
     key: "Content-Security-Policy",
     value: [
       "default-src 'self'",
-      "script-src 'self' 'unsafe-inline'",
+      scriptSrc,
       "style-src 'self' 'unsafe-inline'",
       "img-src 'self' data:",
       "font-src 'self' data:",
-      "connect-src 'self'",
+      connectSrc,
       "frame-ancestors 'none'",
       "base-uri 'self'",
       "form-action 'self'",

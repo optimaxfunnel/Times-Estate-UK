@@ -36,15 +36,25 @@ describe("propertyProvider.list — filtering", () => {
 
   it("filters commercial properties by commercial use", async () => {
     const offices = await propertyProvider.list({
-      filter: { category: "commercial", listingType: "letting", commercialUse: "office" },
+      filter: {
+        category: "commercial",
+        listingType: "letting",
+        commercialUse: "office",
+      },
     });
-    expect(offices.items.every((p) => p.commercial?.commercialUse === "office")).toBe(true);
+    expect(
+      offices.items.every((p) => p.commercial?.commercialUse === "office"),
+    ).toBe(true);
     expect(offices.total).toBe(1);
   });
 
   it("returns an empty result set for a price range that matches nothing", async () => {
     const result = await propertyProvider.list({
-      filter: { category: "residential", listingType: "sale", minPrice: 50_000_000 },
+      filter: {
+        category: "residential",
+        listingType: "sale",
+        minPrice: 50_000_000,
+      },
     });
     expect(result.total).toBe(0);
     expect(result.items).toHaveLength(0);
@@ -53,7 +63,11 @@ describe("propertyProvider.list — filtering", () => {
 
   it("matches location against display address and postcode", async () => {
     const result = await propertyProvider.list({
-      filter: { category: "residential", listingType: "sale", location: "sw17" },
+      filter: {
+        category: "residential",
+        listingType: "sale",
+        location: "sw17",
+      },
     });
     expect(result.total).toBeGreaterThan(0);
   });

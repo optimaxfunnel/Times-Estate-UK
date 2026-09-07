@@ -1,4 +1,8 @@
-import { PRICE_QUALIFIER_LABELS, STATUS_LABELS, type PublicProperty } from "@/lib/property/types";
+import {
+  PRICE_QUALIFIER_LABELS,
+  STATUS_LABELS,
+  type PublicProperty,
+} from "@/lib/property/types";
 
 const currencyFormatter = new Intl.NumberFormat("en-GB", {
   style: "currency",

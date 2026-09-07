@@ -18,12 +18,11 @@ export function DraftLegalNotice() {
       </p>
       <p className="mt-1 text-ink/80">
         This page is a drafted starting point, prepared from the site&rsquo;s
-        actual current features and data practices. It has{" "}
-        <strong>not</strong> yet been reviewed by a qualified UK solicitor
-        or approved by the business owner, and must not be relied upon as
-        finished legal text until it has. See{" "}
-        <code className="text-xs">/REGULATORY_READINESS.md</code> and{" "}
-        <code className="text-xs">/CONTENT_VERIFICATION_REGISTER.md</code>.
+        actual current features and data practices. It has <strong>not</strong>{" "}
+        yet been reviewed by a qualified UK solicitor or approved by the
+        business owner, and must not be relied upon as finished legal text until
+        it has. See <code className="text-xs">/REGULATORY_READINESS.md</code>{" "}
+        and <code className="text-xs">/CONTENT_VERIFICATION_REGISTER.md</code>.
       </p>
     </div>
   );

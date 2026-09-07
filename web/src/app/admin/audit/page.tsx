@@ -27,15 +27,23 @@ export default async function AdminAuditPage() {
         deployment needs this in a persistent, append-only store.
       </p>
       {events.length === 0 ? (
-        <p className="mt-6 text-sm text-ink/70">No changes recorded yet this session.</p>
+        <p className="mt-6 text-sm text-ink/70">
+          No changes recorded yet this session.
+        </p>
       ) : (
         <ul className="mt-6 space-y-2">
           {events.map((event) => (
-            <li key={event.id} className="rounded-sm border border-border bg-surface p-3 text-sm">
-              <span className="font-medium text-ink">{event.action.replace("_", " ")}</span>{" "}
+            <li
+              key={event.id}
+              className="rounded-sm border border-border bg-surface p-3 text-sm"
+            >
+              <span className="font-medium text-ink">
+                {event.action.replace("_", " ")}
+              </span>{" "}
               on <span className="font-mono">{event.propertyId}</span> by{" "}
-              {ROLE_LABELS[event.actor as keyof typeof ROLE_LABELS] ?? event.actor} —{" "}
-              <span className="text-ink/70">{event.details}</span>
+              {ROLE_LABELS[event.actor as keyof typeof ROLE_LABELS] ??
+                event.actor}{" "}
+              — <span className="text-ink/70">{event.details}</span>
               <div className="text-xs text-ink/70">
                 {new Date(event.timestamp).toLocaleString("en-GB")}
               </div>

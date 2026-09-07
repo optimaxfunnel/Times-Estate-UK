@@ -23,7 +23,11 @@ export function Alert({
   return (
     <div
       role={tone === "danger" ? "alert" : "status"}
-      className={cn("rounded-sm border p-4 text-sm", toneStyles[tone], className)}
+      className={cn(
+        "rounded-sm border p-4 text-sm",
+        toneStyles[tone],
+        className,
+      )}
     >
       {title && <p className="mb-1 font-semibold">{title}</p>}
       <div>{children}</div>

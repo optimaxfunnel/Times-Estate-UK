@@ -11,7 +11,10 @@ import { hasPermission, ROLES, type Role } from "@/lib/auth/roles";
 const editSchema = z.object({
   id: z.string().min(1),
   summary: z.string().trim().min(10, "Summary must be at least 10 characters."),
-  description: z.string().trim().min(20, "Description must be at least 20 characters."),
+  description: z
+    .string()
+    .trim()
+    .min(20, "Description must be at least 20 characters."),
   status: z.enum(PROPERTY_STATUSES),
 });
 
@@ -33,18 +36,25 @@ export async function updatePropertyAction(
 ): Promise<EditPropertyState> {
   const role = await getCurrentRole();
   if (!hasPermission(role, "edit_property")) {
-    return { status: "error", message: "Your current role does not have permission to edit properties." };
+    return {
+      status: "error",
+      message: "Your current role does not have permission to edit properties.",
+    };
   }
 
   const raw = Object.fromEntries(formData.entries());
   const parsed = editSchema.safeParse(raw);
   if (!parsed.success) {
-    return { status: "error", message: parsed.error.issues[0]?.message ?? "Invalid submission." };
+    return {
+      status: "error",
+      message: parsed.error.issues[0]?.message ?? "Invalid submission.",
+    };
   }
 
   const { id, summary, description, status } = parsed.data;
 
-  const isPublishingChange = status !== "draft" && status !== "awaiting_approval";
+  const isPublishingChange =
+    status !== "draft" && status !== "awaiting_approval";
   if (isPublishingChange && !hasPermission(role, "approve_property")) {
     return {
       status: "error",
@@ -53,7 +63,11 @@ export async function updatePropertyAction(
     };
   }
 
-  await propertyProvider.update(id, { summary, description, status: status as PropertyStatus }, role);
+  await propertyProvider.update(
+    id,
+    { summary, description, status: status as PropertyStatus },
+    role,
+  );
   // Deliberately NOT revalidating this action's own invoking page
   // (`/admin/properties/${id}`) here: useActionState already refreshes
   // the calling page with the action's returned state. Re-revalidating
@@ -68,7 +82,10 @@ export async function updatePropertyAction(
 
 export async function setMockRoleAction(formData: FormData): Promise<void> {
   const value = formData.get("role");
-  if (typeof value === "string" && (ROLES as readonly string[]).includes(value)) {
+  if (
+    typeof value === "string" &&
+    (ROLES as readonly string[]).includes(value)
+  ) {
     const { setMockRole } = await import("@/lib/auth/session");
     await setMockRole(value as Role);
   }

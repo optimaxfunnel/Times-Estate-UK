@@ -37,7 +37,25 @@ material.
   demonstration data. No CRM/portal confirmed or connected; no real
   authentication yet — the admin area must not be deployed publicly
   until one is chosen and built.
-- See `PROJECT_PLAN.md` for the day-by-day plan and current position.
+- **Day 5 of 7 (forms, lead management, repair reporting, AI and
+  automation) — complete.** Every enquiry form, an internal
+  lead-management system, repair reporting, and a rule-based
+  (non-AI-provider-connected) assistant all exist and are tested. No
+  real outbound email or AI provider connected.
+- **Day 6 of 7 (content, SEO, compliance readiness, accessibility,
+  performance and security) — complete.** SEO infrastructure, drafted
+  (not solicitor-reviewed) legal pages, a WCAG 2.2 AA accessibility
+  pass, security headers, and performance measurement all completed.
+- **Day 7 of 7 (final quality assurance, documentation and deployment
+  preparation) — complete.** A full requirement-traceability audit, a
+  major two-column-layout defect found and fixed across seven pages,
+  documentation completed (`README.md`, `DEPLOYMENT.md`,
+  `OPERATIONS_MANUAL.md`), and deployment/rollback procedures prepared
+  (not executed). **One critical, unresolved defect remains** — see
+  `TEST_REPORT.md` §5 — which alone makes the site not ready for
+  deployment regardless of any other item's status.
+- See `PROJECT_PLAN.md` for the day-by-day plan and current position,
+  and `TEST_REPORT.md` for the current, dated test results.
 
 ## The eight permanent project rules
 
@@ -117,6 +135,9 @@ No content with a status other than **Confirmed** goes live.
 | `AUTOMATION_WORKFLOWS.md` | Per-category lead workflow: trigger, validation, consent, internal action, and what still needs owner approval before any external communication is sent (Day 5). |
 | `AI_SAFETY_RULES.md` | The AI assistant's behavioural contract — what it must and must never do, and why prompt-injection resistance is structural today (Day 5). |
 | `PRIVACY_DATA_MAP.md` | What personal data is collected, where it lives, who can access it, and what must change before it holds real customer data (Day 5). |
+| `README.md` | Repository front door — what this project is and where to find everything (Day 7). |
+| `DEPLOYMENT.md` | Deployment checklist, environment variables, rollback procedure — prepared, not executed (Day 7). |
+| `OPERATIONS_MANUAL.md` | Plain-English guide for staff using the finished site day to day (Day 7). |
 | `SEO_PLAN.md` | Search-intent map, keyword map, technical SEO implementation and what's deliberately not done yet (area pages, FAQ pages) and why (Day 6). |
 | `REGULATORY_READINESS.md` | UK legal/regulatory topics reviewed today, each with a status — never a claim of compliance (Day 6). |
 | `ACCESSIBILITY.md` | Dated WCAG 2.2 AA testing record — automated and manual, defects found and fixed (Day 6). |

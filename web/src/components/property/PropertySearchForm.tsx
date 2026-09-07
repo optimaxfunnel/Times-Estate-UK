@@ -32,7 +32,10 @@ export function PropertySearchForm({
       className="grid gap-4 rounded-sm border border-border bg-surface p-4 sm:grid-cols-2 lg:grid-cols-4"
     >
       <div className="space-y-1">
-        <label htmlFor={fieldId("location")} className="block text-sm font-medium text-ink">
+        <label
+          htmlFor={fieldId("location")}
+          className="block text-sm font-medium text-ink"
+        >
           Location
         </label>
         <input
@@ -46,7 +49,10 @@ export function PropertySearchForm({
       </div>
 
       <div className="space-y-1">
-        <label htmlFor={fieldId("minPrice")} className="block text-sm font-medium text-ink">
+        <label
+          htmlFor={fieldId("minPrice")}
+          className="block text-sm font-medium text-ink"
+        >
           Min price
         </label>
         <input
@@ -61,7 +67,10 @@ export function PropertySearchForm({
       </div>
 
       <div className="space-y-1">
-        <label htmlFor={fieldId("maxPrice")} className="block text-sm font-medium text-ink">
+        <label
+          htmlFor={fieldId("maxPrice")}
+          className="block text-sm font-medium text-ink"
+        >
           Max price
         </label>
         <input
@@ -78,7 +87,10 @@ export function PropertySearchForm({
       {category === "residential" ? (
         <>
           <div className="space-y-1">
-            <label htmlFor={fieldId("minBedrooms")} className="block text-sm font-medium text-ink">
+            <label
+              htmlFor={fieldId("minBedrooms")}
+              className="block text-sm font-medium text-ink"
+            >
               Minimum bedrooms
             </label>
             <select
@@ -96,7 +108,10 @@ export function PropertySearchForm({
             </select>
           </div>
           <div className="space-y-1">
-            <label htmlFor={fieldId("propertyType")} className="block text-sm font-medium text-ink">
+            <label
+              htmlFor={fieldId("propertyType")}
+              className="block text-sm font-medium text-ink"
+            >
               Property type
             </label>
             <select
@@ -117,7 +132,10 @@ export function PropertySearchForm({
       ) : (
         <>
           <div className="space-y-1">
-            <label htmlFor={fieldId("commercialUse")} className="block text-sm font-medium text-ink">
+            <label
+              htmlFor={fieldId("commercialUse")}
+              className="block text-sm font-medium text-ink"
+            >
               Commercial use
             </label>
             <select
@@ -135,7 +153,10 @@ export function PropertySearchForm({
             </select>
           </div>
           <div className="space-y-1">
-            <label htmlFor={fieldId("minFloorAreaSqFt")} className="block text-sm font-medium text-ink">
+            <label
+              htmlFor={fieldId("minFloorAreaSqFt")}
+              className="block text-sm font-medium text-ink"
+            >
               Minimum floor area (sq ft)
             </label>
             <input
@@ -151,7 +172,10 @@ export function PropertySearchForm({
       )}
 
       <div className="space-y-1">
-        <label htmlFor={fieldId("sort")} className="block text-sm font-medium text-ink">
+        <label
+          htmlFor={fieldId("sort")}
+          className="block text-sm font-medium text-ink"
+        >
           Sort by
         </label>
         <select
@@ -173,7 +197,10 @@ export function PropertySearchForm({
         >
           Search
         </button>
-        <a href={action} className="text-sm text-ink/70 underline underline-offset-4">
+        <a
+          href={action}
+          className="text-sm text-ink/70 underline underline-offset-4"
+        >
           Clear filters
         </a>
       </div>

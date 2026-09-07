@@ -3,7 +3,11 @@ import { ButtonLink } from "@/components/ui/ButtonLink";
 import type { PropertyListResult } from "@/lib/property/provider";
 import { toPublicProperty } from "@/lib/property/types";
 
-function withPage(basePath: string, params: URLSearchParams, page: number): string {
+function withPage(
+  basePath: string,
+  params: URLSearchParams,
+  page: number,
+): string {
   const next = new URLSearchParams(params);
   next.set("page", String(page));
   return `${basePath}?${next.toString()}`;
@@ -23,11 +27,13 @@ export function PropertyResultsGrid({
   if (result.items.length === 0) {
     return (
       <div className="rounded-sm border border-dashed border-border bg-secondary/5 p-8 text-center">
-        <p className="text-lg font-semibold text-ink">No properties match your search</p>
+        <p className="text-lg font-semibold text-ink">
+          No properties match your search
+        </p>
         <p className="mx-auto mt-2 max-w-md text-sm text-ink/70">
           Try widening your search — for example, a lower minimum price or a
-          wider location — or register for an alert and we&rsquo;ll let you
-          know when something suitable becomes available.
+          wider location — or register for an alert and we&rsquo;ll let you know
+          when something suitable becomes available.
         </p>
         <div className="mt-4 flex flex-wrap justify-center gap-3">
           <ButtonLink href={basePath} variant="secondary">
@@ -54,21 +60,26 @@ export function PropertyResultsGrid({
       </ul>
 
       {result.totalPages > 1 && (
-        <nav aria-label="Search results pages" className="mt-8 flex justify-center gap-2">
-          {Array.from({ length: result.totalPages }, (_, i) => i + 1).map((page) => (
-            <a
-              key={page}
-              href={withPage(basePath, currentParams, page)}
-              aria-current={page === result.page ? "page" : undefined}
-              className={`rounded-sm border px-3 py-1.5 text-sm ${
-                page === result.page
-                  ? "border-accent bg-accent text-white"
-                  : "border-border text-ink hover:border-accent"
-              }`}
-            >
-              {page}
-            </a>
-          ))}
+        <nav
+          aria-label="Search results pages"
+          className="mt-8 flex justify-center gap-2"
+        >
+          {Array.from({ length: result.totalPages }, (_, i) => i + 1).map(
+            (page) => (
+              <a
+                key={page}
+                href={withPage(basePath, currentParams, page)}
+                aria-current={page === result.page ? "page" : undefined}
+                className={`rounded-sm border px-3 py-1.5 text-sm ${
+                  page === result.page
+                    ? "border-accent bg-accent text-white"
+                    : "border-border text-ink hover:border-accent"
+                }`}
+              >
+                {page}
+              </a>
+            ),
+          )}
         </nav>
       )}
 

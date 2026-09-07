@@ -13,8 +13,8 @@ export default function GlobalError({
   return (
     <Section>
       <Alert tone="danger" title="Something went wrong">
-        An unexpected error occurred while loading this page. You can try
-        again, or contact us directly if the problem continues.
+        An unexpected error occurred while loading this page. You can try again,
+        or contact us directly if the problem continues.
       </Alert>
       <Button className="mt-4" onClick={() => reset()}>
         Try again

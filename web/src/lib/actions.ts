@@ -2,7 +2,10 @@
 
 import { z } from "zod";
 import { alertSchema, type AlertFormState } from "@/lib/alert-schema";
-import { isHoneypotTriggered, HONEYPOT_FIELD_NAME } from "@/lib/security/honeypot";
+import {
+  isHoneypotTriggered,
+  HONEYPOT_FIELD_NAME,
+} from "@/lib/security/honeypot";
 import { checkRateLimit } from "@/lib/security/rate-limit";
 import { sanitiseFields } from "@/lib/security/sanitize";
 
@@ -21,7 +24,8 @@ export async function submitPropertyAlert(
   if (isHoneypotTriggered(formData)) {
     return {
       status: "success",
-      message: "Thank you — we'll email you when a matching property becomes available.",
+      message:
+        "Thank you — we'll email you when a matching property becomes available.",
     };
   }
 
@@ -49,10 +53,14 @@ export async function submitPropertyAlert(
     return { status: "error", fieldErrors };
   }
 
-  console.log("[property-alert] NOT SENT (no email provider approved):", result.data);
+  console.log(
+    "[property-alert] NOT SENT (no email provider approved):",
+    result.data,
+  );
 
   return {
     status: "success",
-    message: "Thank you — we'll email you when a matching property becomes available.",
+    message:
+      "Thank you — we'll email you when a matching property becomes available.",
   };
 }

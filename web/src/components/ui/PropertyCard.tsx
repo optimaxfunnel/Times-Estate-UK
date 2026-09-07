@@ -23,11 +23,18 @@ export function PropertyCard({
   property: PublicProperty;
   className?: string;
 }) {
-  const secondaryLine = summariseBedsAndBaths(property) ?? summariseFloorArea(property);
-  const transactionLabel = property.listingType === "sale" ? "For Sale" : "To Let";
+  const secondaryLine =
+    summariseBedsAndBaths(property) ?? summariseFloorArea(property);
+  const transactionLabel =
+    property.listingType === "sale" ? "For Sale" : "To Let";
 
   return (
-    <article className={cn("relative overflow-hidden rounded-sm border border-border bg-surface", className)}>
+    <article
+      className={cn(
+        "relative overflow-hidden rounded-sm border border-border bg-surface",
+        className,
+      )}
+    >
       {property.isDemo && (
         <span className="absolute left-3 top-3 z-10 rounded-sm bg-warning px-2 py-0.5 text-xs font-semibold uppercase tracking-wide text-white">
           Sample property — not real
@@ -53,9 +60,15 @@ export function PropertyCard({
           <p className="text-xs font-medium uppercase tracking-wide text-accent">
             {transactionLabel}
           </p>
-          <h3 className="text-base font-semibold text-ink">{property.displayAddress}</h3>
-          {secondaryLine && <p className="text-sm text-ink/70">{secondaryLine}</p>}
-          <p className="text-lg font-semibold text-ink">{formatPriceLabel(property)}</p>
+          <h3 className="text-base font-semibold text-ink">
+            {property.displayAddress}
+          </h3>
+          {secondaryLine && (
+            <p className="text-sm text-ink/70">{secondaryLine}</p>
+          )}
+          <p className="text-lg font-semibold text-ink">
+            {formatPriceLabel(property)}
+          </p>
         </div>
       </Link>
       <div className="flex items-center justify-between px-4 pb-4">

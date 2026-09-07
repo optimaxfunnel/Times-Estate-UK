@@ -41,13 +41,17 @@ export const LEAD_CONFIRMATION_COPY: Partial<Record<LeadCategory, string>> = {
     "A member of our commercial team will contact you to arrange your appraisal.",
   commercial_rental_valuation:
     "A member of our commercial team will contact you to discuss your requirement.",
-  management_enquiry: "A member of our property management team will be in touch.",
-  buyer_registration: "We'll let you know when a matching property becomes available.",
-  tenant_registration: "We'll let you know when a matching property becomes available.",
+  management_enquiry:
+    "A member of our property management team will be in touch.",
+  buyer_registration:
+    "We'll let you know when a matching property becomes available.",
+  tenant_registration:
+    "We'll let you know when a matching property becomes available.",
   commercial_enquiry: "A member of our commercial team will be in touch.",
   viewing_request:
     "We've received your request — a member of the team will confirm the exact time with you. This viewing is not yet confirmed.",
-  repair_report: "Your repair has been logged. A member of the property management team will triage it.",
+  repair_report:
+    "Your repair has been logged. A member of the property management team will triage it.",
   callback_request: "We'll call you back at the time you've requested.",
   general_enquiry: "A member of the Times Estate Ltd team will be in touch.",
 };

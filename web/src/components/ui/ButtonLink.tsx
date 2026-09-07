@@ -9,8 +9,10 @@ const base =
 
 const variants: Record<Variant, string> = {
   primary: "bg-accent text-white hover:bg-accent-dark",
-  secondary: "bg-transparent text-ink border border-ink hover:bg-ink hover:text-white",
-  ghost: "bg-transparent text-ink underline underline-offset-4 hover:text-accent",
+  secondary:
+    "bg-transparent text-ink border border-ink hover:bg-ink hover:text-white",
+  ghost:
+    "bg-transparent text-ink underline underline-offset-4 hover:text-accent",
 };
 
 export function ButtonLink({

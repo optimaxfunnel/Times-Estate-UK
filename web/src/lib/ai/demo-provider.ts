@@ -16,10 +16,18 @@ async function tryPropertyLookup(query: string): Promise<AIResponse | null> {
   const wantsSale = /\bsale|buy|buying\b/.test(lower);
   const wantsLetting = /\brent|renting|let\b/.test(lower);
   if (!wantsSale && !wantsLetting && !lower.includes("propert")) return null;
-  if (!lower.includes("available") && !lower.includes("what") && !lower.includes("show")) return null;
+  if (
+    !lower.includes("available") &&
+    !lower.includes("what") &&
+    !lower.includes("show")
+  )
+    return null;
 
   const result = await propertyProvider.list({
-    filter: { category: "residential", listingType: wantsLetting ? "letting" : "sale" },
+    filter: {
+      category: "residential",
+      listingType: wantsLetting ? "letting" : "sale",
+    },
     pageSize: 3,
     sort: "newest",
   });
@@ -42,17 +50,23 @@ async function tryPropertyLookup(query: string): Promise<AIResponse | null> {
 
   return {
     content: `Here are up to three currently available properties (demonstration data — not real instructions): ${list}`,
-    sources: result.items.map((p) => ({ href: `/property/${p.id}`, label: p.displayAddress })),
+    sources: result.items.map((p) => ({
+      href: `/property/${p.id}`,
+      label: p.displayAddress,
+    })),
     suggestsHumanFollowUp: false,
   };
 }
 
 export class DemoAIProvider implements AIProvider {
-  readonly name = "Demonstration (rule-based, no external AI service connected)";
+  readonly name =
+    "Demonstration (rule-based, no external AI service connected)";
   readonly isLiveProvider = false;
 
   async respond(messages: AIMessage[]): Promise<AIResponse> {
-    const lastUserMessage = [...messages].reverse().find((m) => m.role === "user");
+    const lastUserMessage = [...messages]
+      .reverse()
+      .find((m) => m.role === "user");
     if (!lastUserMessage) {
       return { content: GREETING, sources: [], suggestsHumanFollowUp: false };
     }
@@ -79,7 +93,11 @@ export class DemoAIProvider implements AIProvider {
       };
     }
 
-    return { content: FALLBACK, sources: [{ href: "/contact", label: "Contact Us" }], suggestsHumanFollowUp: true };
+    return {
+      content: FALLBACK,
+      sources: [{ href: "/contact", label: "Contact Us" }],
+      suggestsHumanFollowUp: true,
+    };
   }
 }
 

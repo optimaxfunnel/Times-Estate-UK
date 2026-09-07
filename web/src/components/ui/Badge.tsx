@@ -14,7 +14,8 @@ const styles: Record<ContentStatus, string> = {
   "supplied-by-owner": "bg-secondary/10 text-secondary border-secondary/30",
   missing: "bg-danger/10 text-danger border-danger/30",
   "requires-verification": "bg-warning/10 text-warning-text border-warning/30",
-  "requires-professional-review": "bg-warning/10 text-warning-text border-warning/30",
+  "requires-professional-review":
+    "bg-warning/10 text-warning-text border-warning/30",
 };
 
 /**

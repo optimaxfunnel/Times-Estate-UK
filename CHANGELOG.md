@@ -4,6 +4,84 @@ All notable changes to this project are recorded here, most recent first.
 This is a project log, not a marketing document — it should stay accurate
 and plain.
 
+## 2026-09-07 — Day 7: Final quality assurance, documentation, handover and deployment preparation
+
+**Baseline check (before changing anything)**
+- Ran typecheck, lint, tests and production build against Day 6's code —
+  all passed.
+
+**Added**
+- `README.md` (repository root) and a rewritten `web/README.md` —
+  previously the default `create-next-app` boilerplate.
+- `DEPLOYMENT.md` — full deployment/rollback preparation (Task 6):
+  environment checklist, variable list, hosting/domain/DNS, database
+  migration, backup/restoration, monitoring, rollback, post-deployment
+  verification, maintenance schedule. Prepared, nothing executed.
+- `OPERATIONS_MANUAL.md` — plain-English staff guide covering every
+  topic in today's brief (signing in, roles, CMS editing, approval,
+  enquiries, repairs, AI drafts, failed notifications, backups,
+  incident escalation, support).
+- A requirement-traceability table (`TEST_REPORT.md` §1) comparing the
+  built site against every approved planning document, using the exact
+  six-status vocabulary requested.
+
+**Changed**
+- `web/src/components/ui/Section.tsx` usage on 7 pages — see "Findings"
+  below.
+- `web/next.config.ts` — CSP made dev/production-aware — see "Findings."
+- `CLAUDE.md` — project-status section updated (had not been touched
+  since Day 4; Days 5 and 6 were missing from it entirely).
+- Ran `prettier --write .` across the codebase (90 files had drifted
+  formatting accumulated over Days 3–6; no logic changed, confirmed by
+  re-running the full check suite identically afterwards).
+
+**Findings (defects found today)**
+- **Fixed — major layout defect:** `/sell`, `/let`,
+  `/property-management`, `/report-a-repair`, `/register`, `/contact`
+  and `/property/[id]` were all silently rendering their intended
+  two-column desktop layout as a single narrow stacked column, because
+  layout classes were passed to the wrong prop on the shared `Section`
+  component. Found during today's cross-device visual review; not
+  caught in Days 3–6 because prior responsive checks looked for
+  horizontal overflow, not for a specific intended arrangement. Full
+  root-cause and fix in `TEST_REPORT.md` §3.
+- **Fixed — Day 6 regression:** the Content-Security-Policy added Day 6
+  had no `'unsafe-eval'` allowance, which broke `next dev` entirely
+  (every page stuck on the loading fallback) because React's
+  development build needs `eval()` for Fast Refresh debugging — a need
+  React's own console message confirms production never has. Fixed
+  with a `NODE_ENV`-gated policy; production is byte-for-byte
+  unchanged. Full detail in `TEST_REPORT.md` §8.
+- **Found, NOT fixed — CRITICAL, unresolved:** certain lead-form
+  submissions cause the entire server to hang (CPU-pegged,
+  unresponsive to every request) in both `next dev` and a production
+  build, confirmed via two independent tools. Extensively investigated
+  and several plausible causes ruled out (security headers, production-
+  only behaviour, every line of the lead-submission code); root cause
+  not confirmed. **This is an absolute launch blocker** — full detail,
+  reproduction steps, and recommended next steps in `TEST_REPORT.md`
+  §5.
+
+**Not done today (by design — out of scope, or explicitly prohibited)**
+- No deployment, no hosting/domain/DNS account created, no cloud
+  resource created, no live external communication sent, no customer
+  data imported — all explicitly prohibited by today's brief regardless
+  of any other progress.
+- No automated end-to-end or API test suite was built — none existed
+  before today and building one was not in today's scope; its absence
+  is recorded as a real gap in `TEST_REPORT.md` §2/§6.
+- The critical defect in `TEST_REPORT.md` §5 was not fixed — today's
+  time was spent ruling out causes rather than attempting a fix without
+  a confirmed root cause this late in the project.
+
+**Open items carried forward**
+- **Fix the critical defect in `TEST_REPORT.md` §5 before anything
+  else.**
+- All previously-open items (solicitor review of legal pages, email
+  provider, authentication, database, CRM, AI provider, domain, fee
+  amounts, geographic coverage) remain outstanding — see
+  `PROJECT_PLAN.md`'s "Immediate next steps."
+
 ## 2026-09-07 — Day 6: Content, SEO, compliance readiness, accessibility, performance and security
 
 **Baseline check (before changing anything)**

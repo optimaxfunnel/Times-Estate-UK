@@ -23,7 +23,7 @@ export default function LetPage() {
         intro="Whether you want let-only or full management, we'll talk you through the options after your appraisal."
       />
 
-      <Section className="grid gap-10 lg:grid-cols-2">
+      <Section containerClassName="grid gap-10 lg:grid-cols-2">
         <div className="space-y-6">
           <div>
             <h2 className="text-2xl font-semibold text-ink">
@@ -31,8 +31,8 @@ export default function LetPage() {
             </h2>
             <p className="mt-2 text-sm text-ink/70">
               Let-only means we find and reference a tenant, then hand
-              management to you. Full management means we handle the
-              tenancy on an ongoing basis, including{" "}
+              management to you. Full management means we handle the tenancy on
+              an ongoing basis, including{" "}
               <a href="/property-management" className="underline">
                 repair reporting
               </a>
@@ -40,7 +40,9 @@ export default function LetPage() {
             </p>
           </div>
           <div>
-            <h2 className="text-lg font-semibold text-ink">How we protect you</h2>
+            <h2 className="text-lg font-semibold text-ink">
+              How we protect you
+            </h2>
             <p className="mt-2 flex flex-wrap items-center gap-2 text-sm text-ink/70">
               {siteConfig.clientMoneyProtection.value}
               <Badge status={siteConfig.clientMoneyProtection.status} />
@@ -53,14 +55,21 @@ export default function LetPage() {
           </PlaceholderNotice>
         </div>
         <div>
-          <h2 className="text-2xl font-semibold text-ink">Request a rental appraisal</h2>
+          <h2 className="text-2xl font-semibold text-ink">
+            Request a rental appraisal
+          </h2>
           <div className="mt-4">
             <LeadForm
               category="rental_valuation"
               sourcePage="/let"
               submitLabel="Request Appraisal"
               fields={[
-                { type: "text", name: "propertyAddress", label: "Property address", required: true },
+                {
+                  type: "text",
+                  name: "propertyAddress",
+                  label: "Property address",
+                  required: true,
+                },
                 {
                   type: "select",
                   name: "currentlyTenanted",

@@ -50,7 +50,10 @@ describe("createLead", () => {
   });
 
   it("logs a delivery failure without losing the lead, when delivery is simulated to fail", () => {
-    const lead = createLead({ ...baseInput, contactEmail: "test+faildelivery@example.com" });
+    const lead = createLead({
+      ...baseInput,
+      contactEmail: "test+faildelivery@example.com",
+    });
     expect(lead.notificationStatus).toBe("failed");
     expect(lead.notificationLog[0]).toMatch(/DELIVERY FAILED/);
     // The lead itself must still exist and be manageable even though notification failed.
@@ -68,7 +71,11 @@ describe("listLeads", () => {
 
   it("filters by category", () => {
     createLead(baseInput);
-    createLead({ ...baseInput, category: "repair_report", extra: { urgency: "routine" } });
+    createLead({
+      ...baseInput,
+      category: "repair_report",
+      extra: { urgency: "routine" },
+    });
     const repairs = listLeads({ category: "repair_report" });
     expect(repairs).toHaveLength(1);
     expect(repairs[0].category).toBe("repair_report");

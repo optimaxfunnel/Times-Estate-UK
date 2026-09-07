@@ -14,7 +14,10 @@ export function RoleSwitcher({ currentRole }: { currentRole: Role }) {
       <p className="font-semibold text-warning-text">
         Development-only role switcher — not real authentication
       </p>
-      <form action={setMockRoleAction} className="mt-2 flex flex-wrap items-center gap-2">
+      <form
+        action={setMockRoleAction}
+        className="mt-2 flex flex-wrap items-center gap-2"
+      >
         <label htmlFor="role-select" className="sr-only">
           Switch demo role
         </label>

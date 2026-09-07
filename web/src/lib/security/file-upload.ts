@@ -27,13 +27,24 @@ export interface FileValidationResult {
   reason?: string;
 }
 
-export function validateFile(file: { name: string; size: number; type: string }): FileValidationResult {
+export function validateFile(file: {
+  name: string;
+  size: number;
+  type: string;
+}): FileValidationResult {
   if (file.size === 0) return { valid: false, reason: "File is empty." };
   if (file.size > MAX_FILE_SIZE_BYTES) {
     return { valid: false, reason: `${file.name} is larger than 8MB.` };
   }
-  if (!ALLOWED_FILE_TYPES.includes(file.type as (typeof ALLOWED_FILE_TYPES)[number])) {
-    return { valid: false, reason: `${file.name} is not a supported file type (JPEG, PNG, HEIC or PDF only).` };
+  if (
+    !ALLOWED_FILE_TYPES.includes(
+      file.type as (typeof ALLOWED_FILE_TYPES)[number],
+    )
+  ) {
+    return {
+      valid: false,
+      reason: `${file.name} is not a supported file type (JPEG, PNG, HEIC or PDF only).`,
+    };
   }
   return { valid: true };
 }

@@ -7,11 +7,11 @@ const base =
   "transition-colors duration-150 disabled:cursor-not-allowed disabled:opacity-50";
 
 const variants: Record<Variant, string> = {
-  primary:
-    "bg-accent text-white hover:bg-accent-dark active:bg-accent-dark",
+  primary: "bg-accent text-white hover:bg-accent-dark active:bg-accent-dark",
   secondary:
     "bg-transparent text-ink border border-ink hover:bg-ink hover:text-white",
-  ghost: "bg-transparent text-ink underline underline-offset-4 hover:text-accent",
+  ghost:
+    "bg-transparent text-ink underline underline-offset-4 hover:text-accent",
 };
 
 export function Button({

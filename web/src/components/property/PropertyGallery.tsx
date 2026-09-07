@@ -19,7 +19,12 @@ export function PropertyGallery({ images }: { images: PropertyImage[] }) {
     <div className="grid gap-2 sm:grid-cols-2">
       {images.map((image) => (
         // eslint-disable-next-line @next/next/no-img-element
-        <img key={image.url} src={image.url} alt={image.alt} className="w-full rounded-sm object-cover" />
+        <img
+          key={image.url}
+          src={image.url}
+          alt={image.alt}
+          className="w-full rounded-sm object-cover"
+        />
       ))}
     </div>
   );

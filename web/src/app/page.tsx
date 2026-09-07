@@ -67,7 +67,9 @@ export default async function HomePage() {
               href={service.href}
               className="block rounded-sm border border-border bg-surface p-6 transition-colors hover:border-accent"
             >
-              <h3 className="text-lg font-semibold text-ink">{service.title}</h3>
+              <h3 className="text-lg font-semibold text-ink">
+                {service.title}
+              </h3>
               <p className="mt-2 text-sm text-ink/70">{service.description}</p>
             </a>
           ))}
@@ -75,7 +77,9 @@ export default async function HomePage() {
       </Section>
 
       <Section className="bg-secondary/5">
-        <h2 className="text-2xl font-semibold text-ink">Why Times Estate Ltd</h2>
+        <h2 className="text-2xl font-semibold text-ink">
+          Why Times Estate Ltd
+        </h2>
         <div className="mt-6 grid gap-8 sm:grid-cols-2">
           <div>
             <h3 className="font-semibold text-ink">An established company</h3>
@@ -91,8 +95,8 @@ export default async function HomePage() {
             </div>
             <p className="mt-2 text-sm text-ink/70">
               We hold Client Money Protection and redress scheme membership.
-              Both are currently being independently verified before we
-              display them as confirmed — see the badges below.
+              Both are currently being independently verified before we display
+              them as confirmed — see the badges below.
             </p>
             <ul className="mt-3 space-y-2 text-sm">
               <li className="flex flex-wrap items-center gap-2">
@@ -114,13 +118,16 @@ export default async function HomePage() {
           <Badge status="missing" />
         </div>
         <p className="mb-6 max-w-2xl text-sm text-ink/70">
-          Search now works, but no real property feed has been supplied yet
-          (see /CONTENT_REQUIRED.md) — every result below is demonstration
-          data, not a genuine Times Estate Ltd instruction.
+          Search now works, but no real property feed has been supplied yet (see
+          /CONTENT_REQUIRED.md) — every result below is demonstration data, not
+          a genuine Times Estate Ltd instruction.
         </p>
         <div className="grid gap-6 sm:grid-cols-3">
           {featured.items.map((property) => (
-            <PropertyCard key={property.id} property={toPublicProperty(property)} />
+            <PropertyCard
+              key={property.id}
+              property={toPublicProperty(property)}
+            />
           ))}
         </div>
         <div className="mt-6 flex flex-wrap gap-3">

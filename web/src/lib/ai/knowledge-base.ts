@@ -16,14 +16,27 @@ export interface KnowledgeEntry {
 
 export const KNOWLEDGE_BASE: KnowledgeEntry[] = [
   {
-    keywords: ["valuation", "value my", "worth", "appraisal", "sell my house", "sell my property"],
+    keywords: [
+      "valuation",
+      "value my",
+      "worth",
+      "appraisal",
+      "sell my house",
+      "sell my property",
+    ],
     answer:
       "We offer a free initial market appraisal — a member of our team visits your property and gives their opinion of price. We don't generate a valuation figure automatically.",
     sourceHref: "/sell",
     sourceLabel: "Book a Valuation",
   },
   {
-    keywords: ["rent my", "let my property", "landlord", "rental valuation", "letting"],
+    keywords: [
+      "rent my",
+      "let my property",
+      "landlord",
+      "rental valuation",
+      "letting",
+    ],
     answer:
       "We offer a free rental appraisal for landlords, covering both let-only and full management options.",
     sourceHref: "/let",
@@ -31,7 +44,8 @@ export const KNOWLEDGE_BASE: KnowledgeEntry[] = [
   },
   {
     keywords: ["commercial"],
-    answer: "We handle commercial sales, lettings and management, separately from our residential team.",
+    answer:
+      "We handle commercial sales, lettings and management, separately from our residential team.",
     sourceHref: "/commercial",
     sourceLabel: "Commercial services",
   },
@@ -43,7 +57,14 @@ export const KNOWLEDGE_BASE: KnowledgeEntry[] = [
     sourceLabel: "Report a Repair",
   },
   {
-    keywords: ["client money", "protect", "cmp", "redress", "ombudsman", "regulated"],
+    keywords: [
+      "client money",
+      "protect",
+      "cmp",
+      "redress",
+      "ombudsman",
+      "regulated",
+    ],
     answer:
       "We hold Client Money Protection and redress scheme membership. Both are currently being independently verified — see the About page for the exact status of each.",
     sourceHref: "/about",
@@ -62,7 +83,13 @@ export const KNOWLEDGE_BASE: KnowledgeEntry[] = [
     sourceLabel: "Search property to rent",
   },
   {
-    keywords: ["contact", "phone number", "email address", "speak to someone", "call you"],
+    keywords: [
+      "contact",
+      "phone number",
+      "email address",
+      "speak to someone",
+      "call you",
+    ],
     answer:
       "Our phone number and email address haven't been published on the site yet — the quickest way to reach us right now is the contact form, or request a callback.",
     sourceHref: "/contact",
@@ -70,13 +97,15 @@ export const KNOWLEDGE_BASE: KnowledgeEntry[] = [
   },
   {
     keywords: ["callback", "call me", "ring me"],
-    answer: "You can request a callback and a member of the team will ring you.",
+    answer:
+      "You can request a callback and a member of the team will ring you.",
     sourceHref: "/callback",
     sourceLabel: "Request a Callback",
   },
   {
     keywords: ["register", "notify me", "alert", "let me know when"],
-    answer: "You can register your requirements, or set up a property alert for a specific search.",
+    answer:
+      "You can register your requirements, or set up a property alert for a specific search.",
     sourceHref: "/register",
     sourceLabel: "Register your requirements",
   },

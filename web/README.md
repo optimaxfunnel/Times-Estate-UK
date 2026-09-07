@@ -1,36 +1,57 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Times Estate Ltd — Web Application
 
-## Getting Started
+The Next.js application for the Times Estate Ltd website. See the
+repository root's `README.md` for the full project overview and
+documentation map.
 
-First, run the development server:
+## Requirements
+
+- Node.js 24 LTS (installed via `winget` on the owner's machine — see
+  `../TECHNICAL_ARCHITECTURE.md`)
+
+## Getting started
 
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000). The admin area is
+at `/admin` — see `../ADMIN_AND_CMS.md` for the roles available via the
+on-page development-only role switcher (**not real authentication —
+never deploy this publicly as-is**).
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Scripts
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+| Command             | What it does                                             |
+| ------------------- | -------------------------------------------------------- |
+| `npm run dev`       | Start the development server (Turbopack).                |
+| `npm run build`     | Production build.                                        |
+| `npm run start`     | Run a production build locally (`npm run build` first).  |
+| `npm run typecheck` | TypeScript check, no output files.                       |
+| `npm run lint`      | ESLint.                                                  |
+| `npm run format`    | Check Prettier formatting (`prettier --write .` to fix). |
+| `npm run test`      | Run the unit/component test suite (Vitest).              |
 
-## Learn More
+## Known issues
 
-To learn more about Next.js, take a look at the following resources:
+- **A critical defect exists where certain form submissions can hang
+  the entire server** (both `next dev` and a production build) —
+  see `../TEST_REPORT.md` §5 before doing anything with live forms.
+  Not yet root-caused.
+- In `next dev` only, a browser tab can occasionally get stuck showing
+  the global loading fallback after certain navigation sequences —
+  a workaround is opening a fresh tab; confirmed absent from production
+  builds in prior testing (see `../TEST_REPORT.md` history).
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Environment variables
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+See `../.env.example` at the repository root for the full list.
+`NEXT_PUBLIC_SITE_URL` defaults to `http://localhost:3000` and must be
+set to the real production domain before deployment — see
+`../DEPLOYMENT.md`.
 
-## Deploy on Vercel
+## Technology
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Next.js 16 (App Router, Turbopack), React 19, TypeScript (strict),
+Tailwind CSS 4, Zod. Full reasoning in `../TECHNICAL_ARCHITECTURE.md`.

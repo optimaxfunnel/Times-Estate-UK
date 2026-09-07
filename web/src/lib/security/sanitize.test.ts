@@ -3,7 +3,9 @@ import { sanitiseText, sanitiseFields } from "@/lib/security/sanitize";
 
 describe("sanitiseText", () => {
   it("strips HTML tags from user input", () => {
-    expect(sanitiseText("<script>alert('x')</script>hello")).toBe("alert('x')hello");
+    expect(sanitiseText("<script>alert('x')</script>hello")).toBe(
+      "alert('x')hello",
+    );
     expect(sanitiseText("<b>bold</b> text")).toBe("bold text");
   });
 
@@ -27,7 +29,10 @@ describe("sanitiseText", () => {
 
 describe("sanitiseFields", () => {
   it("sanitises every string field without touching the object shape", () => {
-    const result = sanitiseFields({ name: "<b>Jo</b>", age: 30 as unknown as string });
+    const result = sanitiseFields({
+      name: "<b>Jo</b>",
+      age: 30 as unknown as string,
+    });
     expect(result.name).toBe("Jo");
     expect(result.age).toBe(30);
   });

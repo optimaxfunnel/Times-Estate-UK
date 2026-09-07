@@ -21,7 +21,9 @@ export function PageHero({
         )}
         <h1 className="text-3xl font-semibold text-ink sm:text-4xl">{title}</h1>
         {intro && <p className="mt-4 text-lg text-ink/80">{intro}</p>}
-        {children && <div className="mt-6 flex flex-wrap gap-3">{children}</div>}
+        {children && (
+          <div className="mt-6 flex flex-wrap gap-3">{children}</div>
+        )}
       </div>
     </Section>
   );

@@ -1,10 +1,17 @@
 "use server";
 
 import { z } from "zod";
-import { baseContactSchema, LEAD_CONFIRMATION_COPY, type LeadFormState } from "@/lib/leads/lead-schema";
+import {
+  baseContactSchema,
+  LEAD_CONFIRMATION_COPY,
+  type LeadFormState,
+} from "@/lib/leads/lead-schema";
 import { createLead } from "@/lib/leads/provider";
 import type { LeadCategory } from "@/lib/leads/types";
-import { isHoneypotTriggered, HONEYPOT_FIELD_NAME } from "@/lib/security/honeypot";
+import {
+  isHoneypotTriggered,
+  HONEYPOT_FIELD_NAME,
+} from "@/lib/security/honeypot";
 import { checkRateLimit } from "@/lib/security/rate-limit";
 import { sanitiseFields } from "@/lib/security/sanitize";
 
@@ -37,7 +44,9 @@ export async function submitLeadForm(
   if (isHoneypotTriggered(formData)) {
     return {
       status: "success",
-      message: LEAD_CONFIRMATION_COPY[category] ?? "Thank you — we've received your submission.",
+      message:
+        LEAD_CONFIRMATION_COPY[category] ??
+        "Thank you — we've received your submission.",
     };
   }
 
@@ -83,14 +92,22 @@ export async function submitLeadForm(
 
   const { fullName, email, phone } = sanitised;
   const propertyReference = sanitised.propertyReference || undefined;
-  const detail = sanitised.message || sanitised.description || sanitised.requirement || "";
+  const detail =
+    sanitised.message || sanitised.description || sanitised.requirement || "";
 
   const extra: Record<string, string> = {};
   for (const [key, value] of Object.entries(sanitised)) {
     if (
-      !["fullName", "email", "phone", "privacyConsent", "message", "description", "requirement", "propertyReference"].includes(
-        key,
-      )
+      ![
+        "fullName",
+        "email",
+        "phone",
+        "privacyConsent",
+        "message",
+        "description",
+        "requirement",
+        "propertyReference",
+      ].includes(key)
     ) {
       extra[key] = value;
     }
@@ -111,6 +128,8 @@ export async function submitLeadForm(
   return {
     status: "success",
     reference: lead.id,
-    message: LEAD_CONFIRMATION_COPY[category] ?? "Thank you — we've received your submission.",
+    message:
+      LEAD_CONFIRMATION_COPY[category] ??
+      "Thank you — we've received your submission.",
   };
 }

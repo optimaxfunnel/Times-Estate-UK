@@ -16,7 +16,11 @@ export const metadata: Metadata = {
   robots: { index: false, follow: false },
 };
 
-export default async function AdminLayout({ children }: { children: React.ReactNode }) {
+export default async function AdminLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   const role = await getCurrentRole();
 
   return (
@@ -25,25 +29,38 @@ export default async function AdminLayout({ children }: { children: React.ReactN
       <header className="border-b border-border bg-surface">
         <Container className="flex h-16 items-center justify-between">
           <nav aria-label="Admin" className="flex items-center gap-6">
-            <Link href="/admin/properties" className="font-heading font-semibold text-ink">
+            <Link
+              href="/admin/properties"
+              className="font-heading font-semibold text-ink"
+            >
               Admin
             </Link>
-            <Link href="/admin/properties" className="text-sm text-ink hover:text-accent">
+            <Link
+              href="/admin/properties"
+              className="text-sm text-ink hover:text-accent"
+            >
               Properties
             </Link>
             {hasPermission(role, "view_enquiries") && (
-              <Link href="/admin/leads" className="text-sm text-ink hover:text-accent">
+              <Link
+                href="/admin/leads"
+                className="text-sm text-ink hover:text-accent"
+              >
                 Leads
               </Link>
             )}
             {hasPermission(role, "view_audit_log") && (
-              <Link href="/admin/audit" className="text-sm text-ink hover:text-accent">
+              <Link
+                href="/admin/audit"
+                className="text-sm text-ink hover:text-accent"
+              >
                 Audit Log
               </Link>
             )}
           </nav>
           <p className="text-sm text-ink/70">
-            Signed in as <span className="font-medium text-ink">{ROLE_LABELS[role]}</span>
+            Signed in as{" "}
+            <span className="font-medium text-ink">{ROLE_LABELS[role]}</span>
           </p>
         </Container>
       </header>

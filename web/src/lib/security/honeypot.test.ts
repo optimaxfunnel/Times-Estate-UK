@@ -1,5 +1,8 @@
 import { describe, expect, it } from "vitest";
-import { isHoneypotTriggered, HONEYPOT_FIELD_NAME } from "@/lib/security/honeypot";
+import {
+  isHoneypotTriggered,
+  HONEYPOT_FIELD_NAME,
+} from "@/lib/security/honeypot";
 
 describe("isHoneypotTriggered", () => {
   it("is false when the honeypot field is left blank (a real visitor)", () => {

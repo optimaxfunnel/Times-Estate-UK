@@ -1,5 +1,9 @@
 import { describe, expect, it } from "vitest";
-import { toPublicProperty, toPublicCommercialDetails, type Property } from "@/lib/property/types";
+import {
+  toPublicProperty,
+  toPublicCommercialDetails,
+  type Property,
+} from "@/lib/property/types";
 
 const baseProperty: Property = {
   id: "p1",

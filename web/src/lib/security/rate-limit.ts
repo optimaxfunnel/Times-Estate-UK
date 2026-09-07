@@ -42,7 +42,10 @@ export async function checkRateLimit(formId: string): Promise<RateLimitResult> {
 
   if (existing.length >= MAX_REQUESTS_PER_WINDOW) {
     const retryAfterSeconds = Math.ceil((existing[0] + WINDOW_MS - now) / 1000);
-    return { allowed: false, retryAfterSeconds: Math.max(retryAfterSeconds, 1) };
+    return {
+      allowed: false,
+      retryAfterSeconds: Math.max(retryAfterSeconds, 1),
+    };
   }
 
   existing.push(now);

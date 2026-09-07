@@ -13,12 +13,14 @@ const links = [
   },
   {
     title: "Letting your property",
-    description: "Request a rental valuation, with let-only or full management options.",
+    description:
+      "Request a rental valuation, with let-only or full management options.",
     href: "/let",
   },
   {
     title: "Property management",
-    description: "Full management for landlords, and repair reporting for tenants.",
+    description:
+      "Full management for landlords, and repair reporting for tenants.",
     href: "/property-management",
   },
 ] as const;
@@ -34,10 +36,17 @@ export default function ResidentialPage() {
       <Section>
         <div className="grid gap-6 sm:grid-cols-3">
           {links.map((link) => (
-            <div key={link.href} className="rounded-sm border border-border bg-surface p-6">
+            <div
+              key={link.href}
+              className="rounded-sm border border-border bg-surface p-6"
+            >
               <h2 className="text-lg font-semibold text-ink">{link.title}</h2>
               <p className="mt-2 text-sm text-ink/70">{link.description}</p>
-              <ButtonLink href={link.href} variant="ghost" className="mt-4 px-0">
+              <ButtonLink
+                href={link.href}
+                variant="ghost"
+                className="mt-4 px-0"
+              >
                 Learn more &rarr;
               </ButtonLink>
             </div>

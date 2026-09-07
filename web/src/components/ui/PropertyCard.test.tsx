@@ -31,13 +31,17 @@ describe("PropertyCard", () => {
   });
 
   it("shows the current marketing status as a visible badge", () => {
-    render(<PropertyCard property={{ ...sampleProperty, status: "under_offer" }} />);
+    render(
+      <PropertyCard property={{ ...sampleProperty, status: "under_offer" }} />,
+    );
     expect(screen.getByText("Under offer")).toBeInTheDocument();
   });
 
   it("links through to the property's detail page", () => {
     render(<PropertyCard property={sampleProperty} />);
-    const links = screen.getAllByRole("link", { name: /sample street|view details/i });
+    const links = screen.getAllByRole("link", {
+      name: /sample street|view details/i,
+    });
     expect(links.length).toBeGreaterThan(0);
     expect(links[0]).toHaveAttribute("href", "/property/test-property-1");
   });

@@ -28,7 +28,10 @@ export const REPAIR_ISSUE_CATEGORIES = [
 export const REPAIR_URGENCY_OPTIONS = [
   { value: "routine", label: "Routine — not urgent" },
   { value: "urgent", label: "Urgent — needs attention soon" },
-  { value: "emergency", label: "Emergency — immediate risk to safety or the property" },
+  {
+    value: "emergency",
+    label: "Emergency — immediate risk to safety or the property",
+  },
 ] as const;
 
 export interface EmergencyGuidanceItem {
@@ -39,7 +42,8 @@ export interface EmergencyGuidanceItem {
 export const EMERGENCY_GUIDANCE: EmergencyGuidanceItem[] = [
   {
     title: "Immediate danger to life",
-    guidance: "Call 999 immediately. Do this before reporting anything on this website.",
+    guidance:
+      "Call 999 immediately. Do this before reporting anything on this website.",
   },
   {
     title: "Suspected gas leak",
