@@ -85,10 +85,18 @@ export const confirmedServices = [
   "Lead-management automation",
 ] as const;
 
+/**
+ * Matches the navigation approved in /SITEMAP.md exactly: Sell · Let ·
+ * Buy · Rent · Commercial · Property Management · About · Contact. The
+ * standalone "Residential" hub page built on Day 3 (before Buy/Rent
+ * search existed) is kept for cross-linking from Sell/Let, but is no
+ * longer in the primary nav, so the approved structure isn't exceeded.
+ */
 export const primaryNav = [
   { label: "Sell", href: "/sell" },
   { label: "Let", href: "/let" },
-  { label: "Residential", href: "/residential" },
+  { label: "Buy", href: "/buy" },
+  { label: "Rent", href: "/rent" },
   { label: "Commercial", href: "/commercial" },
   { label: "Property Management", href: "/property-management" },
   { label: "About", href: "/about" },
@@ -101,7 +109,16 @@ export const footerNav = {
     { label: "Let your property", href: "/let" },
     { label: "Property management", href: "/property-management" },
   ],
-  Commercial: [{ label: "Commercial services", href: "/commercial" }],
+  "Buyers & Tenants": [
+    { label: "Property for sale", href: "/buy" },
+    { label: "Property to rent", href: "/rent" },
+    { label: "Property alerts", href: "/property-alerts" },
+    { label: "Saved properties", href: "/favourites" },
+  ],
+  Commercial: [
+    { label: "Commercial for sale", href: "/commercial/for-sale" },
+    { label: "Commercial to let", href: "/commercial/to-let" },
+  ],
   Company: [
     { label: "About us", href: "/about" },
     { label: "Contact", href: "/contact" },

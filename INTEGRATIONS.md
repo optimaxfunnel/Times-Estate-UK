@@ -101,6 +101,102 @@ deployment without the exact stated approval phrase).
 
 **Not needed today** — relevant from Day 6 (quality assurance) onward.
 
+## CRM / property portal integration (added Day 4, 7 September 2026)
+
+**Confirmed CRM or portal agreement:** none. Nothing in
+`BUSINESS_REQUIREMENTS.md` or anywhere else in this project confirms that
+Times Estate Ltd already uses a CRM, or has a live feed agreement with
+Rightmove, Zoopla, OnTheMarket or anyone else. **This is an open question
+for the owner, not an assumption** — see "Unresolved questions" below.
+
+**What was explicitly not done today:** no portal was scraped, no feed
+was assumed to be free or open, and no specific provider was contacted or
+connected. Today's search and listing pages run entirely on the
+fabricated demonstration data described in `DATA_MODEL.md`.
+
+### The adapter architecture built today
+
+Every part of the website that reads or writes property data — search,
+listing pages, the property detail page, the admin area — talks only to
+one interface, `PropertyProvider` (`web/src/lib/property/provider.ts`).
+Today, the only implementation of that interface is `DemoPropertyProvider`,
+which reads from an in-memory array of fabricated properties.
+
+Connecting a real CRM or portal later means writing **one new class**
+that implements the same `PropertyProvider` interface (`list`, `getById`,
+`create`, `update`) against that provider's real API — nothing in the
+search, listing, or admin pages needs to change, because they were never
+written against the demo data directly.
+
+### Provider comparison
+
+| Provider | Notes |
+|---|---|
+| **Reapit** | Widely used UK estate agency CRM/back-office system with a published API (Reapit Foundations). Requires a Reapit account/subscription and API credentials issued by Reapit or via their marketplace. |
+| **Alto** (by Zoopla) | CRM aimed at agents; API access is typically arranged through Zoopla/Alto directly, often tied to an existing Alto subscription. |
+| **Dezrez** | UK CRM with an API (Dezrez Connect); requires an existing Dezrez subscription and API key issuance from Dezrez. |
+| **Jupix** | UK lettings/sales CRM; API access requires a Jupix account and their integration team's involvement. |
+| **Street** (Street.co.uk) | Newer UK agency software with an API; requires a Street subscription. |
+| **SME Professional** | UK agency software; API/integration availability would need confirming directly with SME Professional. |
+
+None of these have been evaluated in detail (pricing, API quality,
+contract terms) because there is no confirmed decision to use any CRM at
+all yet. This table exists so that, once the owner confirms a provider
+(or confirms none is wanted and listings will be entered by hand), the
+correct adapter can be built quickly.
+
+### What every option would require, regardless of provider
+
+- **Required agreement:** a commercial account/subscription with the
+  chosen provider, in the business's name — this is the owner's contract
+  to enter into, not something this project can create.
+- **Credential requirements:** an API key or OAuth client
+  issued by the provider. Per CLAUDE.md Rule 4, these credentials must be
+  supplied by the owner and stored only as environment variables (never
+  committed to the repository) — see `web/src/lib/env.ts`'s pattern for
+  how required variables are validated with no default.
+- **Expected data direction:** most likely **inbound** (the CRM is the
+  source of truth; the website reads and displays listings) with
+  **outbound** enquiry data (viewing requests, valuation requests) sent
+  back into the CRM once Day 5's automation work is approved. A genuinely
+  two-way sync is more complex and should not be assumed without the
+  owner's confirmation of what the CRM actually supports.
+- **Security risks:** a leaked API key would expose live business data
+  (property instructions, potentially client contact details) — this is
+  why credentials are never committed and access should be scoped to the
+  minimum the website needs (read listings; write enquiries), not full
+  account access, if the provider allows scoping.
+- **Failure handling:** the website must degrade gracefully if the CRM is
+  unreachable (e.g. show "search is temporarily unavailable" rather than
+  a broken page or, worse, silently showing stale/incorrect data). This
+  needs building into whichever real `PropertyProvider` implementation is
+  written — today's demo provider cannot fail, so this hasn't been
+  exercised yet.
+- **Synchronisation ownership:** who/what decides a listing is
+  live/withdrawn/sold — the CRM (website just reflects it) or does the
+  website ever write status changes back? The admin approval workflow
+  built today (`ADMIN_AND_CMS.md`) assumes the website can be a source of
+  truth for status in the absence of a CRM; if a real CRM is adopted, it
+  should almost certainly become the source of truth instead, and
+  today's admin approval screens would need rethinking, not just
+  extending.
+
+### Unresolved questions for the owner
+
+1. Does Times Estate Ltd already use a CRM or agency software (Reapit,
+   Alto, Dezrez, Jupix, Street, SME Professional, or another)? If so,
+   which, and is there an existing API/integration agreement?
+2. Does Times Estate Ltd have an existing live feed agreement with any
+   property portal (Rightmove, Zoopla, OnTheMarket)? Portal feeds are
+   typically *outbound* (the agency's CRM pushes listings *to* the
+   portal) rather than something a website pulls *from* — so even with a
+   portal agreement, the website would likely still need its own listings
+   source (a CRM or manual entry), not a portal feed as the primary data
+   source.
+3. If no CRM exists yet, is manual entry through today's admin area
+   (`/admin/properties`) an acceptable interim approach, or should
+   choosing a CRM be prioritised before Day 5?
+
 ## Summary: what needs the owner's decision before Day 5
 
 1. Email/notification provider (most urgent — blocks every enquiry
@@ -109,3 +205,10 @@ deployment without the exact stated approval phrase).
    approach) is acceptable for longer.
 3. Database provider, once a CMS/data-storage decision is made.
 4. Hosting provider, ahead of any real deployment.
+5. **(Added Day 4)** Whether a CRM/agency software already exists, and
+   whether a portal feed agreement exists — see the "Unresolved
+   questions" list above. This determines whether Day 5 connects a real
+   `PropertyProvider` or continues with manual admin entry.
+6. **(Added Day 4)** A real authentication provider must be chosen before
+   the admin area (`/admin`) can ever be deployed anywhere public — see
+   `ADMIN_AND_CMS.md`'s security warning.

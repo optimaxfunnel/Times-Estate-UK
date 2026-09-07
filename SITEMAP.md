@@ -204,6 +204,31 @@ regulatory badges once Confirmed.
 | Careers page | Not included | Not requested and not part of the twelve confirmed service areas. |
 | Blog/news | Not included | No content strategy or confirmed authorship exists yet; an empty or infrequently updated blog can undermine trust rather than build it. |
 
+## Day 4 note (7 September 2026)
+
+Built today, matching this approved sitemap: `/buy`, `/rent` (property
+search, previously deferred pending a data source — see `DATA_MODEL.md`
+for what backs them today), `/property-alerts` (was previously only a
+planned page), and property detail pages at `/property/[id]`.
+
+The primary navigation now matches this document's originally approved
+order exactly (Sell · Let · Buy · Rent · Commercial · Property Management
+· About · Contact) — Day 3 had substituted a "Residential" hub page for
+Buy/Rent since search didn't exist yet; that substitution has been
+removed now that Buy/Rent are real. The Residential hub page
+(`/residential`) still exists for cross-linking but is no longer in the
+primary navigation, so the approved 8-item structure isn't exceeded.
+
+**Two pages were added beyond this document's original scope**, both
+reasonable, low-risk additions rather than approved decisions:
+- `/commercial/for-sale` and `/commercial/to-let` — search/listing pages
+  for commercial property, distinct from the `/commercial/sales`,
+  `/commercial/lettings`, `/commercial/management` *service description*
+  pages this document originally proposed (which remain unbuilt — the
+  `/commercial` hub still covers that content directly for now).
+- `/favourites` — a browser-local "saved properties" page, a natural
+  companion to search that wasn't explicitly in the original page list.
+
 ## Open questions for the owner
 
 1. Does the navigation order (Sell / Let / Buy / Rent / Commercial /

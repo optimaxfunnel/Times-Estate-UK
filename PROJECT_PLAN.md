@@ -130,11 +130,47 @@ and planning work, but it does block later days:
   approved.
 - Did not connect any external service, deploy anything, or begin Day 4.
 
-### Day 4 — Core page build (residential + commercial)
+### Day 4 — Property data, CMS, listings and search
 
-- Build confirmed page templates: home, service landing pages, property
-  search and listing pages, about, contact.
-- Use only confirmed or clearly labelled demo content.
+**Status: Complete.**
+
+- Checked the baseline before changing anything: typecheck, lint, tests
+  and production build all passed on Day 3's code before today's work
+  began.
+- Built one structured property data model (`DATA_MODEL.md` and
+  `web/src/lib/property/types.ts`) covering residential and commercial,
+  sales and lettings, with every field marked mandatory/optional,
+  public/private and verified/unverified. Private fields (full address,
+  internal notes, assigned staff member) are a different TypeScript type
+  from public fields, so they cannot leak through a rendering mistake —
+  verified live in the browser, not just by unit test.
+- Built a five-role permission model (`ADMIN_AND_CMS.md`) — Administrator,
+  Manager, Property Editor, Content Editor, Enquiry Viewer — enforced
+  server-side, with a Draft → Awaiting approval → Available workflow and
+  an audit log. **The login system is an explicitly-labelled,
+  development-only mock, not real authentication** — this is a hard
+  blocker for any future deployment, not an oversight.
+- Built search and listing pages for all four categories (residential
+  for sale, residential to let, commercial for sale, commercial to let)
+  plus a shared property detail page, favourites, and property alerts —
+  all backed by fabricated, unmistakably-labelled demonstration data
+  (nine sample properties covering every status, including Draft and
+  Sold, to prove the visibility rules actually work).
+- Determined that **no CRM or property-portal agreement is confirmed** —
+  built a clean adapter interface (`PropertyProvider`) so a real one can
+  be connected later by writing one new class, without changing any
+  page. Documented six real UK providers and what each would require in
+  `INTEGRATIONS.md`, without scraping or contacting any of them.
+- Found and fixed one real bug (an admin page that could get stuck on
+  "Loading…" after saving) and investigated a second, confirming it is a
+  development-server-only quirk absent from a production build — full
+  detail in `TEST_REPORT.md`.
+- Ran every required check (TypeScript, lint, 24 unit/component tests,
+  production build, dependency audit, secret scan) plus live functional
+  testing of permission boundaries, public/private separation, and
+  approval-state visibility — all recorded in `TEST_REPORT.md`.
+- Did not connect a live CRM or portal, did not import any customer
+  data, and did not begin Day 5.
 
 ### Day 5 — Automated workflows
 
@@ -158,20 +194,27 @@ and planning work, but it does block later days:
 - Deployment is only carried out once the owner states exactly:
   **"I approve production deployment."**
 
-## Immediate next steps (Day 4 starting position)
+## Immediate next steps (Day 5 starting position)
 
-1. The application exists and runs (`web/`), with the design system and
-   eleven core pages built and tested — Day 4 can build on this directly.
-2. Decisions needed from the owner before Day 4 can go further (see the
-   Day 3 end-of-day report): an email/notification provider (see
-   `INTEGRATIONS.md`), and confirmation of whether a property feed/CRM
-   already exists for real listings, or whether one needs choosing.
+1. The property data model, admin/approval workflow, and full search and
+   listing experience all exist and are tested (`web/`) — Day 5's
+   automated workflows (valuation/viewing/repair/enquiry notifications)
+   can build on this directly.
+2. Decisions needed from the owner before Day 5 can go further:
+   - An email/notification provider (see `INTEGRATIONS.md`) — every
+     enquiry form today validates and logs locally but sends nothing.
+   - Whether a CRM/agency software or property-portal agreement already
+     exists (see `INTEGRATIONS.md`'s CRM section, added Day 4) — this
+     determines whether Day 5 connects a real `PropertyProvider` or
+     continues with the admin area's manual entry.
+   - A real authentication provider **must** be chosen before the admin
+     area (`/admin`) can ever be deployed anywhere public — see
+     `ADMIN_AND_CMS.md`.
 3. Owner still needs to supply the still-Missing items listed under "Day
    1 completeness check" above — particularly contact details (phone,
-   email, opening hours) and geographic coverage, both of which currently
-   block parts of the built pages from showing real content.
-4. Day 4 begins with property search/listing pages, once a data source
-   (even a temporary one) is agreed.
+   email, opening hours) and geographic coverage.
+4. Day 5 begins with automated workflows, once the email/notification
+   provider is approved.
 
 ## Open technical notes for later days
 

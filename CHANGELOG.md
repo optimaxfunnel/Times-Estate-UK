@@ -4,6 +4,77 @@ All notable changes to this project are recorded here, most recent first.
 This is a project log, not a marketing document — it should stay accurate
 and plain.
 
+## 2026-09-07 — Day 4: Property data, CMS, listings and search
+
+**Baseline check (before changing anything)**
+- Ran typecheck, lint, tests and production build against Day 3's code —
+  all passed. No pre-existing failure to fix before starting.
+
+**Added**
+- `DATA_MODEL.md` and `web/src/lib/property/types.ts` — one structured
+  property model covering residential/commercial, sales/lettings, with
+  every field marked mandatory/optional, public/private and
+  verified/unverified. Private fields are a distinct TypeScript type
+  from public fields (`Property` vs `PublicProperty`), not just a
+  display-layer filter.
+- `ADMIN_AND_CMS.md` — a five-role permission model (Administrator,
+  Manager, Property Editor, Content Editor, Enquiry Viewer), a
+  Draft → Awaiting approval → Available approval workflow, and an audit
+  log, all enforced server-side. Includes an explicit, prominent warning
+  that the accompanying login mechanism is a development-only mock, not
+  real authentication.
+- Nine fabricated demonstration properties (`web/src/data/demo-properties.ts`)
+  covering every marketing status, including Draft and Sold, specifically
+  to prove the public-visibility rules work — none resemble a genuine
+  Times Estate Ltd instruction.
+- A `PropertyProvider` adapter interface (`web/src/lib/property/provider.ts`)
+  so a real CRM/portal can be connected later by writing one new class,
+  with no changes needed to any page.
+- Search and listing pages for all four categories (`/buy`, `/rent`,
+  `/commercial/for-sale`, `/commercial/to-let`), a shared property detail
+  page (`/property/[id]`), `/favourites`, and a working `/property-alerts`
+  page.
+- An admin area (`/admin/properties`, `/admin/properties/[id]`,
+  `/admin/audit`) demonstrating the full approval workflow and audit
+  logging against real pages.
+- `INTEGRATIONS.md` — a new CRM/property-portal section: confirmed no
+  agreement exists yet, compared six real UK providers (Reapit, Alto,
+  Dezrez, Jupix, Street, SME Professional) and what each would require,
+  without scraping or contacting any of them.
+- 19 new automated tests (roles, public/private field separation,
+  provider filtering/pagination, extended property-card coverage).
+
+**Changed**
+- Primary navigation now matches `SITEMAP.md`'s originally approved
+  8-item structure exactly (added Buy/Rent, removed the Day-3 "Residential"
+  substitute) — re-tested for responsive overflow at the same breakpoint
+  Day 3 had fixed.
+- `CONTENT_REQUIRED.md` — added a "Systems and integrations" section for
+  the CRM/portal confirmation gap.
+
+**Findings (defects found)**
+- **Fixed:** the admin edit page could get stuck showing "Loading…"
+  after a successful save, caused by a redundant `revalidatePath()` call
+  on the same page that had just invoked the action.
+- **Investigated, not a production defect:** a related dev-server-only
+  loading quirk was found and deliberately tested against a full
+  production build, where it did not reproduce at all — see
+  `TEST_REPORT.md` section 9.
+
+**Not done today (by design — out of scope for Day 4)**
+- No live CRM or property-portal connected.
+- No real authentication implemented (explicitly flagged as a blocker
+  for any future deployment of the admin area).
+- No customer data imported.
+
+**Open items carried to Day 5**
+- Owner to choose an email/notification provider.
+- Owner to confirm whether a CRM/agency software or portal agreement
+  already exists.
+- A real authentication provider must be chosen before `/admin` can ever
+  be deployed publicly.
+- All Missing items from earlier days remain outstanding.
+
 ## 2026-09-07 — Day 3: Technical foundation, design system and core website
 
 **Blocker found and resolved**

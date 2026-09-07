@@ -13,10 +13,12 @@ export function EnquiryForm({
   formType,
   submitLabel = "Send enquiry",
   showAddressField = true,
+  defaultPropertyAddress,
 }: {
   formType: string;
   submitLabel?: string;
   showAddressField?: boolean;
+  defaultPropertyAddress?: string;
 }) {
   const [state, formAction, isPending] = useActionState(
     submitEnquiry.bind(null, formType),
@@ -57,6 +59,7 @@ export function EnquiryForm({
         <TextField
           label="Property address"
           name="propertyAddress"
+          defaultValue={defaultPropertyAddress}
           error={state.fieldErrors?.propertyAddress}
         />
       )}

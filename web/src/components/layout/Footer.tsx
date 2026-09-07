@@ -8,7 +8,7 @@ export function Footer() {
 
   return (
     <footer className="mt-auto border-t border-border bg-surface">
-      <Container className="grid gap-10 py-12 sm:grid-cols-2 lg:grid-cols-5">
+      <Container className="grid gap-10 py-12 sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-7">
         {Object.entries(footerNav).map(([group, links]) => (
           <nav key={group} aria-label={group}>
             <h2 className="mb-3 text-sm font-semibold uppercase tracking-wide text-secondary">

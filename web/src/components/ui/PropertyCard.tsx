@@ -1,57 +1,68 @@
+import Link from "next/link";
 import { cn } from "@/lib/cn";
+import type { PublicProperty } from "@/lib/property/types";
+import {
+  formatPriceLabel,
+  formatStatusLabel,
+  summariseBedsAndBaths,
+  summariseFloorArea,
+} from "@/lib/property/format";
+import { FavouriteButton } from "@/components/property/FavouriteButton";
 
-export interface PropertyCardProps {
-  address: string;
-  priceLabel: string;
-  bedrooms: number;
-  bathrooms: number;
-  transactionType: "For Sale" | "To Let";
-  /**
-   * Every property card on the site today is demonstration data (no live
-   * feed exists yet — see /CONTENT_REQUIRED.md). This must stay true and
-   * visible until a real listings feed is connected and verified.
-   */
-  isDemo: true;
-  className?: string;
-}
+const STATUS_TONE: Record<string, string> = {
+  available: "bg-success text-white",
+  under_offer: "bg-warning text-white",
+  sold_stc: "bg-warning text-white",
+  let_agreed: "bg-warning text-white",
+};
 
 export function PropertyCard({
-  address,
-  priceLabel,
-  bedrooms,
-  bathrooms,
-  transactionType,
-  isDemo,
+  property,
   className,
-}: PropertyCardProps) {
+}: {
+  property: PublicProperty;
+  className?: string;
+}) {
+  const secondaryLine = summariseBedsAndBaths(property) ?? summariseFloorArea(property);
+  const transactionLabel = property.listingType === "sale" ? "For Sale" : "To Let";
+
   return (
-    <article
-      className={cn(
-        "relative overflow-hidden rounded-sm border border-border bg-surface",
-        className,
-      )}
-    >
-      {isDemo && (
+    <article className={cn("relative overflow-hidden rounded-sm border border-border bg-surface", className)}>
+      {property.isDemo && (
         <span className="absolute left-3 top-3 z-10 rounded-sm bg-warning px-2 py-0.5 text-xs font-semibold uppercase tracking-wide text-white">
           Sample property — not real
         </span>
       )}
-      {/* Placeholder image block: no stock photography is used, per Rule 1/2. */}
-      <div
-        aria-hidden="true"
-        className="flex h-44 items-center justify-center bg-secondary/10 text-xs text-secondary"
+      <span
+        className={cn(
+          "absolute right-3 top-3 z-10 rounded-sm px-2 py-0.5 text-xs font-semibold uppercase tracking-wide",
+          STATUS_TONE[property.status] ?? "bg-secondary text-white",
+        )}
       >
-        Photograph not yet supplied
-      </div>
-      <div className="space-y-1 p-4">
-        <p className="text-xs font-medium uppercase tracking-wide text-accent">
-          {transactionType}
-        </p>
-        <h3 className="text-base font-semibold text-ink">{address}</h3>
-        <p className="text-sm text-ink/70">
-          {bedrooms} bed &middot; {bathrooms} bath
-        </p>
-        <p className="text-lg font-semibold text-ink">{priceLabel}</p>
+        {formatStatusLabel(property.status)}
+      </span>
+
+      <Link href={`/property/${property.id}`} className="block">
+        <div
+          aria-hidden="true"
+          className="flex h-44 items-center justify-center bg-secondary/10 text-xs text-secondary"
+        >
+          Photograph not yet supplied
+        </div>
+        <div className="space-y-1 p-4 pb-2">
+          <p className="text-xs font-medium uppercase tracking-wide text-accent">
+            {transactionLabel}
+          </p>
+          <h3 className="text-base font-semibold text-ink">{property.displayAddress}</h3>
+          {secondaryLine && <p className="text-sm text-ink/70">{secondaryLine}</p>}
+          <p className="text-lg font-semibold text-ink">{formatPriceLabel(property)}</p>
+        </div>
+      </Link>
+      <div className="flex items-center justify-between px-4 pb-4">
+        <Link href={`/property/${property.id}`} className="text-sm font-medium text-accent underline underline-offset-4">
+          View details
+        </Link>
+        <FavouriteButton propertyId={property.id} />
       </div>
     </article>
   );

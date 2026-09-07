@@ -1,0 +1,36 @@
+import Link from "next/link";
+import { getCurrentRole } from "@/lib/auth/session";
+import { hasPermission, ROLE_LABELS } from "@/lib/auth/roles";
+import { RoleSwitcher } from "@/components/admin/RoleSwitcher";
+import { Container } from "@/components/ui/Container";
+
+export default async function AdminLayout({ children }: { children: React.ReactNode }) {
+  const role = await getCurrentRole();
+
+  return (
+    <div className="min-h-screen bg-secondary/5">
+      <RoleSwitcher currentRole={role} />
+      <header className="border-b border-border bg-surface">
+        <Container className="flex h-16 items-center justify-between">
+          <nav aria-label="Admin" className="flex items-center gap-6">
+            <Link href="/admin/properties" className="font-heading font-semibold text-ink">
+              Admin
+            </Link>
+            <Link href="/admin/properties" className="text-sm text-ink hover:text-accent">
+              Properties
+            </Link>
+            {hasPermission(role, "view_audit_log") && (
+              <Link href="/admin/audit" className="text-sm text-ink hover:text-accent">
+                Audit Log
+              </Link>
+            )}
+          </nav>
+          <p className="text-sm text-ink/70">
+            Signed in as <span className="font-medium text-ink">{ROLE_LABELS[role]}</span>
+          </p>
+        </Container>
+      </header>
+      <Container className="py-8">{children}</Container>
+    </div>
+  );
+}

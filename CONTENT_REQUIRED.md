@@ -61,6 +61,14 @@ Status key: Confirmed / Supplied by owner / Missing / Requires verification
 - [ ] Floorplans/EPC documents (per listing) — Missing
 - [ ] Existing property feed/API (e.g. from a portal or CRM), if any — Missing
 
+## Systems and integrations (added Day 4)
+
+- [ ] Confirmation of whether a CRM/agency software (e.g. Reapit, Alto,
+      Dezrez, Jupix, Street, SME Professional) is already used — Missing.
+      See `INTEGRATIONS.md`'s CRM/property portal section.
+- [ ] Confirmation of whether a live feed agreement exists with any
+      property portal (Rightmove, Zoopla, OnTheMarket) — Missing.
+
 ## Trust content
 
 - [ ] Genuine, attributable client testimonials — Missing

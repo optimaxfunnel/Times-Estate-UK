@@ -4,6 +4,8 @@ import { ButtonLink } from "@/components/ui/ButtonLink";
 import { Badge } from "@/components/ui/Badge";
 import { PropertyCard } from "@/components/ui/PropertyCard";
 import { siteConfig } from "@/lib/site-config";
+import { propertyProvider } from "@/lib/property/provider";
+import { toPublicProperty } from "@/lib/property/types";
 
 export const metadata: Metadata = {
   description:
@@ -31,7 +33,9 @@ const services = [
   },
 ] as const;
 
-export default function HomePage() {
+export default async function HomePage() {
+  const featured = await propertyProvider.list({ sort: "newest", pageSize: 3 });
+
   return (
     <>
       <Section className="border-b border-border bg-surface">
@@ -109,36 +113,22 @@ export default function HomePage() {
           <Badge status="missing" />
         </div>
         <p className="mb-6 max-w-2xl text-sm text-ink/70">
-          Live property search is not yet connected — no property feed has
-          been supplied (see /CONTENT_REQUIRED.md). The cards below show how
-          listings will look once real properties are added; they are sample
-          data only.
+          Search now works, but no real property feed has been supplied yet
+          (see /CONTENT_REQUIRED.md) — every result below is demonstration
+          data, not a genuine Times Estate Ltd instruction.
         </p>
         <div className="grid gap-6 sm:grid-cols-3">
-          <PropertyCard
-            address="Sample Street, London"
-            priceLabel="£000,000"
-            bedrooms={3}
-            bathrooms={1}
-            transactionType="For Sale"
-            isDemo
-          />
-          <PropertyCard
-            address="Example Road, London"
-            priceLabel="£0,000 pcm"
-            bedrooms={2}
-            bathrooms={1}
-            transactionType="To Let"
-            isDemo
-          />
-          <PropertyCard
-            address="Placeholder Avenue, London"
-            priceLabel="£000,000"
-            bedrooms={4}
-            bathrooms={2}
-            transactionType="For Sale"
-            isDemo
-          />
+          {featured.items.map((property) => (
+            <PropertyCard key={property.id} property={toPublicProperty(property)} />
+          ))}
+        </div>
+        <div className="mt-6 flex flex-wrap gap-3">
+          <ButtonLink href="/buy" variant="secondary">
+            Search Property for Sale
+          </ButtonLink>
+          <ButtonLink href="/rent" variant="secondary">
+            Search Property to Rent
+          </ButtonLink>
         </div>
       </Section>
     </>

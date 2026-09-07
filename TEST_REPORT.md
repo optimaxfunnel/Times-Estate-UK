@@ -1,171 +1,215 @@
 # TEST_REPORT.md — Times Estate Ltd
 
-**Date:** 7 September 2026 (Day 3)
-**Scope:** Every check listed in today's brief, run against the newly
-scaffolded application in `web/`. All commands were actually executed —
-nothing below is assumed or estimated.
+**Date:** 7 September 2026 (Day 4)
+**Scope:** Every check listed in today's brief, plus a baseline check
+before starting. All commands were actually executed — nothing below is
+assumed or estimated. This file replaces the Day 3 version; see git
+history for that day's results if needed.
+
+## 0. Baseline check (before making any changes)
+
+Per today's instruction to check the baseline first: `npm run typecheck`,
+`npm run lint`, `npm run test`, and `npm run build` were all run against
+Day 3's code before any Day 4 change was made. **All four passed
+cleanly** — the baseline was healthy, so no pre-existing failure needed
+investigating before starting today's work.
 
 ## 1. TypeScript check
 
 ```
-cd web
 npm run typecheck   # tsc --noEmit
 ```
-**Result: Pass, 0 errors.** (One real error was found and fixed during
-development — a type-narrowing issue in `src/lib/actions.ts` — before this
-final clean run.)
+**Result: Pass, 0 errors**, after fixing one real error found during
+development (a type mismatch in `Badge` usage on the property detail
+page — `Badge` doesn't accept children, so a plain styled `<p>` was used
+instead for the demo-property notice).
 
 ## 2. Linting
 
 ```
 npm run lint   # eslint
 ```
-**Result: Pass, 0 errors, 0 warnings.**
+**Result: Pass, 0 errors, 0 warnings**, after fixing two real findings:
+- `FavouriteButton` used `useState`+`useEffect` to read localStorage,
+  which the `react-hooks/set-state-in-effect` rule correctly flagged as
+  a cascading-render risk. Rewritten using `useSyncExternalStore`, the
+  React-recommended pattern for subscribing to a browser-only store
+  without a server/client hydration mismatch.
+- Added a documented `no-unused-vars` override for the project's
+  deliberate leading-underscore convention (used when destructuring an
+  object specifically to omit fields, e.g. `toPublicProperty()`).
 
-## 3. Component tests
+## 3. Unit and component tests
 
 ```
 npm run test   # vitest run
 ```
-**Result: Pass — 3 test files, 5 tests, all passing.**
+**Result: Pass — 6 test files, 24 tests, all passing** (was 3 files/7
+tests at the end of Day 3; 3 new test files added today).
 
-Tests written today deliberately check things that matter for this
-project's rules, not just that components render:
-- `Badge.test.tsx` — status labels read correctly (Missing, Requires
-  verification).
-- `PropertyCard.test.tsx` — demo property data is always visibly marked
-  "Sample property — not real" (Rule 2).
-- `Header.test.tsx` — the primary navigation is reachable as an
-  accessible landmark, and "Book a Valuation" (the top business priority)
-  is always present.
+New tests written today, chosen to verify the things today's brief
+actually cared about, not just "does it render":
+- `roles.test.ts` — every one of the five roles' permission boundaries
+  (e.g. a Property Editor cannot approve a property; only an
+  Administrator can manage users).
+- `types.test.ts` — `toPublicProperty()` never includes the private
+  address, internal notes, or assigned staff member; an unverified
+  investment yield is stripped by `toPublicCommercialDetails()`, a
+  verified one is kept.
+- `provider.test.ts` — Draft/Sold properties are excluded from search by
+  default and only appear with explicit admin access; filtering by
+  category, listing type, commercial use and location all work; an
+  impossible price filter returns an empty result set, not an error;
+  pagination respects the requested page size.
+- `PropertyCard.test.tsx` (extended) — demo status labelling, the status
+  badge, and the link to the correct property detail page.
 
 ## 4. Production build
 
 ```
 npm run build   # next build
 ```
-**Result: Pass.** All 13 pages built successfully as static content:
-`/`, `/about`, `/commercial`, `/complaints`, `/contact`, `/cookie-policy`,
-`/let`, `/privacy-policy`, `/property-management`, `/residential`,
-`/sell`, `/terms`, plus the `/_not-found` page.
+**Result: Pass.** 24 routes built (13 static, 11 server-rendered on
+demand for pages that depend on search parameters, cookies, or a dynamic
+`[id]`). No warnings.
 
 ## 5. Dependency audit
 
 ```
 npm audit
 ```
-**Result: 0 vulnerabilities**, run after every install today (initial
-scaffold, and again after adding testing/validation packages).
-
-**Flagged, not resolved:** npm reported that one transitive dependency
-(`unrs-resolver`, used internally by an ESLint plugin) has a postinstall
-script that hasn't been reviewed or approved. It was **not** approved
-today — `npm approve-scripts` was never run. This is a low-risk, well-known
-package, but flagging rather than silently allowing scripts to run matches
-this project's security posture.
+**Result: 0 vulnerabilities**, run again after today's changes (no new
+dependencies were added today beyond what Day 3 already installed).
 
 ## 6. Secret scan
 
-- Confirmed `.env` is not tracked by git (`git ls-files` returns nothing).
-- Searched all source files for common secret patterns (API keys, tokens,
-  passwords) — none found.
-- Confirmed via a dry-run `git add` that `node_modules/` and `.next/` are
-  correctly excluded from version control by `.gitignore`.
+- Confirmed no `.env` file is tracked by git.
+- Searched all source files for common secret patterns (API keys,
+  tokens, passwords) — none found. The only matches were this project's
+  own comments *explaining* that no real credentials exist yet.
 
-## 7. Accessibility checks
+## 7. Functional and security testing (performed live in a browser, not just unit tests)
 
-Performed directly in a running browser (not just linting):
-- **Keyboard focus:** pressed the real Tab key and confirmed, via the
-  browser's computed styles, that the focus ring (`:focus-visible`) is a
-  clearly visible 3px navy-blue outline on the first link in the page —
-  not merely present in the CSS file, but actually applied on real
-  keyboard navigation.
-- **Reduced motion:** confirmed the `prefers-reduced-motion` rule is
-  present in the actual stylesheet served to the browser.
-- **Skip link:** present on every page (via the shared layout), letting
-  keyboard users jump past the header.
-- **Colour contrast:** the core text/background pairings were calculated
-  by hand when the palette was approved (see `BRAND_DIRECTIONS.md`) —
-  Ink Navy on Warm Off-White is 14.6:1, comfortably exceeding the WCAG
-  AA/AAA requirement (4.5:1 / 7:1) for body text.
-- Not done today: a full automated accessibility scan (e.g. axe-core) —
-  this is recommended for Day 6's dedicated accessibility review rather
-  than being treated as complete today.
+**Public/private field separation:**
+- Fetched a real, publicly-visible property's rendered HTML and
+  confirmed its private address and internal notes are genuinely absent
+  from the markup (not just hidden by CSS) — matches the unit test, but
+  proven against the actual rendered page too.
+- Confirmed a commercial property's unverified investment yield value
+  (6.8%) does not appear anywhere in its public page's rendered text.
 
-## 8. Responsive testing — six breakpoints
+**Approval-state visibility (draft/unapproved/sold never public):**
+- A Draft property's detail page (`/property/demo-res-sale-3`) correctly
+  returns "Property not found" rather than rendering — even though the
+  record exists, a direct/guessed URL cannot reach it.
+- A Sold property's detail page likewise returns "not found."
+- Public search (`/buy`) excludes both from its results; only 2 of the 4
+  residential-for-sale demo properties (the two with a publicly visible
+  status) are ever returned.
 
-Tested using the browser automation tool at: small mobile (375×812),
-large mobile (428×926), tablet (768×1024), laptop (1366×768), desktop
-(1920×1080), and wide desktop (2560×1440).
+**Permission boundaries (tested against real pages, switching roles
+via the documented dev-only role switcher):**
+- As Property Editor: could open a property's edit page and submit
+  changes, but attempting to set its status directly to "Available" was
+  **rejected server-side** with a clear message — not just a hidden
+  button, an actual blocked request.
+- The same Property Editor could successfully move the property to
+  "Awaiting approval."
+- Switching to Manager and approving it to "Available" succeeded.
+- Both the submit-for-approval and the approval were correctly recorded
+  in `/admin/audit`, with the correct actor role and the correct
+  before/after status for each.
+- As Enquiry Viewer: the properties list showed "No access" instead of
+  an edit link for every row, and navigating directly to an edit page's
+  URL was blocked with an explicit permission message, not a crash or a
+  silently-broken page.
 
-**A tooling limitation encountered:** the Browser pane's screenshot
-capture in this environment does not reliably render full-width
-screenshots above roughly 800px of visible width — wider viewports
-produced zoomed-in, cropped images rather than a true scaled view. This
-appears to be a limitation of the preview pane on this machine, not a
-defect in the website. Where screenshots were unreliable, verification
-was done instead by directly inspecting the live page's structure and
-computed styles in the browser (page width, overflow, which navigation
-was visible, focus styles) — a more precise check than a screenshot in
-any case, and the method used for every non-mobile breakpoint below.
+**Search and empty states:**
+- An impossible filter (minimum price £50,000,000) correctly showed the
+  "No properties match your search" state, with a working "Clear
+  filters" link and a working "Create a Property Alert" link
+  pre-filled with the search criteria.
+- Every filter field in the search form has a proper `<label>`,
+  confirmed by checking each control programmatically — the whole search
+  form works with native HTML semantics, so it is keyboard- and
+  screen-reader-operable without any extra work.
 
-| Breakpoint | Horizontal overflow? | Navigation | Notes |
-|---|---|---|---|
-| Small mobile (375px) | None | Mobile menu | Confirmed by screenshot — clean, correctly stacked, all brand colours rendering correctly |
-| Large mobile (428px) | Not explicitly checked | Mobile menu | Screenshot confirmed clean layout |
-| Tablet (768px) | None (after fix) | Mobile menu | **Defect found and fixed** — see below |
-| Laptop (1366px) | None | Full desktop menu | Confirmed via computed styles |
-| Desktop (1920px) | None | Full desktop menu | Confirmed via computed styles |
-| Wide desktop (2560px) | None | Full desktop menu | Confirmed via computed styles |
+**Image fallback:** properties with no photography (all of them today)
+show a clearly labelled "Photograph not yet supplied" placeholder rather
+than a broken image icon or an empty space.
 
-### Defect found and corrected
+## 8. A real defect found and fixed: admin edit page could get stuck on "Loading…" after saving
 
-**Issue:** at tablet width (768px), the header switched to the full
-desktop navigation (logo + 7 nav links + "Book a Valuation" button all in
-one row) because the mobile/desktop switch-over point was set at
-Tailwind's `md` breakpoint (768px) — exactly the width being tested. There
-wasn't enough horizontal room, so the logo wrapped onto three lines and
-overlapped the "Book a Valuation" button.
+**What happened:** after a Property Editor or Manager saved changes on
+`/admin/properties/[id]`, the page sometimes never showed the result —
+it stayed on a spinning "Loading…" state indefinitely in that browser
+tab, even though the save had genuinely succeeded (confirmed by opening
+the same page in a new tab, where the correct, updated data appeared
+immediately).
 
-**Fix:** moved the switch-over point from `md` (768px) to `lg` (1024px)
-in `Header.tsx` and `MobileMenu.tsx`, so tablets get the mobile menu
-(which has plenty of room) and only laptop-sized screens and above get
-the full desktop navigation. Re-tested and confirmed fixed.
+**Root cause:** the server action was calling `revalidatePath()` on the
+very page that had just invoked it, in addition to the two other pages
+that needed it (`/admin/properties` and `/admin/audit`). Next.js's
+`useActionState` already refreshes the calling page automatically once
+the action finishes — the extra, redundant revalidation of that same
+page caused the page's loading boundary to get stuck.
 
-**A second, smaller issue** was found and fixed during mobile-menu
-testing: the open mobile menu (a dropdown, not a full-screen overlay)
-didn't quite reach the bottom of the screen, letting the page underneath
-peek through at the very bottom edge. Fixed by making the open menu
-cover the full remaining screen height.
+**Fix:** removed the self-referential `revalidatePath()` call, keeping
+only the two revalidations for *other* pages that genuinely needed to
+be told about the change. Re-tested and confirmed fixed.
 
-## 9. Functional testing (forms)
+## 9. A residual, dev-mode-only quirk found — confirmed NOT present in a production build
 
-Tested directly against a running local copy of the site (not just
-visually):
-- Submitting the Sell page's valuation form **empty** correctly returned
-  four field-specific error messages (name, email, phone, privacy consent)
-  from the server — proving server-side validation works independently of
-  whatever the browser does.
-- Submitting the same form with valid details returned a success message
-  ("Thank you — your enquiry has been received…") and the submission was
-  correctly logged server-side.
-- Confirmed in the dev server's own log output that the submission was
-  captured with the correct form type label (`sales-valuation`) and all
-  submitted fields.
-- **Important reminder for later days:** this only logs to the local
-  server console today. No real email or CRM notification is sent — see
-  `INTEGRATIONS.md`. A genuine enquiry submitted on a live version of
-  today's code would currently be lost, which is exactly why this must
-  not be deployed before Day 5's automation work is approved and built.
+While investigating the issue above, a related but distinct symptom was
+found: in some navigation sequences (e.g. switching role, then
+immediately following a link to another `/admin` page), a browser tab
+could get stuck showing "Loading…" for *any* subsequent page in that
+same tab — always recoverable by opening a new tab, and the underlying
+data was always correct (confirmed via a direct fetch of the same URL,
+which returned the correct content every time).
 
-## 10. Remaining defects / known limitations at end of Day 3
+**This was tested specifically to find out whether it would affect a
+real deployment:** a full production build (`next build` +
+`next start`, not the `next dev` server used for day-to-day
+development) was run, and the exact same sequence of actions that
+triggered the problem in development **did not reproduce it at all** in
+the production server. This strongly suggests the issue is specific to
+the development server's hot-reloading behaviour in this very new
+Next.js/React version combination (flagged as a risk in
+`TECHNICAL_ARCHITECTURE.md`), not a defect that would affect real
+visitors or staff using a deployed copy of the site.
 
-- The Browser pane's screenshot tool cannot reliably capture full-width
-  desktop screenshots in this environment (see Section 8) — worth
-  revisiting with a different testing approach (e.g. Playwright screenshots
-  run from the command line) on Day 6 if visual regression testing is
-  wanted.
-- No automated accessibility scan (e.g. axe-core) has been run yet —
-  planned for Day 6.
-- The `unrs-resolver` install-script approval remains outstanding (see
-  Section 5) — low risk, but not yet actioned either way.
+**Recommendation:** keep an eye on this during Day 6's dedicated QA
+pass, and if it recurs, consider it alongside a possible future
+Next.js/React patch version bump — but it should not block today's work
+or be treated as a production-blocking defect given it could not be
+reproduced outside the dev server.
+
+## 10. Responsive check after adding "Buy" and "Rent" to the navigation
+
+Adding two more items to the primary navigation (now 8 items, matching
+`SITEMAP.md`'s originally approved structure) was tested at the same
+1024px breakpoint where Day 3 fixed a similar overlap issue. Measured
+directly (page width vs. content width, and the navigation's own
+position) rather than relying on this environment's unreliable
+wide-viewport screenshots (see Day 3's `TEST_REPORT.md` for that
+limitation): **no horizontal overflow, and the desktop navigation still
+fits on one line at 1024px and above.**
+
+## Summary
+
+| Check | Result |
+|---|---|
+| TypeScript | Pass |
+| Lint | Pass |
+| Unit/component tests | Pass (24/24) |
+| Production build | Pass |
+| Dependency audit | 0 vulnerabilities |
+| Secret scan | Clean |
+| Public/private field separation | Verified live, not just unit-tested |
+| Draft/Sold public visibility | Verified live — correctly hidden |
+| Permission boundaries | Verified live across 3 roles |
+| Search empty state | Verified |
+| Keyboard/screen-reader form access | Verified (native semantics) |
+| Image fallback | Verified |
+| Defects found | 1 real bug (fixed), 1 dev-only quirk (confirmed absent in production) |

@@ -2,8 +2,10 @@
 
 import { z } from "zod";
 import { enquirySchema, type EnquiryFormState } from "@/lib/enquiry-schema";
+import { alertSchema, type AlertFormState } from "@/lib/alert-schema";
 
 type EnquiryFieldKey = keyof z.infer<typeof enquirySchema>;
+type AlertFieldKey = keyof z.infer<typeof alertSchema>;
 
 /**
  * Handles Sell / Let / Property Management / Contact enquiry submissions.
@@ -43,5 +45,36 @@ export async function submitEnquiry(
     status: "success",
     message:
       "Thank you — your enquiry has been received. A member of the Times Estate Ltd team will be in touch.",
+  };
+}
+
+/**
+ * Property-alert registration (see /USER_JOURNEYS.md, journey 7). As with
+ * `submitEnquiry`, this validates and logs only — no real email list or
+ * alert-matching service is connected yet.
+ */
+export async function submitPropertyAlert(
+  _prevState: AlertFormState,
+  formData: FormData,
+): Promise<AlertFormState> {
+  const raw = Object.fromEntries(formData.entries());
+  const result = alertSchema.safeParse(raw);
+
+  if (!result.success) {
+    const fieldErrors: Partial<Record<AlertFieldKey, string>> = {};
+    for (const issue of result.error.issues) {
+      const key = issue.path[0] as AlertFieldKey | undefined;
+      if (key && !fieldErrors[key]) {
+        fieldErrors[key] = issue.message;
+      }
+    }
+    return { status: "error", fieldErrors };
+  }
+
+  console.log("[property-alert]", result.data);
+
+  return {
+    status: "success",
+    message: "Thank you — we'll email you when a matching property becomes available.",
   };
 }
