@@ -73,6 +73,52 @@ export function TextAreaField({
   );
 }
 
+export function SelectField({
+  label,
+  name,
+  options,
+  error,
+  className,
+  ...props
+}: React.SelectHTMLAttributes<HTMLSelectElement> & {
+  label: string;
+  name: string;
+  options: { value: string; label: string }[];
+  error?: string;
+}) {
+  const errorId = `${name}-error`;
+  return (
+    <div className="space-y-1">
+      <label htmlFor={name} className="block text-sm font-medium text-ink">
+        {label}
+      </label>
+      <select
+        id={name}
+        name={name}
+        aria-invalid={Boolean(error)}
+        aria-describedby={error ? errorId : undefined}
+        defaultValue=""
+        className={cn(inputClasses, error && "border-danger", className)}
+        {...props}
+      >
+        <option value="" disabled>
+          Please select…
+        </option>
+        {options.map((opt) => (
+          <option key={opt.value} value={opt.value}>
+            {opt.label}
+          </option>
+        ))}
+      </select>
+      {error && (
+        <p id={errorId} className="text-sm text-danger">
+          {error}
+        </p>
+      )}
+    </div>
+  );
+}
+
 export function CheckboxField({
   label,
   name,

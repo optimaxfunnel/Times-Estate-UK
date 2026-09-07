@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
 import { PageHero } from "@/components/layout/PageHero";
 import { Section } from "@/components/ui/Section";
-import { EnquiryForm } from "@/components/forms/EnquiryForm";
+import { LeadForm } from "@/components/forms/LeadForm";
+import { ValuationTermsNotice } from "@/components/ui/ValuationTermsNotice";
 import { PlaceholderNotice } from "@/components/ui/PlaceholderNotice";
 
 export const metadata: Metadata = { title: "Commercial Sales, Lettings & Management" };
@@ -47,16 +48,45 @@ export default function CommercialPage() {
       </Section>
 
       <Section className="bg-secondary/5">
-        <div className="max-w-xl">
-          <h2 className="text-2xl font-semibold text-ink">
-            Request a commercial appraisal
-          </h2>
-          <p className="mt-2 text-sm text-ink/70">
-            Tell us about your property or requirement and a member of the
-            commercial team will be in touch.
-          </p>
-          <div className="mt-6">
-            <EnquiryForm formType="commercial-appraisal" submitLabel="Request Appraisal" />
+        <div className="mb-6 max-w-2xl">
+          <ValuationTermsNotice />
+        </div>
+        <div className="grid gap-10 lg:grid-cols-3">
+          <div>
+            <h2 className="text-lg font-semibold text-ink">Sales appraisal</h2>
+            <p className="mt-1 text-sm text-ink/70">For landlords or investors looking to sell.</p>
+            <div className="mt-4">
+              <LeadForm
+                category="commercial_sales_valuation"
+                sourcePage="/commercial"
+                submitLabel="Request Appraisal"
+                fields={[{ type: "text", name: "propertyAddress", label: "Property address", required: true }]}
+              />
+            </div>
+          </div>
+          <div>
+            <h2 className="text-lg font-semibold text-ink">Lettings appraisal</h2>
+            <p className="mt-1 text-sm text-ink/70">For landlords looking to let premises.</p>
+            <div className="mt-4">
+              <LeadForm
+                category="commercial_rental_valuation"
+                sourcePage="/commercial"
+                submitLabel="Request Appraisal"
+                fields={[{ type: "text", name: "propertyAddress", label: "Property address", required: true }]}
+              />
+            </div>
+          </div>
+          <div>
+            <h2 className="text-lg font-semibold text-ink">Occupier / management enquiry</h2>
+            <p className="mt-1 text-sm text-ink/70">Looking for premises, or want management for your property?</p>
+            <div className="mt-4">
+              <LeadForm
+                category="commercial_enquiry"
+                sourcePage="/commercial"
+                submitLabel="Send Enquiry"
+                fields={[{ type: "textarea", name: "requirement", label: "Your requirement", required: true }]}
+              />
+            </div>
           </div>
         </div>
       </Section>

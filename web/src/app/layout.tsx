@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Source_Serif_4, Inter } from "next/font/google";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
+import { AssistantWidget } from "@/components/ai/AssistantWidget";
 import "./globals.css";
 
 const sourceSerif = Source_Serif_4({
@@ -42,6 +43,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
           {children}
         </main>
         <Footer />
+        <AssistantWidget />
       </body>
     </html>
   );

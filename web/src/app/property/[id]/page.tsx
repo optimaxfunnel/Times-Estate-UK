@@ -4,7 +4,7 @@ import { Section } from "@/components/ui/Section";
 import { PropertyGallery } from "@/components/property/PropertyGallery";
 import { ShareButton } from "@/components/property/ShareButton";
 import { FavouriteButton } from "@/components/property/FavouriteButton";
-import { EnquiryForm } from "@/components/forms/EnquiryForm";
+import { LeadForm } from "@/components/forms/LeadForm";
 import { propertyProvider } from "@/lib/property/provider";
 import {
   PUBLICLY_VISIBLE_STATUSES,
@@ -182,14 +182,47 @@ export default async function PropertyDetailPage({
           <div className="rounded-sm border border-border bg-surface p-6">
             <h2 className="text-lg font-semibold text-ink">Book a viewing</h2>
             <p className="mt-2 text-sm text-ink/70">
-              Interested in this property? Send a viewing request and a
-              member of the team will be in touch to arrange a time.
+              Interested in this property? Send a viewing request below.
+            </p>
+            <p className="mt-2 rounded-sm bg-warning/10 p-2 text-xs font-medium text-warning">
+              This does not confirm a viewing — a member of the team will
+              contact you to agree an exact time, including with the
+              current occupier where applicable.
             </p>
             <div className="mt-4">
-              <EnquiryForm
-                formType={`viewing-request:${publicProperty.id}`}
+              <LeadForm
+                category="viewing_request"
+                sourcePage={`/property/${publicProperty.id}`}
                 submitLabel="Request a Viewing"
-                defaultPropertyAddress={publicProperty.displayAddress}
+                propertyReference={publicProperty.displayAddress}
+                fields={[
+                  { type: "date", name: "preferredDate1", label: "Preferred date (1st choice)", required: true },
+                  { type: "time", name: "preferredTime1", label: "Preferred time (1st choice)", required: true },
+                  { type: "date", name: "preferredDate2", label: "Alternative date (optional)" },
+                  { type: "time", name: "preferredTime2", label: "Alternative time (optional)" },
+                  {
+                    type: "select",
+                    name: "qualification",
+                    label:
+                      publicProperty.listingType === "sale"
+                        ? "Are your finances in place?"
+                        : "When would you like to move in?",
+                    required: true,
+                    options:
+                      publicProperty.listingType === "sale"
+                        ? [
+                            { value: "cash_buyer", label: "Cash buyer" },
+                            { value: "mortgage_agreed", label: "Mortgage agreed in principle" },
+                            { value: "not_yet_arranged", label: "Not yet arranged" },
+                          ]
+                        : [
+                            { value: "asap", label: "As soon as possible" },
+                            { value: "1_3_months", label: "1–3 months" },
+                            { value: "3_plus_months", label: "3+ months" },
+                          ],
+                  },
+                  { type: "textarea", name: "message", label: "Any accessibility needs for the viewing? (optional)" },
+                ]}
               />
             </div>
           </div>

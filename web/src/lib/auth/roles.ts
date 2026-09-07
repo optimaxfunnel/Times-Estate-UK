@@ -33,6 +33,7 @@ export const PERMISSIONS = [
   "archive_property",
   "edit_content_pages",
   "view_enquiries",
+  "manage_leads",
   "manage_users",
   "view_audit_log",
 ] as const;
@@ -48,6 +49,7 @@ const ROLE_PERMISSIONS: Record<Role, readonly Permission[]> = {
     "approve_property",
     "archive_property",
     "view_enquiries",
+    "manage_leads",
     "view_audit_log",
   ],
   property_editor: [

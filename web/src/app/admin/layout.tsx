@@ -19,6 +19,11 @@ export default async function AdminLayout({ children }: { children: React.ReactN
             <Link href="/admin/properties" className="text-sm text-ink hover:text-accent">
               Properties
             </Link>
+            {hasPermission(role, "view_enquiries") && (
+              <Link href="/admin/leads" className="text-sm text-ink hover:text-accent">
+                Leads
+              </Link>
+            )}
             {hasPermission(role, "view_audit_log") && (
               <Link href="/admin/audit" className="text-sm text-ink hover:text-accent">
                 Audit Log

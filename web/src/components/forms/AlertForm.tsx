@@ -3,6 +3,7 @@
 import { useActionState } from "react";
 import { submitPropertyAlert } from "@/lib/actions";
 import { TextField, CheckboxField } from "@/components/forms/Field";
+import { HoneypotField } from "@/components/forms/HoneypotField";
 import { Button } from "@/components/ui/Button";
 import { Alert } from "@/components/ui/Alert";
 import type { AlertFormState } from "@/lib/alert-schema";
@@ -26,6 +27,7 @@ export function AlertForm({
 
   return (
     <form action={formAction} className="space-y-4" noValidate>
+      <HoneypotField />
       <input type="hidden" name="listingType" value={defaults.listingType ?? ""} />
       <input type="hidden" name="category" value={defaults.category ?? ""} />
       <TextField

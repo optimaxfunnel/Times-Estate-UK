@@ -197,6 +197,75 @@ correct adapter can be built quickly.
    (`/admin/properties`) an acceptable interim approach, or should
    choosing a CRM be prioritised before Day 5?
 
+## AI assistant provider (added Day 5, 7 September 2026)
+
+**Confirmed AI provider agreement:** none. No AI/language-model account
+has been created, and no API key exists anywhere in this project — see
+`AI_SAFETY_RULES.md` for the full behavioural contract the assistant
+follows today and would need to keep following if a real provider is
+ever connected.
+
+### The adapter architecture built today
+
+Exactly the same pattern as the `PropertyProvider` interface (Day 4):
+every part of the site that talks to the assistant — the chat widget,
+its server action — talks only to one interface, `AIProvider`
+(`web/src/lib/ai/provider.ts`). Today the only implementation is
+`DemoAIProvider`, a rule-based responder with no external calls at all
+(`web/src/lib/ai/demo-provider.ts`). Connecting a real provider later
+means writing **one new class** implementing the same `AIProvider`
+interface (`respond()`); the widget and server action never need to
+change.
+
+### Provider comparison
+
+| Provider | Notes |
+|---|---|
+| **Anthropic (Claude API)** | Pay-as-you-go API; would need a paid account and an API key stored as an environment variable, never committed (see `web/src/lib/env.ts`'s pattern). Strong instruction-following, useful for keeping the refusal rules in `AI_SAFETY_RULES.md` reliable. |
+| **OpenAI (GPT API)** | Pay-as-you-go API; same credential-handling requirements as above. |
+| **Azure OpenAI** | Same underlying models as OpenAI, via a Microsoft Azure subscription — may suit a business already using Microsoft/Azure services, at broadly similar cost. |
+| **Self-hosted open-weight model** (e.g. via Ollama) | No per-token cost and no data leaves the business's own infrastructure, but needs a server capable of running it and ongoing maintenance — likely disproportionate for a single agency's enquiry volume. |
+
+None of these have been evaluated for pricing or contract terms, because
+there is no confirmed decision to connect a real AI provider at all —
+today's rule-based `DemoAIProvider` was deliberately built to need none
+of them (see `AI_SAFETY_RULES.md`'s explanation of why this is a safety
+choice, not just a cost-saving one).
+
+### What connecting any of these would require
+
+- **Required agreement:** a billed account with the chosen provider, in
+  the business's name.
+- **Credential requirements:** an API key, stored only as an environment
+  variable, never committed to the repository (CLAUDE.md Rule 4).
+- **A rebuild of the safety guarantees, not just the plumbing.** Today's
+  prompt-injection resistance (`AI_SAFETY_RULES.md`) is structural,
+  because a rule-based responder has no system prompt to leak and a
+  fixed, enumerable set of possible replies. A real language model can
+  generate novel text, so the same guarantees would need to be rebuilt
+  as: a carefully designed system prompt, output-side checks re-using
+  the same refusal list, and much more extensive adversarial testing
+  before the assistant could be trusted with public traffic again.
+- **Cost monitoring:** unlike every other integration on this page, a
+  per-token API has a cost that scales with usage in a way that is
+  harder to predict in advance than a flat subscription — the owner
+  should set a spending cap or alert with whichever provider is chosen.
+- **Data-sharing consideration:** every question a visitor asks the
+  assistant would be sent to the chosen provider's servers. This needs
+  disclosing in the Privacy Policy and considering against
+  `PRIVACY_DATA_MAP.md` before going live.
+
+### Unresolved questions for the owner
+
+1. Is connecting a real AI provider wanted at all, given the
+   demonstration assistant already covers the FAQ/property-search use
+   case safely and at no cost?
+2. If so, which provider, and what monthly spending cap should be set?
+3. Should visitor questions sent to a real AI provider be disclosed in
+   the Privacy Policy as a distinct data-sharing category? (Almost
+   certainly yes — flagged here for the professional review this
+   project cannot itself perform.)
+
 ## Summary: what needs the owner's decision before Day 5
 
 1. Email/notification provider (most urgent — blocks every enquiry
@@ -212,3 +281,8 @@ correct adapter can be built quickly.
 6. **(Added Day 4)** A real authentication provider must be chosen before
    the admin area (`/admin`) can ever be deployed anywhere public — see
    `ADMIN_AND_CMS.md`'s security warning.
+7. **(Added Day 5)** Whether a real AI provider is wanted at all for the
+   assistant, and if so which one and at what spending cap — see the AI
+   assistant section above and `AI_SAFETY_RULES.md`. The current
+   rule-based assistant needs none of this and is the safer default
+   until a real need is confirmed.

@@ -172,12 +172,70 @@ and planning work, but it does block later days:
 - Did not connect a live CRM or portal, did not import any customer
   data, and did not begin Day 5.
 
-### Day 5 — Automated workflows
+### Day 5 — Forms, lead management, repair reporting, AI and automation
 
-- Valuation requests, viewing requests, repair reporting, property
-  enquiries, and lead-management automation — built against confirmed
-  requirements, with any third-party integration (CRM, property feed,
-  email, AI provider) requiring explicit approval before connection.
+**Status: Complete.**
+
+- Checked the baseline before changing anything: typecheck, lint, tests
+  and production build all passed on Day 4's code before today's work
+  began.
+- Replaced the single `EnquiryForm` with a generic, reusable `LeadForm`
+  covering all twelve lead categories (sales/rental/commercial
+  valuations, management enquiries, buyer/tenant registration,
+  commercial enquiries, viewing requests, repair reports, callback
+  requests, general enquiries), each protected by a honeypot field, a
+  per-form rate limit (5 submissions/minute), server-side sanitisation,
+  and mandatory, timestamped Privacy Policy consent.
+- Built a valuation-terminology vocabulary
+  (`web/src/lib/valuation-terms.ts`) distinguishing an initial market
+  appraisal, an automated estimate, a formal valuation and a regulated
+  valuation, and used it everywhere a page offers a "valuation" — **no
+  page ever states a valuation figure**, and every page makes clear a
+  formal valuation requires confirmation by an authorised person.
+- Built a viewing-request flow that explicitly states a request does
+  not confirm a viewing, and never automatically confirms access to an
+  occupied property, per the brief's explicit instruction.
+- Built a bespoke repair-reporting page (`/report-a-repair`) with
+  genuine, verifiable UK emergency-safety information shown before the
+  form (999, the National Gas Emergency Service, the national
+  power-cut number), dual consent (privacy + contractor-sharing), and
+  file-upload validation that **never stores file bytes** — only
+  sanitised filename/size/type metadata — because no storage provider
+  is approved.
+- Built an internal lead-management system: a `Lead` data model, an
+  in-memory store, a staff-facing `/admin/leads` list and detail view
+  with a nine-stage lifecycle, notes, and assignment, gated by a new
+  `manage_leads` permission (Manager/Administrator only; Enquiry Viewer
+  keeps read-only access). Documented every category's workflow,
+  including what would need approval before any real external
+  communication is sent, in the new `AUTOMATION_WORKFLOWS.md`.
+- Built a provider-neutral AI-assistant foundation
+  (`web/src/lib/ai/provider.ts`) with a rule-based demonstration
+  implementation — no external AI service connected, no paid account,
+  no API key. Its full behavioural contract (hard refusals, retrieval
+  only from approved content, mandatory source citation, human review
+  before any external communication) is documented in the new
+  `AI_SAFETY_RULES.md` and enforced structurally: because it is
+  rule-based rather than a real language model, prompt-injection
+  resistance was proven both by unit test and live in the browser.
+- Mapped exactly what personal data is collected, where it lives, who
+  can access it, and what must change before it holds real customer
+  data in the new `PRIVACY_DATA_MAP.md` — no compliance claim is made;
+  every gap is flagged for professional review.
+- Found and fixed two real bugs: a same-millisecond lead-ordering flaw
+  in `listLeads()`, and React's internal `$ACTION_*` form-encoding
+  fields leaking into stored lead records. Full detail in
+  `TEST_REPORT.md`.
+- Ran every required check (TypeScript, lint, 64 unit/component tests,
+  production build, dependency audit, secret scan) plus extensive live
+  functional testing — role-based access to leads across all five
+  roles, the notification-failure path, the lead status-change flow,
+  file-upload rejection, mobile viewport, keyboard navigation, and live
+  AI refusal/prompt-injection behaviour — all recorded in
+  `TEST_REPORT.md`.
+- Did not activate any real outbound email or SMS, did not connect any
+  AI provider account, did not connect any customer data, and did not
+  begin Day 6.
 
 ### Day 6 — Quality assurance
 
@@ -194,27 +252,35 @@ and planning work, but it does block later days:
 - Deployment is only carried out once the owner states exactly:
   **"I approve production deployment."**
 
-## Immediate next steps (Day 5 starting position)
+## Immediate next steps (Day 6 starting position)
 
-1. The property data model, admin/approval workflow, and full search and
-   listing experience all exist and are tested (`web/`) — Day 5's
-   automated workflows (valuation/viewing/repair/enquiry notifications)
-   can build on this directly.
-2. Decisions needed from the owner before Day 5 can go further:
-   - An email/notification provider (see `INTEGRATIONS.md`) — every
-     enquiry form today validates and logs locally but sends nothing.
+1. Every form, lead-management workflow, repair-reporting flow, and the
+   AI-assistant foundation all exist and are tested (`web/`) — Day 6's
+   quality-assurance pass (security, accessibility, responsive,
+   functional, performance, cross-browser) can review this directly
+   rather than needing new features built first.
+2. Decisions still needed from the owner before any of today's work can
+   go live for real visitors:
+   - An email/notification provider, with approved recipient addresses,
+     reply-to addresses, wording, and retention rule (see
+     `INTEGRATIONS.md` and `AUTOMATION_WORKFLOWS.md`) — every form
+     today validates and logs locally but sends nothing.
    - Whether a CRM/agency software or property-portal agreement already
-     exists (see `INTEGRATIONS.md`'s CRM section, added Day 4) — this
-     determines whether Day 5 connects a real `PropertyProvider` or
-     continues with the admin area's manual entry.
+     exists (see `INTEGRATIONS.md`'s CRM section, added Day 4).
    - A real authentication provider **must** be chosen before the admin
-     area (`/admin`) can ever be deployed anywhere public — see
-     `ADMIN_AND_CMS.md`.
+     area (`/admin`, including the new `/admin/leads`) can ever be
+     deployed anywhere public — see `ADMIN_AND_CMS.md`.
+   - Whether a real AI provider is wanted at all for the assistant, and
+     if so which one — see `INTEGRATIONS.md`'s AI-provider section and
+     `AI_SAFETY_RULES.md`. The current rule-based assistant needs none
+     of this and is the safer default until a real need is confirmed.
+   - A real, persistent, access-controlled database, before any real
+     personal data is accepted — see `PRIVACY_DATA_MAP.md`.
 3. Owner still needs to supply the still-Missing items listed under "Day
    1 completeness check" above — particularly contact details (phone,
    email, opening hours) and geographic coverage.
-4. Day 5 begins with automated workflows, once the email/notification
-   provider is approved.
+4. Day 6 begins with the dedicated quality-assurance pass described
+   below.
 
 ## Open technical notes for later days
 

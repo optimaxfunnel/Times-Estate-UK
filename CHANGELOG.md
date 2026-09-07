@@ -4,6 +4,102 @@ All notable changes to this project are recorded here, most recent first.
 This is a project log, not a marketing document — it should stay accurate
 and plain.
 
+## 2026-09-07 — Day 5: Forms, lead management, repair reporting, AI and automation
+
+**Baseline check (before changing anything)**
+- Ran typecheck, lint, tests and production build against Day 4's code —
+  all passed. No pre-existing failure to fix before starting.
+
+**Added**
+- `web/src/components/forms/LeadForm.tsx` and
+  `web/src/lib/leads/actions.ts` — a generic, reusable lead form and
+  server action covering all twelve lead categories, each protected by
+  a honeypot field, per-form rate limiting, sanitisation and mandatory,
+  timestamped Privacy Policy consent. Replaces the Day 3 `EnquiryForm`,
+  which is now deleted (confirmed no remaining references first).
+- `web/src/lib/valuation-terms.ts` and `ValuationTermsNotice.tsx` — a
+  shared vocabulary distinguishing an initial market appraisal, an
+  automated estimate, a formal valuation and a regulated valuation,
+  used on every page offering a "valuation" so none ever states a
+  figure or implies an automated estimate is final.
+- `/report-a-repair` — a bespoke repair-reporting page with genuine UK
+  emergency-safety information (999, National Gas Emergency Service,
+  the national power-cut number), dual consent (privacy +
+  contractor-sharing), and file-upload validation
+  (`web/src/lib/security/file-upload.ts`) that never stores file bytes
+  — only sanitised metadata — since no storage provider is approved.
+- `web/src/lib/leads/` — a `Lead` data model and in-memory store, a
+  `/admin/leads` list and `/admin/leads/[id]` detail view with a
+  nine-stage lifecycle, notes, and assignment, gated by a new
+  `manage_leads` permission.
+- `web/src/lib/security/` — honeypot, rate-limiting, sanitisation, and
+  file-upload validation utilities, each with its own test file.
+- `web/src/lib/ai/` — a provider-neutral `AIProvider` interface and a
+  rule-based `DemoAIProvider` (no external AI service, no paid account,
+  no API key), plus a floating chat widget (`AssistantWidget.tsx`) site
+  -wide. Enforces eight hard-refusal rules (no mortgage/legal/
+  investment/surveying advice, no negotiation, no tenancy confirmation,
+  never claims humanity, never reveals private information) before
+  anything else runs.
+- `AUTOMATION_WORKFLOWS.md` — per-category workflow documentation:
+  trigger, validation, consent, internal action, and what needs owner
+  approval before any real external communication is sent.
+- `AI_SAFETY_RULES.md` — the assistant's full behavioural contract, and
+  why prompt-injection resistance is structural in today's rule-based
+  implementation.
+- `PRIVACY_DATA_MAP.md` — what personal data is collected, where it
+  lives, who can access it, and what must change before it holds real
+  customer data.
+- `INTEGRATIONS.md` — a new AI-provider comparison section (Anthropic,
+  OpenAI, Azure OpenAI, self-hosted open-weight models), none connected.
+- 40 new automated tests (security utilities, the lead store, AI
+  refusals, and AI demonstration-provider behaviour including a table
+  of five prompt-injection attempts) — 64 total, up from 24.
+
+**Changed**
+- `/sell`, `/let`, `/commercial`, `/contact`, `/property-management`,
+  `/property/[id]` — migrated from `EnquiryForm` to `LeadForm`, with
+  `ValuationTermsNotice` added wherever a page offers a valuation.
+- `/property/[id]`'s viewing-request section rewritten to require a
+  preferred date/time and state explicitly that a request does not
+  confirm a viewing.
+- `web/src/lib/auth/roles.ts` — added the `manage_leads` permission
+  (Manager/Administrator only).
+
+**Findings (defects found and fixed today)**
+- **Fixed:** `listLeads()` produced flaky ordering when two leads shared
+  the same millisecond timestamp — changed from sorting by `createdAt`
+  to `.slice().reverse()`, correct regardless of timestamp precision.
+- **Fixed:** React's internal `$ACTION_*` form-encoding fields (added
+  automatically to support a bound server action's progressive
+  enhancement) were leaking into stored lead records as if they were
+  real form data — `submitLeadForm()` now explicitly excludes any key
+  starting with `$ACTION` before processing a submission.
+- **Investigated, not a production defect:** the Day-4 dev-server-only
+  loading quirk recurred several times during today's live testing;
+  re-confirmed absent from a full production build — see
+  `TEST_REPORT.md` section 10.
+
+**Not done today (by design — out of scope for Day 5)**
+- No real outbound email or SMS activated — every notification is
+  logged only (`web/src/lib/leads/notify.ts`).
+- No AI provider account created, no API key exists anywhere in the
+  repository.
+- No file storage provider connected — uploaded files are validated
+  but their bytes are never persisted.
+- No customer data imported or connected.
+
+**Open items carried to Day 6**
+- Owner to choose and approve an email/notification provider (recipient
+  addresses, reply-to addresses, wording, retention rule).
+- Owner to decide whether a real AI provider is wanted at all, and if
+  so which one and at what spending cap.
+- A real authentication provider must be chosen before `/admin`
+  (including the new `/admin/leads`) can ever be deployed publicly.
+- A real, persistent, access-controlled database must exist before any
+  real personal data is accepted — see `PRIVACY_DATA_MAP.md`.
+- All Missing items from earlier days remain outstanding.
+
 ## 2026-09-07 — Day 4: Property data, CMS, listings and search
 
 **Baseline check (before changing anything)**

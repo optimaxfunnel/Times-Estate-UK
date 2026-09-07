@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
 import { PageHero } from "@/components/layout/PageHero";
 import { Section } from "@/components/ui/Section";
-import { EnquiryForm } from "@/components/forms/EnquiryForm";
+import { LeadForm } from "@/components/forms/LeadForm";
+import { ValuationTermsNotice } from "@/components/ui/ValuationTermsNotice";
 import { PlaceholderNotice } from "@/components/ui/PlaceholderNotice";
 import { Badge } from "@/components/ui/Badge";
 import { siteConfig } from "@/lib/site-config";
@@ -13,7 +14,7 @@ export default function LetPage() {
     <>
       <PageHero
         eyebrow="Let"
-        title="Request a rental valuation"
+        title="Request a rental appraisal"
         intro="Whether you want let-only or full management, we'll talk you through the options after your appraisal."
       />
 
@@ -40,15 +41,43 @@ export default function LetPage() {
               <Badge status={siteConfig.clientMoneyProtection.status} />
             </p>
           </div>
+          <ValuationTermsNotice />
           <PlaceholderNotice status="missing">
             Fee information for letting and management has not yet been
             supplied, so it is not published here.
           </PlaceholderNotice>
         </div>
         <div>
-          <h2 className="text-2xl font-semibold text-ink">Request a rental valuation</h2>
+          <h2 className="text-2xl font-semibold text-ink">Request a rental appraisal</h2>
           <div className="mt-4">
-            <EnquiryForm formType="rental-valuation" submitLabel="Request Valuation" />
+            <LeadForm
+              category="rental_valuation"
+              sourcePage="/let"
+              submitLabel="Request Appraisal"
+              fields={[
+                { type: "text", name: "propertyAddress", label: "Property address", required: true },
+                {
+                  type: "select",
+                  name: "currentlyTenanted",
+                  label: "Is the property currently tenanted?",
+                  required: true,
+                  options: [
+                    { value: "yes", label: "Yes" },
+                    { value: "no", label: "No" },
+                  ],
+                },
+                {
+                  type: "select",
+                  name: "managementPreference",
+                  label: "Let-only or full management? (optional)",
+                  options: [
+                    { value: "let_only", label: "Let-only" },
+                    { value: "full_management", label: "Full management" },
+                    { value: "not_sure", label: "Not sure yet" },
+                  ],
+                },
+              ]}
+            />
           </div>
         </div>
       </Section>

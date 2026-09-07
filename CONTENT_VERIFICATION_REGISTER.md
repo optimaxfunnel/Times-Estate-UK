@@ -41,6 +41,29 @@ register are now also reflected directly in the website's code
 Any future change to a status in this register must also be updated in
 that file, or the site will show a stale status.
 
+## Day 5 note (2026-09-07)
+
+No new Times Estate Ltd–specific business facts were added to this
+register today — Day 5's work was forms, workflow, and safety logic,
+not new business claims. Two content decisions are worth recording
+here for completeness, though neither is a Times Estate Ltd fact
+requiring its own row:
+
+- **Emergency guidance numbers** shown on `/report-a-repair` (999, the
+  National Gas Emergency Service on 0800 111 999, and the national
+  power-cut number 105) are well-known, independently verifiable UK
+  public-safety facts, not a Times Estate Ltd–specific claim — stated
+  directly rather than added to this register, consistent with how
+  such universally-published numbers are normally treated.
+- **What Times Estate Ltd itself will do** in response to a repair
+  report (response times, an out-of-hours contractor process) is
+  explicitly **not** stated anywhere on the site — the page carries a
+  visible "Requires professional review" notice instead of a specific
+  promise, exactly because no such commitment has been confirmed by the
+  owner. This is a deliberate absence, not an oversight, and should
+  remain absent until the owner (ideally with professional advice)
+  confirms what can honestly be promised.
+
 ## How to use this register
 
 1. Before adding any business fact, statistic, credential, testimonial, or
