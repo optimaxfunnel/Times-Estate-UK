@@ -1,16 +1,36 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { primaryNav } from "@/lib/site-config";
 import { ButtonLink } from "@/components/ui/ButtonLink";
 
 export function MobileMenu() {
   const [open, setOpen] = useState(false);
+  const toggleRef = useRef<HTMLButtonElement>(null);
+  const firstLinkRef = useRef<HTMLAnchorElement>(null);
+
+  // Keyboard support a visible-only menu doesn't get for free: Escape
+  // closes it and returns focus to the button that opened it, and
+  // opening it moves focus inside so a keyboard user isn't left behind
+  // on a control that's no longer where their focus visually is.
+  useEffect(() => {
+    if (!open) return;
+    firstLinkRef.current?.focus();
+    function onKeyDown(e: KeyboardEvent) {
+      if (e.key === "Escape") {
+        setOpen(false);
+        toggleRef.current?.focus();
+      }
+    }
+    document.addEventListener("keydown", onKeyDown);
+    return () => document.removeEventListener("keydown", onKeyDown);
+  }, [open]);
 
   return (
     <div className="lg:hidden">
       <button
+        ref={toggleRef}
         type="button"
         aria-expanded={open}
         aria-controls="mobile-nav"
@@ -38,9 +58,10 @@ export function MobileMenu() {
           className="fixed inset-x-0 top-20 bottom-0 z-20 overflow-y-auto border-t border-border bg-surface p-4 shadow-lg"
         >
           <ul className="space-y-3">
-            {primaryNav.map((item) => (
+            {primaryNav.map((item, index) => (
               <li key={item.href}>
                 <Link
+                  ref={index === 0 ? firstLinkRef : undefined}
                   href={item.href}
                   className="block py-1 text-base text-ink"
                   onClick={() => setOpen(false)}

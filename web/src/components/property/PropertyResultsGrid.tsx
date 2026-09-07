@@ -41,6 +41,7 @@ export function PropertyResultsGrid({
 
   return (
     <div>
+      <h2 className="sr-only">Search results</h2>
       <p className="mb-4 text-sm text-ink/70" role="status">
         {result.total} {result.total === 1 ? "property" : "properties"} found
       </p>

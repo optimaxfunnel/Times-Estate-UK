@@ -64,6 +64,50 @@ requiring its own row:
   remain absent until the owner (ideally with professional advice)
   confirms what can honestly be promised.
 
+## Day 6 note (2026-09-07) — content review using today's status vocabulary
+
+Today's brief asks every material factual statement to carry one of
+exactly: **Verified / Supplied by the business owner / Placeholder /
+Requires legal or professional review / Demonstration content.** This
+is a slightly different vocabulary from the five-label system CLAUDE.md
+established (Confirmed / Supplied by owner / Missing / Requires
+verification / Requires professional review), used throughout this
+register and the rest of the project. Rather than silently reinterpret
+either system, the mapping used below is:
+
+| CLAUDE.md label (used elsewhere in this register) | Today's label (used in the table below) |
+|---|---|
+| Confirmed | Verified |
+| Supplied by owner | Supplied by the business owner |
+| Missing | Placeholder (where a page shows a structure with no content yet) |
+| Requires verification | Requires legal or professional review (only where the outstanding check is itself legal/professional, e.g. a solicitor review — an independent registry check like Companies House is still recorded as its own thing, see notes column) |
+| (fabricated sample data) | Demonstration content |
+
+**Every material statement on the site today, reviewed against this
+vocabulary:**
+
+| Statement | Where shown | Status (today's vocabulary) | Notes |
+|---|---|---|---|
+| Legal name, Companies House number, registered office | `/about`, footer | Verified | Unchanged from register items 1, 2, 8 |
+| Redress scheme, CMP membership, PII insurer | `/about`, `/complaints` | Requires legal or professional review | Certificates reviewed directly but not independently verified against each scheme's own register — see items 3, 4, 6 above |
+| Privacy Notice text | `/privacy-policy` | Requires legal or professional review | New today — drafted from real system behaviour, not a template |
+| Cookie Notice text | `/cookie-policy` | Requires legal or professional review | New today |
+| Terms of Website Use text | `/terms` | Requires legal or professional review | New today |
+| Complaints procedure text (except the response-timescale figure) | `/complaints` | Requires legal or professional review | New today |
+| Complaints response timescale | `/complaints` | Placeholder | Genuinely not yet decided by the owner — no figure invented |
+| Accessibility statement | `/accessibility` | Verified | A factual account of testing actually performed today (`ACCESSIBILITY.md`), not a legal instrument requiring solicitor review in the same way |
+| Fee categories (what the law permits) | `/fees` | Requires legal or professional review | The legal framework described is accurate as researched today, but the page as a whole should still be reviewed before publication |
+| Actual fee amounts | `/fees` | Placeholder | Not yet supplied by the owner |
+| Every property listing | `/buy`, `/rent`, `/property/[id]`, etc. | Demonstration content | Unchanged since Day 4 — fabricated sample data, clearly labelled, excluded from search-engine indexing today (see `SEO_PLAN.md`) |
+| AI assistant's answers | Assistant widget, sitewide | Demonstration content | Rule-based, no external AI provider — see `AI_SAFETY_RULES.md` |
+| Company details, areas covered, team | `/about` | Placeholder (team, areas) / Verified (company details) | Unchanged from Day 3 |
+
+No item above was invented — every "Placeholder" row remains visibly
+marked as such on the page itself (via `PlaceholderNotice`), and every
+"Requires legal or professional review" row carries the new
+`DraftLegalNotice` banner (`web/src/components/layout/DraftLegalNotice.tsx`),
+so a visitor or reviewer can immediately see which is which.
+
 ## How to use this register
 
 1. Before adding any business fact, statistic, credential, testimonial, or

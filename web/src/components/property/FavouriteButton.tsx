@@ -41,7 +41,7 @@ export function FavouriteButton({
         toggleFavourite(propertyId);
       }}
       className={cn(
-        "text-sm font-medium text-ink/70 hover:text-accent",
+        "-m-2 inline-flex min-h-6 items-center p-2 text-sm font-medium text-ink/70 hover:text-accent",
         saved && "text-accent",
         className,
       )}

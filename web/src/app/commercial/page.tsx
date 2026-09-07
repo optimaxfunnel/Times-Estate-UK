@@ -5,7 +5,12 @@ import { LeadForm } from "@/components/forms/LeadForm";
 import { ValuationTermsNotice } from "@/components/ui/ValuationTermsNotice";
 import { PlaceholderNotice } from "@/components/ui/PlaceholderNotice";
 
-export const metadata: Metadata = { title: "Commercial Sales, Lettings & Management" };
+export const metadata: Metadata = {
+  title: "Commercial Sales, Lettings & Management",
+  description:
+    "Times Estate Ltd handles commercial property sales, lettings and management in London — request an appraisal or discuss a requirement.",
+  alternates: { canonical: "/commercial" },
+};
 
 const offerings = [
   {

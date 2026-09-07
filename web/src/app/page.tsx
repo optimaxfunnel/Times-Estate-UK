@@ -10,6 +10,7 @@ import { toPublicProperty } from "@/lib/property/types";
 export const metadata: Metadata = {
   description:
     "Times Estate Ltd — residential and commercial sales, lettings and property management, based in London.",
+  alternates: { canonical: "/" },
 };
 
 const services = [

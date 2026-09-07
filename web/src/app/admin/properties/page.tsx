@@ -56,7 +56,7 @@ export default async function AdminPropertiesPage() {
                       Edit
                     </Link>
                   ) : (
-                    <span className="text-ink/40">No access</span>
+                    <span className="text-ink/70">No access</span>
                   )}
                 </td>
               </tr>

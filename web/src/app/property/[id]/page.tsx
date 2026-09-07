@@ -5,6 +5,8 @@ import { PropertyGallery } from "@/components/property/PropertyGallery";
 import { ShareButton } from "@/components/property/ShareButton";
 import { FavouriteButton } from "@/components/property/FavouriteButton";
 import { LeadForm } from "@/components/forms/LeadForm";
+import { JsonLd } from "@/components/seo/JsonLd";
+import { breadcrumbJsonLd, propertyJsonLd } from "@/lib/seo/structured-data";
 import { propertyProvider } from "@/lib/property/provider";
 import {
   PUBLICLY_VISIBLE_STATUSES,
@@ -25,7 +27,17 @@ export async function generateMetadata({
   if (!property || !PUBLICLY_VISIBLE_STATUSES.includes(property.status)) {
     return { title: "Property not found" };
   }
-  return { title: property.displayAddress };
+  const publicProperty = toPublicProperty(property);
+  return {
+    title: publicProperty.displayAddress,
+    description: publicProperty.summary,
+    // Every property today is fabricated demonstration data (see
+    // /DATA_MODEL.md) — indexing it as a real, searchable listing would
+    // mislead search engines and, eventually, buyers/tenants. Remove this
+    // once real listings replace the demo data.
+    robots: publicProperty.isDemo ? { index: false, follow: true } : undefined,
+    alternates: { canonical: `/property/${publicProperty.id}` },
+  };
 }
 
 export default async function PropertyDetailPage({
@@ -46,8 +58,18 @@ export default async function PropertyDetailPage({
   const commercial = toPublicCommercialDetails(publicProperty.commercial);
   const residential = publicProperty.residential;
 
+  const listingJsonLd = propertyJsonLd(publicProperty);
+
   return (
     <>
+      <JsonLd
+        data={breadcrumbJsonLd([
+          { name: "Home", path: "/" },
+          { name: publicProperty.listingType === "sale" ? "Buy" : "Rent", path: publicProperty.listingType === "sale" ? "/buy" : "/rent" },
+          { name: publicProperty.displayAddress, path: `/property/${publicProperty.id}` },
+        ])}
+      />
+      {listingJsonLd && <JsonLd data={listingJsonLd} />}
       <Section className="border-b border-border bg-surface">
         {publicProperty.isDemo && (
           <p className="mb-4 inline-block w-fit rounded-sm bg-warning px-3 py-1 text-xs font-semibold uppercase tracking-wide text-white">
@@ -165,7 +187,7 @@ export default async function PropertyDetailPage({
           )}
 
           <div className="rounded-sm border border-dashed border-warning/60 bg-warning/5 p-4 text-xs text-ink/70">
-            <p className="font-semibold uppercase tracking-wide text-warning">
+            <p className="font-semibold uppercase tracking-wide text-warning-text">
               Material information &mdash; requires professional review
             </p>
             <p className="mt-1">
@@ -184,7 +206,7 @@ export default async function PropertyDetailPage({
             <p className="mt-2 text-sm text-ink/70">
               Interested in this property? Send a viewing request below.
             </p>
-            <p className="mt-2 rounded-sm bg-warning/10 p-2 text-xs font-medium text-warning">
+            <p className="mt-2 rounded-sm bg-warning/10 p-2 text-xs font-medium text-warning-text">
               This does not confirm a viewing — a member of the team will
               contact you to agree an exact time, including with the
               current occupier where applicable.

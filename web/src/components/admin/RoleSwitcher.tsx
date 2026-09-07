@@ -11,7 +11,7 @@ import { setMockRoleAction } from "@/lib/property/admin-actions";
 export function RoleSwitcher({ currentRole }: { currentRole: Role }) {
   return (
     <div className="border-b border-dashed border-warning/60 bg-warning/10 px-4 py-3 text-sm">
-      <p className="font-semibold text-warning">
+      <p className="font-semibold text-warning-text">
         Development-only role switcher — not real authentication
       </p>
       <form action={setMockRoleAction} className="mt-2 flex flex-wrap items-center gap-2">
@@ -32,7 +32,7 @@ export function RoleSwitcher({ currentRole }: { currentRole: Role }) {
         </select>
         <button
           type="submit"
-          className="rounded-sm border border-warning px-3 py-1 text-sm font-medium text-warning hover:bg-warning hover:text-white"
+          className="rounded-sm border border-warning px-3 py-1 text-sm font-medium text-warning-text hover:bg-warning hover:text-white"
         >
           Switch role
         </button>

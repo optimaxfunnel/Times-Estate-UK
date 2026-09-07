@@ -139,7 +139,7 @@ export function CheckboxField({
           type="checkbox"
           aria-invalid={Boolean(error)}
           aria-describedby={error ? errorId : undefined}
-          className="mt-1 h-4 w-4 rounded-sm border-border text-accent focus-visible:outline-2"
+          className="mt-1 h-5 w-5 cursor-pointer rounded-sm border-border text-accent focus-visible:outline-2"
           {...props}
         />
         <label htmlFor={name} className="text-sm text-ink">

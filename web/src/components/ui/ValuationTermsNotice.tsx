@@ -10,7 +10,7 @@ export function ValuationTermsNotice() {
     <div className="rounded-sm border border-border bg-secondary/5 p-4 text-sm text-ink/80">
       <p className="font-semibold text-ink">What you&rsquo;ll get: an initial market appraisal</p>
       <p className="mt-1">{VALUATION_TERMS.initial_appraisal.description}</p>
-      <p className="mt-2 text-xs text-ink/60">
+      <p className="mt-2 text-xs text-ink/70">
         This is not an automated estimate, a formal valuation, or a
         regulated (RICS Red Book) valuation — those are different
         services with different requirements.

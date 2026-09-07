@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { askAssistant } from "@/lib/ai/actions";
 import { AI_GREETING } from "@/lib/ai/demo-provider";
@@ -20,6 +20,24 @@ export function AssistantWidget() {
   ]);
   const [input, setInput] = useState("");
   const [isPending, setIsPending] = useState(false);
+  const openButtonRef = useRef<HTMLButtonElement>(null);
+  const inputRef = useRef<HTMLInputElement>(null);
+
+  // Same keyboard/focus support as the mobile nav menu: Escape closes
+  // the panel and returns focus to the button that opened it, and
+  // opening it moves focus to the question field.
+  useEffect(() => {
+    if (!open) return;
+    inputRef.current?.focus();
+    function onKeyDown(e: KeyboardEvent) {
+      if (e.key === "Escape") {
+        setOpen(false);
+        openButtonRef.current?.focus();
+      }
+    }
+    document.addEventListener("keydown", onKeyDown);
+    return () => document.removeEventListener("keydown", onKeyDown);
+  }, [open]);
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -43,23 +61,35 @@ export function AssistantWidget() {
   return (
     <div className="fixed bottom-4 right-4 z-40">
       {open ? (
-        <div className="flex h-[28rem] w-[22rem] max-w-[calc(100vw-2rem)] flex-col rounded-sm border border-border bg-surface shadow-lg">
+        <div
+          role="dialog"
+          aria-modal="false"
+          aria-labelledby="assistant-heading"
+          className="flex h-[28rem] w-[22rem] max-w-[calc(100vw-2rem)] flex-col rounded-sm border border-border bg-surface shadow-lg"
+        >
           <div className="flex items-center justify-between border-b border-border p-3">
             <div>
-              <p className="text-sm font-semibold text-ink">Times Estate Ltd assistant</p>
-              <p className="text-xs text-warning">AI · Demonstration mode — not a real person</p>
+              <p id="assistant-heading" className="text-sm font-semibold text-ink">
+                Times Estate Ltd assistant
+              </p>
+              <p className="text-xs text-warning-text">AI · Demonstration mode — not a real person</p>
             </div>
             <button
               type="button"
               onClick={() => setOpen(false)}
               aria-label="Close assistant"
-              className="text-ink/60 hover:text-ink"
+              className="text-ink/70 hover:text-ink"
             >
               ✕
             </button>
           </div>
 
-          <div role="log" aria-live="polite" className="flex-1 space-y-3 overflow-y-auto p-3 text-sm">
+          <div
+            role="log"
+            aria-live="polite"
+            tabIndex={0}
+            className="flex-1 space-y-3 overflow-y-auto p-3 text-sm"
+          >
             {messages.map((m, i) => (
               <div key={i} className={m.role === "user" ? "text-right" : "text-left"}>
                 <div
@@ -82,7 +112,7 @@ export function AssistantWidget() {
                 )}
               </div>
             ))}
-            {isPending && <p className="text-xs text-ink/50">Thinking…</p>}
+            {isPending && <p className="text-xs text-ink/70">Thinking…</p>}
           </div>
 
           <form onSubmit={handleSubmit} className="flex gap-2 border-t border-border p-3">
@@ -90,6 +120,7 @@ export function AssistantWidget() {
               Ask a question
             </label>
             <input
+              ref={inputRef}
               id="assistant-input"
               value={input}
               onChange={(e) => setInput(e.target.value)}
@@ -103,7 +134,10 @@ export function AssistantWidget() {
         </div>
       ) : (
         <button
+          ref={openButtonRef}
           type="button"
+          aria-expanded={open}
+          aria-haspopup="dialog"
           onClick={() => setOpen(true)}
           className="rounded-full bg-accent px-5 py-3 text-sm font-semibold text-white shadow-lg hover:bg-accent-dark"
         >

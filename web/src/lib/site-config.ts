@@ -128,5 +128,7 @@ export const footerNav = {
     { label: "Cookie Policy", href: "/cookie-policy" },
     { label: "Terms of Website Use", href: "/terms" },
     { label: "Complaints Handling Procedure", href: "/complaints" },
+    { label: "Fee Information", href: "/fees" },
+    { label: "Accessibility Statement", href: "/accessibility" },
   ],
 } as const;

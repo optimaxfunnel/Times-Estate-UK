@@ -237,12 +237,73 @@ and planning work, but it does block later days:
   AI provider account, did not connect any customer data, and did not
   begin Day 6.
 
-### Day 6 — Quality assurance
+### Day 6 — Content, SEO, compliance readiness, accessibility, performance and security
 
-- Security review, accessibility review (WCAG 2.2 AA target), responsive
-  testing across breakpoints, functional testing of every form and
-  workflow, performance testing, cross-browser checks.
-- Findings logged and fixed before any deployment recommendation.
+**Status: Complete.**
+
+- Checked the baseline before changing anything: typecheck, lint, tests
+  and production build all passed on Day 5's code before today's work
+  began.
+- **Content:** reviewed every page's content against CLAUDE.md Rule 1;
+  no new business facts were fabricated. Added a "Regulatory
+  information" section to `/about` (redress scheme, CMP, PII, each with
+  its real verification status). Recorded every material statement
+  site-wide in `CONTENT_VERIFICATION_REGISTER.md` using today's
+  requested vocabulary (Verified / Supplied by the business owner /
+  Placeholder / Requires legal or professional review / Demonstration
+  content), with an explicit mapping to CLAUDE.md's existing five-label
+  system rather than silently replacing it.
+- **SEO:** built `SEO_PLAN.md` (search-intent map, keyword map,
+  structured-data policy, and an explicit decision not to build area
+  pages until geographic coverage is confirmed). Added `metadataBase`,
+  Open Graph defaults, per-page descriptions and canonical URLs, a
+  dynamic `/sitemap.xml` and `/robots.txt`, and schema.org JSON-LD
+  (`RealEstateAgent` sitewide, `BreadcrumbList` and conditional
+  `RealEstateListing` on property pages — the latter deliberately
+  returns nothing for every property today, since all are demo data).
+  Demo property pages and `/admin/*` are marked `noindex`.
+- **Regulatory readiness:** researched current UK requirements (ICO
+  cookies/PECR guidance, NTSELAT material information, the Tenant Fees
+  Act 2019, the DMCC Act 2024's fake-review ban, EPC advertising rules)
+  and recorded findings topic-by-topic in the new `REGULATORY_READINESS.md`
+  — **no compliance claim is made anywhere.** Drafted real (not
+  placeholder) text for the Privacy Notice, Cookie Notice, Terms of
+  Website Use, and Complaints Handling Procedure, each carrying a new
+  `DraftLegalNotice` banner stating it awaits solicitor review. Built a
+  new `/fees` page describing the legal fee-transparency framework with
+  real amounts marked Missing, and a new `/accessibility` statement.
+- **Accessibility:** built `ACCESSIBILITY.md` against a WCAG 2.2 AA
+  target. Automated testing with axe-core across 18 pages/states plus
+  an independent Lighthouse pass found and fixed 4 real defects (a
+  colour-contrast failure on warning badges, a non-keyboard-focusable
+  scrollable region, touch targets below 24×24px on property cards, and
+  a skipped heading level on every search-results page); manual
+  hand-calculation found and fixed a further widespread contrast defect
+  (`text-ink/60` and similar, across 12 files) and added keyboard
+  focus-management (Escape-to-close, focus return) to the mobile menu
+  and AI assistant widget. Every affected page now scores 100/100 on
+  the relevant automated accessibility check.
+- **Performance:** measured with Lighthouse against both the dev server
+  (informational) and a real production build. Production: 95/100
+  performance, 100/100 best practices, 312 KiB total page weight, 0
+  cumulative layout shift — recorded in full, including the one
+  accepted minor render-blocking-CSS finding, in `TEST_REPORT.md`. No
+  accessibility or functionality was traded away for these scores.
+- **Security:** built `SECURITY.md`. Added security headers (CSP,
+  X-Frame-Options, HSTS, and more) to `next.config.ts` — previously
+  none existed — and live-verified the CSP actually blocks an external
+  script. Reviewed and re-confirmed server-side validation,
+  sanitisation, rate limiting, and role-based access control; searched
+  the whole codebase for redirect calls and confirmed no open-redirect
+  vector exists; ran a fresh `npm audit` (0 vulnerabilities) and secret
+  scan (clean). The mock authentication system remains the top
+  pre-deployment blocker, restated rather than solved today.
+- Ran every required check (TypeScript, lint, 64 unit/component tests,
+  production build, dependency audit, secret scan, accessibility scans,
+  a full internal link check, and responsive checks at 4 breakpoints)
+  — all recorded in `TEST_REPORT.md`.
+- Did not deploy anything, did not claim legal compliance anywhere, and
+  did not begin Day 7.
 
 ### Day 7 — Review and launch readiness
 
@@ -252,35 +313,44 @@ and planning work, but it does block later days:
 - Deployment is only carried out once the owner states exactly:
   **"I approve production deployment."**
 
-## Immediate next steps (Day 6 starting position)
+## Immediate next steps (Day 7 starting position)
 
-1. Every form, lead-management workflow, repair-reporting flow, and the
-   AI-assistant foundation all exist and are tested (`web/`) — Day 6's
-   quality-assurance pass (security, accessibility, responsive,
-   functional, performance, cross-browser) can review this directly
-   rather than needing new features built first.
-2. Decisions still needed from the owner before any of today's work can
-   go live for real visitors:
+1. Content, SEO infrastructure, drafted legal/regulatory pages,
+   accessibility, performance and security hardening all exist and are
+   tested (`web/`, `SEO_PLAN.md`, `REGULATORY_READINESS.md`,
+   `ACCESSIBILITY.md`, `SECURITY.md`) — Day 7's review and
+   launch-readiness walkthrough can review this directly.
+2. **Every drafted legal/regulatory page (`/privacy-policy`,
+   `/cookie-policy`, `/terms`, `/complaints`, `/fees`) needs a qualified
+   UK solicitor's review before it can be relied upon** — see
+   `REGULATORY_READINESS.md` for the topic-by-topic detail. None of
+   these has been reviewed by a professional; all are clearly marked
+   as drafts on the page itself.
+3. Decisions still needed from the owner before any of this work can go
+   live for real visitors:
    - An email/notification provider, with approved recipient addresses,
-     reply-to addresses, wording, and retention rule (see
-     `INTEGRATIONS.md` and `AUTOMATION_WORKFLOWS.md`) — every form
-     today validates and logs locally but sends nothing.
+     reply-to addresses, wording, and retention rule.
    - Whether a CRM/agency software or property-portal agreement already
-     exists (see `INTEGRATIONS.md`'s CRM section, added Day 4).
+     exists.
    - A real authentication provider **must** be chosen before the admin
-     area (`/admin`, including the new `/admin/leads`) can ever be
-     deployed anywhere public — see `ADMIN_AND_CMS.md`.
-   - Whether a real AI provider is wanted at all for the assistant, and
-     if so which one — see `INTEGRATIONS.md`'s AI-provider section and
-     `AI_SAFETY_RULES.md`. The current rule-based assistant needs none
-     of this and is the safer default until a real need is confirmed.
+     area can ever be deployed anywhere public — see `ADMIN_AND_CMS.md`
+     and `SECURITY.md`.
+   - Whether a real AI provider is wanted at all for the assistant —
+     the current rule-based assistant needs none of this.
    - A real, persistent, access-controlled database, before any real
-     personal data is accepted — see `PRIVACY_DATA_MAP.md`.
-3. Owner still needs to supply the still-Missing items listed under "Day
+     personal data is accepted.
+   - A real domain name — `SEO_PLAN.md` and `NEXT_PUBLIC_SITE_URL`
+     currently default to `localhost`, so every canonical URL, sitemap
+     entry, and structured-data `url` field needs the real domain
+     before today's SEO work has real effect.
+   - Actual fee amounts, a complaints response timescale, and
+     geographic coverage — each currently a visible Placeholder.
+4. Owner still needs to supply the still-Missing items listed under "Day
    1 completeness check" above — particularly contact details (phone,
-   email, opening hours) and geographic coverage.
-4. Day 6 begins with the dedicated quality-assurance pass described
-   below.
+   email, opening hours).
+5. Day 7 begins with the full owner walkthrough and final content
+   verification described below — deployment remains gated on the
+   exact approval phrase in Rule 6.
 
 ## Open technical notes for later days
 

@@ -4,6 +4,117 @@ All notable changes to this project are recorded here, most recent first.
 This is a project log, not a marketing document — it should stay accurate
 and plain.
 
+## 2026-09-07 — Day 6: Content, SEO, compliance readiness, accessibility, performance and security
+
+**Baseline check (before changing anything)**
+- Ran typecheck, lint, tests and production build against Day 5's code —
+  all passed. No pre-existing failure to fix before starting.
+
+**Added**
+- `SEO_PLAN.md` — search-intent map, page/keyword map, structured-data
+  policy, and an explicit, reasoned decision not to build area or FAQ
+  pages yet.
+- `REGULATORY_READINESS.md` — UK GDPR, PECR/cookies, Equality Act,
+  consumer protection/DMCC, fee transparency, redress/CMP, EPC,
+  material information, complaints and AI-advice topics, each with a
+  status — no compliance claim made anywhere.
+- `ACCESSIBILITY.md` — dated WCAG 2.2 AA test record: axe-core across
+  18 pages/states, an independent Lighthouse pass, and manual checks;
+  4 automated + 4 hand-found defects, all fixed.
+- `SECURITY.md` — full review against Task 6's checklist, including a
+  fresh `npm audit`, secret scan, and redirect-safety search.
+- `/fees` — fee-transparency page structure (Tenant Fees Act 2019
+  categories), amounts marked Missing.
+- `/accessibility` — accessibility statement.
+- `web/src/app/sitemap.ts`, `web/src/app/robots.ts` — dynamic XML
+  sitemap and robots rules; previously neither existed.
+- `web/src/lib/seo/structured-data.ts`, `web/src/components/seo/JsonLd.tsx`
+  — `RealEstateAgent` (sitewide, Confirmed facts only), `BreadcrumbList`,
+  and a conditional `RealEstateListing` that emits nothing for demo
+  properties (i.e. every property today) by design.
+- `web/src/components/layout/DraftLegalNotice.tsx` — banner shown on
+  every drafted legal page.
+- Real drafted content (previously bare placeholders) for
+  `/privacy-policy`, `/cookie-policy`, `/terms`, `/complaints` — each
+  describing this site's actual current behaviour, not generic
+  boilerplate, and each carrying `DraftLegalNotice`.
+- A `--color-warning-text` design token (`web/src/app/globals.css`) —
+  see "Findings" below.
+
+**Changed**
+- `web/next.config.ts` — added security headers (CSP, X-Frame-Options,
+  X-Content-Type-Options, Referrer-Policy, Permissions-Policy, HSTS);
+  previously none were set.
+- `web/src/app/layout.tsx` — added `metadataBase`, Open Graph/Twitter
+  defaults, and sitewide `RealEstateAgent` JSON-LD.
+- Every primary page — added a meta description and `alternates.canonical`
+  where missing.
+- `/about` — added a "Regulatory information" section (redress scheme,
+  CMP, PII, each with its real status) and links to the new
+  `/complaints`, `/fees` and `/accessibility` pages.
+- `/admin/layout.tsx` — added `robots: {index:false, follow:false}`.
+- `web/src/app/property/[id]/page.tsx` — added a real meta description,
+  canonical URL, `noindex` for demo properties, and `BreadcrumbList`/
+  `RealEstateListing` JSON-LD.
+- `web/src/components/layout/MobileMenu.tsx`,
+  `web/src/components/ai/AssistantWidget.tsx` — added Escape-to-close
+  and focus management (found missing during accessibility testing).
+- `web/src/components/ui/PropertyCard.tsx`,
+  `web/src/components/property/FavouriteButton.tsx` — enlarged touch
+  targets to meet WCAG 2.2's 24×24px minimum.
+- `web/src/components/property/PropertyResultsGrid.tsx` — added a
+  visually-hidden `<h2>` to fix a skipped heading level.
+- `web/src/lib/site-config.ts` — added Fee Information and
+  Accessibility Statement to the footer's Legal section.
+
+**Findings (defects found and fixed today)**
+- **Fixed:** a genuine WCAG 1.4.3 colour-contrast failure (4.33:1,
+  needs 4.5:1) on every "Requires verification"/"Requires professional
+  review" status badge sitewide, found by axe-core. Added a dedicated,
+  darker `--color-warning-text` token (6.10:1) for warning-coloured
+  text specifically.
+- **Fixed:** `text-ink/60` and similar low-opacity text utility classes
+  measured 4.22:1 against the page background (below 4.5:1), found by
+  hand-calculation, across 12 files — replaced with `text-ink/70`
+  (5.75:1).
+- **Fixed:** the AI assistant's scrollable message log wasn't keyboard-
+  focusable (`scrollable-region-focusable`, found by axe-core once the
+  widget was actually opened and scanned, a state static page-load
+  scanning can't reach).
+- **Fixed:** touch targets on every property card ("View details",
+  "☆ Save") measured 20px tall, below WCAG 2.2's new 24×24px minimum —
+  found by Lighthouse, not axe-core, a reminder that no single
+  automated tool catches everything.
+- **Fixed:** every property search/listing page skipped from `<h1>`
+  straight to a property card's `<h3>` with no `<h2>` in between —
+  also found by Lighthouse.
+- **Fixed:** the mobile navigation menu and AI assistant widget had no
+  Escape-to-close or focus management, leaving a keyboard user's focus
+  stranded on close.
+
+**Not done today (by design — out of scope for Day 6)**
+- No legal/regulatory page was submitted for actual solicitor review —
+  drafted, not reviewed; every page states this clearly.
+- No area/location pages were built — geographic coverage remains
+  unconfirmed (`SEO_PLAN.md`).
+- No live Google Rich Results Test / schema.org validator run — both
+  need a public URL, not `localhost`.
+- No nonce-based CSP (the current policy still allows `'unsafe-inline'`
+  for scripts/styles) — a documented, accepted limitation, not an
+  oversight.
+- No real authentication, database, or third-party integration was
+  connected — unchanged from every previous day.
+
+**Open items carried to Day 7**
+- Every drafted legal/regulatory page needs solicitor review before
+  reliance (`REGULATORY_READINESS.md`).
+- A real domain name is needed before `NEXT_PUBLIC_SITE_URL`'s
+  `localhost` default can be replaced and today's SEO work take real
+  effect.
+- All previously-open items (email provider, authentication, database,
+  CRM, AI provider, fee amounts, geographic coverage) remain
+  outstanding.
+
 ## 2026-09-07 — Day 5: Forms, lead management, repair reporting, AI and automation
 
 **Baseline check (before changing anything)**

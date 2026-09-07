@@ -36,7 +36,7 @@ export function PropertyEditForm({ property, canApprove }: { property: Property;
           ))}
         </select>
         {!canApprove && (
-          <p className="text-xs text-ink/60">
+          <p className="text-xs text-ink/70">
             Your role can submit this property for approval, but only a
             Manager or Administrator can approve it to a publicly visible
             status.

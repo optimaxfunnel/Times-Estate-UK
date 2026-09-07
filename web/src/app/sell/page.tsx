@@ -5,7 +5,12 @@ import { LeadForm } from "@/components/forms/LeadForm";
 import { ValuationTermsNotice } from "@/components/ui/ValuationTermsNotice";
 import { PlaceholderNotice } from "@/components/ui/PlaceholderNotice";
 
-export const metadata: Metadata = { title: "Sell Your Home" };
+export const metadata: Metadata = {
+  title: "Sell Your Home",
+  description:
+    "Book a free initial market appraisal with Times Estate Ltd and find out what your London home could be worth.",
+  alternates: { canonical: "/sell" },
+};
 
 export default function SellPage() {
   return (

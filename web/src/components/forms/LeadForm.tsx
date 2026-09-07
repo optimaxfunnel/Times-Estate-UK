@@ -40,7 +40,7 @@ export function LeadForm({
       <Alert tone="success" title="Received">
         {state.message}
         {state.reference && (
-          <p className="mt-2 text-xs text-ink/60">Reference: {state.reference}</p>
+          <p className="mt-2 text-xs text-ink/70">Reference: {state.reference}</p>
         )}
       </Alert>
     );

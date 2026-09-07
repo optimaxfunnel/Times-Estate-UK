@@ -6,7 +6,11 @@ import { PlaceholderNotice } from "@/components/ui/PlaceholderNotice";
 import { ButtonLink } from "@/components/ui/ButtonLink";
 import { siteConfig } from "@/lib/site-config";
 
-export const metadata: Metadata = { title: "Contact Us" };
+export const metadata: Metadata = {
+  title: "Contact Us",
+  description: "Get in touch with Times Estate Ltd, a London estate agency, or request a callback.",
+  alternates: { canonical: "/contact" },
+};
 
 export default function ContactPage() {
   return (

@@ -7,7 +7,12 @@ import { PlaceholderNotice } from "@/components/ui/PlaceholderNotice";
 import { Badge } from "@/components/ui/Badge";
 import { siteConfig } from "@/lib/site-config";
 
-export const metadata: Metadata = { title: "Let Your Property" };
+export const metadata: Metadata = {
+  title: "Let Your Property",
+  description:
+    "Request a free rental appraisal from Times Estate Ltd, covering let-only and full management for London landlords.",
+  alternates: { canonical: "/let" },
+};
 
 export default function LetPage() {
   return (

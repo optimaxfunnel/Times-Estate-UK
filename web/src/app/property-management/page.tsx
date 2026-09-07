@@ -4,7 +4,12 @@ import { Section } from "@/components/ui/Section";
 import { LeadForm } from "@/components/forms/LeadForm";
 import { ButtonLink } from "@/components/ui/ButtonLink";
 
-export const metadata: Metadata = { title: "Property Management" };
+export const metadata: Metadata = {
+  title: "Property Management",
+  description:
+    "Full residential and commercial property management from Times Estate Ltd — including a straightforward way for tenants to report repairs.",
+  alternates: { canonical: "/property-management" },
+};
 
 export default function PropertyManagementPage() {
   return (

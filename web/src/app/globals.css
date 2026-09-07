@@ -15,6 +15,14 @@
   --color-border: #dcd5c8; /* soft hairline border derived from the palette */
   --color-success: #2f6b4f;
   --color-warning: #9a5b12;
+  /* A darker shade for warning-coloured TEXT specifically. --color-warning
+     itself measures 4.33:1 against the doubly-tinted background produced
+     by a warning badge inside a warning-tinted notice (e.g. Badge inside
+     PlaceholderNotice) — just under WCAG AA's 4.5:1 for normal text, found
+     by an automated axe-core scan on Day 6. This token (6.1:1 against the
+     same background) is for text; --color-warning itself remains fine for
+     borders/backgrounds/icons, which only need 3:1. */
+  --color-warning-text: #7a480e;
   --color-danger: #a3311f;
   --focus-ring: #1f4b8c;
 }
@@ -29,6 +37,7 @@
   --color-border: var(--color-border);
   --color-success: var(--color-success);
   --color-warning: var(--color-warning);
+  --color-warning-text: var(--color-warning-text);
   --color-danger: var(--color-danger);
   --font-heading: var(--font-source-serif);
   --font-sans: var(--font-inter);

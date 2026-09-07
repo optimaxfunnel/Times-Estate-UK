@@ -51,7 +51,7 @@ export default async function AdminLeadsPage() {
                   ) : lead.notificationStatus === "sent" ? (
                     <span className="text-success">Sent</span>
                   ) : (
-                    <span className="text-ink/50">Not sent (no provider)</span>
+                    <span className="text-ink/70">Not sent (no provider)</span>
                   )}
                 </td>
                 <td className="px-4 py-2">
@@ -60,14 +60,14 @@ export default async function AdminLeadsPage() {
                       Manage
                     </Link>
                   ) : (
-                    <span className="text-ink/40">View only</span>
+                    <span className="text-ink/70">View only</span>
                   )}
                 </td>
               </tr>
             ))}
             {leads.length === 0 && (
               <tr>
-                <td colSpan={7} className="px-4 py-6 text-center text-ink/60">
+                <td colSpan={7} className="px-4 py-6 text-center text-ink/70">
                   No leads yet this session.
                 </td>
               </tr>

@@ -19,7 +19,7 @@ export function RepairReportForm() {
     return (
       <Alert tone="success" title="Repair report received">
         {state.message}
-        {state.reference && <p className="mt-2 text-xs text-ink/60">Reference: {state.reference}</p>}
+        {state.reference && <p className="mt-2 text-xs text-ink/70">Reference: {state.reference}</p>}
       </Alert>
     );
   }

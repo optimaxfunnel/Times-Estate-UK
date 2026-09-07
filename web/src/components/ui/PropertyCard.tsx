@@ -59,7 +59,10 @@ export function PropertyCard({
         </div>
       </Link>
       <div className="flex items-center justify-between px-4 pb-4">
-        <Link href={`/property/${property.id}`} className="text-sm font-medium text-accent underline underline-offset-4">
+        <Link
+          href={`/property/${property.id}`}
+          className="-m-2 inline-flex min-h-6 items-center p-2 text-sm font-medium text-accent underline underline-offset-4"
+        >
           View details
         </Link>
         <FavouriteButton propertyId={property.id} />

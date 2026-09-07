@@ -52,7 +52,7 @@ export default async function AdminLeadDetailPage({
             {lead.notes.map((note, i) => (
               <li key={i} className="rounded-sm border border-border bg-surface p-3 text-sm">
                 <span className="font-medium text-ink">{note.author}</span>{" "}
-                <span className="text-ink/50">{new Date(note.timestamp).toLocaleString("en-GB")}</span>
+                <span className="text-ink/70">{new Date(note.timestamp).toLocaleString("en-GB")}</span>
                 <p className="mt-1 text-ink/80">{note.text}</p>
               </li>
             ))}
@@ -97,7 +97,7 @@ function LeadSummary({ lead }: { lead: import("@/lib/leads/types").Lead }) {
       )}
       <div className="mt-4">
         <p className="text-xs font-medium uppercase tracking-wide text-secondary">Notification log</p>
-        <ul className="mt-1 text-xs text-ink/60">
+        <ul className="mt-1 text-xs text-ink/70">
           {lead.notificationLog.map((entry, i) => (
             <li key={i}>{entry}</li>
           ))}

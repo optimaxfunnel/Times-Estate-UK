@@ -16,10 +16,12 @@ Status key: Confirmed / Supplied by owner / Missing / Requires verification
 - [x] Registered office address — Confirmed (owner-confirmed, matches Companies House)
 - [ ] Trading address(es), if different — Missing
 - [ ] VAT number, if applicable — Missing
-- [ ] Privacy policy text — Missing (Requires professional review once drafted)
-- [ ] Cookie policy text — Missing (Requires professional review once drafted)
-- [ ] Terms of website use — Missing (Requires professional review once drafted)
-- [ ] Complaints handling procedure — Missing (Requires professional review)
+- [x] Privacy policy text — Drafted 2026-09-07 (Day 6); Requires professional review before reliance
+- [x] Cookie policy text — Drafted 2026-09-07 (Day 6); Requires professional review before reliance
+- [x] Terms of website use — Drafted 2026-09-07 (Day 6); Requires professional review before reliance
+- [x] Complaints handling procedure — Drafted 2026-09-07 (Day 6); Requires professional review, and an owner-confirmed response timescale (still Missing)
+- [x] Accessibility statement — Published 2026-09-07 (Day 6), reflecting real testing in `/ACCESSIBILITY.md`
+- [x] Fee-information page structure — Built 2026-09-07 (Day 6); actual fee amounts still Missing
 
 ## Regulatory and compliance
 
@@ -28,7 +30,7 @@ Status key: Confirmed / Supplied by owner / Missing / Requires verification
 - [ ] Professional body membership(s) — Missing
 - [ ] AML supervision registration details — Missing
 - [ ] Professional indemnity insurer/policy reference — Requires verification (policy wording supplied; the schedule with the actual policy number/limit is still Missing)
-- [ ] Published fee schedule (lettings/management) — Missing
+- [ ] Published fee schedule (lettings/management) — Page structure built 2026-09-07 (Day 6) at `/fees`; actual amounts still Missing
 
 ## Brand assets
 

@@ -36,7 +36,7 @@ export default async function AdminAuditPage() {
               on <span className="font-mono">{event.propertyId}</span> by{" "}
               {ROLE_LABELS[event.actor as keyof typeof ROLE_LABELS] ?? event.actor} —{" "}
               <span className="text-ink/70">{event.details}</span>
-              <div className="text-xs text-ink/50">
+              <div className="text-xs text-ink/70">
                 {new Date(event.timestamp).toLocaleString("en-GB")}
               </div>
             </li>

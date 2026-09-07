@@ -5,7 +5,12 @@ import { PlaceholderNotice } from "@/components/ui/PlaceholderNotice";
 import { Badge } from "@/components/ui/Badge";
 import { siteConfig } from "@/lib/site-config";
 
-export const metadata: Metadata = { title: "About Us" };
+export const metadata: Metadata = {
+  title: "About Us",
+  description:
+    "Times Estate Ltd is a registered London estate agency, company number 09597081. Read our company details and regulatory information.",
+  alternates: { canonical: "/about" },
+};
 
 export default function AboutPage() {
   return (
@@ -47,6 +52,52 @@ export default function AboutPage() {
       </Section>
 
       <Section className="bg-secondary/5">
+        <h2 className="text-2xl font-semibold text-ink">Regulatory information</h2>
+        <dl className="mt-4 grid gap-4 sm:grid-cols-2">
+          <div>
+            <dt className="text-sm font-medium text-secondary">Redress scheme</dt>
+            <dd className="text-ink">
+              {siteConfig.redressScheme.value}{" "}
+              <Badge status={siteConfig.redressScheme.status} />
+            </dd>
+          </div>
+          <div>
+            <dt className="text-sm font-medium text-secondary">
+              Client Money Protection
+            </dt>
+            <dd className="text-ink">
+              {siteConfig.clientMoneyProtection.value}{" "}
+              <Badge status={siteConfig.clientMoneyProtection.status} />
+            </dd>
+          </div>
+          <div>
+            <dt className="text-sm font-medium text-secondary">
+              Professional indemnity insurance
+            </dt>
+            <dd className="text-ink">
+              {siteConfig.professionalIndemnityInsurance.value}{" "}
+              <Badge status={siteConfig.professionalIndemnityInsurance.status} />
+            </dd>
+          </div>
+        </dl>
+        <p className="mt-4 text-sm text-ink/80">
+          See our{" "}
+          <a href="/complaints" className="text-accent underline">
+            Complaints Handling Procedure
+          </a>
+          ,{" "}
+          <a href="/fees" className="text-accent underline">
+            Fee Information
+          </a>
+          , and{" "}
+          <a href="/accessibility" className="text-accent underline">
+            Accessibility Statement
+          </a>
+          .
+        </p>
+      </Section>
+
+      <Section>
         <h2 className="text-2xl font-semibold text-ink">Why choose us</h2>
         <p className="mt-4 max-w-2xl text-ink/80">
           {siteConfig.legalName.value} is a genuinely registered, established

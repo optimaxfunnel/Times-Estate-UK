@@ -6,7 +6,11 @@ import { PropertyResultsGrid } from "@/components/property/PropertyResultsGrid";
 import { propertyProvider } from "@/lib/property/provider";
 import { buildListParams, toUrlSearchParams, type SearchParams } from "@/lib/property/search-params";
 
-export const metadata: Metadata = { title: "Commercial Property for Sale" };
+export const metadata: Metadata = {
+  title: "Commercial Property for Sale",
+  description: "Search commercial property for sale with Times Estate Ltd, London.",
+  alternates: { canonical: "/commercial/for-sale" },
+};
 
 export default async function CommercialForSalePage({
   searchParams,

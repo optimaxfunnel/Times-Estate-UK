@@ -1,8 +1,20 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import { getCurrentRole } from "@/lib/auth/session";
 import { hasPermission, ROLE_LABELS } from "@/lib/auth/roles";
 import { RoleSwitcher } from "@/components/admin/RoleSwitcher";
 import { Container } from "@/components/ui/Container";
+
+/**
+ * Applies to every page under /admin. This is defence-in-depth for
+ * search engines only, not a security control — see robots.ts and
+ * /SECURITY.md. The real protection is (and, until real authentication
+ * exists, cannot fully be) the server-side role checks documented in
+ * /ADMIN_AND_CMS.md.
+ */
+export const metadata: Metadata = {
+  robots: { index: false, follow: false },
+};
 
 export default async function AdminLayout({ children }: { children: React.ReactNode }) {
   const role = await getCurrentRole();
