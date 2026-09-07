@@ -21,7 +21,11 @@ material.
 
 ## Project status
 
-- **Day 1 of 7 (investigation and planning) — complete.**
+- **Day 1 of 7 (investigation and planning) — complete**, though several
+  business-discovery answers remain outstanding (see `PROJECT_PLAN.md`).
+- **Day 2 of 7 (research, positioning, brand, sitemap, user journeys) —
+  complete, pending the owner's approval** of business priorities,
+  sitemap, user journeys, brand direction and navigation structure.
 - No pages have been designed, no application has been scaffolded, and no
   code has been written. This is intentional and matches the agreed scope.
 - See `PROJECT_PLAN.md` for the day-by-day plan and current position.
@@ -88,6 +92,11 @@ No content with a status other than **Confirmed** goes live.
 | `CONTENT_REQUIRED.md` | Checklist of every piece of content still needed. |
 | `CONTENT_VERIFICATION_REGISTER.md` | Master log of every fact/content item and its status. |
 | `CHANGELOG.md` | Dated record of what changed and why. |
+| `MARKET_RESEARCH.md` | Competitor/market research and observations (Day 2). |
+| `BUSINESS_PRIORITIES_AND_AUDIENCES.md` | Proposed business priorities and audience profiles (Day 2). |
+| `BRAND_DIRECTIONS.md` | Three proposed visual brand directions (Day 2). |
+| `SITEMAP.md` | Proposed information architecture and navigation (Day 2). |
+| `USER_JOURNEYS.md` | Designed user journeys for every confirmed workflow (Day 2). |
 | `.gitignore` | Files excluded from version control. |
 | `.env.example` | Placeholder names for environment variables — never real secrets. |
 
@@ -95,6 +104,13 @@ No content with a status other than **Confirmed** goes live.
 
 - This repository lives at `Desktop/Times Estate Ltd` on the business
   owner's computer. Treat it as the single source of truth.
+- **Standing instruction (given 2026-09-07):** at the end of each day's
+  work, after the end-of-day report has been given, commit all changes
+  and push them to GitHub automatically, without waiting to be asked
+  again. This applies only to committing/pushing project-control and
+  content files in this repository — it does not authorise paid
+  services, third-party integrations, production deployment, or any
+  other action still requiring explicit approval under Rule 4.
 - Real credentials, API keys and secrets must never be committed. Only
   `.env.example` (placeholders) is tracked; the real `.env` file is
   git-ignored.

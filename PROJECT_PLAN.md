@@ -29,24 +29,78 @@ phrase, and no paid services or integrations without explicit permission.
 - Asked the first round of business-discovery questions.
 - No pages designed, no application scaffolded, no code written.
 
-### Day 2 — Information architecture and technical foundation (proposed)
+### Day 2 — Research, positioning, brand, sitemap and user journeys
 
-- Review answers to Day 1's business-discovery questions.
-- Confirm sitemap and information architecture covering all confirmed
-  services (residential/commercial sales, lettings, property management;
-  valuations; viewings; repairs; enquiries; AI assistance; lead automation).
-- Confirm technology stack (proposed: Next.js + TypeScript front end,
-  a headless CMS for editable content, a managed Postgres database) —
+**Status: Complete. Owner approved business priorities, sitemap, user
+journeys and Brand Direction 1 ("The Established Line") on 2026-09-07 as
+a working baseline for Day 3 onward — all still changeable at any time,
+not fixed permanently.**
+
+- Reviewed Day 1 answers received so far (company identity, compliance
+  documents) and identified what is still outstanding (see "Day 1
+  completeness check" below) before proceeding.
+- Researched six premium London estate agency websites for navigation,
+  search, trust-signal and commercial-presentation patterns — recorded in
+  `MARKET_RESEARCH.md`, with weaknesses to avoid and original
+  opportunities identified (never copying wording, layout or imagery).
+- Proposed a ranked set of business priorities and ten audience profiles
+  in `BUSINESS_PRIORITIES_AND_AUDIENCES.md`, built only from the twelve
+  confirmed service areas — explicitly marked as a proposal requiring
+  approval, not a decision.
+- Produced three original, independently designed brand directions in
+  `BRAND_DIRECTIONS.md`, each with an accessible (WCAG-checked) colour
+  palette, typography and photography approach, and a recommendation.
+- Produced a proposed sitemap and navigation structure in `SITEMAP.md`,
+  built only from confirmed services, with pages deliberately excluded
+  (e.g. guides/FAQs, blog, developments) where no genuine content or
+  confirmation exists yet.
+- Designed nine complete user journeys in `USER_JOURNEYS.md` (valuations,
+  searches, viewings, alerts, repairs, callbacks), every one of them
+  ending in human review/approval rather than an automated commitment.
+- Did not scaffold the application, choose a final technology stack, or
+  write any code — out of scope for today by design.
+
+*Note: the original Day 2 description mentioned confirming the technology
+stack and scaffolding. That has been moved later (see Day 3 note below)
+because brand direction and sitemap approval should come first — building
+a technical skeleton before the information architecture is agreed would
+risk rework.*
+
+### Day 1 completeness check (performed at the start of Day 2)
+
+Day 1 was marked "Complete" in the sense that its four tasks were carried
+out, but several of the business-discovery answers it requested were not
+actually supplied before Day 2 began. This does not block Day 2's research
+and planning work, but it does block later days:
+
+- **Still Missing:** trading name, VAT number, public phone number(s),
+  public email address(es), opening hours, existing domain name, current
+  hosting provider, professional body membership, AML supervision
+  registration, fee/charges transparency information, ICO registration
+  number, logo, brand colours, typography preference, property
+  photography, staff photography, live property listings, genuine
+  testimonials, example websites the owner likes.
+- **Confirmed since Day 1:** legal company name, Companies House number,
+  and registered office address (all verified against the Companies
+  House public register).
+- **Requires verification (documents supplied, not yet independently
+  confirmed):** Client Money Protection scheme membership, Property
+  Redress Scheme membership, professional indemnity insurance (only the
+  generic policy wording was supplied — the schedule showing Times
+  Estate Ltd's specific policy detail is still needed).
+- **Services:** still recorded as "Supplied by owner (to reconfirm in
+  detail)" rather than fully confirmed in scope/geography.
+
+### Day 3 — Brand confirmation and technical foundation (proposed)
+
+- Owner approves or amends: business priorities, sitemap, user journeys,
+  brand direction, and navigation structure (see Day 2 end-of-day
+  approval request).
+- Confirm technology stack (proposed: Next.js + TypeScript front end, a
+  headless CMS for editable content, a managed Postgres database) —
   subject to the owner's approval of any paid tier.
 - Scaffold the application skeleton only after the above is agreed —
-  still no visual design at this stage.
-
-### Day 3 — Visual design direction
-
-- Produce brand-aligned design concepts (once logo/colours/photography
-  are supplied or a placeholder brand direction is agreed as clearly
-  labelled demo material).
-- Confirm design direction with the owner before building real pages.
+  still no real content, since most required content remains Missing.
 
 ### Day 4 — Core page build (residential + commercial)
 
@@ -76,13 +130,18 @@ phrase, and no paid services or integrations without explicit permission.
 - Deployment is only carried out once the owner states exactly:
   **"I approve production deployment."**
 
-## Immediate next steps (Day 2 starting position)
+## Immediate next steps (Day 3 starting position)
 
-1. Owner answers the Day 1 business-discovery questions (see chat).
-2. Owner supplies or confirms availability of: logo, brand colours,
-   photography, property records, and example websites they like.
-3. Once received, Day 2 begins with sitemap/IA and technology-stack
-   confirmation — not before.
+1. Business priorities, sitemap, user journeys and Brand Direction 1 are
+   approved as a working baseline (2026-09-07) — Day 3 may proceed on
+   this basis.
+2. Owner still needs to supply the still-Missing items listed under "Day
+   1 completeness check" above — particularly contact details (phone,
+   email, opening hours), which are needed before several approved
+   journeys can go live, and brand assets (logo, colours, photography) if
+   the owner would rather use real assets than Direction 1's proposed
+   palette/typography.
+3. Day 3 begins with technology-stack confirmation and scaffolding.
 
 ## Open technical notes for later days
 
