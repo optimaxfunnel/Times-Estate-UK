@@ -20,10 +20,10 @@ genuinely missing and must be filled by the business owner, not assumed.
 
 | Field | Value | Status |
 |---|---|---|
-| Public phone number(s) | | Missing |
+| Public phone number(s) | Landline: 020 8672 8080; Mobile: +44 7779 991313 | Supplied by owner (2026-09-08) — not yet independently tested/verified as reaching the business |
 | Public email address(es) | | Missing |
 | Opening hours | | Missing |
-| Existing domain name | | Missing |
+| Existing domain name | https://timesestates.co.uk | Supplied by owner (2026-09-08) — not yet independently verified as registered to/controlled by Times Estate Ltd, and nothing has been deployed there; the live site referenced in this brief is not confirmed to be built by this project |
 | Current hosting/website provider (if any) | | Missing |
 
 ## 3. Services offered
@@ -61,6 +61,7 @@ each must be confirmed or marked Missing until the owner supplies it.
 | Client Money Protection (CMP) scheme membership | Client Money Protect, Membership No. CMP013294, valid 20/06/2026 – 19/06/2027 | Requires verification (certificate reviewed directly; no public online lookup completed) |
 | Professional body membership (e.g. Propertymark/NAEA/ARLA) | | Missing |
 | Anti-money laundering (AML) supervision registration | | Missing |
+| Tenancy deposit protection scheme (e.g. TDS, DPS, mydeposits) | | Missing (owner has confirmed one exists and will supply details, 2026-09-08) |
 | Professional indemnity insurance | Folgate Insurance Company Limited / APC Underwriting, "Surveyors' Professional Combined Policy" (ref #2391142793), for 2026-2027 | Requires verification (policy wording document supplied; the schedule showing insured name, policy number, limit of indemnity and period of cover has not yet been supplied) |
 | Fee/charges transparency information (lettings/management fees) | | Missing |
 | ICO / data protection registration number | | Missing |

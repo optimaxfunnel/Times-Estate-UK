@@ -38,9 +38,14 @@ export const siteConfig = {
     status: "confirmed",
   } satisfies VerifiedFact<string>,
 
-  phone: {
-    value: null,
-    status: "missing",
+  phoneLandline: {
+    value: "020 8672 8080",
+    status: "supplied-by-owner",
+  } satisfies VerifiedFact<string | null>,
+
+  phoneMobile: {
+    value: "+44 7779 991313",
+    status: "supplied-by-owner",
   } satisfies VerifiedFact<string | null>,
 
   email: {

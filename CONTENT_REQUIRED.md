@@ -41,12 +41,12 @@ Status key: Confirmed / Supplied by owner / Missing / Requires verification
 
 ## Contact and operational
 
-- [ ] Public phone number(s) — Missing
+- [x] Public phone number(s) — Supplied by owner 2026-09-08: landline 020 8672 8080, mobile +44 7779 991313 (shown on `/contact`; not independently verified as reaching the business)
 - [ ] Public email address(es) — Missing
 - [ ] Physical office address(es) for display — Missing
 - [ ] Opening hours — Missing
 - [ ] Out-of-hours/emergency repair contact process — Missing
-- [ ] Domain name (existing or to be registered) — Missing
+- [x] Domain name (existing or to be registered) — Supplied by owner 2026-09-08: https://timesestates.co.uk — not verified as owned/controlled, nothing deployed there by this project
 
 ## People
 

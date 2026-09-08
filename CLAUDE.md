@@ -111,6 +111,17 @@ No content with a status other than **Confirmed** goes live.
 
 ## Document map
 
+**As of 2026-09-08, the six Phase 1 documents below (`PROJECT_BRIEF.md`,
+`WEBSITE_AUDIT.md`, `CONTENT_REGISTER.md`, `COMPLIANCE_REGISTER.md`,
+`DECISIONS.md`, `QA_REPORT.md`) are the primary, current-state
+documents — read these first, and they are what's kept up to date
+going forward.** The detailed Day 1–7 documents they summarise
+(`BUSINESS_REQUIREMENTS.md`, `CONTENT_VERIFICATION_REGISTER.md`,
+`CONTENT_REQUIRED.md`, `REGULATORY_READINESS.md`, `TEST_REPORT.md`)
+remain in the repository, unmoved and unedited, as detailed historical
+background — still linked from application code and other documents,
+but no longer the first place to look for current status.
+
 | Document | Purpose |
 |---|---|
 | `CLAUDE.md` | This file — permanent rules and project status. |
@@ -138,6 +149,12 @@ No content with a status other than **Confirmed** goes live.
 | `README.md` | Repository front door — what this project is and where to find everything (Day 7). |
 | `DEPLOYMENT.md` | Deployment checklist, environment variables, rollback procedure — prepared, not executed (Day 7). |
 | `OPERATIONS_MANUAL.md` | Plain-English guide for staff using the finished site day to day (Day 7). |
+| ★ `PROJECT_BRIEF.md` | **PRIMARY.** Current strategic brief — company, contact facts, quality objective, competitive-reference policy. |
+| ★ `WEBSITE_AUDIT.md` | **PRIMARY.** Current stack/route/dependency inspection, working/broken/reusable findings, competitor pattern comparison. |
+| ★ `CONTENT_REGISTER.md` | **PRIMARY.** Current content classification: CONFIRMED / MISSING / PLACEHOLDER / PROHIBITED TO INVENT. |
+| ★ `COMPLIANCE_REGISTER.md` | **PRIMARY.** Current regulatory register — deeper historical reasoning remains in `REGULATORY_READINESS.md`. |
+| ★ `DECISIONS.md` | **PRIMARY.** Ongoing log of project-management/technical judgement calls and why — updated as new decisions are made. |
+| ★ `QA_REPORT.md` | **PRIMARY.** Current QA snapshot — deeper historical test detail remains in `TEST_REPORT.md`. |
 | `SEO_PLAN.md` | Search-intent map, keyword map, technical SEO implementation and what's deliberately not done yet (area pages, FAQ pages) and why (Day 6). |
 | `REGULATORY_READINESS.md` | UK legal/regulatory topics reviewed today, each with a status — never a claim of compliance (Day 6). |
 | `ACCESSIBILITY.md` | Dated WCAG 2.2 AA testing record — automated and manual, defects found and fixed (Day 6). |

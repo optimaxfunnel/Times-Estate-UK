@@ -4,6 +4,46 @@ All notable changes to this project are recorded here, most recent first.
 This is a project log, not a marketing document — it should stay accurate
 and plain.
 
+## 2026-09-08 — Phase 1: Audit, discovery and project foundation
+
+**Scope:** a fresh audit pass requested via a "Phase 1" prompt,
+against the existing Day 1–7 build — not a restart. Safe checks only;
+no restructuring, no deployment, no new packages, no DNS/email/CRM
+changes.
+
+**Added**
+- `PROJECT_BRIEF.md`, `WEBSITE_AUDIT.md`, `CONTENT_REGISTER.md`,
+  `COMPLIANCE_REGISTER.md`, `DECISIONS.md`, `QA_REPORT.md` — each
+  cross-references the existing, more detailed documents rather than
+  duplicating them (see `DECISIONS.md`).
+
+**Changed**
+- `BUSINESS_REQUIREMENTS.md`, `CONTENT_VERIFICATION_REGISTER.md`,
+  `CONTENT_REQUIRED.md` — recorded two newly-supplied phone numbers
+  (landline 020 8672 8080, mobile +44 7779 991313) and a domain name
+  (https://timesestates.co.uk, **not verified as owned/controlled,
+  nothing deployed there**), each status "Supplied by owner." Added a
+  previously-untracked compliance gap: tenancy deposit protection
+  scheme membership (status: Missing).
+- `web/src/lib/site-config.ts` — added `phoneLandline`/`phoneMobile`
+  fields (replacing the unused `phone: null` field, which nothing had
+  ever consumed).
+- `web/src/app/contact/page.tsx` — now displays both phone numbers
+  with a "Supplied by owner" badge, narrowing the previous blanket
+  "phone/email/hours all Missing" notice to just email/hours.
+
+**Checks run today:** typecheck, lint, format, unit tests (64/64),
+`npm audit` (0 vulnerabilities), local preview started and screenshotted
+at desktop/mobile — all pass. Full results in `QA_REPORT.md`. No form
+was submitted live today, to avoid re-triggering the critical defect
+recorded in `TEST_REPORT.md` §5, which remains unresolved and carried
+forward unchanged.
+
+**Not done today (explicitly out of scope):** no redesign, no new
+packages beyond what already existed, no logo generated, no DNS
+altered, no email configured, no CRM connected, no deployment, no
+external domain browsed/verified.
+
 ## 2026-09-07 — Day 7: Final quality assurance, documentation, handover and deployment preparation
 
 **Baseline check (before changing anything)**
