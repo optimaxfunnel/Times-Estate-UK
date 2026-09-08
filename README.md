@@ -7,20 +7,24 @@ over the project, or a reviewer.
 
 ## Start here
 
-**As of 2026-09-08, six documents are the primary, current-state
-reference — read these first:** `PROJECT_BRIEF.md` (what this project
-is), `WEBSITE_AUDIT.md` (what's built, working, broken), `CONTENT_REGISTER.md`
-(what's confirmed/missing), `COMPLIANCE_REGISTER.md` (regulatory
-status), `DECISIONS.md` (why things were decided this way), and
-`QA_REPORT.md` (latest QA snapshot).
+**The primary, current-state reference documents — read these first:**
+`PROJECT_BRIEF.md` (what this project is), `WEBSITE_AUDIT.md` (what's
+built, working, broken), `CONTENT_REGISTER.md` (what's confirmed/
+missing), `COMPLIANCE_REGISTER.md` (regulatory status), `DECISIONS.md`
+(why things were decided this way, including which brand direction was
+selected), `QA_REPORT.md` (latest QA snapshot), and — for the brand
+identity system — `BRAND_GUIDELINES.md`, `LOGO_ASSET_REGISTER.md`, and
+`MEDIA_ASSET_REGISTER.md`.
 
-- **If you are the business owner:** read `PROJECT_BRIEF.md` and
-  `QA_REPORT.md`.
+- **If you are the business owner:** read `PROJECT_BRIEF.md`,
+  `QA_REPORT.md`, and `BRAND_GUIDELINES.md`.
 - **If you are a developer:** read `WEBSITE_AUDIT.md`, then
   `web/README.md` for how to run the application locally.
 - **If you are reviewing for launch readiness:** start with
   `QA_REPORT.md` — it points to `TEST_REPORT.md` for full historical
   detail, including the unresolved critical defect.
+- **If you are reviewing the brand identity:** start with
+  `BRAND_GUIDELINES.md`, then the source files in `brand/`.
 
 The detailed Day 1–7 documents these six summarise
 (`BUSINESS_REQUIREMENTS.md`, `CONTENT_VERIFICATION_REGISTER.md`,
@@ -86,6 +90,10 @@ before any deployment.
 | `TEST_REPORT.md` | Detailed historical test record, superseded by `QA_REPORT.md` for current status. |
 | `DEPLOYMENT.md` | Deployment checklist, environment variables, rollback procedure — prepared, not executed. |
 | `OPERATIONS_MANUAL.md` | Day-to-day guide for staff using the finished site. |
+| ★ `BRAND_GUIDELINES.md` | The finalised identity system for the selected brand direction (E — Claret). |
+| ★ `LOGO_ASSET_REGISTER.md` | File inventory for the logo suite in `brand/logo/`. |
+| ★ `MEDIA_ASSET_REGISTER.md` | File inventory for stationery/social/digital assets in `brand/`. |
+| `brand/` | Source and export files for the identity system — separate from `web/`, not applied to the live site. |
 | `.env.example` | Placeholder environment-variable names — never real secrets. |
 
 ## The permanent rules

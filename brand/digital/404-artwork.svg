@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="500" viewBox="0 0 800 500">
+<style>@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&amp;family=Work+Sans:wght@400;500;600&amp;display=swap'); text{font-family:'Work Sans',sans-serif;} .display{font-family:'Playfair Display',Georgia,serif;font-weight:700;}</style>
+<rect width="800" height="500" fill="#FBF6EE"/>
+<g transform="translate(340,60) scale(1.2)">
+    <rect x="15" y="15" width="32" height="10" fill="#7A1F3D"/>
+    <rect x="26" y="15" width="10" height="70" fill="#7A1F3D"/>
+    <rect x="53" y="15" width="10" height="70" fill="#7A1F3D"/>
+    <rect x="53" y="15" width="32" height="10" fill="#7A1F3D"/>
+    <rect x="53" y="45" width="26" height="10" fill="#7A1F3D"/>
+    <rect x="53" y="75" width="32" height="10" fill="#7A1F3D"/>
+  </g>
+<text x="400" y="260" text-anchor="middle" class="display" font-size="64" fill="#7A1F3D">404</text>
+<text x="400" y="300" text-anchor="middle" font-size="22" fill="#201014">This page doesn&#8217;t exist &#8212; or the property is no longer listed.</text>
+<rect x="330" y="330" width="140" height="44" rx="6" fill="#7A1F3D"/>
+<text x="400" y="357" text-anchor="middle" font-size="16" fill="#FBF6EE" font-weight="600">Back to home</text>
+</svg>

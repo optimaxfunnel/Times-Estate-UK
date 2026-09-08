@@ -1,0 +1,9 @@
+{
+  "name": "times-estate-brand-tools",
+  "private": true,
+  "version": "0.0.0",
+  "description": "Local, offline tooling to export the brand SVG masters to PNG/WebP at defined sizes. Not part of the website (web/) and never deployed — dev-only asset pipeline, no account, no cost, no external service.",
+  "devDependencies": {
+    "sharp": "^0.35.4"
+  }
+}

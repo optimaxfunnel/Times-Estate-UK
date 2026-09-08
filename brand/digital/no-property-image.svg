@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="600" viewBox="0 0 800 600">
+<style>@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&amp;family=Work+Sans:wght@400;500;600&amp;display=swap'); text{font-family:'Work Sans',sans-serif;} .display{font-family:'Playfair Display',Georgia,serif;font-weight:700;}</style>
+<rect width="800" height="600" fill="#EFD9DE"/>
+<g transform="translate(350,250) scale(1)">
+    <rect x="15" y="15" width="32" height="10" fill="#7A1F3D"/>
+    <rect x="26" y="15" width="10" height="70" fill="#7A1F3D"/>
+    <rect x="53" y="15" width="10" height="70" fill="#7A1F3D"/>
+    <rect x="53" y="15" width="32" height="10" fill="#7A1F3D"/>
+    <rect x="53" y="45" width="26" height="10" fill="#7A1F3D"/>
+    <rect x="53" y="75" width="32" height="10" fill="#7A1F3D"/>
+  </g>
+<text x="400" y="400" text-anchor="middle" font-size="26" fill="#201014" opacity="0.6">Photograph not yet supplied</text>
+</svg>

@@ -54,8 +54,22 @@ material.
   (not executed). **One critical, unresolved defect remains** — see
   `TEST_REPORT.md` §5 — which alone makes the site not ready for
   deployment regardless of any other item's status.
-- See `PROJECT_PLAN.md` for the day-by-day plan and current position,
-  and `TEST_REPORT.md` for the current, dated test results.
+- **Phase 1 (2026-09-08, audit and discovery) — complete.** A fresh
+  audit of the existing 7-day build; new phone numbers and a domain
+  recorded as Supplied by owner; six primary documents created
+  (`PROJECT_BRIEF.md` and others — see the table below).
+- **Phase 2 (2026-09-08, brand strategy and creative directions) —
+  complete.** Audiences, positioning, tone of voice, and two rounds of
+  creative directions explored; **Direction E, "Claret," selected**
+  (`DECISIONS.md`).
+- **Phase 3 (2026-09-09, final logo, brand identity and media pack) —
+  complete, at Approval Gate 3.** A full logo suite, design system
+  specification, and a representative set of stationery/social/digital
+  assets built for Direction E — see `BRAND_GUIDELINES.md`. Not applied
+  to the live website; nothing published; no cost incurred.
+- See `PROJECT_PLAN.md` for the Day 1–7 build record, `TEST_REPORT.md`
+  for its test results, and `DECISIONS.md` for everything decided
+  since.
 
 ## The eight permanent project rules
 
@@ -157,6 +171,10 @@ but no longer the first place to look for current status.
 | ★ `QA_REPORT.md` | **PRIMARY.** Current QA snapshot — deeper historical test detail remains in `TEST_REPORT.md`. |
 | ★ `BRAND_STRATEGY.md` | **PRIMARY (Phase 2).** Audiences, positioning, tone of voice, messaging hierarchy, provisional straplines. |
 | ★ `BRAND_CONCEPTS.md` | **PRIMARY (Phase 2).** Three new creative directions — palette, type, logo sketches, strengths/risks. None applied to the live site; a visual comparison prototype is published separately. |
+| ★ `BRAND_GUIDELINES.md` | **PRIMARY (Phase 3).** The finalised identity system for the selected direction (E — Claret): logo rules, colour/type specification, spacing/grid/motion rules. |
+| ★ `LOGO_ASSET_REGISTER.md` | **PRIMARY (Phase 3).** File-by-file inventory of the logo suite in `brand/logo/`. |
+| ★ `MEDIA_ASSET_REGISTER.md` | **PRIMARY (Phase 3).** File-by-file inventory of stationery/social/digital assets in `brand/`, marked Rendered or Specified. |
+| `brand/` | Source and export files for the identity system (Phase 3) — SVG masters, PNG/WebP exports, stationery, social/digital assets. Separate from `web/`; not applied to the live site. |
 | `SEO_PLAN.md` | Search-intent map, keyword map, technical SEO implementation and what's deliberately not done yet (area pages, FAQ pages) and why (Day 6). |
 | `REGULATORY_READINESS.md` | UK legal/regulatory topics reviewed today, each with a status — never a claim of compliance (Day 6). |
 | `ACCESSIBILITY.md` | Dated WCAG 2.2 AA testing record — automated and manual, defects found and fixed (Day 6). |

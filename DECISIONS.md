@@ -7,6 +7,93 @@ compliance positions) remain the owner's or their professional
 advisers', per `CLAUDE.md` Rule 5; this log covers project-management
 and technical judgement calls made in carrying out an instruction.
 
+## 2026-09-09 — Phase 3: corrected a missing decision, then finalised Direction E
+
+**Decision:** the Phase 3 brief stated "my selected creative direction
+is recorded in DECISIONS.md" — it was not; no selection message had
+been sent. Rather than guess (which risks building an entire logo
+suite, stationery set, and media pack around the wrong direction),
+this was flagged directly and the owner was asked to choose. **Answer:
+Direction E — "Claret."** This entry is the actual record the Phase 3
+brief assumed already existed.
+
+**Why:** CLAUDE.md Rule 1 (never invent) and Rule 5 (high-risk
+decisions stay with the owner) both apply directly to a foundational
+choice this consequential — proceeding on an assumed answer would be
+exactly the kind of invented fact this project has avoided for eight
+days.
+
+## 2026-09-09 — Phase 3 production decisions
+
+**No unverified regulatory information in print artwork.** The
+redress scheme and Client Money Protection membership numbers carry
+"Requires verification" status in `CONTENT_VERIFICATION_REGISTER.md`
+— genuinely different from the phone numbers/domain (which the owner
+supplied directly and the brief explicitly said to use). Every printed
+item omits both numbers, using a placeholder line pointing to
+`COMPLIANCE_REGISTER.md` instead. **Why:** the brief's own instruction
+("do not include unverified information in final artwork") most
+plausibly targets exactly this category — printing an unverified
+membership number on physical stationery carries real compliance risk
+that a phone number the owner typed directly does not.
+
+**Local, offline tooling installed for asset export.** `sharp` (a
+free, open-source npm image library) was installed in a new,
+self-contained `brand/package.json` — deliberately separate from
+`web/`'s own dependencies, never deployed, never exposed to the
+internet. Treated the same as Day 6/7's use of `npx lighthouse`/
+`prettier`: a normal local engineering tool, not a "third-party
+integration" requiring separate approval. A high-severity transitive
+vulnerability the install initially flagged (`libvips`/`libheif` CVEs)
+was fixed immediately via the available patched version.
+
+**Found and fixed: SVG masters needed their own embedded font
+reference.** Text-based logo lockups (wordmark, primary, stacked)
+initially referenced `'Playfair Display'` by name only — correct in
+principle, but meant the files depended on the font being available
+wherever opened, and rendered as a generic fallback serif when
+verified in-browser via `<img src>`. Fixed by embedding a `<style>
+@import` of the exact Google Fonts URL directly inside each SVG, so
+every master is self-contained. Re-verified in-browser afterward:
+genuine Playfair Display, not a fallback.
+
+**Found and fixed: a bug in the verification harness itself.** A
+temporary local preview page used to check the logos had a CSS
+specificity error (`.row > div { background: #fff }` beat a more
+specific-looking but lower-specificity `.dark-bg` class), making the
+reversed logo variant appear washed-out on a white card instead of its
+intended dark background. This was a bug in the throwaway preview
+tool, not in any delivered brand file — noted here so the QA trail is
+honest about what was actually wrong versus what just looked wrong.
+
+**Property-board status colours stay within the approved palette.**
+An early draft introduced unrelated hues (a blue for "To Let," a brown
+for "Commercial") to distinguish the five board statuses. Corrected to
+use only tints/shades of Claret and Ink, so the five boards read as
+one consistent brand rather than introducing off-brand colours never
+approved in any creative direction.
+
+**Scope: seven of twelve stationery items rendered as files; five
+specified in full detail instead.** DL/C4 envelopes, an invoice/
+quotation header, a valuation cover, and a presentation folder were
+written up as complete, ready-to-build specifications (exact
+dimensions and layout) rather than rendered today, given the sheer
+size of the full brief. Similarly, two representative social templates
+were rendered in full; the remaining ~70-combination platform ×
+content-type matrix was specified as a system (dimensions researched
+and documented) rather than built speculatively with placeholder
+listings. **Why:** matches this project's established pattern (Day
+6/7) of being explicit about what's real versus specified rather than
+either quietly skipping items or overstating completeness — see
+`BRAND_GUIDELINES.md` §8 and `MEDIA_ASSET_REGISTER.md` for the exact
+list either way.
+
+**PDF export not generated.** No PDF-generation tool exists in this
+environment without adding a heavy dependency (a full headless-browser
+print pipeline) for a single format. SVG masters are print-ready as
+delivered — a print vendor or design tool converts to PDF (and to
+outlined text) as a standard, one-step final-file action.
+
 ## 2026-09-08 — Phase 2 Round 2: bolder single-hue directions after rejection, no pre-selected recommendation
 
 **Decision:** the owner rejected all three Round 1 directions (too
