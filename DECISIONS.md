@@ -7,6 +7,28 @@ compliance positions) remain the owner's or their professional
 advisers', per `CLAUDE.md` Rule 5; this log covers project-management
 and technical judgement calls made in carrying out an instruction.
 
+## 2026-09-08 — Phase 2 explored three new creative directions rather than re-presenting Day 2's
+
+**Decision:** `BRAND_DIRECTIONS.md` (Day 2) already proposed three
+original directions, one of which ("The Established Line") is already
+the live design system. Phase 2's brief asked for "three genuinely
+distinct creative directions" for a "premium rebrand." Three entirely
+new directions were developed (A "The Long View", B "Meridian", C "The
+Folio") rather than re-presenting the existing three.
+
+**Why:** re-submitting Day 2's work wouldn't give the owner anything
+new to compare against what's already built, and the brief's own
+framing ("rebrand") signalled an appetite for fresh options. Day 2's
+directions and the live design system are referenced throughout
+`BRAND_STRATEGY.md`/`BRAND_CONCEPTS.md` for continuity, not discarded.
+
+**Also decided:** the visual comparison prototype was built as a
+single published Artifact (palettes, logo sketches, type, mini UI/
+business-card/social-post mockups for all three directions) rather
+than as code inside `web/` — this satisfies "make only the minimum
+prototype needed to compare" and "do not apply a concept across the
+whole website" without touching the live, tested site at all.
+
 ## 2026-09-08 — New Phase 1 documents made primary; old documents kept in place, unedited
 
 **Decision:** the six Phase 1 documents (`PROJECT_BRIEF.md`,

@@ -155,6 +155,8 @@ but no longer the first place to look for current status.
 | ★ `COMPLIANCE_REGISTER.md` | **PRIMARY.** Current regulatory register — deeper historical reasoning remains in `REGULATORY_READINESS.md`. |
 | ★ `DECISIONS.md` | **PRIMARY.** Ongoing log of project-management/technical judgement calls and why — updated as new decisions are made. |
 | ★ `QA_REPORT.md` | **PRIMARY.** Current QA snapshot — deeper historical test detail remains in `TEST_REPORT.md`. |
+| ★ `BRAND_STRATEGY.md` | **PRIMARY (Phase 2).** Audiences, positioning, tone of voice, messaging hierarchy, provisional straplines. |
+| ★ `BRAND_CONCEPTS.md` | **PRIMARY (Phase 2).** Three new creative directions — palette, type, logo sketches, strengths/risks. None applied to the live site; a visual comparison prototype is published separately. |
 | `SEO_PLAN.md` | Search-intent map, keyword map, technical SEO implementation and what's deliberately not done yet (area pages, FAQ pages) and why (Day 6). |
 | `REGULATORY_READINESS.md` | UK legal/regulatory topics reviewed today, each with a status — never a claim of compliance (Day 6). |
 | `ACCESSIBILITY.md` | Dated WCAG 2.2 AA testing record — automated and manual, defects found and fixed (Day 6). |
