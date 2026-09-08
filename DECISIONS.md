@@ -7,6 +7,34 @@ compliance positions) remain the owner's or their professional
 advisers', per `CLAUDE.md` Rule 5; this log covers project-management
 and technical judgement calls made in carrying out an instruction.
 
+## 2026-09-08 — Phase 2 Round 2: bolder single-hue directions after rejection, no pre-selected recommendation
+
+**Decision:** the owner rejected all three Round 1 directions (too
+safe, wrong colour mood, too similar to each other/Day 2). Rather than
+guess again, two short clarifying questions were asked: what didn't
+work, and which of four described colour moods felt closest. The
+owner chose "bold contemporary colour" — one vivid, confident hue used
+generously, explicitly not the deep-moody-luxury or monochrome-plus-
+accent alternatives also offered.
+
+**What was done:** three new directions (D "Cobalt", E "Claret", F
+"Emerald"), each built around a different single saturated hue used
+as a bold field rather than a restrained accent, each with a
+genuinely different typographic character (blocky grotesque / high-
+contrast serif / rounded geometric sans) so they don't read as three
+colourways of the same idea. Round 1's content was kept in
+`BRAND_CONCEPTS.md`, marked REJECTED, rather than deleted — the
+reasoning that didn't land stays on record. The comparison Artifact
+was updated in place (same URL) rather than creating a second link.
+**No direction is pre-recommended this round** — genuinely a three-way
+trade-off, stated as such, rather than defaulting to a "safe" pick
+after the last recommendation was itself rejected as too safe.
+
+**Why:** two short questions cost far less than a third blind attempt,
+and the risk of repeating whatever caused the rejection was real.
+Deliberately not recommending one this round avoids repeating the
+exact feedback ("too safe") on the recommendation itself.
+
 ## 2026-09-08 — Phase 2 explored three new creative directions rather than re-presenting Day 2's
 
 **Decision:** `BRAND_DIRECTIONS.md` (Day 2) already proposed three
