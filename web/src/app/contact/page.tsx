@@ -22,12 +22,24 @@ export default function ContactPage() {
       <Section containerClassName="grid gap-10 lg:grid-cols-2">
         <div className="space-y-6">
           <div>
-            <h2 className="text-lg font-semibold text-ink">
-              Registered office
-            </h2>
-            <p className="mt-2 text-sm text-ink/70">
-              {siteConfig.registeredOffice.value}
-            </p>
+            <h2 className="text-lg font-semibold text-ink">Address</h2>
+            <dl className="mt-2 space-y-3 text-sm text-ink/70">
+              <div>
+                <dt className="text-xs uppercase tracking-wide text-ink/50">
+                  Trading address
+                </dt>
+                <dd className="mt-1 flex flex-wrap items-center gap-2">
+                  {siteConfig.tradingAddress.value}
+                  <Badge status={siteConfig.tradingAddress.status} />
+                </dd>
+              </div>
+              <div>
+                <dt className="text-xs uppercase tracking-wide text-ink/50">
+                  Registered office
+                </dt>
+                <dd className="mt-1">{siteConfig.registeredOffice.value}</dd>
+              </div>
+            </dl>
           </div>
           <div>
             <h2 className="text-lg font-semibold text-ink">Phone</h2>
@@ -36,7 +48,7 @@ export default function ContactPage() {
                 <dt className="sr-only">Landline</dt>
                 <dd>
                   <a href="tel:+442086728080" className="hover:text-accent">
-                    020 8672 8080
+                    {siteConfig.phoneLandline.value}
                   </a>
                 </dd>
                 <Badge status={siteConfig.phoneLandline.status} />
@@ -45,17 +57,34 @@ export default function ContactPage() {
                 <dt className="sr-only">Mobile</dt>
                 <dd>
                   <a href="tel:+447779991313" className="hover:text-accent">
-                    +44 7779 991313
+                    {siteConfig.phoneMobile.value}
                   </a>
                 </dd>
                 <Badge status={siteConfig.phoneMobile.status} />
               </div>
             </dl>
           </div>
+          <div>
+            <h2 className="text-lg font-semibold text-ink">Email</h2>
+            <dl className="mt-2 space-y-1 text-sm text-ink/70">
+              <div className="flex flex-wrap items-center gap-2">
+                <dt className="sr-only">Email</dt>
+                <dd>
+                  <a
+                    href={`mailto:${siteConfig.email.value}`}
+                    className="hover:text-accent"
+                  >
+                    {siteConfig.email.value}
+                  </a>
+                </dd>
+                <Badge status={siteConfig.email.status} />
+              </div>
+            </dl>
+          </div>
           <PlaceholderNotice status="missing">
-            A public email address and opening hours have not yet been supplied
-            by the owner (see /CONTENT_REQUIRED.md), so they are not shown here.
-            Please call or use the form to get in touch for now.
+            Opening hours have not yet been supplied by the owner (see
+            /CONTENT_REQUIRED.md), so they are not shown here. Please call,
+            email, or use the form to get in touch for now.
           </PlaceholderNotice>
           <div className="rounded-sm border border-border bg-surface p-4">
             <p className="text-sm text-ink/80">

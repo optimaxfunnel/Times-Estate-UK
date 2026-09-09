@@ -1,5 +1,25 @@
 # BRAND_STRATEGY.md — Times Estate Ltd
 
+## 2026-09-09 update — visual identity superseded by the owner's existing real brand
+
+Everything below was written before the owner shared photographs of
+their actual, existing business cards. The **audience, positioning,
+tone-of-voice, and messaging strategy in this document all still
+stand** — none of it depended on a specific colour or logo. What
+changes is visual identity only: Direction E ("Claret"), which
+`BRAND_CONCEPTS.md` records as approved, is **replaced** by the
+owner's real "Times Estates" brand (black background, orange/copper
+accent, an existing wordmark with a house-icon "E"), because that
+brand already exists in the real world rather than needing to be
+invented — see `DECISIONS.md` (2026-09-09) for the full reasoning and
+what it means for the delivered Claret assets.
+
+One naming clarification this changes: the customer-facing name is
+now **"Times Estates"** (matching the owner's card and domain), with
+**"Times Estate Ltd"** kept only for legal/Companies House/footer use.
+The five strapline options in §5 below remain candidates and were
+written to work with either name — none has been chosen or applied.
+
 ## Status of this document
 
 Phase 2 deliverable (2026-09-08). Everything below is strategic

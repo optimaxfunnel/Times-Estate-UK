@@ -1,5 +1,13 @@
 # LOGO_ASSET_REGISTER.md — Times Estate Ltd
 
+## ⚠ SUPERSEDED (2026-09-09)
+
+This register covers the Claret logo suite, now replaced by the
+owner's existing real "Times Estates" brand — see `DECISIONS.md`
+(2026-09-09). Files listed below still exist in `brand/logo/` and are
+not deleted, but are no longer the identity this project is building
+toward. A new register for the real-brand logo files will follow.
+
 ## Status of this document
 
 Phase 3 deliverable (2026-09-09). Every file below actually exists at

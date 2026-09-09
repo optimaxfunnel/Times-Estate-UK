@@ -38,19 +38,30 @@ export const siteConfig = {
     status: "confirmed",
   } satisfies VerifiedFact<string>,
 
+  /**
+   * The address printed on the owner's current business card. Kept
+   * separate from registeredOffice rather than replacing it — a
+   * trading address and a Companies House registered office are
+   * legitimately allowed to differ. See DECISIONS.md (2026-09-09).
+   */
+  tradingAddress: {
+    value: "127 Upper Tooting Road, London, SW17 7TJ",
+    status: "supplied-by-owner",
+  } satisfies VerifiedFact<string | null>,
+
   phoneLandline: {
-    value: "020 8672 8080",
+    value: "0208 672 8080",
     status: "supplied-by-owner",
   } satisfies VerifiedFact<string | null>,
 
   phoneMobile: {
-    value: "+44 7779 991313",
+    value: "0777 999 1313",
     status: "supplied-by-owner",
   } satisfies VerifiedFact<string | null>,
 
   email: {
-    value: null,
-    status: "missing",
+    value: "timesestatesuk@gmail.com",
+    status: "supplied-by-owner",
   } satisfies VerifiedFact<string | null>,
 
   openingHours: {

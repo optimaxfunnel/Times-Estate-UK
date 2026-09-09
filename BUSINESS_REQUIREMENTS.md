@@ -10,18 +10,18 @@ genuinely missing and must be filled by the business owner, not assumed.
 | Field | Value | Status |
 |---|---|---|
 | Legal company name | Times Estate Ltd | Confirmed (matches Companies House record "TIMES ESTATE LTD") |
-| Trading name (if different) | | Missing |
+| Trading name (if different) | Times Estates | Supplied by owner (2026-09-09) — matches the owner's existing business card and the domain timesestates.co.uk; "Times Estate Ltd" remains the legal name for Companies House/compliance/legal-footer use |
 | Companies House registration number | 09597081 | Confirmed (verified against Companies House register, active, incorporated 19 May 2015) |
 | Registered office address | 145 Upper Tooting Road, London, SW17 7TJ | Confirmed (owner confirmed this is the address to display; matches Companies House register) |
-| Trading/branch address(es) | | Missing |
+| Trading/branch address(es) | 127 Upper Tooting Road, London, SW17 7TJ | Supplied by owner (2026-09-09), matches the owner's photographed business card. **Differs from the registered office above (145) — recorded as a separate trading address, not a correction to it; see `DECISIONS.md`** |
 | VAT number (if applicable) | | Missing |
 
 ## 2. Contact and operations
 
 | Field | Value | Status |
 |---|---|---|
-| Public phone number(s) | Landline: 020 8672 8080; Mobile: +44 7779 991313 | Supplied by owner (2026-09-08) — not yet independently tested/verified as reaching the business |
-| Public email address(es) | | Missing |
+| Public phone number(s) | Landline: 0208 672 8080; Mobile: 0777 999 1313 | Supplied by owner, matches the owner's photographed business card — not yet independently tested/verified as reaching the business |
+| Public email address(es) | timesestatesuk@gmail.com | Supplied by owner (2026-09-09), matches the photographed business card — not yet independently verified |
 | Opening hours | | Missing |
 | Existing domain name | https://timesestates.co.uk | Supplied by owner (2026-09-08) — not yet independently verified as registered to/controlled by Times Estate Ltd, and nothing has been deployed there; the live site referenced in this brief is not confirmed to be built by this project |
 | Current hosting/website provider (if any) | | Missing |
@@ -44,6 +44,7 @@ Scope as stated by the owner in the project brief:
 | Property enquiries | Supplied by owner (to reconfirm in detail) |
 | Controlled AI assistance | Supplied by owner (to reconfirm in detail) |
 | Lead-management automation | Supplied by owner (to reconfirm in detail) |
+| **Construction / renovation services** (tiling, flooring, plastering, extensions & loft conversions, kitchen & bathroom remodelling) | **Newly flagged (2026-09-09), not in current site scope** — both of the owner's photographed business cards list "Construction" as a service line alongside the estate-agency work. Not covered anywhere in `CLAUDE.md`'s "What this project is" or built into the website. Not added pending the owner's decision — see `DECISIONS.md` |
 
 These are listed as "supplied by owner" because they came directly from the
 project brief; they are not yet independently detailed (e.g. exact

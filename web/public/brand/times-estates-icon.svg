@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+    <!-- chimney -->
+    <rect x="66" y="10" width="12" height="18" fill="#D9772E"/>
+    <!-- pitched roof -->
+    <polygon points="50,4 4,46 96,46" fill="#D9772E"/>
+    <!-- house body -->
+    <rect x="10" y="44" width="80" height="48" rx="4" fill="#D9772E"/>
+    <!-- letter E, built from plain rectangles (font-free) -->
+    <rect x="38" y="53" width="9" height="30" fill="#FFFFFF"/>
+    <rect x="38" y="53" width="26" height="9" fill="#FFFFFF"/>
+    <rect x="38" y="64" width="20" height="8.5" fill="#FFFFFF"/>
+    <rect x="38" y="74" width="26" height="9" fill="#FFFFFF"/>
+  </svg>

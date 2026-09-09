@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 620 140"><style>@import url('https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700&amp;display=swap');</style>
+     <text x="20" y="92" font-family="'Baloo 2', 'Comic Sans MS', sans-serif" font-weight="700" font-size="64" fill="#141414">Times</text>
+     <g transform="translate(258,20)">
+    <!-- house body -->
+    <rect x="8" y="42" width="84" height="50" rx="6" fill="#D9772E"/>
+    <!-- pitched roof -->
+    <polygon points="50,6 4,44 96,44" fill="#D9772E"/>
+    <!-- letter E, built from plain rectangles (font-free) -->
+    <rect x="38" y="52" width="9" height="32" fill="#FFFFFF"/>
+    <rect x="38" y="52" width="26" height="9" fill="#FFFFFF"/>
+    <rect x="38" y="63.5" width="20" height="9" fill="#FFFFFF"/>
+    <rect x="38" y="75" width="26" height="9" fill="#FFFFFF"/>
+  </g>
+     <text x="372" y="92" font-family="'Baloo 2', 'Comic Sans MS', sans-serif" font-weight="700" font-size="64" fill="#141414">states</text></svg>

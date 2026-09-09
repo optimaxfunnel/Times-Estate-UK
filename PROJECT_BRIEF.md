@@ -17,9 +17,12 @@ short, strategic summary a reviewer can read first.
 | **Company** | Times Estate Ltd |
 | **Companies House number** | 09597081 (Confirmed against the public register) |
 | **Registered office** | 145 Upper Tooting Road, London, SW17 7TJ (Confirmed) |
-| **Landline** | 020 8672 8080 (Supplied by owner, 2026-09-08 — not independently verified) |
-| **Mobile** | +44 7779 991313 (Supplied by owner, 2026-09-08 — not independently verified) |
-| **Domain referenced by the owner** | https://timesestates.co.uk (Supplied by owner, 2026-09-08 — **not verified as registered to/controlled by Times Estate Ltd; nothing has been deployed there by this project**) |
+| **Trading address (from the owner's business card)** | 127 Upper Tooting Road, London, SW17 7TJ (Supplied by owner, 2026-09-09 — a trading address and a registered office may legitimately differ; see `DECISIONS.md`) |
+| **Landline** | 0208 672 8080 (Supplied by owner — not independently verified) |
+| **Mobile** | 0777 999 1313 (Supplied by owner — not independently verified) |
+| **Email** | timesestatesuk@gmail.com (Supplied by owner, 2026-09-09 — not independently verified) |
+| **Domain referenced by the owner** | https://timesestates.co.uk (Supplied by owner — **not verified as registered to/controlled by Times Estate Ltd; nothing has been deployed there by this project**) |
+| **Customer-facing brand name** | "Times Estates" (per the owner's existing business card and domain) — "Times Estate Ltd" remains the legal name used only where required (Companies House, legal footer text). See `DECISIONS.md` (2026-09-09) |
 | **Local development site** | http://localhost:3000 (this repository's own build) |
 | **Market** | London and surrounding suburbs (specific boroughs/areas not yet confirmed — see `SITEMAP.md` open question 4) |
 | **Services** | Residential sales, lettings, property management; commercial sales, lettings, property management (see `BUSINESS_REQUIREMENTS.md` §3 for the full confirmed list) |

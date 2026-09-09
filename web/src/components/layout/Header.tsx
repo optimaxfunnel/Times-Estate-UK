@@ -8,8 +8,13 @@ export function Header() {
   return (
     <header className="relative border-b border-border bg-surface">
       <Container className="flex h-20 items-center justify-between">
-        <Link href="/" className="font-heading text-xl font-semibold text-ink">
-          Times Estate Ltd
+        <Link href="/" className="flex items-center" aria-label="Times Estates — home">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src="/brand/times-estates-logo.svg"
+            alt="Times Estates"
+            className="h-9 w-auto sm:h-10"
+          />
         </Link>
 
         <nav aria-label="Primary" className="hidden lg:block">

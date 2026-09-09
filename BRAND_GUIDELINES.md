@@ -1,5 +1,16 @@
 # BRAND_GUIDELINES.md — Times Estate Ltd
 
+## ⚠ SUPERSEDED (2026-09-09)
+
+The Claret identity documented in this file has been **replaced** by
+the owner's existing real "Times Estates" brand (black/orange,
+existing wordmark), evidenced by photographs of the owner's actual
+business cards — see `DECISIONS.md` (2026-09-09) for the full reason.
+This file is kept as the historical record of what was built and why,
+not deleted or rewritten, but it no longer describes the identity this
+project is building toward. A new brand-guidelines file for the real
+identity will be created separately once that identity is confirmed.
+
 ## Status of this document
 
 Phase 3 deliverable (2026-09-09). This is the master reference for the

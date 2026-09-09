@@ -24,12 +24,15 @@ than reinterpret either system silently, this file maps between them:
 | Legal name (Times Estate Ltd) | CONFIRMED | Verified against Companies House |
 | Companies House number (09597081) | CONFIRMED | Verified against Companies House |
 | Registered office (145 Upper Tooting Road, London, SW17 7TJ) | CONFIRMED | Owner-confirmed, matches Companies House |
-| Landline (020 8672 8080) | MISSING → newly supplied today | Supplied by owner 2026-09-08, not independently verified as reaching the business; shown on `/contact` with a "Supplied by owner" badge |
-| Mobile (+44 7779 991313) | MISSING → newly supplied today | Same as above |
-| Domain (https://timesestates.co.uk) | MISSING → newly supplied today | Supplied by owner 2026-09-08; **not verified as owned/controlled by Times Estate Ltd; not deployed to by this project** |
-| Public email address | MISSING | Still outstanding |
+| Landline (0208 672 8080) | MISSING → newly supplied | Supplied by owner, matches the owner's photographed business card; not independently verified as reaching the business; shown on `/contact` with a "Supplied by owner" badge |
+| Mobile (0777 999 1313) | MISSING → newly supplied | Same as above |
+| Domain (https://timesestates.co.uk) | MISSING → newly supplied | Supplied by owner; **not verified as owned/controlled by Times Estate Ltd; not deployed to by this project** |
+| Public email address (timesestatesuk@gmail.com) | MISSING → newly supplied 2026-09-09 | Supplied by owner, matches the photographed business card; not independently verified; shown on `/contact` |
+| Trading address (127 Upper Tooting Road, London, SW17 7TJ) | MISSING → newly supplied 2026-09-09 | Supplied by owner, matches the photographed business card; **differs from the Companies House-verified registered office (145 Upper Tooting Road)** — recorded as a separate trading address, not a correction; see `DECISIONS.md` |
+| Trading name ("Times Estates") | MISSING → newly supplied 2026-09-09 | Owner's existing customer-facing brand, per business card and domain; "Times Estate Ltd" retained as the legal name; see `DECISIONS.md` |
+| VAT number | MISSING | Still outstanding |
 | Opening hours | MISSING | Still outstanding |
-| Trading name, VAT number | MISSING | Still outstanding |
+| "Construction" as an additional service line | MISSING — flagged, not added | Both photographed business cards list Construction (tiling, flooring, plastering, extensions, kitchen/bathroom remodelling) alongside the estate-agency services. This is outside the current project scope defined in `CLAUDE.md`. **Not added to the site pending the owner's decision** — see `DECISIONS.md` |
 | Redress scheme (Property Redress Scheme PRS030616) | MISSING (Requires verification) | Certificate reviewed, no independent register lookup completed |
 | Client Money Protection (CMP013294) | MISSING (Requires verification) | Same caveat |
 | Professional indemnity insurance schedule | MISSING (Requires verification) | Only generic policy wording supplied, not the schedule with actual figures |

@@ -1,5 +1,23 @@
 # BRAND_CONCEPTS.md — Times Estate Ltd
 
+## 2026-09-09 — Direction E ("Claret") superseded by the owner's existing real brand
+
+Direction E was approved and carried through to a full Phase 3 identity
+system (`BRAND_GUIDELINES.md`, `LOGO_ASSET_REGISTER.md`,
+`MEDIA_ASSET_REGISTER.md`). Before it went further, the owner stopped
+the process and shared photographs of their actual, existing business
+cards, showing Times Estate Ltd already trades under a real
+"Times Estates" identity: black background, orange/copper accent, and
+an existing wordmark ("Times" + a house-icon standing in for "E" +
+"states"). **That real identity now replaces Direction E** — see
+`DECISIONS.md` (2026-09-09) for the full detail, including what
+happens to the Claret files (kept, flagged superseded, not deleted).
+
+Directions A–D and F below were never selected and remain rejected/
+not-pursued as before. Direction E's entry below is kept as the
+historical record of what was approved and why, now superseded — it
+is not being re-opened as a live option.
+
 ## Status of this document
 
 Phase 2 deliverable (2026-09-08), now in its **second round.** Nothing
@@ -362,7 +380,7 @@ overselling."
 
 ---
 
-### Direction E — "Claret"
+### Direction E — "Claret" — SUPERSEDED (2026-09-09), see note above
 
 **Strategic idea:** Rich, editorial, confident — a deep wine-red used
 generously against warm ivory, with a high-contrast serif that reads
