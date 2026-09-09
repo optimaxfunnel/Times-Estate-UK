@@ -99,6 +99,19 @@ material.
   Day 7 had left unresolved. See `QA_REPORT.md` (current, full record)
   and `LAUNCH_CHECKLIST.md` (short version) — **the site is not ready
   for deployment; the server-hang defect alone blocks it.**
+- **Phase 7 (2026-09-09, launch, email configuration and handover) —
+  prepared, not executed, at the Final Launch Approval gate.** Every
+  launch-adjacent plan (hosting/costs, DNS, SSL/redirects, analytics/
+  consent, the final form-to-mailbox routing matrix, MX/SPF/DKIM/
+  DMARC, MFA/leaver procedures, monitoring, backup/disaster-recovery,
+  a brand-asset master-file index, and a technical handover document)
+  was written up without publishing anything, per this phase's own
+  instruction. **Recommendation: do not approve launch yet** — see
+  `FINAL_LAUNCH_APPROVAL.md`. The server-hang defect remains unresolved,
+  and Phase 7 additionally surfaced that the site has no persistent
+  database, which is both a data-loss risk on every restart and a
+  hosting-architecture constraint (see `DEPLOYMENT.md` §1). No hosting
+  account, DNS change, mailbox, or paid service has been created.
 - See `PROJECT_PLAN.md` for the Day 1–7 build record, `TEST_REPORT.md`
   for its test results, and `DECISIONS.md` for everything decided
   since.
@@ -192,8 +205,10 @@ but no longer the first place to look for current status.
 | `AI_SAFETY_RULES.md` | The AI assistant's behavioural contract — what it must and must never do, and why prompt-injection resistance is structural today (Day 5). |
 | `PRIVACY_DATA_MAP.md` | What personal data is collected, where it lives, who can access it, and what must change before it holds real customer data (Day 5). |
 | `README.md` | Repository front door — what this project is and where to find everything (Day 7). |
-| `DEPLOYMENT.md` | Deployment checklist, environment variables, rollback procedure — prepared, not executed (Day 7). |
+| ★ `DEPLOYMENT.md` | **PRIMARY (Phase 7).** Hosting/cost comparison, environment variables, DNS/SSL/redirect plan, analytics/consent options, monitoring, backup/disaster-recovery, rollback — prepared, not executed. |
 | `OPERATIONS_MANUAL.md` | Plain-English guide for staff using the finished site day to day (Day 7). |
+| ★ `TECHNICAL_HANDOVER.md` | **PRIMARY (Phase 7).** Technical "start here" for a developer taking over: architecture patterns, known issues, pre/post-launch test plan, brand-asset master-file index. |
+| ★ `FINAL_LAUNCH_APPROVAL.md` | **PRIMARY (Phase 7).** The consolidated launch-approval request — exact actions, costs, risks, rollback, and the current recommendation not to approve yet. |
 | ★ `PROJECT_BRIEF.md` | **PRIMARY.** Current strategic brief — company, contact facts, quality objective, competitive-reference policy. |
 | ★ `WEBSITE_AUDIT.md` | **PRIMARY.** Current stack/route/dependency inspection, working/broken/reusable findings, competitor pattern comparison. |
 | ★ `CONTENT_REGISTER.md` | **PRIMARY.** Current content classification: CONFIRMED / MISSING / PLACEHOLDER / PROHIBITED TO INVENT. |

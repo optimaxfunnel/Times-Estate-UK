@@ -1,198 +1,284 @@
-# DEPLOYMENT.md — Times Estate Ltd
+# DEPLOYMENT.md — Times Estates (Times Estate Ltd)
 
 ## Status of this document
 
-**Everything below is prepared, not executed.** No hosting account,
-domain, database, or monitoring service has been created or connected.
-Per CLAUDE.md Rule 6, nothing here may be carried out until the
-business owner states exactly: **"I approve production deployment."**
-No earlier approval, including approval of this document, counts as
-that statement.
+**Phase 7 deliverable (2026-09-09) — prepared, nothing executed.** No
+hosting account, domain change, database, or monitoring service has
+been created or connected. Per `CLAUDE.md` Rule 6, nothing here may be
+carried out until the business owner gives the exact written approval
+requested in `FINAL_LAUNCH_APPROVAL.md` — no earlier approval,
+including approval of this document, counts as that.
 
-**As of the Day 7 test report, deployment must not proceed regardless
-of approval, because of the unresolved critical defect in
-`TEST_REPORT.md` §5** (certain form submissions can make the server
-stop responding to every visitor). This document is prepared in
-advance so that once that defect is fixed and approval is given,
-deployment can happen quickly and correctly — not so it can happen now.
+**This remains blocked regardless of approval:** the critical server-
+hang defect (`QA_REPORT.md` §1/§9, `TEST_REPORT.md` §5) is confirmed
+still present as of Phase 6, reproduced via a genuine click. **Nothing
+in this document should be executed while that defect is unresolved.**
 
-## 1. Production environment checklist
+---
 
-Confirm each of these before deployment is approved:
+## 1. Deployment target and costs
 
-| Item | Status | Where recorded |
+**Architectural constraint that shapes this choice:** the site has **no
+persistent database** — every property, lead, and audit-log record is
+an in-memory JavaScript array (`DATA_MODEL.md`). This has a real
+consequence for hosting choice, not just for backups:
+
+- **Classic serverless hosting (Vercel's default model, Netlify
+  Functions)** spins up a fresh function instance per request, with no
+  guaranteed shared memory between invocations. On this architecture,
+  a lead submitted through one instance may simply not be visible from
+  the admin panel served by a different instance — not just "lost on
+  restart," but potentially **unreliable within the same minute**.
+  Vercel is still the natural, zero-config fit for this exact Next.js/
+  Turbopack stack, and would work correctly for a static/mostly-
+  read-only site — but not safely for lead capture as this app is
+  built today.
+- **An always-on process host** (a persistent Node server: a VPS,
+  Railway, Render, Fly.io, or Vercel's newer long-running-function
+  tier if available on the chosen plan) keeps one process alive
+  continuously, so the in-memory store behaves consistently — but
+  **still loses everything on any restart, crash, or redeploy**,
+  including a recurrence of the critical hang defect being killed and
+  restarted.
+
+**Recommendation (decision, not action — needs the owner's approval
+under Rule 4, it's a paid service): deploy to an always-on host, and
+treat connecting a real, persistent database as a prerequisite to
+launch, not a nice-to-have** — it fixes both the hosting-architecture
+risk above and the data-loss risk in §11.
+
+| Option | Indicative cost (verify current pricing before deciding) | Fit |
 |---|---|---|
-| Successful production build | ✅ Confirmed today | `TEST_REPORT.md` §6 |
-| Test report reviewed, no unresolved critical defects | ❌ **Not met** — one critical defect open | `TEST_REPORT.md` §5 |
-| Environment variables set for production | ❌ Not started | §2 below |
-| Form recipients approved | ❌ Missing | `INTEGRATIONS.md`, `AUTOMATION_WORKFLOWS.md` |
-| Reply-to addresses approved | ❌ Missing | Same |
-| CRM settings confirmed | ❌ Unconfirmed whether a CRM exists | `INTEGRATIONS.md` |
-| Property-feed authority confirmed | ❌ Unconfirmed | `INTEGRATIONS.md`, `SITEMAP.md` |
-| AI provider decision made | ❌ Not decided (demo mode is the safe default) | `INTEGRATIONS.md`, `AI_SAFETY_RULES.md` |
-| Analytics decision made | ❌ Not decided (none connected today) | `INTEGRATIONS.md` |
-| Cookie consent mechanism | ✅ Not needed today (no non-essential cookies exist); ❌ must be built before any analytics/tracking is added | `SEO_PLAN.md`, `/cookie-policy` |
-| Legal pages drafted | ✅ Drafted | `/privacy-policy`, `/cookie-policy`, `/terms`, `/complaints`, `/fees` |
-| Professional legal review of those pages | ❌ Not done | `REGULATORY_READINESS.md` |
-| Backups | ❌ Not applicable yet — no persistent database exists | §5 below |
-| Domain | ❌ Not registered | §3 below |
-| DNS | ❌ Not configured | §3 below |
-| Monitoring | ❌ Not configured | §7 below |
-| Rollback procedure | ✅ Prepared (not tested against a real deployment) | §9 below |
-| Real authentication | ❌ Still a development-only mock | `ADMIN_AND_CMS.md`, `SECURITY.md` |
-| Real, persistent database | ❌ Still in-memory only | `PRIVACY_DATA_MAP.md`, `DATA_MODEL.md` |
+| **Vercel (Pro)** | ~£17–20/month per member | Best DX for this stack; safe only once a real database replaces in-memory storage |
+| **Railway** | Usage-based, typically £5–15/month for a small always-on app | Always-on process, simple deploy from Git, good fit today even before a database exists |
+| **Render** | Free tier exists (sleeps when idle — unsuitable for a live business site) then ~£7+/month for an always-on instance | Similar fit to Railway |
+| **A small VPS** (Hetzner, DigitalOcean) | ~£4–10/month | Cheapest always-on option; more manual setup (reverse proxy, process manager, OS updates) — appropriate only if someone is comfortable maintaining a server |
 
-**Summary: this checklist has more ❌ than ✅. Deployment is not ready.**
+**One-off costs:** a domain (if `timesestates.co.uk` isn't already
+owned/renewed — status unconfirmed, see §3), nothing else — SSL is
+free and automatic on every option above.
 
-## 2. Environment-variable list
+**Not decided today** — this table is a comparison for the owner to
+choose from, not a decision made on their behalf.
 
-Full placeholder list in `.env.example`. What each needs before
-production:
+## 2. Production build and environment-variable checklist (no secrets)
 
-| Variable | Production requirement |
+| Item | Status |
 |---|---|
-| `NEXT_PUBLIC_SITE_URL` | The real domain, e.g. `https://www.timesestateltd.co.uk` — currently defaults to `http://localhost:3000`, which is baked into every canonical URL, the sitemap, and structured data. |
-| `NODE_ENV` | `production` (set automatically by the hosting platform's build process — do not set manually). |
-| `DATABASE_URL` | Only once a real database is chosen (`INTEGRATIONS.md`) — not needed today because there is no persistent store. |
-| `AUTH_SECRET`, `AUTH_URL` | Only once real authentication is chosen — required before `/admin` can go live. |
-| `EMAIL_FROM_ADDRESS`, `EMAIL_PROVIDER_API_KEY` | Only once an email provider and sender address are approved. |
-| `CRM_API_URL`, `CRM_API_KEY`, `PROPERTY_FEED_API_KEY` | Only if/when a CRM or property feed is confirmed and approved. |
-| `AI_PROVIDER_API_KEY` | Only if a real AI provider is approved — the demo assistant needs none of this. |
-| `CAPTCHA_SITE_KEY`, `CAPTCHA_SECRET_KEY` | Only if bot protection beyond the existing honeypot/rate-limiting is approved. |
-| `ANALYTICS_ID`, `MONITORING_DSN` | Only once those services are chosen and approved. |
-| `DEPLOYMENT_PROJECT_ID`, `DEPLOYMENT_API_TOKEN` | Only once a hosting provider is chosen. |
+| Successful production build | ✅ Confirmed (`QA_REPORT.md` §2) |
+| No unresolved critical/major defects | ❌ **Not met** — critical hang defect open |
+| Environment variables set for production | ❌ Not started — see table below |
+| Real, persistent database connected | ❌ Not started — see §1, §11 |
+| Real authentication for `/admin` | ❌ Still a development-only mock |
+| Domain owned and DNS access confirmed | ❌ Unconfirmed — see §3 |
+| Email provider chosen and configured | ❌ Not started — see `EMAIL_AND_FORM_ROUTING.md` |
+| Analytics/consent decision made | ❌ Not decided — see §6 |
+| Monitoring configured | ❌ Not started — see §9 |
+| Legal pages professionally reviewed | ❌ Not done |
+| Rollback procedure | ✅ Prepared, not yet tested against a real deployment — see §12 |
 
-**No real value for any of these exists anywhere in this repository
-today** — confirmed by today's secret scan (`TEST_REPORT.md` §6).
+**Environment variables** (names only, from `.env.example` — no value
+below is a real secret):
 
-## 3. Hosting instructions (prepared, not executed)
+| Variable | Set for production when |
+|---|---|
+| `NEXT_PUBLIC_SITE_URL` | Always — set to `https://timesestates.co.uk` (or the approved final host name, see §5) the moment a real domain is live; every canonical URL, the sitemap, and structured data derive from this |
+| `NODE_ENV` | Set automatically by the host — never set manually |
+| `DATABASE_URL` | Once a real database is chosen and connected (§11) |
+| `AUTH_SECRET`, `AUTH_URL` | Once real `/admin` authentication replaces the mock |
+| `EMAIL_FROM_ADDRESS`, `EMAIL_PROVIDER_API_KEY` | Once an email-sending provider is approved (`EMAIL_AND_FORM_ROUTING.md`) |
+| `CRM_API_URL`, `CRM_API_KEY`, `PROPERTY_FEED_API_KEY` | Only if/when a CRM or property feed is approved |
+| `AI_PROVIDER_API_KEY` | Only if a real AI provider replaces the demo assistant |
+| `CAPTCHA_SITE_KEY`, `CAPTCHA_SECRET_KEY` | Only if bot protection beyond the existing honeypot/rate-limit is approved |
+| `ANALYTICS_ID` | Once an analytics tool is approved (§6) |
+| `MONITORING_DSN` | Once error monitoring is approved (§9) |
+| `DEPLOYMENT_PROJECT_ID`, `DEPLOYMENT_API_TOKEN` | Once a hosting provider is chosen (§1) |
 
-`INTEGRATIONS.md` compares Vercel (simplest path for this exact stack)
-against self-hosting. Once a provider is approved:
+## 3. Domain and DNS change plan (timesestates.co.uk)
 
-1. Create the hosting project under the **business owner's own
-   account**, never a personal or contractor account.
-2. Connect it to this Git repository.
-3. Set every environment variable from §2 that applies to what's
-   actually been approved — nothing else.
-4. Set the build command (`npm run build`) and start command
-   (`npm run start`) if not auto-detected.
-5. Do **not** trigger a deployment until Rule 6's exact approval phrase
-   has been given for **this specific deployment**.
+**Cannot be made concrete yet — a real gap, not an oversight.**
+`CONTENT_VERIFICATION_REGISTER.md` item 11 records that
+`timesestates.co.uk` has never been independently verified as owned
+by, or under the control of, Times Estate Ltd — no WHOIS/registrar
+lookup has been performed, and this project has no access to the
+domain's DNS control panel. **Before any DNS record can actually be
+planned with real values, the owner needs to confirm which registrar
+holds the domain and provide (or personally action) access to its DNS
+zone.**
 
-## 4. Domain and DNS instructions (prepared, not executed)
+**The generic process, ready to execute once that access exists:**
 
-A domain name is currently Missing (`BUSINESS_REQUIREMENTS.md`). Once
-one is registered by the owner:
+1. Export/screenshot the domain's **current, live DNS records first**
+   (§4 — this is the rollback baseline) before changing anything.
+2. Add the hosting provider's required records exactly as that
+   provider's own setup screen specifies at the time (typically an
+   `A`/`ALIAS`/`ANAME` record for the root domain and a `CNAME` for
+   `www` — exact values are provider-specific and shouldn't be
+   guessed from a document like this one).
+3. Set a **low TTL** (e.g. 300 seconds) on the records being changed,
+   24–48 hours before the change, so a rollback (§4) can propagate
+   quickly if needed — then raise the TTL back to normal once the
+   change is confirmed stable.
+4. Update `NEXT_PUBLIC_SITE_URL` and redeploy.
+5. Leave the existing email-related DNS records (if `timesestates.co.uk`
+   already sends/receives any mail today) untouched unless the
+   `EMAIL_AND_FORM_ROUTING.md` plan is being actioned in the same
+   change window — don't let a website DNS change accidentally break
+   existing email.
 
-1. Point the domain's DNS at the hosting provider exactly as that
-   provider instructs (typically an `A`/`ALIAS` record for the root
-   domain and a `CNAME` for `www`).
-2. Set `NEXT_PUBLIC_SITE_URL` to the real domain and redeploy — this
-   corrects every canonical URL, sitemap entry, and structured-data
-   `url` field, which today all default to `localhost`.
-3. Confirm HTTPS is issued and enforced (most hosting providers handle
-   this automatically) — the `Strict-Transport-Security` header
-   already built (`SECURITY.md`) only takes effect once this is true.
-4. Re-run `SEO_PLAN.md`'s recommended live checks (Google's Rich
-   Results Test, the schema.org validator) against the real domain —
-   these could not be run against `localhost`.
+## 4. DNS backup and rollback plan
 
-## 5. Database migration procedure (prepared, not executed)
+1. **Before any change:** capture every existing record (type, name,
+   value, TTL) for the domain — a screenshot or export from the
+   registrar's own panel is sufficient; keep it outside this
+   repository (it may reveal other services in use).
+2. **To roll back:** re-enter the captured records exactly as they
+   were. If the low-TTL step in §3.3 was followed, this propagates
+   within minutes rather than up to 24–48 hours.
+3. **If email was already flowing through this domain before any
+   change**, verify mail delivery specifically after any rollback —
+   DNS rollbacks that focus only on "is the website back" can miss a
+   broken MX record.
 
-**Not applicable today** — there is no database; every data store
-(leads, properties, audit log) is an in-memory array, explicitly
-documented as such since Day 4/5. Once a real database is chosen:
+## 5. Hosting, SSL, redirects, and canonical-host plan
 
-1. Write a migration creating tables/collections matching
-   `DATA_MODEL.md`'s field list (mandatory/optional, public/private).
-2. Migrate the `PropertyProvider` and lead-store implementations to
-   the real database, behind their existing interfaces — no page or
-   component needs to change, by design (`INTEGRATIONS.md`).
-3. Never migrate the current demo/sample data into production as if
-   real — it must be deleted, not imported (CLAUDE.md Rule 2).
+- **SSL/HTTPS:** every option in §1 provisions and renews HTTPS
+  certificates automatically — no manual certificate management
+  needed. The existing `Strict-Transport-Security` header
+  (`SECURITY.md`) only takes effect once HTTPS is actually live.
+- **Canonical host decision (needs the owner's input, not assumed):**
+  `https://timesestates.co.uk` (no `www`) is recommended as the
+  canonical form, matching the domain as given throughout this
+  project's records — but this is a preference, not a technical
+  requirement.
+- **Redirects required:**
+  - `http://` → `https://` (automatic on every host in §1)
+  - `www.timesestates.co.uk` → `timesestates.co.uk` (or the reverse, if
+    the owner prefers `www` as canonical) — a single redirect rule at
+    the host or DNS level, not application code
+  - Confirm no stray redirect loops before going live (test both host
+    variants resolve to exactly one final URL)
 
-## 6. Backup procedure (prepared, not executed)
+## 6. Analytics and cookie-consent configuration (not connected)
 
-**Not applicable today** — nothing persistent exists to back up. Once
-a real database exists:
+**Current state, confirmed in Phase 6: no analytics or tracking script
+exists anywhere in the codebase**, and `/cookie-policy` correctly
+states there is "nothing to consent to yet." This is compliant by
+absence, not a gap to rush to fill.
 
-1. Enable the hosting/database provider's automated daily backups.
-2. Store at least 7 days of point-in-time backups (adjust once the
-   owner confirms a retention policy — see `PRIVACY_DATA_MAP.md`).
-3. Document the exact restore command/console steps for the chosen
-   provider here, once chosen.
+**If analytics is wanted, options compared (none chosen, none
+connected — a Rule 4 decision):**
 
-## 7. Restoration test (prepared, not executed)
+| Option | Cookie/consent implication | Cost |
+|---|---|---|
+| **Plausible / Fathom** (cookieless, privacy-first) | No cookie banner legally required for this class of tool under current UK guidance (no personal-data cookie is set) — lowest-friction option | ~£7–14/month |
+| **Google Analytics 4** | Sets cookies / uses device storage — requires an actual, functioning consent banner before it fires, not just a policy page saying one exists | Free, but requires building real consent-gating first |
+| **Server-side/no analytics for now** | No consent mechanism needed | Free |
 
-Once backups exist: restore a backup to a **separate, non-production**
-database instance and confirm the data matches, on a recurring
-schedule (e.g. quarterly) — never test a restore against the live
-production database.
+**Recommendation:** if analytics is wanted at launch, a cookieless
+option avoids needing to build and test a real consent-management
+system before launch — a genuine scope saving. **Whichever is chosen,
+the actual consent banner (if one becomes necessary) must be built and
+tested before the analytics script is ever loaded**, not after.
 
-## 8. Monitoring configuration (prepared, not executed)
+## 7. CMS/property-data roles and editing process
 
-`INTEGRATIONS.md` recommends Sentry (or similar) for error tracking.
-Once approved:
+Unchanged from `ADMIN_AND_CMS.md`/`OPERATIONS_MANUAL.md` (five roles:
+Administrator, Manager, Property Editor, Content Editor, Enquiry
+Viewer — full detail in `TECHNICAL_HANDOVER.md` and
+`OPERATIONS_MANUAL.md`). **Blocking gap, not new:** the admin area's
+login is still a development-only mock with no password — it must not
+be reachable by the public internet until real authentication replaces
+it, regardless of any other launch decision.
 
-1. Add the provider's SDK and `MONITORING_DSN`.
-2. Configure alerting for: server errors, elevated response times, and
-   — **specifically because of today's critical defect** — CPU usage
-   and request-queue depth, so a future recurrence of the §5 hang is
-   caught automatically rather than discovered by visitors.
-3. Add uptime monitoring (a simple external ping check) as a first,
-   free, no-account-needed baseline even before a full APM tool is
-   approved.
+## 8. Final form-to-mailbox routing matrix
 
-## 9. Error-alert procedure (prepared, not executed)
+See `EMAIL_AND_FORM_ROUTING.md` §2 (updated this phase) for the
+complete table mapping every lead category to its destination mailbox/
+alias. No form currently sends anywhere real (§11 of that document) —
+this routing only takes effect once an email provider is connected.
 
-Once monitoring exists: alerts route to a named person (the owner must
-confirm who), with a defined response-time expectation for a site-down
-alert versus a minor error — not defined yet, since no monitoring
-exists to alert from.
+## 9. Monitoring, logging, uptime, and error-reporting plan
 
-## 10. Rollback procedure (prepared, not tested against a real deployment)
+Nothing connected today. Proposed, not actioned:
 
-1. Every deployment should be tied to a specific Git commit (most
-   hosting providers do this automatically).
-2. To roll back: redeploy the previous known-good commit through the
-   hosting provider's own rollback/redeploy feature — do **not**
-   `git revert` and push under time pressure, which risks compounding
-   the incident.
-3. If the database has since changed shape, confirm the rollback
-   target's code is compatible with the *current* data before rolling
-   back code alone — not a concern today (no database exists), but
-   will be once one does.
-4. Announce the rollback and its reason internally — not to the public
-   unless the incident was publicly visible.
+| Layer | Proposed tool (comparison only) | Why |
+|---|---|---|
+| Uptime | UptimeRobot (free tier) or the hosting provider's own health check | A free, immediate baseline — pings the site every few minutes, alerts if it stops responding |
+| Error tracking | Sentry (generous free tier) | Captures real server/client errors with stack traces — **specifically valuable for catching a recurrence of the critical hang defect's pattern before a visitor reports it**, once the app can emit a signal before fully locking up |
+| Server resource alerting | The chosen host's own CPU/memory dashboard/alerting (Railway, Render, and most VPS panels include this) | Given the hang defect is CPU-bound and its CPU time climbs measurably (`QA_REPORT.md` §9), a CPU-spike alert is a genuinely relevant early-warning signal for this specific known issue, not generic advice |
+| Logs | The chosen host's built-in log viewer, to start | No need for a separate log-aggregation service at this size |
 
-## 11. Post-deployment verification (prepared, not executed)
+**Alert routing:** to a named person (the owner needs to confirm who)
+with an agreed response expectation — not defined yet, since nothing
+is connected to alert from.
 
-Immediately after any future deployment:
+## 10. Backup and disaster-recovery process
 
-1. Re-run the full check suite from `TEST_REPORT.md` §6 against the
-   live URL, not just the pre-deployment build.
-2. Manually load the home page, a search page, a property detail page,
-   and submit one real test enquiry end-to-end.
-3. Confirm HTTPS, the security headers, and `robots.txt`/`sitemap.xml`
-   are being served correctly from the real domain.
-4. Watch monitoring closely for the first hour, specifically for any
-   sign of the §5 hang recurring under real traffic.
+**The honest current state: there is nothing to back up, and that is
+itself the disaster-recovery risk, not a gap in the backup plan.**
+Every lead, every property record, and the entire audit log live only
+in server memory. **Any of the following currently causes total,
+silent, unrecoverable data loss:** a server restart, a redeploy, a
+crash, or — critically — a recurrence of the hang defect being killed
+and restarted, which is the one recovery action currently available
+for that defect. A prospective seller's valuation request submitted
+five minutes before a hang-triggered restart is gone, with no error
+shown to anyone, no trace, no way to know it ever arrived.
 
-## 12. Maintenance schedule (prepared, not executed)
+**This is why §11 (a real database) is listed as a launch prerequisite,
+not an enhancement.** Once one exists:
 
-- **Weekly:** review any new enquiries/leads if not yet routed to a
-  real CRM; check for failed notifications.
-- **Monthly:** `npm audit` and dependency updates; review error/uptime
-  monitoring trends.
-- **Quarterly:** restoration test (§7); re-run the full accessibility
-  and security checklists, not just trust that nothing changed.
-- **As needed:** update content per `CONTENT_VERIFICATION_REGISTER.md`
-  as new facts are confirmed by the owner.
+1. Enable the database provider's automated daily backups, minimum 7
+   days' retention (adjust once the owner confirms a retention policy —
+   `PRIVACY_DATA_MAP.md`).
+2. Test a real restore to a separate, non-production instance
+   quarterly — never test a restore against the live database.
+3. Document the exact restore command/console steps for whichever
+   provider is chosen, at that time.
+
+## 11. Real database — launch prerequisite, not originally in this phase's list, added because §1 and §10 both depend on it
+
+Not part of Phase 7's own checklist, but both the hosting-architecture
+finding (§1) and the disaster-recovery finding (§10) independently
+point to the same prerequisite, so it's recorded here rather than left
+implicit. `INTEGRATIONS.md` already compares database options; none
+chosen. Migrating the existing `PropertyProvider` and lead-store
+interfaces to a real database requires no page or component changes,
+by design — only the implementation behind those interfaces changes.
+
+## 12. Rollback procedure
+
+1. Every deployment is tied to a specific Git commit (automatic on
+   every host in §1).
+2. **To roll back:** use the hosting provider's own rollback/redeploy-
+   previous-version feature — never `git revert` and push under time
+   pressure, which risks compounding an incident.
+3. If a real database exists by the time of rollback, confirm the
+   rollback target's code is compatible with the *current* data shape
+   before rolling back code alone.
+4. Announce the rollback and its reason internally; publicly only if
+   the incident was publicly visible.
+5. **Specific to the hang defect, until it's fixed:** if it recurs in
+   production, the immediate action is restarting the process (via the
+   host's own restart control), not a code rollback — the defect
+   exists in the current and (per Day 7's investigation) likely
+   several recent framework versions, so rolling back a commit alone
+   would not necessarily remove it unless the rollback target predates
+   whichever change actually introduced it, which has not been
+   identified.
+
+## 13. Pre-launch and post-launch test plan
+
+See `TECHNICAL_HANDOVER.md` §5 for the full, explicit checklist to run
+immediately before and after any real deployment — it mirrors
+`QA_REPORT.md`'s methodology but against the live URL, not `localhost`.
 
 ## Before this can be approved
 
-Every ❌ in §1's checklist needs to become ✅ or be explicitly accepted
-as a documented, owner-approved limitation — and **the critical defect
-in `TEST_REPORT.md` §5 must be fixed and re-tested** — before Rule 6's
-exact approval phrase should be requested or acted upon.
+Every ❌ in §2's checklist needs to become ✅ or be an explicitly
+accepted, owner-approved limitation — **and the critical defect in
+`TEST_REPORT.md` §5 / `QA_REPORT.md` §9 must be fixed and re-tested —
+before Rule 6's exact approval phrase should be requested or acted
+upon.** See `FINAL_LAUNCH_APPROVAL.md` for the consolidated request and
+recommendation.

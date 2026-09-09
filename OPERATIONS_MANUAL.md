@@ -1,4 +1,12 @@
-# OPERATIONS_MANUAL.md — Times Estate Ltd
+# OPERATIONS_MANUAL.md — Times Estates (Times Estate Ltd)
+
+## Phase 7 note (2026-09-09)
+
+Everything below is unchanged and still accurate — none of the gaps it
+describes (no real login, no real email notifications, no persistent
+database) have closed. If you're looking for the launch decision
+itself, see `FINAL_LAUNCH_APPROVAL.md`; if you're a developer, see
+`TECHNICAL_HANDOVER.md`.
 
 ## Who this is for
 

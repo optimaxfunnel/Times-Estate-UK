@@ -22,9 +22,12 @@ short go/no-go version), and — for the brand identity system —
 - **If you are a developer:** read `WEBSITE_AUDIT.md`, then
   `web/README.md` for how to run the application locally.
 - **If you are reviewing for launch readiness:** start with
-  `LAUNCH_CHECKLIST.md`, then `QA_REPORT.md` for the full evidence — it
-  points to `TEST_REPORT.md` for historical detail on the unresolved
-  critical defect, which remains the top blocker.
+  `LAUNCH_CHECKLIST.md`, then `FINAL_LAUNCH_APPROVAL.md` for the actual
+  launch decision on the table, then `QA_REPORT.md` for the full
+  evidence — it points to `TEST_REPORT.md` for historical detail on the
+  unresolved critical defect, which remains the top blocker.
+- **If you are a developer or agency taking over:** start with
+  `TECHNICAL_HANDOVER.md`.
 - **If you are reviewing the brand identity:** start with
   `BRAND_GUIDELINES.md`, then the source files in `brand/`.
 
@@ -99,6 +102,8 @@ before any deployment.
 | ★ `EMAIL_AND_FORM_ROUTING.md` | **PRIMARY (Phase 4).** Proposed mailbox/alias plan and email authentication (SPF/DKIM/DMARC) setup — a specification, nothing connected. |
 | ★ `QA_REPORT.md` | **PRIMARY (Phase 6).** Current, full QA record — testing, performance, accessibility, SEO, security — against a real production build. Read before any deployment decision. |
 | ★ `LAUNCH_CHECKLIST.md` | **PRIMARY (Phase 6).** Concise, plain-English go/no-go checklist for the business owner. |
+| ★ `FINAL_LAUNCH_APPROVAL.md` | **PRIMARY (Phase 7).** The actual launch-approval request on the table — exact actions, costs, risks, rollback, current recommendation. |
+| ★ `TECHNICAL_HANDOVER.md` | **PRIMARY (Phase 7).** Technical handover for a developer/agency taking over. |
 | `brand/` | Source and export files for the identity system — separate from `web/`, not applied to the live site. |
 | `.env.example` | Placeholder environment-variable names — never real secrets. |
 

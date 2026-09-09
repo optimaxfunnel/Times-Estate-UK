@@ -7,6 +7,48 @@ compliance positions) remain the owner's or their professional
 advisers', per `CLAUDE.md` Rule 5; this log covers project-management
 and technical judgement calls made in carrying out an instruction.
 
+## 2026-09-09 — Phase 7: prepared launch/email/handover plans, but recommended against approving launch
+
+**What was done:** every item Phase 7 asked for was prepared without
+publishing — deployment target and costs (`DEPLOYMENT.md` §1), env-var
+checklist (§2), a domain/DNS plan (§3–4), hosting/SSL/redirects (§5),
+analytics/consent options (§6), the final form-to-mailbox routing
+matrix (`EMAIL_AND_FORM_ROUTING.md` §0, corrected against the real
+twelve lead categories in code rather than invented category names),
+MFA/leaver/recovery procedures (§7 addendum), monitoring/backup/DR
+plans (`DEPLOYMENT.md` §9–10), a brand-asset master-file index cross-
+checked against `LOGO_ASSET_REGISTER.md`/`MEDIA_ASSET_REGISTER.md`
+(`TECHNICAL_HANDOVER.md` §6), and a technical handover document. All
+consolidated into one `FINAL_LAUNCH_APPROVAL.md` request, exactly as
+asked, with the seven concrete actions, costs, and rollback methods it
+would authorise.
+
+**What was decided, and why it isn't just "prepare and present neutrally":**
+`FINAL_LAUNCH_APPROVAL.md` explicitly recommends the owner **not**
+approve launch yet, rather than presenting the request as a neutral
+menu. Two reasons drove this, both already established facts this
+phase didn't change: the critical server-hang defect
+(`QA_REPORT.md` §9) is still unresolved, and — newly surfaced this
+phase while writing the hosting-target comparison — the site's total
+lack of a persistent database is not just a "nice to have fixed
+eventually" item but an actual disaster-recovery hole (every lead is
+silently lost on any restart, including a restart from recovering the
+hang defect) and a genuine hosting-architecture constraint (classic
+serverless hosting like default Vercel doesn't reliably support the
+current in-memory data model at all). `CLAUDE.md` Rule 7 requires
+checks to be completed and recorded before any deployment
+*recommendation* — it doesn't require withholding the mechanical
+request the owner explicitly asked for, but it does mean the
+recommendation attached to that request has to say what the evidence
+actually shows, not soften it into neutral options.
+
+**New discovered constraint, not previously written down anywhere:**
+the in-memory data model's incompatibility with classic serverless
+hosting. This wasn't wrong before — it simply hadn't been evaluated
+against a concrete hosting decision until Phase 7 required comparing
+real hosting options with real costs. Recorded in `DEPLOYMENT.md` §1
+and cross-referenced from `TECHNICAL_HANDOVER.md` §7.
+
 ## 2026-09-09 — Phase 6: QA found and fixed a real contrast regression introduced by the Phase 5 rebrand
 
 **What happened:** Phase 5 set `--color-accent` to the real brand's bright

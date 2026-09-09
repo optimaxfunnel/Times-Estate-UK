@@ -2,13 +2,49 @@
 
 ## Status of this document
 
-Phase 4 deliverable (2026-09-09). This is a **plan, not a
+Phase 4 deliverable (2026-09-08), extended in Phase 7 (2026-09-09)
+with the final form-to-mailbox routing matrix (§0) and MFA/permissions/
+recovery/leaver procedures (§10). This is still a **plan, not a
 purchase or a configuration that has happened.** No mailbox, alias,
 DNS record, or third-party mail service has been created or connected
 — doing so involves a paid service and a third-party integration,
 both requiring the owner's explicit approval under `CLAUDE.md` Rule 4
 before any account is opened or any DNS record is changed. Nothing
-here has been actioned.
+here has been actioned. See `FINAL_LAUNCH_APPROVAL.md` for the single
+consolidated approval request covering this and every other Phase 7
+item.
+
+## 0. Final form-to-mailbox routing matrix
+
+Every one of the twelve lead categories actually defined in the code
+(`web/src/lib/leads/types.ts`'s `LEAD_CATEGORIES`), mapped to its
+destination — this is the concrete routing table the rest of this
+document's alias plan exists to serve. No category has been renamed or
+invented for this table; it's read directly from the source of truth.
+
+| Lead category (code value) | Label shown in admin | Routes to (once connected) |
+|---|---|---|
+| `sales_valuation` | Sales valuation | valuations@ → hello@ |
+| `rental_valuation` | Rental valuation | valuations@ → hello@ |
+| `commercial_sales_valuation` | Commercial sales valuation | valuations@ → commercial@ → hello@ |
+| `commercial_rental_valuation` | Commercial rental valuation | valuations@ → commercial@ → hello@ |
+| `management_enquiry` | Management enquiry | management@ → hello@ |
+| `buyer_registration` | Buyer registration | hello@ |
+| `tenant_registration` | Tenant registration | hello@ |
+| `commercial_enquiry` | Commercial enquiry | commercial@ → hello@ |
+| `viewing_request` | Viewing request | viewings@ → hello@ |
+| `repair_report` | Repair report | repairs@ → hello@ |
+| `callback_request` | Callback request | hello@ |
+| `general_enquiry` | General enquiry | hello@ |
+
+**Every row above is currently "Not sent"** — confirmed in
+`OPERATIONS_MANUAL.md` ("Handling failed notifications") and
+re-confirmed in `QA_REPORT.md` §6 (no email-sending code exists
+anywhere). This table takes effect only once a provider is connected
+per §5 below. The property-alerts registration flow (`/property-alerts`)
+is a separate mechanism, not a `Lead` — see `SITEMAP.md` §20: it stores
+a match request, and the alert *email* itself needs the transactional
+sender in §5 below, not yet built either.
 
 **Domain status:** `timesestates.co.uk` is recorded elsewhere
 (`CONTENT_VERIFICATION_REGISTER.md` item 11) as supplied by the owner,
@@ -214,6 +250,45 @@ comparison, not assumed here), the sending method must:
   relationship (presumably the owner) should hold the top-level admin
   role; day-to-day staff get only the mailbox access they need, not
   admin rights, following normal least-privilege practice.
+
+**Account recovery procedure (Phase 7 addition, 2026-09-09):** agree
+this before the first real mailbox is created, not after someone is
+locked out:
+
+- The owner (top-level admin) sets up recovery options on the provider
+  account itself (a recovery phone number/secondary email, and — if
+  the provider supports it — printed backup codes stored somewhere
+  physically secure, not in this repository or in plain-text notes).
+- A locked-out staff member's mailbox is recovered by the admin
+  resetting their access from the provider's own admin console — never
+  by sharing the admin's own credentials with them "just this once."
+- If the *admin* account itself is locked out, use the provider's own
+  account-recovery flow tied to the domain/billing relationship — this
+  is exactly why the domain and the mail provider account should be
+  owned by the business (the owner), not by an individual staff
+  member or a contractor.
+
+**Leaver procedure (Phase 7 addition, 2026-09-09):** when someone with
+mailbox or admin access leaves:
+
+1. Revoke their access to the provider console **on their last working
+   day**, not "when someone remembers to" — this is the single most
+   important step and the one most often missed.
+2. If they held a **real, licensed mailbox** (hello@ or complaints@),
+   decide with the owner whether to: forward it to a colleague for a
+   defined handover period, then close it; or hand the mailbox itself
+   to a successor. Either way, don't leave it accessible to the person
+   who left.
+3. If they had access to a **shared/group inbox** (§2.3, once any
+   exist), simply remove them from the group — no further action
+   needed since the mailbox itself isn't "theirs."
+4. Rotate any shared credential they could have seen — in this
+   project's case, that should never include a real mailbox password
+   (per the "never a shared password" rule above), so this step should
+   normally be a no-op if the access model above was followed
+   correctly from the start.
+5. Confirm their access is actually gone by having the admin check the
+   provider's own user list, not just assuming the removal succeeded.
 
 ## 8. Retention and backups
 
