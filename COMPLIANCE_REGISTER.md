@@ -10,6 +10,18 @@ exist in `REGULATORY_READINESS.md` (Day 6) — this file is the shorter
 register view requested today, cross-referencing that document rather
 than repeating its detail.
 
+## Phase 6 QA note (2026-09-09)
+
+A full technical QA pass (`QA_REPORT.md`) reviewed the site against
+this register and confirmed: every "Requires verification"/"Missing"
+row below is still exactly that — QA testing cannot clear a compliance
+item, only confirm the site correctly labels it as unresolved rather
+than presenting it as settled. No row below changed status as a result
+of Phase 6. The one new item Phase 6 surfaced belongs in
+`QA_REPORT.md`, not here: a critical technical defect (a server hang
+on certain form submissions) that is a launch blocker independent of,
+and in addition to, everything in this register.
+
 ## Register
 
 | Topic | Status | Detail |

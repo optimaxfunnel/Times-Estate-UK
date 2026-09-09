@@ -23,7 +23,8 @@ export function organizationJsonLd() {
   return {
     "@context": "https://schema.org",
     "@type": "RealEstateAgent",
-    name: siteConfig.legalName.value,
+    name: siteConfig.displayName.value,
+    legalName: siteConfig.legalName.value,
     url: env.NEXT_PUBLIC_SITE_URL,
     address: {
       "@type": "PostalAddress",

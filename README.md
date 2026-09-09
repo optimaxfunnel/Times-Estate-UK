@@ -9,20 +9,22 @@ over the project, or a reviewer.
 
 **The primary, current-state reference documents — read these first:**
 `PROJECT_BRIEF.md` (what this project is), `WEBSITE_AUDIT.md` (what's
-built, working, broken), `CONTENT_REGISTER.md` (what's confirmed/
-missing), `COMPLIANCE_REGISTER.md` (regulatory status), `DECISIONS.md`
-(why things were decided this way, including which brand direction was
-selected), `QA_REPORT.md` (latest QA snapshot), and — for the brand
-identity system — `BRAND_GUIDELINES.md`, `LOGO_ASSET_REGISTER.md`, and
+built, working, broken), `SITEMAP.md` (information architecture),
+`CONTENT_REGISTER.md` (what's confirmed/missing), `COMPLIANCE_REGISTER.md`
+(regulatory status), `DECISIONS.md` (why things were decided this way),
+`QA_REPORT.md` (latest full QA record), `LAUNCH_CHECKLIST.md` (the
+short go/no-go version), and — for the brand identity system —
+`BRAND_GUIDELINES.md`, `LOGO_ASSET_REGISTER.md`, and
 `MEDIA_ASSET_REGISTER.md`.
 
-- **If you are the business owner:** read `PROJECT_BRIEF.md`,
-  `QA_REPORT.md`, and `BRAND_GUIDELINES.md`.
+- **If you are the business owner:** read `LAUNCH_CHECKLIST.md` first,
+  then `PROJECT_BRIEF.md` and `BRAND_GUIDELINES.md`.
 - **If you are a developer:** read `WEBSITE_AUDIT.md`, then
   `web/README.md` for how to run the application locally.
 - **If you are reviewing for launch readiness:** start with
-  `QA_REPORT.md` — it points to `TEST_REPORT.md` for full historical
-  detail, including the unresolved critical defect.
+  `LAUNCH_CHECKLIST.md`, then `QA_REPORT.md` for the full evidence — it
+  points to `TEST_REPORT.md` for historical detail on the unresolved
+  critical defect, which remains the top blocker.
 - **If you are reviewing the brand identity:** start with
   `BRAND_GUIDELINES.md`, then the source files in `brand/`.
 
@@ -95,6 +97,8 @@ before any deployment.
 | ★ `MEDIA_ASSET_REGISTER.md` | File inventory for stationery/social/digital assets in `brand/` (Claret-era, superseded — no real-brand pack built yet). |
 | ★ `SITEMAP.md` | **PRIMARY (Phase 4).** Final information architecture, wireframe spec, and user-journey map — the Day 2/3 baseline is kept below, marked historical. |
 | ★ `EMAIL_AND_FORM_ROUTING.md` | **PRIMARY (Phase 4).** Proposed mailbox/alias plan and email authentication (SPF/DKIM/DMARC) setup — a specification, nothing connected. |
+| ★ `QA_REPORT.md` | **PRIMARY (Phase 6).** Current, full QA record — testing, performance, accessibility, SEO, security — against a real production build. Read before any deployment decision. |
+| ★ `LAUNCH_CHECKLIST.md` | **PRIMARY (Phase 6).** Concise, plain-English go/no-go checklist for the business owner. |
 | `brand/` | Source and export files for the identity system — separate from `web/`, not applied to the live site. |
 | `.env.example` | Placeholder environment-variable names — never real secrets. |
 

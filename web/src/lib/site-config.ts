@@ -23,6 +23,18 @@ export interface VerifiedFact<T> {
 }
 
 export const siteConfig = {
+  /**
+   * Customer-facing brand name — use this everywhere in UI, navigation
+   * and marketing copy. `legalName` below is used only where legally
+   * required: company-number references, Terms of Website Use, Privacy
+   * Policy, Complaints Procedure, and footer small print. See
+   * DECISIONS.md (2026-09-09) and PHASE 4/5 briefs.
+   */
+  displayName: {
+    value: "Times Estates",
+    status: "confirmed",
+  } satisfies VerifiedFact<string>,
+
   legalName: {
     value: "Times Estate Ltd",
     status: "confirmed",
@@ -61,6 +73,18 @@ export const siteConfig = {
 
   email: {
     value: "timesestatesuk@gmail.com",
+    status: "supplied-by-owner",
+  } satisfies VerifiedFact<string | null>,
+
+  /**
+   * A separate phone line for Construction/renovation services, shown on
+   * the owner's business cards alongside the estate-agency numbers.
+   * Construction is not a service this website covers (SITEMAP.md §14,
+   * DECISIONS.md 2026-09-09) — this number exists only for the single
+   * factual mention on /about and in the footer, never as its own page.
+   */
+  constructionPhone: {
+    value: "0208 6738 555",
     status: "supplied-by-owner",
   } satisfies VerifiedFact<string | null>,
 

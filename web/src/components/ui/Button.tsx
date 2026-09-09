@@ -1,6 +1,6 @@
 import { cn } from "@/lib/cn";
 
-type Variant = "primary" | "secondary" | "ghost";
+type Variant = "primary" | "secondary" | "ghost" | "inverted";
 
 const base =
   "inline-flex items-center justify-center gap-2 rounded-sm px-5 py-3 text-sm font-medium " +
@@ -12,6 +12,9 @@ const variants: Record<Variant, string> = {
     "bg-transparent text-ink border border-ink hover:bg-ink hover:text-white",
   ghost:
     "bg-transparent text-ink underline underline-offset-4 hover:text-accent",
+  /** Secondary-style button for use on a dark/ink-coloured surface. */
+  inverted:
+    "bg-transparent text-white border border-white hover:bg-white hover:text-ink",
 };
 
 export function Button({

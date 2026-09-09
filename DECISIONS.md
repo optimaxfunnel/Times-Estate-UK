@@ -7,6 +7,106 @@ compliance positions) remain the owner's or their professional
 advisers', per `CLAUDE.md` Rule 5; this log covers project-management
 and technical judgement calls made in carrying out an instruction.
 
+## 2026-09-09 — Phase 6: QA found and fixed a real contrast regression introduced by the Phase 5 rebrand
+
+**What happened:** Phase 5 set `--color-accent` to the real brand's bright
+Copper Orange (`#d9772e`), taken directly from `BRAND_GUIDELINES.md`.
+That document's own contrast table only checked "orange on white" and
+"orange on ink" — it never tabulated "white text on an orange fill,"
+which is exactly how the colour is used everywhere: `bg-accent
+text-white` is the primary-button pattern used site-wide (Book a
+Valuation, Search, pagination, the AI assistant launcher), and
+`text-accent` alone is used for eyebrow labels and links on white
+backgrounds. Lighthouse's accessibility audit measured that pairing at
+**3.16:1** — comfortably enough for a border or icon (3:1) but short of
+the 4.5:1 WCAG AA minimum for text. The old "Established Line" bronze
+accent (`#8c6a3f`) it replaced happened to pass at 4.94:1; the rebrand
+didn't re-check this specific pairing before shipping.
+
+**Fix:** `--color-accent` now holds a darkened shade (`#a8551a`, 5.3:1
+with white text) for every light-background text/button use — which is
+nearly everywhere, so this fixes the pattern site-wide via the token
+cascade rather than requiring a per-component pass. A new
+`--color-accent-vivid` token keeps the original bright `#d9772e` for
+the small number of dark-background contexts where it already passes
+(the footer's hover links, on `--color-ink`: 5.8:1) and non-text fills
+(the hero slideshow's dot indicators). `--color-warning` needed the
+same fix for the same reason (`#a6790a` measured 3.91:1 with white
+text on the "Sample property" and status badges) — darkened to
+`#8a6008` (5.6:1). Re-verified via Lighthouse with a genuinely isolated
+Chrome profile: `color-contrast` now scores 1.0 (was 0) on every page
+checked. `BRAND_GUIDELINES.md`'s colour table needs a follow-up
+correction to match — flagged, not yet done as of this entry.
+
+**Also found and fixed in the same pass:**
+- **Touch targets too small (WCAG 2.2 SC 2.5.8):** the hero slideshow's
+  slide-indicator dots were a 10×10px visible dot used directly as the
+  clickable button. Fixed by keeping the visible dot small but wrapping
+  it in a 24×24px button (the same "small visual, larger hit area"
+  pattern already used elsewhere, e.g. `FavouriteButton`'s `-m-2 p-2`).
+- **CLS from unsized logo images (0.505, target <0.1):** the header and
+  footer `<img>` logo tags had no `width`/`height` attributes, so the
+  browser reflowed the whole footer once the SVG's real aspect ratio
+  loaded. Fixed by adding explicit `width={900} height={140}` (the
+  SVG's own viewBox units — browsers use these to compute the correct
+  aspect ratio at any CSS-set display size). Re-verified: CLS 0 on
+  every page checked. The (currently unused, no real photos exist yet)
+  `PropertyGallery` image element was given a CSS `aspect-[4/3]` for
+  the same reason, pre-emptively, since it can't have fixed pixel
+  dimensions the way a fixed logo file can.
+
+**Why this matters beyond the numbers:** the accent-contrast and
+warning-contrast fixes affect the "Sample property" badge and every
+primary button on the site — this was a real, if invisible-until-
+measured, barrier for low-vision users on every single page, not an
+edge case. Caught only because Phase 6 explicitly required an
+automated contrast scan; a purely visual/manual review is exactly the
+kind of check this class of defect can slip past. See `QA_REPORT.md`
+for the full test matrix.
+
+## 2026-09-09 — Phase 6: the critical server-hang defect is confirmed still present, reproduced via a genuine click for the first time
+
+**What was done:** `TEST_REPORT.md` §5 (Day 7) documented a critical
+defect — certain lead-form submissions make the entire server
+unresponsive — but explicitly flagged one open question: every
+reproduction to date used a script-driven `form.requestSubmit()`, and
+whether a **genuine mouse click** triggers it was "not confirmed, for
+lack of time." Phase 6 closed that gap: a real `HTMLElement.click()`
+dispatch (not a scripted form submission) on the `/let` rental-
+valuation form reproduced the identical hang — the server stopped
+responding to all requests (`curl` timed out completely), and the
+Node process's CPU time climbed continuously while hung (32.8s → 45.8s
+over 3 seconds of wall-clock time), matching Day 7's measurements
+almost exactly. The process was killed and the server restarted
+cleanly; no other investigation was attempted (Day 7 already reviewed
+every line of the submission pipeline and ruled out CSP, production-
+vs-dev, and category-specificity — re-litigating that today would not
+add information, and re-triggering it a second time on
+`viewing_request` purely to "double-confirm" a well-evidenced,
+unchanged defect was judged not worth another multi-second full-site
+outage in this environment).
+
+**Conclusion: this remains an absolute launch blocker, now with one
+fewer open question than Day 7 left it with** — real users clicking
+normally, not just automated scripts, are confirmed to be able to
+trigger it. See `QA_REPORT.md` §1 and §8 for the full current record
+and `TEST_REPORT.md` §5 for the original investigation, which stands
+unchanged.
+
+**New operational mitigation idea, not implemented:** because the hang
+is CPU-bound and synchronous (confirmed by the climbing CPU time), an
+in-process `Promise.race` timeout cannot help — Node.js is single-
+threaded, so nothing can preempt a runaway synchronous computation on
+the same thread. A genuinely effective mitigation, if the root cause
+still isn't found before a deployment deadline, would be an
+**external, process-level watchdog** (e.g. a process manager with a
+health-check ping that force-restarts the server if it stops
+responding within a few seconds) — this limits the blast radius to a
+brief outage instead of an indefinite one, without requiring the
+underlying bug to be understood first. This is a deployment-
+infrastructure decision, not a code change, and is recorded here as a
+recommendation only.
+
 ## 2026-09-09 — Phase 4: UX/IA/wireframes/content/email plan
 
 **Construction services — resolved.** The Phase 4 brief's required

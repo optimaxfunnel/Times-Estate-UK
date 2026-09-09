@@ -69,20 +69,46 @@ owner's own `#D97730` guess — not a lab- or print-verified sample. Get
 a proper swatch or the original print file before any colour-critical
 reprint of physical stationery (`DECISIONS.md`).
 
-**Verified accessible pairings (WCAG contrast, calculated):**
+**Verified accessible pairings (WCAG contrast, calculated) — corrected
+2026-09-09 (Phase 6 QA):** the original version of this table (below,
+in the changelog note) understated how badly bright Copper Orange
+fails on white — it was actually being used in exactly that failing
+way, site-wide, until Lighthouse's automated contrast audit caught it.
+See `DECISIONS.md` (2026-09-09, "Phase 6: QA found and fixed a real
+contrast regression") for the full story.
 
 | Pairing | Ratio | Passes |
 |---|---|---|
 | White text on Ink (`#141414`) | 18.1:1 | AAA |
 | Ink text (`#1A1A1A`) on White | 17.9:1 | AAA |
-| Copper Orange (`#D9772E`) on Ink | 6.6:1 | AA (all text sizes), AAA at large text |
-| Copper Orange (`#D9772E`) on White | 2.9:1 | **Fails for text** — use orange only for large/bold text (≥24px or ≥19px bold), icons, borders, or fills on white; for orange body text or small links on white, darken to `#B5601F` (4.6:1, AA) instead |
+| Copper Orange, bright (`#D9772E`) on Ink | 5.8:1 | AA (all text sizes) |
+| Copper Orange, bright (`#D9772E`) on White | **3.2:1** | **Fails for text** (needs 4.5:1) — passes only as a non-text fill/border/icon (3:1) or as large/bold text (≥24px or ≥19px bold). This is the colour used in the real logo artwork, unaffected by anything below. |
+| Copper Orange, darkened (`#A8551A`, the site's `--color-accent`) on White, or White text on this fill | 5.3:1 | AA — this is the shade actually used for every button, link, and eyebrow label on a light background |
+| Copper Orange, darkened, hover shade (`#8A4515`) on White | 6.6:1 | AA |
 | Ink text on Soft Copper Tint | 15.9:1 | AAA |
+| Warning gold, darkened (`#8A6008`, the site's `--color-warning`) on White, or White text on this fill | 5.6:1 | AA — used for the "Sample property" and status badges |
+
+**Correction note (2026-09-09):** the original table below claimed
+bright Copper Orange measured 2.9:1 on white and recommended darkening
+to `#B5601F` (stated as 4.6:1) as the fix. Both numbers were a hand-
+calculation error, caught by Lighthouse's automated audit measuring
+the real, live pairing at 3.16:1 (not 2.9) — and `#B5601F` itself only
+reaches 4.506:1, too close to the 4.5:1 line to be a safe default.
+`--color-accent` was set to `#A8551A` (5.3:1) instead, with a further-
+darkened `#8A4515` for hover states. **Lesson applied:** a colour
+system's contrast table should be checked against the exact pairing
+it's actually used in (here, white text on an orange *fill*, not
+orange text on white) — not just the pairing that was easiest to
+picture. `--color-accent-vivid` now holds the original bright
+`#D9772E` for the dark-background and non-text contexts where it was
+always fine.
 
 **Rule this table enforces on every wireframe/page below:** orange
-text at normal body size never sits directly on white — it's a fill/
-icon/large-heading/button colour there, or it's used on the dark (Ink)
-background where its contrast is strong.
+text at normal body size never sits directly on white using the bright
+shade — it's a fill/icon/large-heading colour there, or it uses the
+darkened `--color-accent`/`--color-warning` shades above, or it's used
+on the dark (Ink) background where the bright shade's contrast is
+strong.
 
 ### D. Typography
 

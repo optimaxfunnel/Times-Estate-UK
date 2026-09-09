@@ -1,29 +1,44 @@
 @import "tailwindcss";
 
 /*
-  Times Estate Ltd design tokens — Brand Direction 1, "The Established Line".
-  Source: /BRAND_DIRECTIONS.md (approved as a working baseline, 2026-09-07).
-  Contrast ratios stated there were computed against these exact hex values.
+  Times Estates design tokens — the real brand (BRAND_GUIDELINES.md,
+  "CURRENT BRAND" section, 2026-09-09), replacing the earlier "Established
+  Line" / Direction 1 tokens below. Contrast ratios stated in that document
+  were computed against these exact hex values.
 */
 :root {
-  --color-ink: #12213c; /* Ink Navy — primary text/headings */
-  --color-background: #f7f4ee; /* Warm Off-White — page background */
+  --color-ink: #141414; /* Near-black — headings/body text on light backgrounds, and the fill for dark sections (header/footer variants) */
+  --color-background: #ffffff; /* White — page background */
   --color-surface: #ffffff; /* card/surface background on top of the page bg */
-  --color-accent: #8c6a3f; /* Muted Bronze — buttons, links, dividers */
-  --color-accent-dark: #6e5330; /* hover/active state for accent, kept within AA on white text */
-  --color-secondary: #5b6b63; /* Slate Sage — supporting UI, icons, borders */
-  --color-border: #dcd5c8; /* soft hairline border derived from the palette */
+  /* Phase 6 QA fix (2026-09-09): the original bright Copper Orange
+     (#d9772e) only reaches 3.16:1 against white — enough for a border or
+     an icon (3:1) but not for text or white-on-fill button labels, which
+     need 4.5:1. It was used for exactly that (button fills with white
+     text, link/eyebrow text) everywhere on the site. --color-accent now
+     holds the darkened, AA-safe shade used for all text/button-fill
+     purposes on a light background; --color-accent-vivid keeps the
+     original bright value for the few contexts that sit on a dark
+     background (where it already passes — see BRAND_GUIDELINES.md §C)
+     or that never carry text (icon fills, decorative dots). */
+  --color-accent: #a8551a; /* Copper Orange, darkened for AA — buttons, links, active states on light backgrounds (5.3:1 with white text, 5.3:1 as text on white) */
+  --color-accent-dark: #8a4515; /* hover/active shade, one step darker than --color-accent */
+  --color-accent-vivid: #d9772e; /* original bright Copper Orange — dark-background contexts only (5.8:1 on --color-ink) and non-text fills */
+  --color-accent-tint: #fbebdd; /* Soft Copper Tint — section backgrounds needing a light accent wash */
+  --color-secondary: #6b6259; /* warm neutral grey — supporting UI, icons, borders */
+  --color-border: #e5e1db; /* soft warm-tinted hairline border */
   --color-success: #2f6b4f;
-  --color-warning: #9a5b12;
-  /* A darker shade for warning-coloured TEXT specifically. --color-warning
-     itself measures 4.33:1 against the doubly-tinted background produced
-     by a warning badge inside a warning-tinted notice (e.g. Badge inside
-     PlaceholderNotice) — just under WCAG AA's 4.5:1 for normal text, found
-     by an automated axe-core scan on Day 6. This token (6.1:1 against the
-     same background) is for text; --color-warning itself remains fine for
-     borders/backgrounds/icons, which only need 3:1. */
-  --color-warning-text: #7a480e;
+  /* Warning is kept a distinct, more golden hue from the Copper Orange
+     accent so "caution" badges don't visually blend with brand buttons —
+     see BRAND_GUIDELINES.md §C on not letting semantic colour compete with
+     the accent hue. Darkened again in the same Phase 6 QA pass as the
+     accent colour above: #a6790a only reached 3.91:1 with white text
+     (used for the "Sample property" and status badges) — short of the
+     4.5:1 normal-text minimum, caught by the same Lighthouse contrast
+     audit that found the accent regression. */
+  --color-warning: #8a6008; /* 5.6:1 with white text */
+  --color-warning-text: #7a5a08;
   --color-danger: #a3311f;
+  --radius-sm: 0.5rem; /* 8px — BRAND_GUIDELINES.md §E: cards, buttons, form fields */
   --focus-ring: #1f4b8c;
 }
 
@@ -33,13 +48,15 @@
   --color-surface: var(--color-surface);
   --color-accent: var(--color-accent);
   --color-accent-dark: var(--color-accent-dark);
+  --color-accent-vivid: var(--color-accent-vivid);
+  --color-accent-tint: var(--color-accent-tint);
   --color-secondary: var(--color-secondary);
   --color-border: var(--color-border);
   --color-success: var(--color-success);
   --color-warning: var(--color-warning);
   --color-warning-text: var(--color-warning-text);
   --color-danger: var(--color-danger);
-  --font-heading: var(--font-source-serif);
+  --font-heading: var(--font-poppins);
   --font-sans: var(--font-inter);
 }
 
@@ -65,6 +82,19 @@ h4 {
   outline: 3px solid var(--focus-ring);
   outline-offset: 2px;
   border-radius: 2px;
+}
+
+/* Hero slideshow cross-fade — see components/home/HeroSlideshow.tsx.
+   The prefers-reduced-motion block below already collapses this to an
+   instant swap; the component additionally stops the auto-advance timer
+   entirely under that preference (a CSS-only fix can't do that part). */
+@keyframes hero-fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
 
 /* Respect the visitor's reduced-motion preference everywhere. */

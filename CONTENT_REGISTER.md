@@ -39,6 +39,8 @@ than reinterpret either system silently, this file maps between them:
 | Homepage hero slideshow imagery | PLACEHOLDER | `SITEMAP.md` §2: every slide is a clearly labelled "Sample image — not a real Times Estates property" placeholder until real photography is supplied |
 | Map/list results — map provider | MISSING | `SITEMAP.md` §5: no map provider chosen; connecting one is a paid third-party integration requiring Rule 4 approval |
 | Proposed email addresses (20, see `EMAIL_AND_FORM_ROUTING.md`) | PLACEHOLDER — none exist | Proposed, not confirmed existing mailboxes; no mailbox, alias, or DNS record has been created |
+| Open Graph share image | MISSING | Phase 6 QA (`QA_REPORT.md` §5): no real-brand OG image exists; shared links currently have no preview image on social platforms |
+| Brand accent/warning colours | CONFIRMED (corrected) | Phase 6 QA found and fixed a real WCAG contrast failure in the Phase 5 rebrand's colour tokens (white text on the bright orange/warning-gold fills measured below 4.5:1) — see `DECISIONS.md` and `BRAND_GUIDELINES.md` for the corrected values |
 | Redress scheme (Property Redress Scheme PRS030616) | MISSING (Requires verification) | Certificate reviewed, no independent register lookup completed |
 | Client Money Protection (CMP013294) | MISSING (Requires verification) | Same caveat |
 | Professional indemnity insurance schedule | MISSING (Requires verification) | Only generic policy wording supplied, not the schedule with actual figures |

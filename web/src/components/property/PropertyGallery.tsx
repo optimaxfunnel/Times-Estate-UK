@@ -23,7 +23,11 @@ export function PropertyGallery({ images }: { images: PropertyImage[] }) {
           key={image.url}
           src={image.url}
           alt={image.alt}
-          className="w-full rounded-sm object-cover"
+          // Reserves space before the real image loads (CLS) — a fixed
+          // width/height attribute pair isn't possible here since a real
+          // photograph's dimensions vary per file, unlike the logo's fixed
+          // SVG viewBox elsewhere.
+          className="aspect-[4/3] w-full rounded-sm object-cover"
         />
       ))}
     </div>

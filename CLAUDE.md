@@ -80,6 +80,25 @@ material.
   gating question keeps Construction/renovation services off the site
   as a dedicated section (mention only). Nothing implemented, nothing
   published, no cost incurred.
+- **Phase 5 (2026-09-09, premium website implementation) — complete.**
+  The real brand identity (logo, colours, fonts) was applied to the
+  live site's design tokens — cascading automatically to every
+  existing page — plus a new homepage hero (rotating slideshow,
+  four-tab quick search), a rebuilt footer, and a header phone number.
+  Every existing route continues to run on the same, unchanged
+  underlying stack, data model, and lead pipeline. Nothing deployed,
+  nothing connected. See `DECISIONS.md`.
+- **Phase 6 (2026-09-09, testing, performance, accessibility, SEO and
+  compliance) — complete, at Approval Gate 6.** A full QA pass against
+  a real production build (`next build && next start`, not the dev
+  server) found and fixed three real defects introduced by Phase 5's
+  rebrand (a site-wide colour-contrast failure, a touch-target-size
+  defect, and a layout-shift defect), and **confirmed the Day 7
+  critical server-hang defect is still present** — now additionally
+  confirmed to reproduce via a genuine click, closing an open question
+  Day 7 had left unresolved. See `QA_REPORT.md` (current, full record)
+  and `LAUNCH_CHECKLIST.md` (short version) — **the site is not ready
+  for deployment; the server-hang defect alone blocks it.**
 - See `PROJECT_PLAN.md` for the Day 1–7 build record, `TEST_REPORT.md`
   for its test results, and `DECISIONS.md` for everything decided
   since.
@@ -188,6 +207,8 @@ but no longer the first place to look for current status.
 | ★ `MEDIA_ASSET_REGISTER.md` | **PRIMARY (Phase 3, Claret-era).** File-by-file inventory of stationery/social/digital assets in `brand/`, marked Rendered or Specified — superseded pending a real-brand asset pack. |
 | ★ `SITEMAP.md` | **PRIMARY (Phase 4).** Final information architecture, wireframe spec, and user-journey map. The Day 2/3 baseline is kept below in the same file, marked historical. |
 | ★ `EMAIL_AND_FORM_ROUTING.md` | **PRIMARY (Phase 4).** Proposed mailbox/alias plan and email authentication (SPF/DKIM/DMARC) setup — a specification, nothing connected. |
+| ★ `QA_REPORT.md` | **PRIMARY (Phase 6).** Current, full QA record against a real production build — testing, performance, accessibility, SEO, security. Read before any deployment decision. |
+| ★ `LAUNCH_CHECKLIST.md` | **PRIMARY (Phase 6).** Concise, plain-English go/no-go checklist. |
 | `brand/` | Source and export files for the identity system (Phase 3) — SVG masters, PNG/WebP exports, stationery, social/digital assets. Separate from `web/`; not applied to the live site. |
 | `SEO_PLAN.md` | Search-intent map, keyword map, technical SEO implementation and what's deliberately not done yet (area pages, FAQ pages) and why (Day 6). |
 | `REGULATORY_READINESS.md` | UK legal/regulatory topics reviewed today, each with a status — never a claim of compliance (Day 6). |
