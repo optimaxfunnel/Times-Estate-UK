@@ -32,7 +32,13 @@ than reinterpret either system silently, this file maps between them:
 | Trading name ("Times Estates") | MISSING → newly supplied 2026-09-09 | Owner's existing customer-facing brand, per business card and domain; "Times Estate Ltd" retained as the legal name; see `DECISIONS.md` |
 | VAT number | MISSING | Still outstanding |
 | Opening hours | MISSING | Still outstanding |
-| "Construction" as an additional service line | MISSING — flagged, not added | Both photographed business cards list Construction (tiling, flooring, plastering, extensions, kitchen/bathroom remodelling) alongside the estate-agency services. This is outside the current project scope defined in `CLAUDE.md`. **Not added to the site pending the owner's decision** — see `DECISIONS.md` |
+| "Construction" as an additional service line | RESOLVED (2026-09-09) — mention only | Owner's answer to the Phase 4 gating question: not a sitemap section or page. One factual line on `/about` and in the footer small print names it and its separate phone number (`SITEMAP.md` §14) — see `DECISIONS.md` |
+| Area Guides content (per-area facts) | MISSING — template only | `SITEMAP.md` §13, Phase 4: page template built, zero real guides written. Every fact needs a source before publication — none invented to fill the template |
+| Insights articles | MISSING — template only | `SITEMAP.md` §15, Phase 4: page template built, zero real articles written |
+| Tenant Fees page real figures | MISSING | `SITEMAP.md` §18, Phase 4: dedicated page structure specified (permitted vs. prohibited payments), real figures still Missing |
+| Homepage hero slideshow imagery | PLACEHOLDER | `SITEMAP.md` §2: every slide is a clearly labelled "Sample image — not a real Times Estates property" placeholder until real photography is supplied |
+| Map/list results — map provider | MISSING | `SITEMAP.md` §5: no map provider chosen; connecting one is a paid third-party integration requiring Rule 4 approval |
+| Proposed email addresses (20, see `EMAIL_AND_FORM_ROUTING.md`) | PLACEHOLDER — none exist | Proposed, not confirmed existing mailboxes; no mailbox, alias, or DNS record has been created |
 | Redress scheme (Property Redress Scheme PRS030616) | MISSING (Requires verification) | Certificate reviewed, no independent register lookup completed |
 | Client Money Protection (CMP013294) | MISSING (Requires verification) | Same caveat |
 | Professional indemnity insurance schedule | MISSING (Requires verification) | Only generic policy wording supplied, not the schedule with actual figures |

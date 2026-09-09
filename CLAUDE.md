@@ -63,10 +63,23 @@ material.
   creative directions explored; **Direction E, "Claret," selected**
   (`DECISIONS.md`).
 - **Phase 3 (2026-09-09, final logo, brand identity and media pack) —
-  complete, at Approval Gate 3.** A full logo suite, design system
-  specification, and a representative set of stationery/social/digital
-  assets built for Direction E — see `BRAND_GUIDELINES.md`. Not applied
-  to the live website; nothing published; no cost incurred.
+  complete, then corrected.** The Direction E ("Claret") identity built
+  today was **superseded the same day**: the owner provided photographs
+  of their actual, existing business cards and overrode Claret in
+  favour of the real "Times Estates" brand (black background, orange/
+  copper accent, an existing wordmark). The real logo now runs on the
+  live site's header and favicon; `BRAND_GUIDELINES.md` and
+  `LOGO_ASSET_REGISTER.md` document the real identity as current, with
+  the Claret material kept below, marked historical. See `DECISIONS.md`.
+- **Phase 4 (2026-09-09, UX/IA, wireframes, content and email plan) —
+  complete, at Approval Gate 4.** Final information architecture,
+  responsive wireframes (published as an inspectable artifact, not
+  built into `web/`), full user-journey mapping, draft copy, and a
+  proposed email/DNS plan — see `SITEMAP.md` and
+  `EMAIL_AND_FORM_ROUTING.md`. The owner's answer to this phase's
+  gating question keeps Construction/renovation services off the site
+  as a dedicated section (mention only). Nothing implemented, nothing
+  published, no cost incurred.
 - See `PROJECT_PLAN.md` for the Day 1–7 build record, `TEST_REPORT.md`
   for its test results, and `DECISIONS.md` for everything decided
   since.
@@ -147,8 +160,7 @@ but no longer the first place to look for current status.
 | `MARKET_RESEARCH.md` | Competitor/market research and observations (Day 2). |
 | `BUSINESS_PRIORITIES_AND_AUDIENCES.md` | Proposed business priorities and audience profiles (Day 2). |
 | `BRAND_DIRECTIONS.md` | Three proposed visual brand directions (Day 2). |
-| `SITEMAP.md` | Proposed information architecture and navigation (Day 2). |
-| `USER_JOURNEYS.md` | Designed user journeys for every confirmed workflow (Day 2). |
+| `USER_JOURNEYS.md` | Designed user journeys for every confirmed workflow (Day 2) — extended per-page in `SITEMAP.md` §21 (Phase 4). |
 | `.gitignore` | Files excluded from version control. |
 | `.env.example` | Placeholder names for environment variables — never real secrets. |
 | `TECHNICAL_ARCHITECTURE.md` | Chosen technology stack and reasoning (Day 3). |
@@ -171,9 +183,11 @@ but no longer the first place to look for current status.
 | ★ `QA_REPORT.md` | **PRIMARY.** Current QA snapshot — deeper historical test detail remains in `TEST_REPORT.md`. |
 | ★ `BRAND_STRATEGY.md` | **PRIMARY (Phase 2).** Audiences, positioning, tone of voice, messaging hierarchy, provisional straplines. |
 | ★ `BRAND_CONCEPTS.md` | **PRIMARY (Phase 2).** Three new creative directions — palette, type, logo sketches, strengths/risks. None applied to the live site; a visual comparison prototype is published separately. |
-| ★ `BRAND_GUIDELINES.md` | **PRIMARY (Phase 3).** The finalised identity system for the selected direction (E — Claret): logo rules, colour/type specification, spacing/grid/motion rules. |
-| ★ `LOGO_ASSET_REGISTER.md` | **PRIMARY (Phase 3).** File-by-file inventory of the logo suite in `brand/logo/`. |
-| ★ `MEDIA_ASSET_REGISTER.md` | **PRIMARY (Phase 3).** File-by-file inventory of stationery/social/digital assets in `brand/`, marked Rendered or Specified. |
+| ★ `BRAND_GUIDELINES.md` | **PRIMARY.** The current identity system (real "Times Estates" brand, from 2026-09-09): logo rules, colour/type specification, spacing/grid/motion rules. The Claret system it replaced is kept below in the same file, marked historical. |
+| ★ `LOGO_ASSET_REGISTER.md` | **PRIMARY.** File-by-file inventory of the current logo suite in `brand/logo-real/` (Claret suite kept below, marked historical). |
+| ★ `MEDIA_ASSET_REGISTER.md` | **PRIMARY (Phase 3, Claret-era).** File-by-file inventory of stationery/social/digital assets in `brand/`, marked Rendered or Specified — superseded pending a real-brand asset pack. |
+| ★ `SITEMAP.md` | **PRIMARY (Phase 4).** Final information architecture, wireframe spec, and user-journey map. The Day 2/3 baseline is kept below in the same file, marked historical. |
+| ★ `EMAIL_AND_FORM_ROUTING.md` | **PRIMARY (Phase 4).** Proposed mailbox/alias plan and email authentication (SPF/DKIM/DMARC) setup — a specification, nothing connected. |
 | `brand/` | Source and export files for the identity system (Phase 3) — SVG masters, PNG/WebP exports, stationery, social/digital assets. Separate from `web/`; not applied to the live site. |
 | `SEO_PLAN.md` | Search-intent map, keyword map, technical SEO implementation and what's deliberately not done yet (area pages, FAQ pages) and why (Day 6). |
 | `REGULATORY_READINESS.md` | UK legal/regulatory topics reviewed today, each with a status — never a claim of compliance (Day 6). |

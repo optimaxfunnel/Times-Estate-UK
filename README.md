@@ -90,9 +90,11 @@ before any deployment.
 | `TEST_REPORT.md` | Detailed historical test record, superseded by `QA_REPORT.md` for current status. |
 | `DEPLOYMENT.md` | Deployment checklist, environment variables, rollback procedure — prepared, not executed. |
 | `OPERATIONS_MANUAL.md` | Day-to-day guide for staff using the finished site. |
-| ★ `BRAND_GUIDELINES.md` | The finalised identity system for the selected brand direction (E — Claret). |
-| ★ `LOGO_ASSET_REGISTER.md` | File inventory for the logo suite in `brand/logo/`. |
-| ★ `MEDIA_ASSET_REGISTER.md` | File inventory for stationery/social/digital assets in `brand/`. |
+| ★ `BRAND_GUIDELINES.md` | The current identity system (real "Times Estates" brand) — the Claret system it replaced is kept below, marked historical. |
+| ★ `LOGO_ASSET_REGISTER.md` | File inventory for the current logo suite in `brand/logo-real/` (Claret suite kept below, marked historical). |
+| ★ `MEDIA_ASSET_REGISTER.md` | File inventory for stationery/social/digital assets in `brand/` (Claret-era, superseded — no real-brand pack built yet). |
+| ★ `SITEMAP.md` | **PRIMARY (Phase 4).** Final information architecture, wireframe spec, and user-journey map — the Day 2/3 baseline is kept below, marked historical. |
+| ★ `EMAIL_AND_FORM_ROUTING.md` | **PRIMARY (Phase 4).** Proposed mailbox/alias plan and email authentication (SPF/DKIM/DMARC) setup — a specification, nothing connected. |
 | `brand/` | Source and export files for the identity system — separate from `web/`, not applied to the live site. |
 | `.env.example` | Placeholder environment-variable names — never real secrets. |
 

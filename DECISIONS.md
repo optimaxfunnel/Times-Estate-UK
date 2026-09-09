@@ -7,6 +7,65 @@ compliance positions) remain the owner's or their professional
 advisers', per `CLAUDE.md` Rule 5; this log covers project-management
 and technical judgement calls made in carrying out an instruction.
 
+## 2026-09-09 — Phase 4: UX/IA/wireframes/content/email plan
+
+**Construction services — resolved.** The Phase 4 brief's required
+gating question was asked before any sitemap work began, per its own
+explicit instruction ("wait for my answer before finalising the
+sitemap"). **Answer: mention only, don't build.** `SITEMAP.md` and
+`COMPLIANCE_REGISTER.md` were updated to reflect a single factual line
+on `/about` and in the footer (naming the service and its own phone
+number), with no dedicated page, nav item, or journey — the smallest-
+footprint option offered, and the one the owner chose.
+
+**`BRAND_GUIDELINES.md` and `LOGO_ASSET_REGISTER.md` were rewritten
+before wireframing began**, not after. The Phase 4 brief named both as
+the source of truth for "the approved black-and-orange identity," but
+both documents still described the superseded Claret system in their
+main body (only a short notice at the top flagged the supersession).
+Wireframing against a stale spec would have meant re-deriving colour/
+type decisions from scratch anyway, so both were restructured: a new
+"CURRENT BRAND" section at the top of each is now the live
+specification (real palette with contrast ratios recalculated, a
+typography system for actual page content — Poppins/Inter, chosen
+because the logo's own novelty rounded lettering doesn't hold up as a
+body/heading face at paragraph sizes — and the real logo file
+inventory), with the Claret material kept below, unedited, marked
+historical. This is a documentation-accuracy fix the Phase 4 work
+depended on, not a new creative decision.
+
+**Homepage navigation order changed to Buy-first in the new
+`SITEMAP.md`, but this is a recommendation, not an approval.** The
+Phase 4 brief's own page list leads with the four search categories;
+the Day 2/3 approved nav led with Sell/Let. Rather than silently
+picking one, the new document states the change plainly and repeats
+the still-open Day 2/3 question about nav order at Approval Gate 4 —
+see the Phase 4 report for the explicit ask.
+
+**Area Guides and Insights are built as empty page templates, not
+populated with placeholder-but-plausible content.** Both were
+previously excluded entirely (Day 2/3) for lacking confirmed content.
+The Phase 4 brief asks for them in the IA, so the page structure now
+exists — but with zero real guides/articles written, and both
+deliberately **omitted from primary navigation** until at least one
+real, sourced piece of content exists, so an empty nav item never
+ships. Every heading in the template is a section label, not a filled-
+in claim.
+
+**Wireframes were delivered as a published, inspectable Artifact, not
+as code in `web/`.** The Phase 4 brief explicitly says "create
+inspectable responsive wireframes but do not implement the final
+polished website" — matching the pattern already used for Phase 2's
+creative-direction comparison, a static prototype outside the tested
+live codebase satisfies "inspectable" without touching, or risking
+regressing, the actual application.
+
+**Email plan is a specification only.** All twenty proposed addresses,
+the DNS records (SPF/DKIM/DMARC), and the provider comparison in
+`EMAIL_AND_FORM_ROUTING.md` are unactioned — no account, mailbox,
+alias, or DNS record exists. Choosing and paying for a provider is a
+Rule 4 decision left entirely to the owner.
+
 ## 2026-09-09 — Owner override: replacing the invented Direction E ("Claret") with the existing real "Times Estates" brand
 
 **Decision:** Direction E ("Claret") was approved at Approval Gate 3 and

@@ -1,12 +1,47 @@
 # LOGO_ASSET_REGISTER.md — Times Estate Ltd
 
-## ⚠ SUPERSEDED (2026-09-09)
+## CURRENT — real "Times Estates" logo files (from 2026-09-09)
 
-This register covers the Claret logo suite, now replaced by the
-owner's existing real "Times Estates" brand — see `DECISIONS.md`
-(2026-09-09). Files listed below still exist in `brand/logo/` and are
-not deleted, but are no longer the identity this project is building
-toward. A new register for the real-brand logo files will follow.
+Generator: `brand/build-real-brand-logo.mjs`, run from `brand/`
+(deterministic — re-running reproduces identical output). Full design
+rationale in `BRAND_GUIDELINES.md`'s "CURRENT BRAND" section.
+
+**SVG masters — `brand/logo-real/svg/`:**
+
+| File | Lockup | Context | Use |
+|---|---|---|---|
+| `te-real-primary-transparent-light-use.svg` | Primary "TimesEstates" | Ink text, transparent | Live site header (copied to `web/public/brand/times-estates-logo.svg`) |
+| `te-real-primary-transparent-dark-use.svg` | Primary | White text, transparent | Placing on an already-dark surface (copied to `web/public/brand/times-estates-logo-reversed.svg`) |
+| `te-real-primary-on-white.svg` | Primary | Ink text, opaque white background | Contexts needing an opaque tile |
+| `te-real-primary-on-black.svg` | Primary | White text, opaque `#141414` background | Contexts needing an opaque dark tile |
+| `te-real-primary-for-light-backgrounds.svg` | Primary | Ink text, transparent (duplicate of the light-use file, kept from the draft pass) | Same as light-use |
+| `te-real-icon-full-colour.svg` | Icon alone | Transparent | Favicon source, compact placements (copied to `web/public/brand/times-estates-icon.svg`) |
+| `te-real-icon-on-dark.svg` | Icon alone | Opaque `#141414` background, rounded tile | Favicon/app-icon raster source |
+| `te-real-icon-on-light.svg` | Icon alone | Opaque white background, rounded tile | Alternate light-tile icon |
+
+**Raster exports — `brand/logo-real/png/` and `brand/logo-real/webp/`:**
+the icon-on-dark tile, rasterised at 16/32/48/180/192/512px (PNG +
+WebP). Copied into the live site as `web/src/app/icon.png` (favicon)
+and `web/src/app/apple-icon.png` (180px).
+
+**What's applied to the live site today:** the header logo and the
+favicon/app icon (`DECISIONS.md`, 2026-09-09). Nothing else yet — no
+stationery, social, or digital pack exists for this identity (the
+Claret-era pack below is superseded, not replaced item-for-item).
+
+**Honesty note:** this is a close recreation from a reference image,
+not the original vector artwork — see `BRAND_GUIDELINES.md`'s logo
+section for the full caveat and what a future professional redraw
+would involve.
+
+---
+
+## Historical — Claret logo suite, superseded 2026-09-09
+
+This section covers the Claret logo suite, replaced by the real
+"Times Estates" brand above — see `DECISIONS.md` (2026-09-09). Files
+listed below still exist in `brand/logo/` and are not deleted, but are
+no longer the identity this project is building toward.
 
 ## Status of this document
 

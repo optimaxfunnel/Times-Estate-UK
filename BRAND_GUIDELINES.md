@@ -1,15 +1,176 @@
 # BRAND_GUIDELINES.md — Times Estate Ltd
 
-## ⚠ SUPERSEDED (2026-09-09)
+## CURRENT BRAND — "Times Estates" (real identity, from 2026-09-09)
 
-The Claret identity documented in this file has been **replaced** by
-the owner's existing real "Times Estates" brand (black/orange,
-existing wordmark), evidenced by photographs of the owner's actual
-business cards — see `DECISIONS.md` (2026-09-09) for the full reason.
-This file is kept as the historical record of what was built and why,
-not deleted or rewritten, but it no longer describes the identity this
-project is building toward. A new brand-guidelines file for the real
-identity will be created separately once that identity is confirmed.
+Everything from here to **"Historical — Direction E ('Claret')"**
+below is the current, live specification. Section numbering below
+that marker belongs to the superseded Claret system, kept for the
+record, not renumbered, to avoid rewriting cross-references from other
+documents.
+
+### A. Foundation
+
+**Customer-facing name:** Times Estates, everywhere in the site's UI,
+navigation and marketing copy. **Legal name:** Times Estate Ltd, used
+only where legally required — company-number references, Terms of
+Website Use, Privacy Policy, Complaints Procedure, and footer small
+print (`DECISIONS.md`, 2026-09-09).
+
+**Why this identity, not an invented one:** the business already
+trades under this mark (evidenced by the owner's own business cards
+and the live domain timesestates.co.uk) — recreating the real thing
+took priority over designing something new, per `CLAUDE.md` Rule 1.
+
+### B. Logo
+
+Source files: `brand/logo-real/svg/` (masters), `brand/logo-real/png/`
+and `brand/logo-real/webp/` (raster exports), copied into
+`web/public/brand/` for use in the live site. Full inventory in
+`LOGO_ASSET_REGISTER.md`'s current section.
+
+- **Primary lockup:** the continuous logotype "TimesEstates" (no
+  space) — a custom orange rounded "T" crossbar and oversized "i" dot,
+  then "mes" in ink/white, then a house pictogram (with chimney)
+  standing in for the "E" of "Estates" — orange body, white letter —
+  then "states". Two colour contexts: **light-background** (ink text,
+  transparent) and **dark-background** (white text, transparent), plus
+  filled variants with a white or near-black `#141414` background
+  rectangle for contexts needing an opaque logo tile.
+- **Icon alone:** the house-with-"E" pictogram, used for the favicon,
+  app icon, and anywhere the full wordmark won't fit legibly (below
+  roughly 120px wide).
+- **Honesty note carried forward from `DECISIONS.md`:** this is a
+  close recreation from a reference image, not a trace of the original
+  vector artwork or the original typeface file (not available). It
+  should be redrawn from proper source artwork by a designer if the
+  business wants pixel-exact fidelity to the original mark. Treat it
+  as production-ready for the website and digital use; flag it before
+  any high-value print run (signage, large-format boards).
+- **Minimum size / clear space:** don't reproduce the primary lockup
+  narrower than 120px wide (digital) or 30mm (print); keep clear space
+  around any lockup equal to the height of the house icon's roof.
+- **Misuse:** don't stretch, recolour outside §C's palette, rotate,
+  add drop shadows/bevels, or place the light-background version on a
+  dark or busy photographic background (use the dark-background
+  version instead).
+
+### C. Colour specification
+
+| Role | Name | HEX | RGB | Use |
+|---|---|---|---|---|
+| Ink | Near-black | `#141414` | 20, 20, 20 | Primary background (dark sections, header on dark, footer), primary text on light backgrounds at `#1A1A1A` |
+| Background (light) | White | `#FFFFFF` | 255, 255, 255 | Page background, card surfaces |
+| Accent | Copper Orange | `#D9772E` | 217, 119, 46 | Logo accent, buttons, links, active states, section dividers |
+| Accent tint | Soft Copper Tint | `#FBEBDD` | 251, 235, 221 | Section backgrounds needing a light accent wash, badges |
+
+**Colour honesty note:** `#D9772E` is a visual estimate read from a
+photograph/reference image of the owner's real card, close to the
+owner's own `#D97730` guess — not a lab- or print-verified sample. Get
+a proper swatch or the original print file before any colour-critical
+reprint of physical stationery (`DECISIONS.md`).
+
+**Verified accessible pairings (WCAG contrast, calculated):**
+
+| Pairing | Ratio | Passes |
+|---|---|---|
+| White text on Ink (`#141414`) | 18.1:1 | AAA |
+| Ink text (`#1A1A1A`) on White | 17.9:1 | AAA |
+| Copper Orange (`#D9772E`) on Ink | 6.6:1 | AA (all text sizes), AAA at large text |
+| Copper Orange (`#D9772E`) on White | 2.9:1 | **Fails for text** — use orange only for large/bold text (≥24px or ≥19px bold), icons, borders, or fills on white; for orange body text or small links on white, darken to `#B5601F` (4.6:1, AA) instead |
+| Ink text on Soft Copper Tint | 15.9:1 | AAA |
+
+**Rule this table enforces on every wireframe/page below:** orange
+text at normal body size never sits directly on white — it's a fill/
+icon/large-heading/button colour there, or it's used on the dark (Ink)
+background where its contrast is strong.
+
+### D. Typography
+
+The logo's hand-built lettering is a fixed asset and stays as-is — it
+is not the site's running type system. For actual page headings, UI
+and body text, a novelty rounded logo font (Baloo 2, used only in the
+logo artwork) would undercut legibility and the project's £50k quality
+benchmark at paragraph sizes, so two clean, professional Google Fonts
+carry the site itself, chosen to still feel approachable rather than
+corporate:
+
+- **Display (H1–H3):** **Poppins**, weight 600–700 — geometric,
+  friendly rounded terminals that echo the logo's character without
+  copying it into body text.
+- **UI, body, price, legal (H4–H6, navigation, paragraphs):**
+  **Inter**, weights 400–600 — highly legible at small sizes, neutral
+  enough not to compete with Poppins headings.
+- Both OFL-licensed, free, self-hostable via `next/font/google` exactly
+  as the live site already loads its current fonts.
+
+**Fallback stacks:** `'Poppins', -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif`
+and `'Inter', -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif`.
+
+| Level | Size (desktop) | Size (mobile) | Weight | Face |
+|---|---|---|---|---|
+| H1 | 2.75rem / 44px | 2rem / 32px | 700 | Poppins |
+| H2 | 2.125rem / 34px | 1.625rem / 26px | 600 | Poppins |
+| H3 | 1.625rem / 26px | 1.375rem / 22px | 600 | Poppins |
+| H4 | 1.25rem / 20px | 1.125rem / 18px | 600 | Inter |
+| H5 | 1.0625rem / 17px | 1rem / 16px | 600 | Inter |
+| H6 / eyebrow | 0.875rem / 14px, uppercase, +0.06em tracking | same | 600 | Inter |
+| Body | 1rem / 16px, line-height 1.6 | same | 400 | Inter |
+| Navigation | 0.9375rem / 15px | same | 500 | Inter |
+| Label / tag | 0.75rem / 12px, uppercase, +0.05em tracking | same | 600 | Inter |
+| Price | 1.25rem / 20px | 1.125rem / 18px | 600 | Inter |
+| Legal / fine print | 0.75rem / 12px, 70% opacity | same | 400 | Inter |
+
+### E. System rules
+
+- **Spacing:** 8px base unit; section padding 48–64px desktop / 32px
+  mobile — unchanged from the live site's existing convention.
+- **Grid:** 12-column, max content width 1180px, 24px gutter —
+  unchanged from the live `Container` component.
+- **Border radius:** 8px (cards, buttons, form fields), 16px (feature
+  tiles, the logo tile background) — friendlier than a sharp-cornered
+  corporate system, echoing the logo's rounded letterforms without the
+  more ornate 16px+ used under the old Claret system.
+- **Shadow:** one soft token, `0 4px 16px rgba(20,20,20,0.10)`, used
+  sparingly for cards lifting off a white or tint background; never on
+  the logo.
+- **Icons:** simple line icons, 1.75–2px stroke, rounded terminals
+  (matching the logo's rounded geometry); solid Copper Orange fill for
+  active/selected states only.
+- **Photography:** direction unchanged from what's already
+  established for this project — real property photography once
+  supplied; every placeholder until then stays visibly labelled
+  ("Sample image — not a real property"). Warm, natural light rather
+  than cold/blue grading, to sit comfortably against the black/white/
+  orange palette without turning the whole page cold.
+- **Maps:** when added (see `SITEMAP.md` Phase 4 map/list results
+  spec), pin colour is Copper Orange on a desaturated/muted map style —
+  never a stock vivid map palette that would fight the brand colours.
+- **Motion:** short, purposeful transitions (150–250ms, ease-in-out),
+  respecting `prefers-reduced-motion: reduce` exactly as the live
+  site's global CSS already does. The homepage hero's auto-rotating
+  slideshow additionally **pauses entirely** under
+  `prefers-reduced-motion: reduce` rather than just speeding down, per
+  the wireframe spec in `SITEMAP.md`.
+
+### F. What Phase 4 deliberately did not do to this section
+
+- Did not commission a professional redraw of the logo — flagged
+  again, not newly discovered, as a good follow-up if pixel-exact
+  fidelity or a large-format print use ever needs it.
+- Did not build a full stationery/social/digital pack for this real
+  identity (the Claret-era pack in §6/§7 below is superseded, not
+  replaced item-for-item yet) — out of scope for a UX/IA/content phase;
+  flagged as a follow-up once the identity itself is fully signed off.
+
+---
+
+## Historical — Direction E ("Claret"), superseded 2026-09-09
+
+The Claret identity documented from here down has been **replaced** by
+the owner's existing real "Times Estates" brand described above,
+evidenced by photographs of the owner's actual business cards — see
+`DECISIONS.md` (2026-09-09) for the full reason. Kept as the historical
+record of what was built and why, not deleted.
 
 ## Status of this document
 
