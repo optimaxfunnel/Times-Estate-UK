@@ -6,6 +6,8 @@ import { PlaceholderNotice } from "@/components/ui/PlaceholderNotice";
 import { Badge } from "@/components/ui/Badge";
 import { ButtonLink } from "@/components/ui/ButtonLink";
 import { siteConfig } from "@/lib/site-config";
+import { socialProfiles } from "@/lib/social-config";
+import { SocialLinks } from "@/components/social/SocialLinks";
 
 export const metadata: Metadata = {
   title: "Contact Us",
@@ -86,6 +88,18 @@ export default function ContactPage() {
             /CONTENT_REQUIRED.md), so they are not shown here. Please call,
             email, or use the form to get in touch for now.
           </PlaceholderNotice>
+          {socialProfiles.some((p) => p.enabled && p.url) && (
+            <div>
+              <h2 className="text-lg font-semibold text-ink">
+                Connect with us
+              </h2>
+              <SocialLinks
+                profiles={socialProfiles}
+                variant="contact"
+                className="mt-3"
+              />
+            </div>
+          )}
           <div className="rounded-sm border border-border bg-surface p-4">
             <p className="text-sm text-ink/80">
               Prefer a call instead of a form?

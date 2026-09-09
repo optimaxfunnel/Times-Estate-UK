@@ -1,7 +1,9 @@
 import Link from "next/link";
 import { footerNav, siteConfig } from "@/lib/site-config";
+import { socialProfiles } from "@/lib/social-config";
 import { Container } from "@/components/ui/Container";
 import { Badge } from "@/components/ui/Badge";
+import { SocialLinks } from "@/components/social/SocialLinks";
 
 export function Footer() {
   const year = new Date().getFullYear();
@@ -9,7 +11,7 @@ export function Footer() {
   return (
     <footer className="mt-auto bg-ink text-white">
       <Container className="py-12">
-        <div className="mb-10 flex items-center">
+        <div className="mb-8 flex flex-wrap items-center justify-between gap-6">
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             src="/brand/times-estates-logo-reversed.svg"
@@ -18,9 +20,14 @@ export function Footer() {
             height={140}
             className="h-8 w-auto"
           />
+          {/* Primary sitewide social location (desktop and mobile — this
+              one placement reflows responsively rather than needing a
+              separate mobile-only block). Renders nothing until at least
+              one profile is enabled with a real URL. */}
+          <SocialLinks profiles={socialProfiles} variant="footer" />
         </div>
 
-        <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-7">
+        <div className="grid gap-10 border-t border-white/15 pt-10 sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-7">
           {Object.entries(footerNav).map(([group, links]) => (
             <nav key={group} aria-label={group}>
               <h2 className="mb-3 text-xs font-semibold uppercase tracking-wide text-white/50">

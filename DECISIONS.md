@@ -7,6 +7,61 @@ compliance positions) remain the owner's or their professional
 advisers', per `CLAUDE.md` Rule 5; this log covers project-management
 and technical judgement calls made in carrying out an instruction.
 
+## 2026-09-09 — Sitewide social-links system built, every channel disabled (no profile has ever been supplied)
+
+**What was checked before building anything:** a full search of every
+project document and every line of application code for any Facebook,
+Instagram, LinkedIn, YouTube, X/Twitter, TikTok, WhatsApp Business, or
+Google Business Profile URL. **None exist anywhere** — this isn't a
+partial list with a few confirmed; zero social profiles have ever been
+supplied by the owner. This matches the WhatsApp-specific gate already
+recorded for Phase 5/7 (a `wa.me` link needs WhatsApp Business approval
+specifically, never given) — extended here to mean the same caution
+applies to all eight channels equally, not just WhatsApp.
+
+**What was built anyway, and why that's not a contradiction:** a
+reusable `SocialLinks` component and a typed `social-config.ts`
+covering all eight platforms, wired into the footer, the mobile
+navigation drawer, and a new "Connect with us" section on `/contact` —
+but with **every entry's `url: null` and `enabled: false`**. The
+component itself renders nothing when no profile is both enabled and
+has a real URL (confirmed on the built production site: no "Follow
+Times Estates" heading, no "Connect with us" section, no `sameAs` in
+structured data — verified by direct inspection of the built HTML, not
+assumed). This means the plumbing is ready and tested, but nothing
+invented reaches a real visitor — the same pattern already used for
+other not-yet-confirmed facts throughout this project (e.g. the
+Construction-services mention), just applied to a whole feature rather
+than a content field.
+
+**Design choice: hand-authored icons, no new dependency.** The project
+has zero icon-package dependencies (`WEBSITE_AUDIT.md`). Eight simple,
+recognisable, single-colour glyphs didn't justify adding one — they're
+built the same way the existing hamburger/phone icons already are
+(plain inline SVG, `currentColor`), just centralised in one file.
+
+**Design choice: default state uses the site's own tokens; brand
+colour appears only on hover.** Exactly as instructed — a muted grey
+circle (`bg-secondary/10` on light backgrounds, `bg-white/10` on the
+dark footer) that fills with the platform's own brand colour and turns
+the icon white on hover/focus, verified to hold clear contrast in both
+states by direct screenshot.
+
+**Verification performed:** typecheck/lint/format/test/build all pass;
+the production build was checked directly (not just the dev server)
+to confirm zero social markup renders anywhere while every channel is
+disabled; screenshots taken of the mobile footer (all eight icons,
+plus a hover-state screenshot), the mobile navigation drawer's compact
+row, and the Contact page's fuller icon-plus-label-plus-description
+treatment — desktop-width footer confirmed via computed CSS/DOM
+inspection rather than a screenshot after a repeated, tool-side
+screenshot-rendering failure specific to certain resized-viewport-plus-
+long-scroll combinations in this session (unrelated to the code — the
+same content renders correctly at every viewport width that could be
+screenshotted, and the responsive grid classes are the same standard
+Tailwind breakpoints already used and verified working elsewhere on
+this site).
+
 ## 2026-09-09 — Phase 7: prepared launch/email/handover plans, but recommended against approving launch
 
 **What was done:** every item Phase 7 asked for was prepared without

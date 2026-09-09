@@ -1,5 +1,6 @@
 import { siteConfig } from "@/lib/site-config";
 import { env } from "@/lib/env";
+import { getEnabledSocialProfiles } from "@/lib/social-config";
 import type { PublicProperty } from "@/lib/property/types";
 
 /**
@@ -20,6 +21,10 @@ import type { PublicProperty } from "@/lib/property/types";
  * Confirmed/Verified.
  */
 export function organizationJsonLd() {
+  const socialUrls = getEnabledSocialProfiles()
+    .map((p) => p.url)
+    .filter((url): url is string => !!url);
+
   return {
     "@context": "https://schema.org",
     "@type": "RealEstateAgent",
@@ -33,6 +38,10 @@ export function organizationJsonLd() {
       postalCode: "SW17 7TJ",
       addressCountry: "GB",
     },
+    // Only ever verified, enabled profiles reach here — see
+    // lib/social-config.ts. Omitted entirely (not an empty array) while
+    // none are confirmed, since an empty `sameAs` is meaningless noise.
+    ...(socialUrls.length > 0 && { sameAs: socialUrls }),
   };
 }
 

@@ -3,7 +3,9 @@
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { primaryNav } from "@/lib/site-config";
+import { socialProfiles } from "@/lib/social-config";
 import { ButtonLink } from "@/components/ui/ButtonLink";
+import { SocialLinks } from "@/components/social/SocialLinks";
 
 export function MobileMenu() {
   const [open, setOpen] = useState(false);
@@ -86,6 +88,11 @@ export function MobileMenu() {
           <ButtonLink href="/sell" className="mt-4 w-full">
             Book a Valuation
           </ButtonLink>
+          <SocialLinks
+            profiles={socialProfiles}
+            variant="drawer"
+            className="mt-4"
+          />
         </nav>
       )}
     </div>
