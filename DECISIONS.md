@@ -7,6 +7,96 @@ compliance positions) remain the owner's or their professional
 advisers', per `CLAUDE.md` Rule 5; this log covers project-management
 and technical judgement calls made in carrying out an instruction.
 
+## 2026-09-11 — Second rebrand: "Times Estates" real-photo identity replaced by a new "Times Estate Ltd" skyline identity, at the owner's explicit direction
+
+**What happened:** the owner supplied a screenshot of a website using a
+"TIMES ESTATE LTD" wordmark with a skyline icon, a "LONDON PROPERTY
+EXPERTS" tagline, and a black/orange/white colour scheme, alongside a
+large implementation prompt asking for it to be applied site-wide. Before
+touching anything, this was flagged directly: the screenshot also
+contained several things that conflicted with standing project rules and
+prior decisions — a different logo/brand than the one already built and
+approved (Phases 3/5/6), Construction shown as a full peer service
+(contradicting the Phase 4 "mention only" decision), a fabricated named
+testimonial with a star rating, specific fake listings across named
+London areas plus a "672 properties" count (contradicting the standing
+rule that geographic coverage is unconfirmed and nothing invents
+listings), live-looking social icons (contradicting the same-session
+confirmation that zero social profiles are supplied), and an interactive
+map with pins (no map provider ever approved). Four clarifying questions
+were asked; the owner dismissed the question prompts and instead replied
+directly: **"Replace the previous logo and identity... with this new
+skyline-icon design as the official Times Estate Ltd brand going
+forward — this is a deliberate new direction, not a correction of a
+mistake."**
+
+**What this resolves and what it doesn't.** Taken together with the
+explicit instruction, this authorises exactly one of the four flagged
+items: **the logo/visual identity change** — recorded here, actioned
+immediately. The other three flagged conflicts (Construction's scope,
+the fabricated testimonial/listings/area names, and the live social
+icons/interactive map) were **not** addressed by this instruction and
+remain exactly as previously decided: Construction stays mention-only,
+no testimonial or invented listing/area content has been added anywhere,
+and the social-links system built earlier today stays fully disabled.
+The larger sitewide implementation prompt (search tabs/filter sidebar/
+service strip reused everywhere, per the dismissed question set) has not
+been actioned either — only this specific, explicit logo/identity
+instruction has been carried out.
+
+**What was built:** a full recreation of the skyline mark — see
+`BRAND_GUIDELINES.md` and `LOGO_ASSET_REGISTER.md`'s current sections for
+the design detail. Same honesty discipline as every prior logo build in
+this project: the reference was a screenshot of a rendered page, not
+source artwork, so the skyline icon is rebuilt as generic geometry (not a
+trace of one specific real landmark) and the wordmark uses Merriweather
+(a bold slab serif, Google Fonts OFL) as a close visual match rather than
+an extracted original font.
+
+**Judgement call, flagged explicitly rather than assumed silently: the
+customer-facing display name also changes, from "Times Estates" back to
+the full "Times Estate Ltd."** The owner's instruction was scoped to
+"logo and identity," and didn't explicitly mention the display-name
+convention set in Phase 5. But the new logo artwork itself spells out
+"TIMES ESTATE LTD" in full — keeping the site's running text, aria-labels
+and page titles saying the shorter "Times Estates" while the visible logo
+reads "Times Estate Ltd" would have produced a visibly inconsistent site
+(the one thing "apply it consistently across every page" most clearly
+asked to avoid). `siteConfig.displayName` was updated to match the logo
+exactly, and every hardcoded "Times Estates" string across the codebase
+was updated to match. If the owner actually wants to keep "Times Estates"
+as informal running-text branding alongside a "Times Estate Ltd" logo
+mark, that's a one-line config change to reverse — flagged here so it's
+an easy, visible correction if this reading is wrong.
+
+**Colour tokens deliberately left unchanged.** The brief asked for "the
+exact same colour scheme (black, orange, white)" — rather than
+re-sampling new hex values from the reference screenshot (which would
+re-risk reintroducing the WCAG contrast defect found and fixed in Phase
+6), the existing, already-corrected `--color-accent`/`--color-ink`/etc.
+tokens were reused exactly as-is. Only the logo artwork and the heading
+typeface (Merriweather, replacing Poppins, chosen to match the new
+wordmark's slab-serif character the same way Poppins was chosen to match
+the previous wordmark's rounded character) changed.
+
+**Old identity preserved, not deleted, per Rule 3.** `web/public/brand/
+times-estates-*.svg` and `brand/logo-real/` remain exactly as they were;
+the new files (`times-estate-ltd-*.svg`, `brand/logo-skyline/`) sit
+alongside them. Only the favicon/app-icon files were overwritten (a
+favicon is a single canonical slot, not something to keep historical
+copies of live) — the previous "TimesEstates" house-icon favicon is
+still recoverable from `brand/logo-real/png/` if ever needed.
+
+**Verified:** typecheck/lint/format/test (69/69) all pass; production
+build succeeds; Lighthouse (mobile, isolated Chrome profile) shows
+Accessibility 100, Best Practices 100, SEO 100, Performance 94, CLS 0,
+colour-contrast and target-size both still passing — confirming the
+Phase 6 fixes hold under the new logo/font. Header, footer, and favicon
+all screenshot-verified live on the rebuilt production site. LCP rose
+slightly (2.6s → 3.2s), consistent with Merriweather being a heavier
+font file than Poppins — a modest addition to the already-flagged,
+non-blocking LCP gap from `QA_REPORT.md` §3, not a new defect.
+
 ## 2026-09-09 — Sitewide social-links system built, every channel disabled (no profile has ever been supplied)
 
 **What was checked before building anything:** a full search of every

@@ -1,5 +1,5 @@
 /**
- * Single source of truth for Times Estates' social profiles.
+ * Single source of truth for Times Estate Ltd' social profiles.
  *
  * Rule 1 (CLAUDE.md) applies here exactly as it does to every other
  * business fact: no username, profile URL, follower count, review score
@@ -29,9 +29,9 @@ export interface SocialProfile {
   label: string;
   /** The genuine, verified profile URL — null until supplied and checked. */
   url: string | null;
-  /** True only once `url` is a confirmed, verified Times Estates profile. */
+  /** True only once `url` is a confirmed, verified Times Estate Ltd profile. */
   enabled: boolean;
-  /** Full accessible name for the icon-only link, e.g. "Visit Times Estates on Facebook". */
+  /** Full accessible name for the icon-only link, e.g. "Visit Times Estate Ltd on Facebook". */
   accessibleLabel: string;
   /** A short, neutral one-line description for the Contact page's fuller treatment. */
   description: string;
@@ -45,7 +45,7 @@ export const socialProfiles: SocialProfile[] = [
     label: "Facebook",
     url: null,
     enabled: false,
-    accessibleLabel: "Visit Times Estates on Facebook",
+    accessibleLabel: "Visit Times Estate Ltd on Facebook",
     description: "Property updates and local news.",
     brandColor: "#1877F2",
   },
@@ -54,7 +54,7 @@ export const socialProfiles: SocialProfile[] = [
     label: "Instagram",
     url: null,
     enabled: false,
-    accessibleLabel: "Visit Times Estates on Instagram",
+    accessibleLabel: "Visit Times Estate Ltd on Instagram",
     description: "Featured properties and behind the scenes.",
     brandColor: "#C13584",
   },
@@ -63,7 +63,7 @@ export const socialProfiles: SocialProfile[] = [
     label: "LinkedIn",
     url: null,
     enabled: false,
-    accessibleLabel: "Visit Times Estates on LinkedIn",
+    accessibleLabel: "Visit Times Estate Ltd on LinkedIn",
     description: "Company updates and industry news.",
     brandColor: "#0A66C2",
   },
@@ -72,7 +72,7 @@ export const socialProfiles: SocialProfile[] = [
     label: "YouTube",
     url: null,
     enabled: false,
-    accessibleLabel: "Visit Times Estates on YouTube",
+    accessibleLabel: "Visit Times Estate Ltd on YouTube",
     description: "Property walkthroughs and area guides.",
     brandColor: "#FF0000",
   },
@@ -81,7 +81,7 @@ export const socialProfiles: SocialProfile[] = [
     label: "X",
     url: null,
     enabled: false,
-    accessibleLabel: "Visit Times Estates on X",
+    accessibleLabel: "Visit Times Estate Ltd on X",
     description: "Quick updates and announcements.",
     brandColor: "#000000",
   },
@@ -90,7 +90,7 @@ export const socialProfiles: SocialProfile[] = [
     label: "TikTok",
     url: null,
     enabled: false,
-    accessibleLabel: "Visit Times Estates on TikTok",
+    accessibleLabel: "Visit Times Estate Ltd on TikTok",
     description: "Short video property tours.",
     brandColor: "#000000",
   },
@@ -104,7 +104,7 @@ export const socialProfiles: SocialProfile[] = [
     // to `https://wa.me/447779991313` until that approval is recorded.
     url: null,
     enabled: false,
-    accessibleLabel: "Message Times Estates on WhatsApp",
+    accessibleLabel: "Message Times Estate Ltd on WhatsApp",
     description: "Message us directly for a quick reply.",
     brandColor: "#25D366",
   },
@@ -113,7 +113,7 @@ export const socialProfiles: SocialProfile[] = [
     label: "Google Business Profile",
     url: null,
     enabled: false,
-    accessibleLabel: "View Times Estates on Google Business Profile",
+    accessibleLabel: "View Times Estate Ltd on Google Business Profile",
     description: "Find us on Google, with reviews and directions.",
     brandColor: "#4285F4",
   },

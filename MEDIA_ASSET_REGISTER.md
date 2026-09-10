@@ -1,13 +1,18 @@
 # MEDIA_ASSET_REGISTER.md — Times Estate Ltd
 
-## ⚠ SUPERSEDED (2026-09-09)
+## ⚠ SUPERSEDED (2026-09-09, then again 2026-09-11)
 
 This register covers Claret-coloured stationery/social/digital assets,
-now replaced by the owner's existing real "Times Estates" brand — see
-`DECISIONS.md` (2026-09-09). Files listed below still exist in
-`brand/` and are not deleted, but are no longer the identity this
-project is building toward. A new register will follow once the
-real-brand asset pack is rebuilt.
+first replaced by the "Times Estates" real-photo brand (2026-09-09),
+which has itself now been replaced by the new "Times Estate Ltd"
+skyline identity (2026-09-11) — see `DECISIONS.md` for both. Files
+listed below still exist in `brand/` and are not deleted, but are no
+longer the identity this project is building toward. **No stationery/
+social/digital pack exists yet for either the real-photo identity or
+the current skyline identity** — only the logo/favicon/site-token
+application has been done for the current brand
+(`LOGO_ASSET_REGISTER.md`); a matching asset pack is an open item, not
+yet requested or built.
 
 ## Status of this document
 

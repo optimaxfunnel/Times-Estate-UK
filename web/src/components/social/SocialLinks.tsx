@@ -99,10 +99,10 @@ export function SocialLinks({
   const isDrawer = variant === "drawer";
 
   return (
-    <nav aria-label="Times Estates on social media" className={className}>
+    <nav aria-label="Times Estate Ltd on social media" className={className}>
       {!isDrawer && (
         <h2 className="mb-3 text-xs font-semibold uppercase tracking-wide text-white/50">
-          Follow Times Estates
+          Follow Times Estate Ltd
         </h2>
       )}
       <ul

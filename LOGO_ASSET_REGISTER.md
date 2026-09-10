@@ -1,6 +1,47 @@
 # LOGO_ASSET_REGISTER.md — Times Estate Ltd
 
-## CURRENT — real "Times Estates" logo files (from 2026-09-09)
+## CURRENT — "Times Estate Ltd" skyline logo files (from 2026-09-11)
+
+Generator: `brand/build-skyline-logo.mjs`, run from `brand/`
+(deterministic). Full design rationale in `BRAND_GUIDELINES.md`'s
+current "CURRENT BRAND" section.
+
+**SVG masters — `brand/logo-skyline/svg/`:**
+
+| File | Lockup | Context | Use |
+|---|---|---|---|
+| `te-skyline-primary-transparent-light-use.svg` | Primary "TIMES ESTATE LTD" | Ink text, transparent | Live site header (copied to `web/public/brand/times-estate-ltd-logo.svg`) |
+| `te-skyline-primary-transparent-dark-use.svg` | Primary | White text, transparent | Placing on an already-dark surface (copied to `web/public/brand/times-estate-ltd-logo-reversed.svg`) |
+| `te-skyline-primary-on-white.svg` | Primary | Ink text, opaque white background | Contexts needing an opaque tile |
+| `te-skyline-primary-on-black.svg` | Primary | White text, opaque `#141414` background | Contexts needing an opaque dark tile |
+| `te-skyline-icon-full-colour.svg` | Icon alone | Transparent | Favicon source, compact placements (copied to `web/public/brand/times-estate-ltd-icon.svg`) |
+| `te-skyline-icon-on-dark.svg` | Icon alone | Opaque `#141414` background, rounded tile | Favicon/app-icon raster source |
+| `te-skyline-icon-on-light.svg` | Icon alone | Opaque white background, rounded tile | Alternate light-tile icon |
+
+**Raster exports — `brand/logo-skyline/png/` and `brand/logo-skyline/webp/`:**
+the icon-on-dark tile, rasterised at 16/32/48/180/192/512px (PNG +
+WebP). Copied into the live site as `web/src/app/icon.png` (favicon,
+overwriting the previous identity's icon — a favicon is a single
+canonical slot, unlike the logo files, which are kept alongside the
+historical ones) and `web/src/app/apple-icon.png` (180px).
+
+**What's applied to the live site today:** the header logo, the
+footer logo, and the favicon/app icon (`DECISIONS.md`, 2026-09-11) —
+verified live via the production build, screenshot-checked in the
+header and footer, and confirmed via `<link rel="icon">` inspection
+for the favicon. Nothing else yet — no stationery, social, or digital
+pack exists for this identity.
+
+**Honesty note:** this is a close recreation from a reference
+screenshot, not original vector artwork or a font file — the skyline
+icon is rebuilt as generic geometry (not a trace of a specific real
+landmark), and the wordmark uses Merriweather as a close visual match.
+See `BRAND_GUIDELINES.md`'s logo section for the full caveat and what
+a future professional redraw would involve.
+
+---
+
+## Historical — real "Times Estates" logo files, superseded 2026-09-11
 
 Generator: `brand/build-real-brand-logo.mjs`, run from `brand/`
 (deterministic — re-running reproduces identical output). Full design

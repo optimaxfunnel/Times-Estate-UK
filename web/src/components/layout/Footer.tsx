@@ -14,11 +14,11 @@ export function Footer() {
         <div className="mb-8 flex flex-wrap items-center justify-between gap-6">
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
-            src="/brand/times-estates-logo-reversed.svg"
+            src="/brand/times-estate-ltd-logo-reversed.svg"
             alt={siteConfig.displayName.value}
-            width={900}
-            height={140}
-            className="h-8 w-auto"
+            width={760}
+            height={170}
+            className="h-10 w-auto"
           />
           {/* Primary sitewide social location (desktop and mobile — this
               one placement reflows responsively rather than needing a

@@ -15,11 +15,11 @@ export function Header() {
         >
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
-            src="/brand/times-estates-logo.svg"
+            src="/brand/times-estate-ltd-logo.svg"
             alt={siteConfig.displayName.value}
-            width={900}
-            height={140}
-            className="h-9 w-auto sm:h-10"
+            width={760}
+            height={170}
+            className="h-11 w-auto sm:h-12"
           />
         </Link>
 

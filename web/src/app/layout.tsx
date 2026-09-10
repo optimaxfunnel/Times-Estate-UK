@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Poppins, Inter } from "next/font/google";
+import { Merriweather, Inter } from "next/font/google";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { AssistantWidget } from "@/components/ai/AssistantWidget";
@@ -8,10 +8,10 @@ import { organizationJsonLd } from "@/lib/seo/structured-data";
 import { env } from "@/lib/env";
 import "./globals.css";
 
-const poppins = Poppins({
-  variable: "--font-poppins",
+const merriweather = Merriweather({
+  variable: "--font-merriweather",
   subsets: ["latin"],
-  weight: ["600", "700"],
+  weight: ["700", "900"],
 });
 
 const inter = Inter({
@@ -22,13 +22,13 @@ const inter = Inter({
 export const metadata: Metadata = {
   metadataBase: new URL(env.NEXT_PUBLIC_SITE_URL),
   title: {
-    default: "Times Estates | London Estate Agents",
-    template: "%s | Times Estates",
+    default: "Times Estate Ltd | London Property Experts",
+    template: "%s | Times Estate Ltd",
   },
   description:
-    "Times Estates — residential and commercial sales, lettings and property management in London.",
+    "Times Estate Ltd — residential and commercial sales, lettings and property management in London.",
   openGraph: {
-    siteName: "Times Estates",
+    siteName: "Times Estate Ltd",
     type: "website",
     locale: "en_GB",
   },
@@ -41,7 +41,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html
       lang="en"
-      className={`${poppins.variable} ${inter.variable} h-full antialiased`}
+      className={`${merriweather.variable} ${inter.variable} h-full antialiased`}
     >
       <body className="flex min-h-full flex-col">
         <JsonLd data={organizationJsonLd()} />

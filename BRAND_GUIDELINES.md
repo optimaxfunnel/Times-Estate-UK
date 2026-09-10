@@ -1,12 +1,110 @@
 # BRAND_GUIDELINES.md — Times Estate Ltd
 
-## CURRENT BRAND — "Times Estates" (real identity, from 2026-09-09)
+## CURRENT BRAND — "Times Estate Ltd" skyline identity (from 2026-09-11)
+
+**This is the third identity this project has built, and the second
+deliberate rebrand** (Claret → the real "TimesEstates" business-card
+identity → this). The owner supplied a reference screenshot of a
+website using a "TIMES ESTATE LTD" wordmark with a skyline icon and
+explicitly instructed: replace the previous logo and identity with
+this new design as the official brand going forward — **"a deliberate
+new direction, not a correction of a mistake."** See `DECISIONS.md`
+(2026-09-11, "second rebrand") for the full account, including why the
+customer-facing display name changes too.
+
+### A. Foundation
+
+**Customer-facing name and legal name now coincide: "Times Estate
+Ltd", everywhere** — the new logo artwork itself spells out the full
+legal name, so the Phase 5 naming split (a shorter "Times Estates" for
+UI/marketing, the full legal name reserved for legal contexts) is
+retired. `siteConfig.displayName` and `siteConfig.legalName` now hold
+the same value; the two fields are kept separate in code only in case
+a future direction needs them to differ again.
+
+**Honesty note on this recreation, same discipline as every prior logo
+build in this project:** the reference was a screenshot of a rendered
+page, not original vector artwork or a font file. The skyline icon
+below is rebuilt as plain geometry — a generic multi-building
+silhouette, not a trace of any specific, identifiable real landmark —
+and the wordmark uses Merriweather (Google Fonts, OFL-licensed, weight
+900) as a close visual match to the reference's bold slab-serif
+letterforms, not an extracted original font. Colours were deliberately
+**not** re-sampled from the new reference screenshot — the existing
+black/ink/orange tokens (already corrected for WCAG AA contrast in
+Phase 6) are reused as-is, since the brief asked for "the exact same
+colour scheme (black, orange, white)" and re-deriving new hex values
+would re-risk the contrast defect already found and fixed once.
+
+### B. Logo
+
+Source files: `brand/logo-skyline/svg/` (masters), `brand/logo-skyline/png/`
+and `brand/logo-skyline/webp/` (raster exports), copied into
+`web/public/brand/` as `times-estate-ltd-logo.svg` (light-background),
+`times-estate-ltd-logo-reversed.svg` (dark-background), and
+`times-estate-ltd-icon.svg` (icon alone). Full inventory in
+`LOGO_ASSET_REGISTER.md`'s current section.
+
+- **Primary lockup:** a skyline silhouette icon (varied-height
+  buildings, two simple spire/tower accents, in Copper Orange) to the
+  left of the wordmark "TIMES ESTATE LTD" — "TIMES" in ink, "ESTATE" in
+  Copper Orange, "LTD" smaller in ink — with the tagline "LONDON
+  PROPERTY EXPERTS" beneath, letter-spaced, separated by a short orange
+  rule. Four variants: light-background/dark-background, each as a
+  transparent-background master and an opaque-tile version (white or
+  `#141414` fill) for contexts needing a solid backdrop.
+- **Icon alone:** the skyline silhouette, used for the favicon, app
+  icon, and any context too small for the full wordmark to stay
+  legible.
+- **Minimum size / clear space:** don't reproduce the primary lockup
+  narrower than 160px wide (digital) or 35mm (print) — the tagline is
+  the first element to lose legibility if shrunk further; keep clear
+  space around any lockup equal to the height of the tallest building
+  in the skyline icon.
+- **Misuse:** don't stretch, recolour outside §C's palette, rotate,
+  add drop shadows/bevels, or place the light-background version on a
+  dark or busy photographic background (use the dark-background
+  version instead) — same rules as every prior identity in this
+  project.
+
+### C. Colour, typography, and system rules
+
+**Unchanged from the previous identity** (§C–E of the historical
+section below) — the palette, contrast pairings, spacing, grid,
+border-radius, icon style, photography direction, map/motion rules all
+carry forward exactly as documented there. **The one change:** the
+site's heading typeface (`--font-heading`) is now **Merriweather**
+(weight 900 for display sizes, matching the logo wordmark), not
+Poppins — chosen to echo the new logo's slab-serif character the same
+way Poppins was chosen to echo the previous logo's rounded character.
+Body/UI text stays **Inter**, unchanged. The full type scale (H1–H6,
+body, price, legal) keeps the exact same sizes/weights table as
+before — only the face name changes.
+
+### D. What this rebrand deliberately did not do
+
+- Did not change the colour tokens — reused the Phase 6-corrected
+  black/orange/white values exactly, to avoid re-introducing a
+  contrast defect.
+- Did not rebuild the stationery/social/digital asset pack for this
+  identity — `MEDIA_ASSET_REGISTER.md` still describes the Claret-era
+  pack, now doubly superseded; a matching pack for this identity
+  doesn't exist yet, flagged as an honest gap, not built speculatively.
+- Did not commission a professional redraw — flagged, as always, as a
+  good follow-up if pixel-exact fidelity or large-format print use
+  ever needs it.
+
+---
+
+## Historical — "Times Estates" real-photo identity, superseded 2026-09-11
 
 Everything from here to **"Historical — Direction E ('Claret')"**
-below is the current, live specification. Section numbering below
-that marker belongs to the superseded Claret system, kept for the
-record, not renumbered, to avoid rewriting cross-references from other
-documents.
+below was the *previous* current specification (from 2026-09-09,
+recreated from the owner's business card photographs), now itself
+superseded by the skyline identity above. Kept for the record, not
+deleted, per `CLAUDE.md` Rule 3. Section numbering below is unchanged
+from when it was written, to avoid rewriting cross-references from
+other documents.
 
 ### A. Foundation
 

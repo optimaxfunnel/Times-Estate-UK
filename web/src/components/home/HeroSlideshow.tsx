@@ -12,22 +12,22 @@ const SLIDES = [
   {
     id: "residential-sales",
     eyebrow: "Residential sales",
-    caption: "Sample image — not a real Times Estates property",
+    caption: "Sample image — not a real Times Estate Ltd property",
   },
   {
     id: "residential-lettings",
     eyebrow: "Residential lettings",
-    caption: "Sample image — not a real Times Estates property",
+    caption: "Sample image — not a real Times Estate Ltd property",
   },
   {
     id: "commercial",
     eyebrow: "Commercial property",
-    caption: "Sample image — not a real Times Estates property",
+    caption: "Sample image — not a real Times Estate Ltd property",
   },
   {
     id: "property-management",
     eyebrow: "Property management",
-    caption: "Sample image — not a real Times Estates property",
+    caption: "Sample image — not a real Times Estate Ltd property",
   },
 ] as const;
 
@@ -85,7 +85,7 @@ export function HeroSlideshow() {
   return (
     <section
       aria-roledescription="carousel"
-      aria-label="Times Estates — property highlights"
+      aria-label="Times Estate Ltd — property highlights"
       className="relative isolate overflow-hidden bg-ink"
       onMouseEnter={() => setPlaying(false)}
       onMouseLeave={() => {

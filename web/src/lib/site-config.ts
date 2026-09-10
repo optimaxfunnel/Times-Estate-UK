@@ -25,13 +25,16 @@ export interface VerifiedFact<T> {
 export const siteConfig = {
   /**
    * Customer-facing brand name — use this everywhere in UI, navigation
-   * and marketing copy. `legalName` below is used only where legally
-   * required: company-number references, Terms of Website Use, Privacy
-   * Policy, Complaints Procedure, and footer small print. See
-   * DECISIONS.md (2026-09-09) and PHASE 4/5 briefs.
+   * and marketing copy. Previously "Times Estates" (a contraction adopted
+   * in Phase 5), retired 2026-09-11 when the owner deliberately rebranded
+   * again to a new "skyline" identity whose logo artwork itself spells out
+   * the full legal name — so the display and legal names now coincide.
+   * See DECISIONS.md (2026-09-11, "second rebrand") for the full account.
+   * `legalName` below is kept as a separate field for any future case
+   * where the two might need to differ again.
    */
   displayName: {
-    value: "Times Estates",
+    value: "Times Estate Ltd",
     status: "confirmed",
   } satisfies VerifiedFact<string>,
 

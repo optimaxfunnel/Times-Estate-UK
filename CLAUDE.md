@@ -87,7 +87,24 @@ material.
   four-tab quick search), a rebuilt footer, and a header phone number.
   Every existing route continues to run on the same, unchanged
   underlying stack, data model, and lead pipeline. Nothing deployed,
-  nothing connected. See `DECISIONS.md`.
+  nothing connected. **Superseded 2026-09-11** — see the note below.
+  See `DECISIONS.md`.
+- **2026-09-11 — second rebrand (not a numbered phase).** The owner
+  deliberately replaced the Phase 5 "Times Estates" identity with a
+  new "Times Estate Ltd" skyline mark from a reference screenshot they
+  supplied — explicitly "a deliberate new direction, not a correction
+  of a mistake." Logo, favicon, and the heading typeface (now
+  Merriweather) were updated site-wide via the same design-token
+  cascade; colours were deliberately left unchanged to avoid re-
+  risking the Phase 6 contrast fix. The customer-facing display name
+  also reverted to the full "Times Estate Ltd" to match the new logo
+  text exactly — flagged as a judgement call, easy to reverse if
+  wrong. See `DECISIONS.md` (2026-09-11, "second rebrand") for the
+  full account, including three other things the reference screenshot
+  showed that were **not** actioned (Construction as a full service,
+  invented testimonials/listings, live social/map features) because
+  they weren't part of this specific instruction and conflict with
+  standing decisions.
 - **Phase 6 (2026-09-09, testing, performance, accessibility, SEO and
   compliance) — complete, at Approval Gate 6.** A full QA pass against
   a real production build (`next build && next start`, not the dev
