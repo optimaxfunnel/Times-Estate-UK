@@ -7,6 +7,86 @@ compliance positions) remain the owner's or their professional
 advisers', per `CLAUDE.md` Rule 5; this log covers project-management
 and technical judgement calls made in carrying out an instruction.
 
+## 2026-10-20 — Segment 2 (strategy, design-application options, sitemap, journeys, SEO/redirects) delivered at Approval Gate 2
+
+**Instruction:** "I approve Segment 1. Complete Segment 2 only." —
+audiences, jobs/objections/trust/conversions, evidence-based
+positioning with every unsupported claim flagged, three design-
+application options (A Heritage London · B Modern Property Platform ·
+C Boutique London Agency) on the same identity and colour system with
+desktop/mobile header, search hero, property card, service card,
+valuation CTA, footer and typography for each, a recommendation
+without choosing, the sitemap/navigation, critical journeys with
+page-specific CTAs, and an SEO/redirect strategy. Stop at Gate 2.
+
+**Where the deliverables went, and why not a `segment-2/` folder.**
+Segment 1 wrote to `segment-1/` because that session could not run
+git and would not touch existing files. This session can, and
+`CLAUDE.md` names the root documents as primary — so the Segment 2
+content was written **into** `BRAND_STRATEGY.md`, `SITEMAP.md`,
+`USER_JOURNEYS.md`, `CONTENT_REGISTER.md` and this file (each with the
+earlier content kept beneath, marked historical where superseded),
+and the two new documents `DESIGN_APPLICATION_OPTIONS.md` and
+`SEO_REDIRECT_PLAN.md` were created at the root. `segment-1/` is
+untouched and is cited as a source throughout; its own `DECISIONS.md`
+entries (2026-10-19) remain there and are not duplicated here.
+
+**Segment numbering.** Segment 1 proposed its own seven-segment plan
+(`segment-1/PROJECT_BRIEF.md`) in which "Segment 2" was facts,
+identity and architecture decisions. The owner's Segment 2 instruction
+is the strategy/IA/design-options deliverable above; this session
+followed the instruction, not the proposal. The architecture
+decisions (Next.js upgrade, persistence, auth, email provider) remain
+open Rule 4 approvals and are not advanced by this segment.
+
+**Settled questions not repeated.** Segment 1's seven questions are
+still unanswered; none is re-asked. Where a deliverable depends on one,
+the dependency is named inline (Q1 artwork ownership, Q3 regulatory
+confirmations, Q4 services actually offered, Q5 fees, Q6 listings, Q7
+routing/access). The only question at Gate 2 is the option choice.
+
+**Judgement calls made in the deliverables:**
+
+- *Guaranteed Rent* is excluded from the sitemap (route reserved):
+  neither factually verified nor professionally reviewed — the brief's
+  own condition.
+- *Audience "Investors"* is treated as a sub-audience of landlords,
+  inferred from the live site's own language, with "no return figures"
+  as a hard rule rather than a tone preference.
+- *Canonical host*: `www.timesestates.co.uk` recommended over
+  `DEPLOYMENT.md` §5's earlier bare-domain preference, because that is
+  what is indexed; recorded as a decision for the owner only if they
+  object.
+- *Live-site redirect map*: decided row by row from Segment 1's URL
+  register; the two stale listings are the only rows left to the owner
+  (301 vs 410 depends on whether they are genuinely available).
+- *Header navigation* grouping built on 2026-10-20 (Properties ·
+  Landlords · Tenants · Services · About · Contact) is adopted in the
+  proposed sitemap with its dropdown contents settled, replacing the
+  Phase 4 Buy-first flat list that was itself never approved.
+- *Colour tokens*: the options use Segment 1's measured values. The
+  owner's same-day instruction "do not make changes to colour scheme"
+  was followed for the build (tokens untouched); applying the measured
+  values is proposed as part of whichever option is chosen, since the
+  current `#A8551A`/`#D9772E` are approximations inside the same
+  family and the swap is reversible. Flagged at Gate 2 as "unless you
+  object", not as a separate question.
+- *Style tiles* were produced on a Design canvas artifact rather than
+  as code in `web/`, matching the Phase 2 and Phase 4 pattern: the
+  brief says "show inspectable concepts or style tiles without
+  building the full website". The emblem on the canvas is the installed
+  asset; the wordmark on the tiles is set in Playfair Display, the
+  face every option proposes for it.
+- *Recommendation*: Option B, with "B + A's typography" named as the
+  specified combination if more heritage character is wanted. The
+  choice is explicitly left to the owner.
+
+**Also recorded:** Segment 1 (2026-10-19) advised against using the
+supplied logo file on the website until its ownership was confirmed.
+The owner's direct instruction the following day ("install the
+following logo") overrode that advice for the emblem; the ownership
+question (Q1) stays open and the emblem's use is reversible.
+
 ## 2026-10-20 — Front end rebuilt to the owner's reference homepage; owner-supplied logo installed (emblem only — the supplied file's wordmark is unusable)
 
 **Instruction:** "I want to build the front end of the website to look

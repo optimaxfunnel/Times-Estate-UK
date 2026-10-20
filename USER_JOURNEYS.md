@@ -1,6 +1,73 @@
 # USER_JOURNEYS.md — Times Estate Ltd
 
-## Status of this document
+# Segment 2 — Critical journeys and page-specific calls to action (2026-10-20, at Approval Gate 2)
+
+**Status.** A proposal. The nine Day 2 journeys below remain the
+field-level specification for each form (they are all built and all
+still run through the one validated lead pipeline, `lib/leads/actions.ts`);
+this section maps the **critical end-to-end journeys** across the
+Segment 2 sitemap and names the call to action on every step. Every
+journey still ends with a person at Times Estate Ltd acting — the site
+confirms receipt, never an outcome. No email is sent today (no
+provider connected); "confirmation email" means the planned
+transactional message in `EMAIL_AND_FORM_ROUTING.md`.
+
+## S2.1 The ten critical journeys
+
+| # | Journey | Entry points | Steps (page → action) | Lead category | What the visitor sees at the end | Owner dependency before this can go live |
+|---|---|---|---|---|---|---|
+| 1 | **Vendor → valuation** | Header "Get a Valuation" (every page); `/`, `/sell`, `/about`, area guides | `/sell` (why us, how it works, fees link) → form (address, name, phone/email, contact time, consent) → confirmation | `sales_valuation` | "A member of our team will be in touch to arrange a visit — this does not confirm a valuation figure" + reference | Fees (MISSING); email provider; sales confirmed (Q4) |
+| 2 | **Landlord → rental valuation / management** | Landlords dropdown; `/let`; `/property-management`; `/investors` | `/let` (let-only vs managed, protection, fees link) → form (+ tenanted? management level?) → confirmation; or `/property-management` → management enquiry | `rental_valuation` / `management_enquiry` | Same pattern; management reply explains the next step (a call) | Fees; CMP certificate; deposit scheme; email provider |
+| 3 | **Buyer → viewing** | Hero search; Properties dropdown; `/buyers`; alerts email | `/buy` (filters, map/list) → card → `/property/[id]` → Book a Viewing (name, phone, email, 2–3 preferred times, consent) → confirmation | `viewing_request` | "Received — a person will confirm the time" + reference | Real listings with material information; email provider |
+| 4 | **Tenant → viewing** | Hero search (Rent); Tenants dropdown; `/tenants` | `/rent` → card (fixed rent figure, deposit, availability) → detail → Book a Viewing → confirmation | `viewing_request` | As 3 | Renters' Rights wording review; tenant fees figures; deposit scheme |
+| 5 | **Searcher → alert** (no match) | Empty results; results footer; detail page | Empty state → "Create a Property Alert" → `/property-alerts` (email, criteria, marketing consent) → confirmation | *(alert record, not a lead)* | "Registered — alerts are stored, not yet emailed" until the sender exists (honest state) | Email provider (double opt-in) |
+| 6 | **Commercial client → enquiry** | Properties/Landlords dropdowns; `/commercial`; commercial listings | `/commercial` (sales / lettings / management) → Enquire (name, company, phone, email, requirement) or listing → detail → Enquire → confirmation | `commercial_enquiry` (+ `commercial_*_valuation` for appraisals) | "Received — the commercial team will call" | Sector coverage confirmed; email provider |
+| 7 | **Investor → conversation** | Services dropdown; `/investors`; `/property-management` | `/investors` (process: buy → let → manage; what we don't do: projections) → Enquire or Request a rental valuation | `commercial_enquiry` / `rental_valuation` | Same pattern; the page states that return discussions happen in person, never as published figures | Nothing extra beyond 2 and 6 |
+| 8 | **Managed tenant → repair** | Footer (every page); Tenants dropdown; `/property-management`; `/tenants` | `/report-a-repair` (urgency first; emergency guidance shown immediately for "emergency") → form (address, name, contact, description, photo) → confirmation with reference | `repair_report` | Reference number; what happens next; emergency route if urgent | **Emergency/out-of-hours process (MISSING)**; email provider |
+| 9 | **Due diligence → contact** | About dropdown; footer regulatory links; search for the brand | `/about` → `/how-we-protect-you` (redress, CMP certificate, deposit scheme, insurance, complaints — each with its real status) → `/contact` or call | `general_enquiry` / `callback_request` | Message received / callback requested | Scheme verifications (Q3); certificate publication |
+| 10 | **Old link → new site** | Any indexed `timesestates.co.uk` URL, bookmarks, portals | 301/410 per `SEO_REDIRECT_PLAN.md` §2 → the successor page, which must answer the same intent (e.g. `/contact-us/` → `/contact`) | — | The right page, no 404 | Canonical host decision; launch approval |
+
+## S2.2 Call to action on every page (one primary, never two competing)
+
+| Page | Primary (one, prominent) | Secondary (quiet) | Always present |
+|---|---|---|---|
+| `/` | Search | Book a Free Valuation (band) | Header: Get a Valuation · phone; footer: Report a repair |
+| Search pages | View property (card) | Create a Property Alert; Save | as above |
+| Property detail | Book a Viewing | Request a callback; Save; Share | as above |
+| `/sell` | Book a Valuation | Call us | as above |
+| `/let` | Request a Rental Valuation | Management enquiry | as above |
+| `/property-management` | Request a Management Appraisal | Report a repair (tenants' panel) | as above |
+| `/commercial` and sub-pages | Enquire | Search commercial | as above |
+| `/buyers` / `/tenants` | Search (for sale / to rent) | Register; alerts; (tenants) Report a repair | as above |
+| `/investors` | Enquire | Request a rental valuation | as above |
+| `/report-a-repair` | Submit a repair report | Emergency: call (shown first when urgent) | as above |
+| `/areas/[area]` | Search in this area | Book a valuation in this area | as above |
+| `/about` | Contact the team | How we protect you | as above |
+| `/how-we-protect-you` | Get a Valuation | Complaints; Fees | as above |
+| `/insights/[slug]` | Related service | Alerts | as above |
+| `/contact` | Send message / call | Request a callback | as above |
+| Legal pages | — | Contact | as above |
+
+## S2.3 Journey rules (apply to every row)
+
+- Every form: honeypot, rate limit, sanitise, validate (existing
+  pipeline); privacy consent checkbox linked to the policy; UK phone/
+  postcode formats; `type="tel"` / `type="email"` on mobile.
+- Confirmation screens always say **what happens next and by whom**,
+  never promise a time until the owner supplies one, and never imply
+  a booking, price or legal outcome.
+- Failure: inline validation; on a server error, a plain message with
+  the phone number — never a blank page or stack trace.
+- Emergency repairs: the emergency route is shown **before** the form
+  can be submitted, and again if submission fails.
+- No journey collects payment, identity documents or financial
+  account details (unchanged).
+
+---
+
+# Historical — Day 2 journeys (approved 2026-09-07), the per-form specification
+
+## Status of this document (Day 2)
 
 **Approved by the owner (2026-09-07) as a working baseline for Day 3
 onward — still changeable at any time.** These journeys describe *how

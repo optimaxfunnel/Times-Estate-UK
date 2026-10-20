@@ -122,6 +122,22 @@ material.
   Area" panel instead of a map) are recorded in `DECISIONS.md`
   (2026-10-20). Not a production QA pass — see the `QA_REPORT.md`
   addendum; **the site remains not ready for deployment.**
+- **Segment 1 (2026-10-19, audit and compliance baseline) — complete,
+  approved by the owner 2026-10-20.** Produced by a separate session in
+  `segment-1/` (brand source audit with measured colours, live
+  WordPress site audit, existing-URL register, 24-row compliance
+  register, skills/tools register, QA, end report with seven open
+  questions). Branch `segment-1-audit`.
+- **Segment 2 (2026-10-20, strategy, design-application options,
+  sitemap, journeys, SEO/redirects) — complete, at Approval Gate 2.**
+  Audiences and claims review in `BRAND_STRATEGY.md`; three options on
+  the same identity (A Heritage London · B Modern Property Platform ·
+  C Boutique London Agency) in `DESIGN_APPLICATION_OPTIONS.md` with
+  inspectable style tiles on a Design canvas; proposed sitemap and
+  navigation in `SITEMAP.md`; critical journeys in `USER_JOURNEYS.md`;
+  `SEO_REDIRECT_PLAN.md` (new). Guaranteed Rent excluded pending
+  verification and legal review. **Waiting for the owner to choose A,
+  B, C or a specified combination.** Nothing built, nothing deployed.
 - **Phase 6 (2026-09-09, testing, performance, accessibility, SEO and
   compliance) — complete, at Approval Gate 6.** A full QA pass against
   a real production build (`next build && next start`, not the dev
@@ -260,6 +276,9 @@ but no longer the first place to look for current status.
 | ★ `LAUNCH_CHECKLIST.md` | **PRIMARY (Phase 6).** Concise, plain-English go/no-go checklist. |
 | `brand/` | Source and export files for the identity system (Phase 3) — SVG masters, PNG/WebP exports, stationery, social/digital assets. Separate from `web/`; not applied to the live site. |
 | `SEO_PLAN.md` | Search-intent map, keyword map, technical SEO implementation and what's deliberately not done yet (area pages, FAQ pages) and why (Day 6). |
+| ★ `DESIGN_APPLICATION_OPTIONS.md` | **PRIMARY (Segment 2).** Options A/B/C for applying the supplied identity, component by component, with a recommendation — the owner's choice at Gate 2. |
+| ★ `SEO_REDIRECT_PLAN.md` | **PRIMARY (Segment 2).** Canonical host, the row-by-row 301/410 map for every live `timesestates.co.uk` URL, intent-to-page mapping, on-page rules, launch-week SEO checklist — a plan, nothing executed. |
+| `segment-1/` | Segment 1 (2026-10-19) audit set from a separate session: `BRAND_SOURCE_AUDIT.md` (measured colours, logo limitations), `EXISTING_URL_REGISTER.md` (live site URLs), a 24-row `COMPLIANCE_REGISTER.md`, `SKILLS_AND_TOOLS_REGISTER.md`, `SEGMENT_1_END_REPORT.md` (seven open questions). Read alongside the root documents. |
 | `REGULATORY_READINESS.md` | UK legal/regulatory topics reviewed today, each with a status — never a claim of compliance (Day 6). |
 | `ACCESSIBILITY.md` | Dated WCAG 2.2 AA testing record — automated and manual, defects found and fixed (Day 6). |
 | `SECURITY.md` | Security controls reviewed and hardened today, and what still must happen before real deployment (Day 6). |

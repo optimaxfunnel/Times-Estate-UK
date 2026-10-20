@@ -1,6 +1,135 @@
-# SITEMAP.md — Times Estates (Times Estate Ltd)
+# SITEMAP.md — Times Estate Ltd
 
-## Status of this document
+# Segment 2 — Proposed sitemap and navigation (2026-10-20, at Approval Gate 2)
+
+**Status.** A proposal for the owner's approval. It keeps every route
+that exists in the build today (nothing is removed), adds the pages
+the Segment 2 brief asks for, and leaves out one the brief makes
+conditional. The Phase 4 sitemap below (2026-09-09) remains the
+detailed page-by-page specification where this section does not
+change it — in particular §5 (map/list results), §6 (property card),
+§7 (property detail), §19 (mobile) and §20 (save/share/alerts).
+
+## S2.1 The sitemap
+
+Legend: **exists** = built today · *proposed* = not built · (gated) =
+page template allowed, content only when the fact behind it is
+Confirmed.
+
+```
+/                                   Home                                   exists
+├── Properties
+│   ├── /buy                        Residential for sale — list / ?view=map   exists (map view proposed)
+│   ├── /rent                       Residential to rent — list / map          exists
+│   ├── /commercial                 Commercial hub                            exists
+│   │   ├── /commercial/for-sale    Commercial for sale — list / map          exists
+│   │   └── /commercial/to-let      Commercial to let — list / map            exists
+│   ├── /property/[id]              Property detail (all categories)          exists
+│   ├── /property-alerts            Property alerts                           exists
+│   ├── /favourites                 Saved properties                          exists
+│   └── /register                   Register your requirements                exists
+├── Sell
+│   └── /sell                       Sell + sales valuation form               exists
+├── Let
+│   ├── /let                        Let + landlord services + rental valuation  exists
+│   └── /property-management        Residential & commercial management       exists
+│       (Guaranteed Rent — NOT included: conditional on factual verification
+│        and legal review; see S2.4)
+├── People
+│   ├── /buyers                     Buyers guide (how buying works)           proposed
+│   ├── /tenants                    Tenants guide (renting, fees, deposit)    proposed
+│   └── /investors                  Investors (process, management; no returns)  proposed
+├── /report-a-repair                Repair report + emergency guidance        exists
+├── /areas                          Area guides index                         proposed (gated)
+│   └── /areas/[area]               One guide per confirmed area              proposed (gated)
+├── About
+│   ├── /about                      Company, regulatory, team (when supplied), construction mention   exists
+│   ├── /how-we-protect-you         Redress · CMP (certificate) · deposit scheme · PI insurance · complaints   proposed
+│   ├── /insights                   Insights index                            proposed (gated)
+│   │   └── /insights/[slug]        Article                                   proposed (gated)
+│   └── /contact                    Contact + callback                        exists (/callback exists)
+└── Legal & disclosures (footer)
+    ├── /complaints                 Complaints handling procedure             exists (draft)
+    ├── /fees                       Fees (landlord, vendor, commercial)       exists (figures MISSING)
+    ├── /tenant-fees                Tenant fees (permitted payments)          proposed (Phase 4 §18)
+    ├── /privacy-policy  /cookie-policy  /terms  /accessibility               exist (drafts; accessibility published)
+    └── Company disclosures          footer line on every page: legal name, number, registered office   exists
+
+/residential                         Existing hub — kept, out of navigation; a 301 candidate to /buy once Area Guides exist
+/admin/*                             Staff only — unchanged, not deployable until real auth
+```
+
+**Map/list results:** the Phase 4 §5 specification stands — `?view=map`
+on each of the four search pages, filters shared between views, pins at
+approximate coordinates only, full-screen map on mobile. Until a map
+provider is approved (Rule 4), the "Search by Area" panel built on
+2026-10-20 is the honest stand-in.
+
+## S2.2 Navigation
+
+**Desktop header** (as built 2026-10-20 to the owner's reference,
+contents now settled):
+
+| Item | Dropdown |
+|---|---|
+| Home | — |
+| Properties | Property for sale · Property to rent · Commercial for sale · Commercial to let · Map search *(when live)* · Property alerts · Saved properties |
+| Landlords | Let your property · Rental valuation · Property management · Commercial lettings · How we protect you *(proposed)* |
+| Tenants | Property to rent · Tenants guide *(proposed)* · Report a repair · Tenant fees *(proposed)* · Property alerts |
+| Services | Sell your home · Let your property · Property management · Commercial · Buyers *(proposed)* · Investors *(proposed)* |
+| About | About us · How we protect you *(proposed)* · Area guides *(only when ≥1 real guide)* · Insights *(only when ≥1 real article)* · Complaints |
+| Contact | — |
+| Utility (right) | Search icon → `/buy` · **Get a Valuation** → `/sell` · phone with "Call us today" |
+
+Rule carried forward: a proposed page joins its dropdown only when it
+exists with real content — a dropdown never links to an empty template.
+
+**Mobile:** the same groups in the drawer (built), with "Get a
+Valuation" and the phone number always visible under the list.
+
+**Footer:** row 1 lockup · top-level links · phone/mobile/email ·
+social (hidden until supplied); row 2 columns by audience — Sellers ·
+Landlords · Buyers & Tenants · Commercial · Company · Legal ·
+Regulatory (with status badges); row 3 company disclosures and the
+Construction mention.
+
+## S2.3 Page purposes and primary calls to action
+
+| Page | Purpose | Primary CTA (→ lead category) | Secondary |
+|---|---|---|---|
+| `/` | Orient; get searchers into results; route sellers/landlords to a valuation | Search (hero) | Get a Valuation (header, band); Report a repair (footer) |
+| `/buy`, `/rent`, `/commercial/*` | Find and shortlist | Book a viewing (per card → detail → `viewing_request`) | Save; Create a property alert; register |
+| `/property/[id]` | Decide to view | Book a Viewing (`viewing_request`) | Request a callback; Save; Share |
+| `/sell` | Convert a vendor | Book a Valuation (`sales_valuation`) | Call; How we protect you |
+| `/let` | Convert a landlord | Request a Rental Valuation (`rental_valuation`) | Management enquiry; fees; How we protect you |
+| `/property-management` | Convert a landlord to management; serve managed clients | Request a Management Appraisal (`management_enquiry`) | Report a repair; commercial management |
+| `/commercial` | Give commercial equal standing | Enquire (`commercial_enquiry`) | Commercial appraisals; search commercial |
+| `/buyers` *(proposed)* | Explain buying; reassure | Search for sale | Property alerts; register (`buyer_registration`) |
+| `/tenants` *(proposed)* | Explain renting, fees, deposit, repairs | Search to rent | Register (`tenant_registration`); Report a repair |
+| `/investors` *(proposed)* | Explain the service for owners of let property — process only | Enquire (`commercial_enquiry` or `management_enquiry`) | Request a rental valuation |
+| `/report-a-repair` | Log a repair fast; show emergency route | Submit a repair report (`repair_report`) | Call (emergency) |
+| `/areas/[area]` *(gated)* | Local context → listings | Search in this area | Valuation in this area |
+| `/about` | Due diligence | Contact the team (`general_enquiry`) | How we protect you; Complaints |
+| `/how-we-protect-you` *(proposed)* | Show regulatory protection with real status | Get a Valuation | Complaints; Fees |
+| `/insights/[slug]` *(gated)* | Genuine guidance | Related service page | Alerts |
+| `/contact` | Reach a person | Send message (`general_enquiry`); call | Request a callback (`callback_request`) |
+| Legal pages | Statutory | — | Contact |
+
+## S2.4 Pages considered and not included
+
+| Page | Decision | Reason |
+|---|---|---|
+| Guaranteed Rent | **Not included** | The brief allows it only if factually verified and legally reviewed. Today it is neither: the scheme's existence and terms are unconfirmed (Segment 1 Q4) and a rent guarantee is a financial promise requiring professional review (`COMPLIANCE_REGISTER.md` row 22). The route (`/guaranteed-rent`) is reserved, not built |
+| Construction | Not included (standing decision) | Mention only — footer line and About, phone number |
+| Developments / New Homes | Not included | Still unconfirmed as a service |
+| Visitor accounts | Not included | Favourites and alerts work without one (Phase 4 §20) |
+| Careers | Not included | No confirmed need |
+
+---
+
+# Historical — Phase 4 (2026-09-09), the detailed page specification
+
+## Status of this document (Phase 4)
 
 **Phase 4 deliverable (2026-09-09) — the final information
 architecture, wireframe spec, and user-journey map, at Approval Gate

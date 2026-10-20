@@ -67,3 +67,42 @@ date for every fact — this file is a simpler classification view for
 today's Phase 1 report. Any future fact should be added to
 `CONTENT_VERIFICATION_REGISTER.md` first; this file can be refreshed
 from it, not the other way round.
+
+---
+
+## Segment 2 addendum (2026-10-20) — content the proposed sitemap needs, and claims under review
+
+The fuller catalogue of what the **live** WordPress site and the local
+build each contain is `segment-1/CONTENT_REGISTER.md` (2026-10-19);
+nothing there has changed. This addendum lists what the Segment 2
+sitemap (`SITEMAP.md` S2.1) and brand strategy (`BRAND_STRATEGY.md`
+S2.3) add to the picture.
+
+### Content required per proposed page
+
+| Page | Content needed | Classification today |
+|---|---|---|
+| `/buyers` | Process copy (how buying works, viewings, offers, what the agency does) | Can be written from the existing journeys — no new fact needed; **sales activity itself** Supplied by owner (Q4) |
+| `/tenants` | Renting process; permitted payments; deposit scheme name; referencing process; repair route | Tenant fees figures MISSING; deposit scheme MISSING; referencing process MISSING (only if real) |
+| `/investors` | Service process for owners of let property; management levels; "we publish no projections" | Can be written; **no return figures ever** — PROHIBITED TO INVENT |
+| `/how-we-protect-you` | Redress scheme (name, number, logo under licence), CMP (certificate image/PDF — a statutory publication duty if client money is held), deposit scheme, PI insurance schedule, complaints link | Redress & CMP MISSING (verification); certificate MISSING; deposit scheme MISSING; PI schedule MISSING |
+| `/areas`, `/areas/[area]` | Confirmed coverage list; per-area sourced facts; listings filter | Coverage MISSING (the live site's list — Tooting, Mitcham, Streatham, Balham, Colliers Wood, Wimbledon, Clapham and ten more — is a candidate list, Supplied (live), not re-confirmed) |
+| `/insights/[slug]` | Articles with author and review date | MISSING — none written; the live "Planning Permission" post is not reusable |
+| `/tenant-fees` | Permitted payments with real amounts | MISSING (Q5) |
+| Share image (`og:image`) | 1200×630 built from the emblem + live-text wordmark | Can be produced in Segment 3 from the installed emblem |
+| Wordmark typeface | Playfair Display (open licence) as the closest match to the artwork | Proposed in `DESIGN_APPLICATION_OPTIONS.md` §1; the artwork's actual typeface unknown (Segment 1 §7, Q1) |
+
+### Claims reviewed in Segment 2
+
+See `BRAND_STRATEGY.md` S2.3 for the full table. Summary of status
+changes versus the Phase 1 register above:
+
+| Claim | Status |
+|---|---|
+| "Guaranteed Rent" (live site) | PROHIBITED until verified + professionally reviewed — not in the sitemap |
+| "Risk Free" (live site) | PROHIBITED — absolute claim; removed |
+| "London Property Experts" (logo tagline) | Supplied by owner (in the artwork); coverage claim under review (Q4) |
+| "Trusted by London homeowners", "Accurate market insight", "Building Brighter Tomorrows", "Est. London" (reference mock-up) | Not used |
+| "Established 2015" | CONFIRMED (Companies House) — usable |
+| "family-run", "over 10 years" (live site) | Requires verification / arithmetic only |
+| Testimonials (live site ×3, mock-up ×1) | PROHIBITED TO INVENT; live ones Requires verification (DMCC Act) |
