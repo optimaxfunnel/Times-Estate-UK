@@ -105,6 +105,23 @@ material.
   invented testimonials/listings, live social/map features) because
   they weren't part of this specific instruction and conflict with
   standing decisions.
+- **2026-10-20 — front end rebuilt to the owner's reference homepage;
+  owner-supplied logo installed (not a numbered phase).** The owner
+  supplied their own clock-and-skyline logo and instructed the front
+  end be built to match the reference homepage, colour scheme
+  unchanged. The emblem is live in the header, footer and favicon; the
+  wordmark is rendered as live text because the supplied file is a
+  viewer screenshot with a share button baked over the "D" of "LTD" (a
+  clean export is still awaited). Header with grouped dropdown
+  navigation, dark hero with quick search, service strip, a shared
+  filter-sidebar listing explorer on the homepage and all four search
+  pages, valuation band and light footer were built; four deliberate
+  departures from the reference (illustration instead of photography,
+  Construction as a phone-line mention, real demo counts and a labelled
+  empty reviews slot instead of invented content, an honest "Search by
+  Area" panel instead of a map) are recorded in `DECISIONS.md`
+  (2026-10-20). Not a production QA pass — see the `QA_REPORT.md`
+  addendum; **the site remains not ready for deployment.**
 - **Phase 6 (2026-09-09, testing, performance, accessibility, SEO and
   compliance) — complete, at Approval Gate 6.** A full QA pass against
   a real production build (`next build && next start`, not the dev

@@ -1,10 +1,47 @@
 # LOGO_ASSET_REGISTER.md — Times Estate Ltd
 
-## CURRENT — "Times Estate Ltd" skyline logo files (from 2026-09-11)
+## CURRENT — owner-supplied emblem (from 2026-10-20)
+
+Generator: `brand/build-supplied-logo.mjs`, run from `brand/`
+(deterministic). Rationale in `BRAND_GUIDELINES.md`'s current section
+and `DECISIONS.md` (2026-10-20).
+
+**Source — `brand/logo-supplied/`:**
+
+| File | What it is | Status |
+|---|---|---|
+| `times-estate-ltd-supplied-original.jpg` | The owner's file exactly as received (1206×877 JPEG). A viewer screenshot: black frame, white card, and a share button baked over the "D" of "LTD". Never edited in place. | Supplied by owner |
+
+**Derived — `brand/logo-supplied/png/`:**
+
+| File | Content | Use |
+|---|---|---|
+| `te-emblem-transparent.png` | Clock-and-skyline emblem, 1146×595, white ground made transparent | Master for every emblem export |
+| `te-emblem-on-white.png` | Same crop, opaque white ground | Contexts needing an opaque tile |
+| `te-emblem-tile-{16,32,48,180,192,512}.png` | Emblem centred on a white rounded tile | Favicon / app icon / social avatar sources |
+
+**Web copies — `web/public/brand/`:** `times-estate-ltd-emblem.webp`
+(400px wide, 24 KB), `times-estate-ltd-emblem@2x.webp` (800px, 60 KB)
+and `times-estate-ltd-emblem.png` (400px fallback). The favicon slots
+`web/src/app/icon.png` (192px tile) and `apple-icon.png` (180px tile)
+were overwritten.
+
+**What is *not* a file:** the wordmark. "TIMES ESTATE LTD / LONDON
+PROPERTY EXPERTS" is rendered as live text by
+`web/src/components/brand/BrandLockup.tsx` — see `BRAND_GUIDELINES.md`
+for why. No stationery, social or digital pack exists for this
+identity yet, and no clean vector/PNG export of the original artwork
+has been supplied (requested).
+
+---
+
+## Historical — recreated "Times Estate Ltd" skyline logo files (2026-09-11 → 2026-10-20)
 
 Generator: `brand/build-skyline-logo.mjs`, run from `brand/`
-(deterministic). Full design rationale in `BRAND_GUIDELINES.md`'s
-current "CURRENT BRAND" section.
+(deterministic). Superseded by the owner's own emblem above; files
+kept in place. The `web/public/brand/times-estate-ltd-logo*.svg` and
+`-icon.svg` copies also remain but are no longer referenced by any
+component.
 
 **SVG masters — `brand/logo-skyline/svg/`:**
 

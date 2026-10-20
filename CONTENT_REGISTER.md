@@ -29,14 +29,15 @@ than reinterpret either system silently, this file maps between them:
 | Domain (https://timesestates.co.uk) | MISSING → newly supplied | Supplied by owner; **not verified as owned/controlled by Times Estate Ltd; not deployed to by this project** |
 | Public email address (timesestatesuk@gmail.com) | MISSING → newly supplied 2026-09-09 | Supplied by owner, matches the photographed business card; not independently verified; shown on `/contact` |
 | Trading address (127 Upper Tooting Road, London, SW17 7TJ) | MISSING → newly supplied 2026-09-09 | Supplied by owner, matches the photographed business card; **differs from the Companies House-verified registered office (145 Upper Tooting Road)** — recorded as a separate trading address, not a correction; see `DECISIONS.md` |
-| Trading name ("Times Estates") | MISSING → newly supplied 2026-09-09 | Owner's existing customer-facing brand, per business card and domain; "Times Estate Ltd" retained as the legal name; see `DECISIONS.md` |
+| Customer-facing name | CONFIRMED — "Times Estate Ltd" (since 2026-09-11) | The 2026-09-09 "Times Estates" contraction was retired when the owner's own logo artwork spelt out the full name; display and legal name now coincide. See `DECISIONS.md` (2026-09-11) |
 | VAT number | MISSING | Still outstanding |
 | Opening hours | MISSING | Still outstanding |
 | "Construction" as an additional service line | RESOLVED (2026-09-09) — mention only | Owner's answer to the Phase 4 gating question: not a sitemap section or page. One factual line on `/about` and in the footer small print names it and its separate phone number (`SITEMAP.md` §14) — see `DECISIONS.md` |
 | Area Guides content (per-area facts) | MISSING — template only | `SITEMAP.md` §13, Phase 4: page template built, zero real guides written. Every fact needs a source before publication — none invented to fill the template |
 | Insights articles | MISSING — template only | `SITEMAP.md` §15, Phase 4: page template built, zero real articles written |
 | Tenant Fees page real figures | MISSING | `SITEMAP.md` §18, Phase 4: dedicated page structure specified (permitted vs. prohibited payments), real figures still Missing |
-| Homepage hero slideshow imagery | PLACEHOLDER | `SITEMAP.md` §2: every slide is a clearly labelled "Sample image — not a real Times Estates property" placeholder until real photography is supplied |
+| Homepage hero and valuation-band imagery | PLACEHOLDER (illustration) | Since 2026-10-20 the reference's photographs are stood in for by a generic skyline illustration (`SkylineBackdrop.tsx`); no photograph is shown anywhere until real photography is supplied |
+| Client reviews slot on the homepage valuation band | PROHIBITED TO INVENT — slot shows "MISSING" | The owner's reference shows a named five-star testimonial; the live site shows a labelled empty slot instead (2026-10-20). Fills only with genuine, attributable reviews |
 | Map/list results — map provider | MISSING | `SITEMAP.md` §5: no map provider chosen; connecting one is a paid third-party integration requiring Rule 4 approval |
 | Proposed email addresses (20, see `EMAIL_AND_FORM_ROUTING.md`) | PLACEHOLDER — none exist | Proposed, not confirmed existing mailboxes; no mailbox, alias, or DNS record has been created |
 | Social media profiles (Facebook, Instagram, LinkedIn, YouTube, X, TikTok, WhatsApp Business, Google Business Profile) | MISSING — all eight | No profile URL has ever been supplied for any of the eight channels. The `SocialLinks` component and config exist (`web/src/lib/social-config.ts`) with every entry `enabled: false` — confirmed rendering nothing on the live built site. See `DECISIONS.md` (2026-09-09) |
@@ -49,7 +50,8 @@ than reinterpret either system silently, this file maps between them:
 | AML supervision registration | MISSING | Not supplied |
 | Fee schedule (sales commission, lettings/management fees) | PLACEHOLDER | `/fees` shows the legal framework with real amounts marked Missing |
 | Privacy Policy / Cookie Policy / Terms / Complaints procedure text | PLACEHOLDER (drafted, unreviewed) | Real drafted text exists on each page, each carrying a visible "Draft — requires legal review" banner |
-| Logo, brand imagery, real property photography | PLACEHOLDER | Every image slot shows "Photograph not yet supplied" rather than a stock/invented image |
+| Logo | CONFIRMED (supplied by owner, 2026-10-20) — emblem usable, wordmark not | The owner's clock-and-skyline artwork is live as the emblem; its wordmark portion is unusable (a share button is baked over the "D" in the supplied screenshot) and is rendered as live text instead. A clean vector/PNG export is still wanted — `LOGO_ASSET_REGISTER.md` |
+| Real property photography | PLACEHOLDER (illustration) | Every listing card shows a labelled line illustration ("Sample property — not real") rather than a stock/invented photograph |
 | Every property listing shown on the site | PLACEHOLDER (demonstration content) | Fabricated sample data, clearly labelled "Sample property — not real" everywhere it appears, excluded from search-engine indexing |
 | Geographic coverage / areas served | MISSING | Site deliberately avoids naming specific areas until confirmed |
 | Staff names, roles, biographies, photography | PROHIBITED TO INVENT until supplied | Never fabricated; `/about`'s team section stays a visible placeholder until real, consenting people are supplied |

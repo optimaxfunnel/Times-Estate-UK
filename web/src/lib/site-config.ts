@@ -128,23 +128,71 @@ export const confirmedServices = [
   "Lead-management automation",
 ] as const;
 
+export interface NavLink {
+  label: string;
+  href: string;
+}
+
+export interface NavGroup extends NavLink {
+  /** Dropdown entries. Every one points at a route that already exists. */
+  children?: readonly NavLink[];
+}
+
 /**
- * Matches the navigation approved in /SITEMAP.md exactly: Sell · Let ·
- * Buy · Rent · Commercial · Property Management · About · Contact. The
- * standalone "Residential" hub page built on Day 3 (before Buy/Rent
- * search existed) is kept for cross-linking from Sell/Let, but is no
- * longer in the primary nav, so the approved structure isn't exceeded.
+ * Header navigation, regrouped 2026-10-20 to match the owner's reference
+ * homepage (Home · Properties · Landlords · Tenants · Services · About ·
+ * Contact, with dropdowns). This is a re-grouping of the SITEMAP.md
+ * routes, not new pages: every destination below existed already, and
+ * the flat Sell · Let · Buy · Rent · Commercial · Property Management ·
+ * About · Contact list it replaces is still reachable one level down.
+ * See DECISIONS.md (2026-10-20).
  */
-export const primaryNav = [
-  { label: "Sell", href: "/sell" },
-  { label: "Let", href: "/let" },
-  { label: "Buy", href: "/buy" },
-  { label: "Rent", href: "/rent" },
-  { label: "Commercial", href: "/commercial" },
-  { label: "Property Management", href: "/property-management" },
+export const headerNav: readonly NavGroup[] = [
+  { label: "Home", href: "/" },
+  {
+    label: "Properties",
+    href: "/buy",
+    children: [
+      { label: "Property for sale", href: "/buy" },
+      { label: "Property to rent", href: "/rent" },
+      { label: "Commercial for sale", href: "/commercial/for-sale" },
+      { label: "Commercial to let", href: "/commercial/to-let" },
+      { label: "Property alerts", href: "/property-alerts" },
+      { label: "Saved properties", href: "/favourites" },
+    ],
+  },
+  {
+    label: "Landlords",
+    href: "/let",
+    children: [
+      { label: "Let your property", href: "/let" },
+      { label: "Property management", href: "/property-management" },
+      { label: "Commercial lettings", href: "/commercial" },
+    ],
+  },
+  {
+    label: "Tenants",
+    href: "/rent",
+    children: [
+      { label: "Property to rent", href: "/rent" },
+      { label: "Report a repair", href: "/report-a-repair" },
+      { label: "Property alerts", href: "/property-alerts" },
+    ],
+  },
+  {
+    label: "Services",
+    href: "/residential",
+    children: [
+      { label: "Sell your home", href: "/sell" },
+      { label: "Let your property", href: "/let" },
+      { label: "Residential", href: "/residential" },
+      { label: "Commercial", href: "/commercial" },
+      { label: "Property management", href: "/property-management" },
+    ],
+  },
   { label: "About", href: "/about" },
   { label: "Contact", href: "/contact" },
-] as const;
+];
 
 export const footerNav = {
   Sellers: [{ label: "Sell your home", href: "/sell" }],

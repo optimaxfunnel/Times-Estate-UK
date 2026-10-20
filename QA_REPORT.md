@@ -16,6 +16,30 @@ compliance sign-off is a separate professional-review step, tracked in
 
 ---
 
+## Addendum — 2026-10-20 front-end rebuild (dev-server checks, not a full production QA pass)
+
+The front end was rebuilt to the owner's reference homepage and the
+supplied logo installed (`DECISIONS.md`, 2026-10-20). Checks run that
+day, against `next dev` unless stated:
+
+| Check | Result |
+|---|---|
+| `npm run typecheck` / `lint` / `format` | **Pass** (0 errors, 0 warnings) |
+| `npm run test` | **Pass — 66/66** (the 5 hero-slideshow tests went with the slideshow; 2 header tests added) |
+| `next build` | **Pass** — 33 routes compile; the four search pages and `/` are dynamic (they read URL filters) |
+| Lighthouse, desktop preset, `/` | Accessibility **100**, Best Practices **100**, SEO **100** — after fixing two real findings from the first run: 50–55%-opacity grey text at 3.5–4.05:1 (moved to the `--color-secondary` token, 5.97:1) and links whose `aria-label` dropped their visible text (WCAG 2.5.3) |
+| Lighthouse, mobile preset, `/` | Accessibility 99 → **100** after removing a `role="status"` that hid the results heading from the outline |
+| Route smoke tests | `/`, `/buy`, `/rent`, `/commercial/for-sale`, `/commercial/to-let` all 200 with multi-value filters (`?bedrooms=2&bedrooms=3&propertyType=flat`), list view, sort, status and postcode facets; the empty state renders for an impossible price |
+| Interaction | Header dropdowns open on hover and on keyboard focus (computed `visibility: visible`); mobile menu opens at 375px and lists every grouped route; header fits at 375px with no horizontal scroll |
+| Favicon / emblem assets | `/icon.png` 200 `image/png`; emblem WebP 200, 24 KB |
+
+**Not re-run today:** Lighthouse Performance against a production
+server, the broken-link crawl, and any form submission (the server-hang
+defect in §9 is unchanged and was not re-triggered). **§1's verdict
+below is unchanged: not ready for deployment.**
+
+---
+
 ## 1. Executive release-readiness verdict
 
 **Not ready for production deployment. One confirmed critical defect

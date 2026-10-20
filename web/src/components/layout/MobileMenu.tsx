@@ -2,10 +2,11 @@
 
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
-import { primaryNav } from "@/lib/site-config";
+import { headerNav, siteConfig } from "@/lib/site-config";
 import { socialProfiles } from "@/lib/social-config";
 import { ButtonLink } from "@/components/ui/ButtonLink";
 import { SocialLinks } from "@/components/social/SocialLinks";
+import { IconPhone } from "@/components/icons";
 
 export function MobileMenu() {
   const [open, setOpen] = useState(false);
@@ -30,7 +31,7 @@ export function MobileMenu() {
   }, [open]);
 
   return (
-    <div className="lg:hidden">
+    <div className="xl:hidden">
       <button
         ref={toggleRef}
         type="button"
@@ -69,25 +70,47 @@ export function MobileMenu() {
         <nav
           id="mobile-nav"
           aria-label="Mobile"
-          className="fixed inset-x-0 top-20 bottom-0 z-20 overflow-y-auto border-t border-border bg-surface p-4 shadow-lg"
+          className="fixed inset-x-0 top-18 bottom-0 z-20 overflow-y-auto border-t border-border bg-surface p-4 shadow-lg lg:top-20"
         >
-          <ul className="space-y-3">
-            {primaryNav.map((item, index) => (
-              <li key={item.href}>
+          <ul className="divide-y divide-border">
+            {headerNav.map((item, index) => (
+              <li key={item.label} className="py-2">
                 <Link
                   ref={index === 0 ? firstLinkRef : undefined}
                   href={item.href}
-                  className="block py-1 text-base text-ink"
+                  className="block py-1.5 text-base font-semibold text-ink"
                   onClick={() => setOpen(false)}
                 >
                   {item.label}
                 </Link>
+                {item.children && (
+                  <ul className="mb-1 ml-3 border-l border-border pl-3">
+                    {item.children.map((child) => (
+                      <li key={child.href}>
+                        <Link
+                          href={child.href}
+                          className="block py-1.5 text-sm text-ink/80 hover:text-accent"
+                          onClick={() => setOpen(false)}
+                        >
+                          {child.label}
+                        </Link>
+                      </li>
+                    ))}
+                  </ul>
+                )}
               </li>
             ))}
           </ul>
           <ButtonLink href="/sell" className="mt-4 w-full">
-            Book a Valuation
+            Get a Valuation
           </ButtonLink>
+          <a
+            href="tel:+442086728080"
+            className="mt-4 flex items-center gap-2 text-sm font-semibold text-ink"
+          >
+            <IconPhone className="h-5 w-5 text-accent" />
+            {siteConfig.phoneLandline.value}
+          </a>
           <SocialLinks
             profiles={socialProfiles}
             variant="drawer"

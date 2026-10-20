@@ -41,6 +41,18 @@ export interface PropertyFilter {
   maxFloorAreaSqFt?: number;
   tenure?: Tenure;
   features?: string[];
+  /**
+   * Multi-select variants used by the filter sidebar's checkboxes
+   * (2026-10-20). Any-of semantics within a list; an empty list means
+   * "no restriction". `bedrooms` matches exactly, except that the
+   * highest bucket (5) means "five or more", as the sidebar labels it.
+   */
+  propertyTypes?: ResidentialPropertyType[];
+  commercialUses?: CommercialUse[];
+  bedrooms?: number[];
+  postcodes?: string[];
+  /** Narrows within whatever statuses the caller may already see — never widens past the public set. */
+  statuses?: PropertyStatus[];
 }
 
 export type PropertySortKey = "price_asc" | "price_desc" | "newest";
@@ -138,8 +150,38 @@ function matchesFilter(
     const wanted = filter.features.map((f) => f.toLowerCase());
     if (!wanted.every((f) => propertyFeatures.includes(f))) return false;
   }
+  if (filter.propertyTypes && filter.propertyTypes.length > 0) {
+    if (
+      !property.residential ||
+      !filter.propertyTypes.includes(property.residential.propertyType)
+    )
+      return false;
+  }
+  if (filter.commercialUses && filter.commercialUses.length > 0) {
+    if (
+      !property.commercial ||
+      !filter.commercialUses.includes(property.commercial.commercialUse)
+    )
+      return false;
+  }
+  if (filter.bedrooms && filter.bedrooms.length > 0) {
+    if (!property.residential) return false;
+    const beds = property.residential.bedrooms;
+    const bucket = Math.min(beds, BEDROOM_TOP_BUCKET);
+    if (!filter.bedrooms.includes(bucket)) return false;
+  }
+  if (filter.postcodes && filter.postcodes.length > 0) {
+    const wanted = filter.postcodes.map((p) => p.toUpperCase());
+    if (!wanted.includes(property.postcode.toUpperCase())) return false;
+  }
+  if (filter.statuses && filter.statuses.length > 0) {
+    if (!filter.statuses.includes(property.status)) return false;
+  }
   return true;
 }
+
+/** The sidebar's last bedroom option is "5+" — see PropertyFilter.bedrooms. */
+export const BEDROOM_TOP_BUCKET = 5;
 
 function sortProperties(
   items: Property[],

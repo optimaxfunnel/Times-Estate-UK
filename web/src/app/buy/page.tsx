@@ -1,11 +1,8 @@
 import type { Metadata } from "next";
 import { PageHero } from "@/components/layout/PageHero";
-import { Section } from "@/components/ui/Section";
-import { PropertySearchForm } from "@/components/property/PropertySearchForm";
-import { PropertyResultsGrid } from "@/components/property/PropertyResultsGrid";
-import { propertyProvider } from "@/lib/property/provider";
+import { Container } from "@/components/ui/Container";
+import { ListingExplorer } from "@/components/property/ListingExplorer";
 import {
-  buildListParams,
   toUrlSearchParams,
   type SearchParams,
 } from "@/lib/property/search-params";
@@ -23,8 +20,6 @@ export default async function BuyPage({
   searchParams: Promise<SearchParams>;
 }) {
   const params = await searchParams;
-  const listParams = buildListParams(params, "residential", "sale");
-  const result = await propertyProvider.list(listParams);
   const urlParams = toUrlSearchParams(params);
 
   return (
@@ -34,26 +29,15 @@ export default async function BuyPage({
         title="Residential property for sale"
         intro="Search current sales listings. Every result below is demonstration data — see the note on each card."
       />
-      <Section className="space-y-8">
-        <PropertySearchForm
-          category="residential"
-          action="/buy"
-          defaults={{
-            location: params.location as string,
-            minPrice: params.minPrice as string,
-            maxPrice: params.maxPrice as string,
-            minBedrooms: params.minBedrooms as string,
-            propertyType: params.propertyType as string,
-            sort: params.sort as string,
-          }}
-        />
-        <PropertyResultsGrid
-          result={result}
+      <Container size="wide" className="py-8 sm:py-10">
+        <ListingExplorer
           basePath="/buy"
-          currentParams={urlParams}
+          params={params}
+          category="residential"
+          listingType="sale"
           alertHref={`/property-alerts?listingType=sale&category=residential&${urlParams.toString()}`}
         />
-      </Section>
+      </Container>
     </>
   );
 }

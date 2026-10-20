@@ -85,19 +85,6 @@ h4 {
   border-radius: 2px;
 }
 
-/* Hero slideshow cross-fade — see components/home/HeroSlideshow.tsx.
-   The prefers-reduced-motion block below already collapses this to an
-   instant swap; the component additionally stops the auto-advance timer
-   entirely under that preference (a CSS-only fix can't do that part). */
-@keyframes hero-fade-in {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
-}
-
 /* Respect the visitor's reduced-motion preference everywhere. */
 @media (prefers-reduced-motion: reduce) {
   *,

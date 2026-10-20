@@ -1,8 +1,55 @@
 # BRAND_GUIDELINES.md — Times Estate Ltd
 
-## CURRENT BRAND — "Times Estate Ltd" skyline identity (from 2026-09-11)
+## CURRENT BRAND — owner-supplied clock-and-skyline emblem with a live-text wordmark (from 2026-10-20)
 
-**This is the third identity this project has built, and the second
+**The logo is now the owner's own artwork, not a recreation.** On
+2026-10-20 the owner supplied a detailed clock-and-London-skyline logo
+("TIMES ESTATE LTD / LONDON PROPERTY EXPERTS") and instructed it be
+installed, with the colour scheme left unchanged. See `DECISIONS.md`
+(2026-10-20) for the full account; the short version:
+
+- **Emblem (image):** the clock-and-skyline artwork, extracted from
+  the supplied file with its white ground made transparent.
+  `web/public/brand/times-estate-ltd-emblem.webp` (+ `@2x`) with a
+  PNG fallback; masters in `brand/logo-supplied/png/`. Shown at
+  36–52px tall in the header, 36px in the footer, and as the favicon
+  on a white rounded tile.
+- **Wordmark (live text):** "TIMES ESTATE LTD" in Merriweather 900,
+  uppercase — "TIMES" in `--color-ink`, "ESTATE LTD" in
+  `--color-accent` — with "LONDON PROPERTY EXPERTS" beneath in Inter
+  600, letter-spaced (`BrandLockup.tsx`). **Why text, not the
+  supplied wordmark:** the supplied file is a screenshot with a
+  viewer's share button baked over the "D" of "LTD"; the emblem above
+  it is clean. Live text also stays crisp at any size and never drifts
+  from the palette. A clean export of the original artwork would let
+  the wordmark be set exactly as drawn (copper gradient, small-caps)
+  — requested, not yet supplied.
+- **Lockup rule:** emblem left, wordmark right, gap ≈ 0.6× emblem
+  height; wordmark cap-height ≈ 0.45× emblem height. Never stack the
+  two, never place the wordmark over the emblem, never recolour the
+  emblem. Minimum emblem height 28px (digital); below that use the
+  emblem alone.
+- **Colour, typography, spacing, motion:** entirely unchanged — the
+  §C–E rules of the 2026-09-11 section below still apply verbatim.
+  The emblem's own palette (black, copper, bronze, warm gold
+  gradients) sits comfortably within them; no token was re-sampled
+  from it.
+- **Site layout** now follows the owner's reference homepage (header
+  with grouped dropdown navigation, dark hero with quick search,
+  service strip, listing explorer with filter sidebar, dark valuation
+  band, light footer) — the component-level record is in `DECISIONS.md`
+  and the IA record in `SITEMAP.md`.
+
+---
+
+## Historical — recreated "Times Estate Ltd" skyline identity (2026-09-11 → 2026-10-20)
+
+*The logo artwork in this section was superseded on 2026-10-20 by the
+owner's own emblem above. Its colour (§C), typography, spacing and
+motion rules remain the live specification and are referenced from the
+current section.*
+
+**This was the third identity this project built, and the second
 deliberate rebrand** (Claret → the real "TimesEstates" business-card
 identity → this). The owner supplied a reference screenshot of a
 website using a "TIMES ESTATE LTD" wordmark with a skyline icon and

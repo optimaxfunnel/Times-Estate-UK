@@ -1,13 +1,18 @@
-import type {
-  PropertyFilter,
-  PropertyListParams,
-  PropertySortKey,
+import {
+  BEDROOM_TOP_BUCKET,
+  type PropertyFilter,
+  type PropertyListParams,
+  type PropertySortKey,
 } from "@/lib/property/provider";
-import type {
-  CommercialUse,
-  ListingType,
-  PropertyCategory,
-  ResidentialPropertyType,
+import {
+  COMMERCIAL_USES,
+  PUBLICLY_VISIBLE_STATUSES,
+  RESIDENTIAL_PROPERTY_TYPES,
+  type CommercialUse,
+  type ListingType,
+  type PropertyCategory,
+  type PropertyStatus,
+  type ResidentialPropertyType,
 } from "@/lib/property/types";
 
 export type SearchParams = Record<string, string | string[] | undefined>;
@@ -17,6 +22,13 @@ function str(params: SearchParams, key: string): string | undefined {
   return Array.isArray(value) ? value[0] : value;
 }
 
+/** Every value for a repeated key (checkbox groups submit `?bedrooms=1&bedrooms=3`). */
+function list(params: SearchParams, key: string): string[] {
+  const value = params[key];
+  if (value === undefined) return [];
+  return (Array.isArray(value) ? value : [value]).filter(Boolean);
+}
+
 function num(params: SearchParams, key: string): number | undefined {
   const value = str(params, key);
   if (!value) return undefined;
@@ -24,12 +36,41 @@ function num(params: SearchParams, key: string): number | undefined {
   return Number.isFinite(parsed) ? parsed : undefined;
 }
 
+/** Keeps only the values that are genuinely members of an allow-list (anything else in the URL is ignored, not errored). */
+function allowed<T extends string>(
+  values: string[],
+  allowList: readonly T[],
+): T[] {
+  return values.filter((v): v is T =>
+    (allowList as readonly string[]).includes(v),
+  );
+}
+
 const VALID_SORT: PropertySortKey[] = ["price_asc", "price_desc", "newest"];
 
+export type ResultsView = "grid" | "list";
+
+export function readView(params: SearchParams): ResultsView {
+  return str(params, "view") === "list" ? "list" : "grid";
+}
+
+export function readSort(params: SearchParams): PropertySortKey {
+  const sortValue = str(params, "sort");
+  return VALID_SORT.includes(sortValue as PropertySortKey)
+    ? (sortValue as PropertySortKey)
+    : "newest";
+}
+
+/**
+ * Turns a page's URL query into provider parameters. `category` and
+ * `listingType` scope a dedicated search page (/buy is residential +
+ * sale); the homepage passes neither and searches everything public.
+ */
 export function buildListParams(
   params: SearchParams,
-  category: PropertyCategory,
-  listingType: ListingType,
+  category?: PropertyCategory,
+  listingType?: ListingType,
+  options: { pageSize?: number } = {},
 ): PropertyListParams {
   const filter: PropertyFilter = {
     category,
@@ -38,22 +79,33 @@ export function buildListParams(
     minPrice: num(params, "minPrice"),
     maxPrice: num(params, "maxPrice"),
     minBedrooms: num(params, "minBedrooms"),
-    propertyType:
-      (str(params, "propertyType") as ResidentialPropertyType) || undefined,
-    commercialUse: (str(params, "commercialUse") as CommercialUse) || undefined,
     minFloorAreaSqFt: num(params, "minFloorAreaSqFt"),
+    propertyTypes: allowed(
+      list(params, "propertyType"),
+      RESIDENTIAL_PROPERTY_TYPES,
+    ) as ResidentialPropertyType[],
+    commercialUses: allowed(
+      list(params, "commercialUse"),
+      COMMERCIAL_USES,
+    ) as CommercialUse[],
+    bedrooms: list(params, "bedrooms")
+      .map(Number)
+      .filter((n) => Number.isInteger(n) && n >= 0 && n <= BEDROOM_TOP_BUCKET),
+    postcodes: list(params, "postcode")
+      .map((p) => p.trim())
+      .filter(Boolean),
+    features: list(params, "feature"),
+    // A visitor can narrow by marketing status, but only ever within the
+    // statuses that are public anyway (types.ts PUBLICLY_VISIBLE_STATUSES).
+    statuses: allowed(
+      list(params, "status"),
+      PUBLICLY_VISIBLE_STATUSES,
+    ) as PropertyStatus[],
   };
-
-  const sortValue = str(params, "sort");
-  const sort: PropertySortKey = VALID_SORT.includes(
-    sortValue as PropertySortKey,
-  )
-    ? (sortValue as PropertySortKey)
-    : "newest";
 
   const page = num(params, "page") ?? 1;
 
-  return { filter, sort, page };
+  return { filter, sort: readSort(params), page, pageSize: options.pageSize };
 }
 
 /** Converts the current search params into a URLSearchParams (drops "page" so pagination links can set it fresh). */

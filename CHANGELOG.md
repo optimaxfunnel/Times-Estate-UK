@@ -4,6 +4,46 @@ All notable changes to this project are recorded here, most recent first.
 This is a project log, not a marketing document — it should stay accurate
 and plain.
 
+## 2026-10-20 — Front end rebuilt to the owner's reference homepage; supplied logo installed
+
+**Scope:** the owner's instruction to build the front end to match
+their reference homepage screenshot and install their new
+clock-and-skyline logo, with the colour scheme left unchanged. Full
+reasoning and the four deliberate departures from the reference in
+`DECISIONS.md` (2026-10-20). Nothing deployed, nothing connected.
+
+**Added**
+- `brand/build-supplied-logo.mjs`, `brand/logo-supplied/` — the
+  owner's original file and the emblem/favicon exports derived from it.
+- `web/public/brand/times-estate-ltd-emblem{.webp,@2x.webp,.png}`.
+- `web/src/components/brand/BrandLockup.tsx`, `components/icons.tsx`.
+- `components/home/{HomeHero,HeroSearchCard,SkylineBackdrop,ServiceStrip,ValuationBand}.tsx`.
+- `components/property/{ListingExplorer,FilterSidebar,SortSelect,Pagination,AreaPanel,PropertyImagePlaceholder}.tsx`.
+- `lib/property/facets.ts`.
+
+**Changed**
+- `Header`, `MobileMenu`, `Footer` — rebuilt to the reference (grouped
+  dropdown navigation from a new `headerNav` in `site-config.ts`,
+  light footer). `PropertyCard` redesigned; `FavouriteButton` gains an
+  icon variant; `Container` gains a `size="wide"` option.
+- `/`, `/buy`, `/rent`, `/commercial/for-sale`, `/commercial/to-let` —
+  all use the shared listing explorer.
+- `lib/property/provider.ts`, `search-params.ts`, `format.ts` —
+  multi-value filters, optional scope, price-part/description helpers.
+- `web/src/app/icon.png`, `apple-icon.png` — emblem-on-white tiles.
+- `globals.css` — removed the unused slideshow keyframe only; **no
+  colour token changed.**
+
+**Removed** (superseded, recoverable from git): `HeroSlideshow` (+
+test), `HomeSearchTabs`, `SellLetCtaBand`, `PropertySearchForm`,
+`PropertyResultsGrid`.
+
+**Checks run:** typecheck, lint, Prettier, tests (66/66), production
+build (33 routes), Lighthouse desktop 100/100/100
+(accessibility/best-practices/SEO) and mobile accessibility 99→100
+after fixes, route smoke tests with multi-value filters, dropdown and
+mobile-menu interaction checks. Performance not re-measured today.
+
 ## 2026-09-08 — Phase 1: Audit, discovery and project foundation
 
 **Scope:** a fresh audit pass requested via a "Phase 1" prompt,

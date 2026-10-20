@@ -7,6 +7,132 @@ compliance positions) remain the owner's or their professional
 advisers', per `CLAUDE.md` Rule 5; this log covers project-management
 and technical judgement calls made in carrying out an instruction.
 
+## 2026-10-20 — Front end rebuilt to the owner's reference homepage; owner-supplied logo installed (emblem only — the supplied file's wordmark is unusable)
+
+**Instruction:** "I want to build the front end of the website to look
+like the first attachment [the reference homepage screenshot first
+supplied on 2026-09-11] and logo like the second attachment [a new
+clock-and-London-skyline logo]. Please do not make changes to colour
+scheme." Earlier the same day the owner had sent the logo alone
+("install the following logo") and, when the problem below was
+explained, confirmed the file "looks very odd" — then restated the
+instruction with both attachments. No further questions were asked:
+the owner had already dismissed a question set about this same
+reference on 2026-09-11 and given a direct instruction instead, so
+the judgement calls below were made and are recorded here, each easy
+to reverse.
+
+**The logo file, and what was done about it.** The supplied file is a
+1206×877 JPEG *screenshot* of the logo inside an image viewer: a black
+frame, a white rounded card, and a circular "share" button baked into
+the bottom-right corner, sitting directly on top of the "D" in "LTD".
+Cropping can't remove it (it overlaps the letter) and painting over it
+visibly damages the letterform — tried and rejected rather than
+shipped. So: the **emblem** (the clock-and-skyline artwork above the
+wordmark, which the overlay doesn't touch) was extracted, its white
+ground knocked out to transparency, and installed; the **wordmark**
+("TIMES ESTATE LTD / LONDON PROPERTY EXPERTS") is rendered as live
+text beside it in the site's heading face and colour tokens
+(`web/src/components/brand/BrandLockup.tsx`). This matches how the
+reference homepage itself shows the logo (emblem + text lockup in the
+header), is sharper at every size than a raster of the text would be,
+and sidesteps the damaged letter entirely. Generator:
+`brand/build-supplied-logo.mjs`; inventory: `LOGO_ASSET_REGISTER.md`.
+**A clean export of the original artwork (PNG with transparency, or
+vector) is still wanted** — it would let the wordmark be set exactly
+as drawn (the supplied wordmark has a copper gradient and small-caps
+"TIMES" that live text approximates with the flat accent token and
+uppercase Merriweather). Favicon/app-icon slots were overwritten with
+an emblem-on-white tile (a favicon is one canonical slot); the
+previous skyline SVG identity's files stay in place, untouched.
+
+**Colour scheme untouched, as instructed.** Every token in
+`globals.css` is byte-identical to before; the reference's and the
+logo's black/white/copper read correctly through the existing
+`--color-ink` / `--color-accent` / `--color-accent-vivid` tokens, and
+re-sampling them would re-risk the Phase 6 contrast fix. Three small
+text colours that were introduced today at 50–55% ink opacity and
+failed WCAG AA on Lighthouse's first run were switched to the existing
+`--color-secondary` token (5.97:1) — a use of the palette, not a
+change to it.
+
+**What was built to the reference, and the four places it deliberately
+departs from it** (each a standing rule, not a new opinion):
+
+1. *Header:* lockup · grouped nav with CSS-only dropdowns (Home ·
+   Properties · Landlords · Tenants · Services · About · Contact) ·
+   search · "Get a Valuation" · phone + "Call us today". **This
+   regroups the SITEMAP.md navigation** — every dropdown entry is an
+   existing route; nothing new was created and the old flat list is
+   one level down. Recorded as a change to the approved IA pending
+   the Segment 2 sitemap work that followed the same day.
+2. *Hero:* "Browse London Properties", three-tab quick search (Buy ·
+   Rent · Commercial, the commercial tab choosing For Sale / To Let)
+   posting into the existing search pages. **Departure:** the
+   reference's photographs are stood in for by a generic skyline
+   illustration — no photography has been supplied and none is
+   invented or stock-sourced without approval.
+3. *Service strip:* Sales · Lettings · Management · Commercial ·
+   Construction. **Departure:** Construction stays "mention only"
+   (owner's Phase 4 answer): its tile links to the construction phone
+   line, not to a page, and says only "Construction · Renovation" —
+   the wording on the owner's own business card — not the reference's
+   "extensions · refurbishments · all types of construction".
+4. *Listing explorer:* filter sidebar with real facet counts (property
+   type, use, bedrooms, price, location, features, availability — all
+   multi-select, all plain GET parameters), results grid with sort /
+   grid-list toggle / pagination, and an area panel; reused on `/buy`,
+   `/rent`, `/commercial/for-sale`, `/commercial/to-let` so every
+   search page shares one pattern. **Departures:** the count is the
+   real count of demo listings (7), not "672"; every card carries the
+   "Sample property — not real" ribbon and the results header carries
+   the MISSING badge; and the reference's interactive map is an
+   honest **"Search by Area"** panel (areas drawn from the listings,
+   an explicit note that a map view follows a map-provider approval
+   under Rule 4) with an abstract graphic, not a fake map.
+5. *Valuation band:* "Get Your Free Property Valuation" (accurate —
+   `valuation-terms.ts` defines the initial appraisal as free) with
+   three evidence-safe points. **Departure:** the reference's named
+   five-star testimonial is not reproduced (Rule 1); the slot shows
+   "Client reviews — MISSING" with a one-line explanation, the same
+   treatment the site already gives every unsupplied fact.
+6. *Footer:* light, single-row lockup/nav/contacts/socials to the
+   reference, **plus** the link columns and regulatory/company line
+   the reference omits but a UK agency's site has to carry. The
+   social-links row still renders nothing (no profile supplied).
+
+**Removed:** the hero slideshow (`HeroSlideshow`, its 5 tests), the
+four-tab `HomeSearchTabs`, `SellLetCtaBand`, `PropertySearchForm` and
+`PropertyResultsGrid` — all superseded by the components above and
+recoverable from git. Test count 69 → 66 (−5, +2 new header tests).
+
+**Data layer, extended not replaced:** `PropertyFilter` gains
+multi-value `propertyTypes` / `commercialUses` / `bedrooms` /
+`postcodes` / `statuses` (the last never widens past the public
+status set); `buildListParams` now accepts an optional scope so the
+homepage searches everything public; a new `lib/property/facets.ts`
+counts options. The provider interface, admin area and lead pipeline
+are untouched.
+
+**Verified:** typecheck / lint / Prettier / tests (66/66) /
+production build (33 routes) all pass. Lighthouse against the
+homepage: desktop Accessibility 100 · Best Practices 100 · SEO 100
+(after fixing the two defects its first run found — the contrast
+issue above and header/card links whose `aria-label` omitted their
+visible text, WCAG 2.5.3); mobile Accessibility 99 → the one finding
+(a `role="status"` on the results heading removing it from the
+heading outline) fixed. Dropdown menus confirmed to open on hover and
+keyboard focus; every search route confirmed 200 with multi-value
+filters; mobile header confirmed to fit at 375px with the menu
+opening and listing every grouped route. Performance was not
+re-measured against a production server today — the Phase 6 figures
+stand as the last measured values and should be re-run before launch.
+
+**Not done, still open, unchanged:** the critical server-hang defect,
+the missing persistent database, real admin authentication, every
+compliance item in `COMPLIANCE_REGISTER.md`, an OG image, and a
+stationery/social pack for this identity.
+
 ## 2026-09-11 — Second rebrand: "Times Estates" real-photo identity replaced by a new "Times Estate Ltd" skyline identity, at the owner's explicit direction
 
 **What happened:** the owner supplied a screenshot of a website using a

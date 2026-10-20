@@ -1,69 +1,112 @@
 import Link from "next/link";
-import { primaryNav, siteConfig } from "@/lib/site-config";
+import { headerNav, siteConfig } from "@/lib/site-config";
 import { Container } from "@/components/ui/Container";
-import { ButtonLink } from "@/components/ui/ButtonLink";
+import { BrandLockup } from "@/components/brand/BrandLockup";
 import { MobileMenu } from "@/components/layout/MobileMenu";
+import {
+  IconArrowRight,
+  IconChevronDown,
+  IconPhone,
+  IconSearch,
+} from "@/components/icons";
 
+/**
+ * Site header, laid out to the owner's 2026-10-20 reference: lockup ·
+ * grouped navigation with dropdowns · search · "Get a Valuation" · phone.
+ *
+ * The dropdowns are CSS-only (`group-hover` / `group-focus-within`), so
+ * they open for a mouse, for the keyboard (tabbing onto a group's link
+ * reveals its menu, and the Tab key then walks through it) and need no
+ * JavaScript. Each group's own label is a real link to its hub page,
+ * so a touch tap — which has no hover — still goes somewhere sensible.
+ */
 export function Header() {
   return (
-    <header className="relative border-b border-border bg-surface">
-      <Container className="flex h-20 items-center justify-between gap-4">
-        <Link
-          href="/"
-          className="flex items-center"
-          aria-label={`${siteConfig.displayName.value} — home`}
-        >
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
-            src="/brand/times-estate-ltd-logo.svg"
-            alt={siteConfig.displayName.value}
-            width={760}
-            height={170}
-            className="h-11 w-auto sm:h-12"
-          />
+    <header className="relative z-30 border-b border-border bg-surface">
+      <Container
+        size="wide"
+        className="flex h-18 items-center justify-between gap-4 lg:h-20"
+      >
+        {/* The lockup's own text ("Times Estate Ltd — London Property
+            Experts") is this link's accessible name; an aria-label that
+            didn't repeat it would fail WCAG 2.5.3 (Label in Name). */}
+        <Link href="/" className="flex shrink-0 items-center rounded-sm">
+          <BrandLockup />
         </Link>
 
-        <nav aria-label="Primary" className="hidden lg:block">
-          <ul className="flex items-center gap-6">
-            {primaryNav.map((item) => (
-              <li key={item.href}>
+        <nav aria-label="Primary" className="hidden xl:block">
+          <ul className="flex items-center">
+            {headerNav.map((item) => (
+              <li key={item.label} className="group relative">
                 <Link
                   href={item.href}
-                  className="text-sm font-medium text-ink hover:text-accent"
+                  className="inline-flex items-center gap-1 whitespace-nowrap px-2.5 py-7 text-[0.8125rem] font-medium text-ink hover:text-accent"
                 >
                   {item.label}
+                  {item.children && (
+                    <IconChevronDown className="h-3.5 w-3.5 text-ink/50 transition-transform group-hover:rotate-180 group-focus-within:rotate-180" />
+                  )}
                 </Link>
+                {item.children && (
+                  <ul className="invisible absolute left-0 top-full z-40 min-w-56 rounded-sm border border-border bg-surface py-2 opacity-0 shadow-lg transition group-hover:visible group-hover:opacity-100 group-focus-within:visible group-focus-within:opacity-100">
+                    {item.children.map((child) => (
+                      <li key={child.href}>
+                        <Link
+                          href={child.href}
+                          className="block px-4 py-2 text-sm text-ink hover:bg-accent-tint hover:text-accent"
+                        >
+                          {child.label}
+                        </Link>
+                      </li>
+                    ))}
+                  </ul>
+                )}
               </li>
             ))}
           </ul>
         </nav>
 
-        <div className="hidden items-center gap-5 lg:flex">
+        <div className="hidden shrink-0 items-center gap-3 xl:flex">
+          <Link
+            href="/buy"
+            aria-label="Search properties"
+            className="inline-flex h-11 w-11 items-center justify-center rounded-full text-ink hover:bg-accent-tint hover:text-accent"
+          >
+            <IconSearch className="h-5 w-5" />
+          </Link>
+          <Link
+            href="/sell"
+            className="inline-flex items-center gap-2 whitespace-nowrap rounded-sm bg-accent px-4 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-accent-dark"
+          >
+            Get a Valuation
+            <IconArrowRight className="h-4 w-4" />
+          </Link>
           <a
             href="tel:+442086728080"
-            className="text-sm font-medium text-ink hover:text-accent"
+            className="group/phone flex items-center gap-2 whitespace-nowrap rounded-sm text-ink"
           >
-            {siteConfig.phoneLandline.value}
+            <IconPhone className="h-6 w-6 text-accent" />
+            <span className="flex flex-col leading-tight">
+              <span className="text-base font-bold tracking-tight group-hover/phone:text-accent">
+                {siteConfig.phoneLandline.value}
+              </span>
+              <span className="text-[0.6rem] font-semibold uppercase tracking-[0.18em] text-ink/60">
+                Call us today
+              </span>
+            </span>
           </a>
-          <ButtonLink href="/sell">Book a Valuation</ButtonLink>
         </div>
 
-        <a
-          href="tel:+442086728080"
-          aria-label={`Call ${siteConfig.displayName.value} on ${siteConfig.phoneLandline.value}`}
-          className="-m-2 inline-flex items-center rounded-sm p-2 text-ink hover:text-accent lg:hidden"
-        >
-          <svg
-            aria-hidden
-            viewBox="0 0 24 24"
-            className="h-5 w-5"
-            fill="currentColor"
+        <div className="flex items-center gap-2 xl:hidden">
+          <a
+            href="tel:+442086728080"
+            aria-label={`Call ${siteConfig.displayName.value} on ${siteConfig.phoneLandline.value}`}
+            className="hidden h-11 w-11 items-center justify-center rounded-sm text-accent hover:bg-accent-tint min-[360px]:inline-flex"
           >
-            <path d="M6.6 10.8c1.4 2.8 3.7 5.1 6.5 6.5l2.2-2.2c.3-.3.7-.4 1-.2 1.1.4 2.3.6 3.5.6.6 0 1 .4 1 1v3.6c0 .6-.4 1-1 1C10.6 21.1 2.9 13.4 2.9 3.6c0-.6.4-1 1-1H7.5c.6 0 1 .4 1 1 0 1.2.2 2.4.6 3.5.1.4 0 .8-.2 1L6.6 10.8Z" />
-          </svg>
-        </a>
-
-        <MobileMenu />
+            <IconPhone className="h-6 w-6" />
+          </a>
+          <MobileMenu />
+        </div>
       </Container>
     </header>
   );
