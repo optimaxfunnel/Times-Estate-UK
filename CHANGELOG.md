@@ -4,6 +4,20 @@ All notable changes to this project are recorded here, most recent first.
 This is a project log, not a marketing document — it should stay accurate
 and plain.
 
+## 2026-10-29 (Day 4 Task 5 + verification)
+
+- **Added:** `lib/property/feeds/feed-adapter.ts` — CRM feed boundary
+  (one adapter shape; six provider placeholders that refuse to run;
+  imports validated, held for approval, never demo or verified) and its
+  tests; `components/property/PropertyDetail.test.tsx`.
+- **Fixed:** mobile overflow on the search pages caused by the category
+  switcher (663px → 375px).
+- **Docs:** `INTEGRATIONS.md` (feed requirements, risks, failure
+  handling, ownership, open questions), `TEST_REPORT.md`,
+  `PROJECT_PLAN.md`.
+- Tests 86 → 94. No packages added; nothing connected; no customer data
+  imported.
+
 ## 2026-10-29 (later) — Day 4: data model, secure admin, listings and search
 
 - Data model: commercial EPC rating; field rules in code with tests (Task 1).

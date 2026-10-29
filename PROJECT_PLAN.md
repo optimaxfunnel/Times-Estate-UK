@@ -24,6 +24,13 @@ service. Day 4 (property data, CMS, listings) has not started.**
 **Decisions needed before Day 4:** see the end-of-day report in
 `CHANGELOG.md` (2026-10-29).
 
+## Day 4 position (2026-10-29)
+
+**Day 4 complete; Day 5 not started.** Property data model, secure
+admin structure (development sign-in only), listings and detail pages,
+search with saved searches, and a CRM feed boundary with no provider
+connected. 94/94 tests. See `TEST_REPORT.md` and `CHANGELOG.md`.
+
 ## Governing rules
 
 This plan operates under the permanent rules in `CLAUDE.md`, in particular:

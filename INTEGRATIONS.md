@@ -1,5 +1,69 @@
 # INTEGRATIONS.md — Times Estate Ltd
 
+## Day 4 Task 5 — CRM and portal feed boundary (2026-10-29)
+
+**Is there a confirmed CRM or portal agreement? No.** Nothing in the
+project records one: Segment 1 asked where listings live today (a CRM,
+Rightmove/Zoopla/OnTheMarket, or only the old WordPress site) and that
+question is still unanswered. So nothing is connected, and no portal
+is read, scraped or called.
+
+**Portals are not sources.** Rightmove, Zoopla and OnTheMarket receive
+listings *from* an agent's CRM under the agent's membership agreement;
+none is assumed here to offer a free or open feed that a website could
+read. This project will not scrape them.
+
+**What was built** (`web/src/lib/property/feeds/feed-adapter.ts`): one
+adapter shape every provider will plug into, plus a placeholder for each
+provider named in the brief. Every placeholder reports "not connected"
+and refuses to run, so nothing can call a provider by accident. Shared
+rules enforced for every future provider:
+
+1. Every imported record is checked against the site's property rules;
+   invalid records are listed with reasons, never half-imported.
+2. **Nothing imported goes live automatically** — imports arrive as
+   "Awaiting approval" for a Manager or Administrator.
+3. Imports are never marked as demo data or as "verified".
+4. Read-only: the website never writes back to the CRM.
+
+Tested with a fake in-memory feed (no network): accepted records,
+rejected records with reasons, and every real placeholder refusing.
+
+### Per-provider requirements
+
+| Provider | Agreement needed | Credentials | Data direction | Notes |
+|---|---|---|---|---|
+| Reapit (Foundations) | Reapit customer contract + Foundations developer/app approval | OAuth client id/secret per customer, held in environment variables | CRM → website (read listings, images, statuses) | Most common in London agencies; app must be installed by the agency |
+| Alto (Zoopla) | Alto subscription + Zoopla partner API access | API key/OAuth issued by Zoopla | CRM → website | Access is granted case by case |
+| Dezrez (Rezi) | Rezi subscription + API agreement | API key | CRM → website | — |
+| Jupix | Jupix subscription | Feed URL/key supplied by Jupix | CRM → website (XML feed) | Typically a scheduled XML export |
+| Street.co.uk | Street subscription + API access | API token | CRM → website | — |
+| SME Professional | SME subscription | Feed details from SME | CRM → website | — |
+| Another provider | Whatever the owner confirms | As issued | CRM → website | Same adapter shape |
+
+### For any provider
+
+| Topic | Plan |
+|---|---|
+| **Required agreement** | The agency's own CRM contract, plus the provider's written permission for this website to read the agency's data (often a separate API/partner agreement) |
+| **Credentials** | Issued to Times Estate Ltd, stored only as server environment variables, never in code or chat; rotated if a staff member with access leaves |
+| **Data direction** | One way: CRM → website. Enquiries flow the other way only if the owner later approves writing leads into the CRM |
+| **Security risks** | Leaked credentials exposing landlord/vendor data; private addresses or owner names arriving in the feed (the public/private split strips them before any page); oversized or malicious image URLs (images re-hosted, type/size checked); the provider being unavailable |
+| **Failure handling** | A failed or partial import changes nothing on the live site; the last good listings stay; the failure is logged and shown to staff; invalid records are listed with reasons |
+| **Synchronisation ownership** | Recommended: the CRM owns listing data and status; the website owns presentation and the approval step. Staff edit listings in the CRM, not in the website admin, once a feed is live (the admin then becomes read-only for feed listings) |
+| **Schedule** | Pull every 15–60 minutes, plus a manual "refresh now" for Managers — confirmed with the provider's rate limits |
+
+### Unresolved questions (need the owner)
+
+1. Which CRM, if any, does Times Estate Ltd use today?
+2. Which portals do you currently advertise on, and through which CRM?
+3. Should the CRM's status be trusted directly (listings go live when the CRM says so), or should every import still wait for approval on the website? (Recommended: approval, at least at first.)
+4. Who at the agency holds the CRM administrator account that would authorise the connection?
+5. Are the two listings on the old website still live, and should anything be migrated from it?
+
+---
+
+
 ## Task 1 service comparison (2026-10-29)
 
 **Nothing below is connected, signed up for or paid for.** Each row is

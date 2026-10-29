@@ -1,5 +1,45 @@
 # TEST_REPORT.md — Times Estate Ltd
 
+## 2026-10-29 (Day 4) — Data model, admin, listings, search and feed boundary
+
+Commands run on the owner's PC (Windows 11, Node 24.19.0).
+
+| Check | Command | Result |
+|---|---|---|
+| TypeScript | `npx tsc --noEmit` | **Pass** |
+| Lint | `npx eslint` | **Pass**, 0 errors/warnings |
+| Format | `npx prettier --check .` | **Pass** |
+| Unit + component + integration tests | `npx vitest run` | **Pass — 94/94, 18 files** (69 at the start of the day) |
+| Contrast | `npm run check:contrast` | **17/17 pass** |
+| Accessibility (Lighthouse, production build) | `/rent`, `/commercial/to-let`, no-results search, two property pages, Saved properties | **100** on all six |
+| Production build | `npx next build` | **Pass** |
+| Dependency audit | `npm audit` | **1 critical** — `next` 16.3.4 (needs the approved upgrade to 16.4.3); nothing else |
+| Secret scan | `git grep` for API keys, tokens and private keys; tracked `.env`/key files | **Nothing found** |
+
+**What the tests cover (by the brief's list):**
+
+| Item | Evidence |
+|---|---|
+| Property creation and editing | `PropertyDetail.test.tsx`: create a draft, edit it, confirm it stays out of public search |
+| Approval states | `workflow.test.ts`: every status move by role (editor can submit, only Manager/Admin can publish, withdraw, archive or edit a live listing) |
+| Public/private fields | `field-rules.test.ts`, `types.test.ts`: private address, notes and staff never reach a public page; unverified yield hidden |
+| Permission boundaries | `roles.test.ts` + live browser test: Property Editor refused publishing (logged as "denied") and refused the audit log |
+| Search and filtering | `provider.test.ts`, `search-filters.test.ts`: furnishing, availability date, floor-area range, tenure, location, use, price, pagination; no URL can surface a non-public property |
+| Empty results | provider test + Lighthouse on a no-results search; suggestions shown |
+| Invalid input | `PropertyDetail.test.tsx`: readable validation messages; feed import rejects invalid records with reasons |
+| Property detail rendering / image fallback | `PropertyDetail.test.tsx`: photo fallback, "Not yet supplied" floor plan/brochure/tour, EPC missing vs present |
+| Feed boundary | `feed-adapter.test.ts`: all six provider placeholders refuse to run; imports arrive "Awaiting approval", never demo or verified |
+| Mobile layout | Live at 375px: **defect found and fixed** — the new category switcher widened `/rent` to 663px; now 375px, no sideways scroll. Property page 375px, no overflow |
+| Keyboard | Filter toggle reachable and opens from the keyboard; 18 filter controls, 0 without a label; admin sign-in, sign-out and forms operable by keyboard |
+| Admin security | Production build: admin closed (307 to sign-in, "Administration is not available"); forged session cookie rejected |
+
+**Screenshots:** `qa-screenshots/2026-10-29-day4/` (on this PC, not committed): mobile `/rent` before and after the fix, mobile property page. Admin audit-log and sign-in screens were captured in the session.
+
+**Open:** `next` security upgrade (approval); a draft property URL shows "Page not found" but returns HTTP 200 rather than 404 (streaming; minor SEO point).
+
+---
+
+
 ## 2026-10-29 — Responsive, accessibility and release checks (current)
 
 Every command below was actually run on the owner's PC (Windows 11,

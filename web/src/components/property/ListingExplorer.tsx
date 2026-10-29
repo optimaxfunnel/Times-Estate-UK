@@ -119,9 +119,9 @@ export async function ListingExplorer({
   };
 
   return (
-    <div className="grid gap-5 lg:grid-cols-[14rem_minmax(0,1fr)] xl:grid-cols-[14rem_minmax(0,1fr)_15rem]">
+    <div className="grid grid-cols-[minmax(0,1fr)] gap-5 lg:grid-cols-[14rem_minmax(0,1fr)] xl:grid-cols-[14rem_minmax(0,1fr)_15rem]">
       {category && (
-        <div className="lg:col-span-2 xl:col-span-3">
+        <div className="min-w-0 lg:col-span-2 xl:col-span-3">
           <CategorySwitcher current={basePath} />
         </div>
       )}
