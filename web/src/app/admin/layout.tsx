@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { getCurrentRole } from "@/lib/auth/session";
+import { getSession } from "@/lib/auth/session";
 import { hasPermission, ROLE_LABELS } from "@/lib/auth/roles";
 import { RoleSwitcher } from "@/components/admin/RoleSwitcher";
 import { Container } from "@/components/ui/Container";
@@ -21,7 +21,18 @@ export default async function AdminLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const role = await getCurrentRole();
+  // The layout also wraps /admin/sign-in, so it must not redirect.
+  // Without a valid session it renders the page alone (sign-in); every
+  // other admin page enforces sign-in itself via requireRole().
+  const session = await getSession();
+  if (!session) {
+    return (
+      <div className="min-h-screen bg-secondary/5">
+        <Container className="py-8">{children}</Container>
+      </div>
+    );
+  }
+  const role = session.role;
 
   return (
     <div className="min-h-screen bg-secondary/5">

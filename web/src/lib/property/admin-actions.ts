@@ -5,8 +5,15 @@ import { redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
 import { propertyProvider } from "@/lib/property/provider";
 import { PROPERTY_STATUSES, type PropertyStatus } from "@/lib/property/types";
-import { getCurrentRole } from "@/lib/auth/session";
-import { hasPermission, ROLES, type Role } from "@/lib/auth/roles";
+import {
+  endSession,
+  isDevSignInEnabled,
+  requireRole,
+  startDevSession,
+} from "@/lib/auth/session";
+import { ROLES, type Role } from "@/lib/auth/roles";
+import { recordAuditEvent } from "@/lib/auth/audit-log";
+import { canChangeStatus, canEditContent } from "@/lib/property/workflow";
 
 const editSchema = z.object({
   id: z.string().min(1),
@@ -24,43 +31,46 @@ export type EditPropertyState = {
 };
 
 /**
- * Demonstrates the approval boundary required by today's brief: a
- * Property Editor may move a property to "awaiting_approval", but only a
- * Manager/Administrator may publish it further (to "available" or any
- * other publicly-visible status). Every change is written to the audit
- * log by the provider itself.
+ * Edits a property. Authorisation is decided server-side by the pure
+ * rules in workflow.ts (never by what the form happens to show): an
+ * editor may draft and submit for approval; only Managers and
+ * Administrators may publish, change a live listing, withdraw or
+ * archive. Refusals are written to the audit log as "denied".
  */
 export async function updatePropertyAction(
   _prevState: EditPropertyState,
   formData: FormData,
 ): Promise<EditPropertyState> {
-  const role = await getCurrentRole();
-  if (!hasPermission(role, "edit_property")) {
-    return {
-      status: "error",
-      message: "Your current role does not have permission to edit properties.",
-    };
-  }
+  const role = await requireRole();
 
-  const raw = Object.fromEntries(formData.entries());
-  const parsed = editSchema.safeParse(raw);
+  const parsed = editSchema.safeParse(Object.fromEntries(formData.entries()));
   if (!parsed.success) {
     return {
       status: "error",
       message: parsed.error.issues[0]?.message ?? "Invalid submission.",
     };
   }
-
   const { id, summary, description, status } = parsed.data;
 
-  const isPublishingChange =
-    status !== "draft" && status !== "awaiting_approval";
-  if (isPublishingChange && !hasPermission(role, "approve_property")) {
-    return {
-      status: "error",
-      message:
-        "Only a Manager or Administrator may approve a property to this status. Submit it for approval instead.",
-    };
+  const existing = await propertyProvider.getById(id);
+  if (!existing) return { status: "error", message: "Property not found." };
+
+  const contentChanged =
+    summary !== existing.summary || description !== existing.description;
+  const checks = [
+    canChangeStatus(role, existing.status, status as PropertyStatus),
+    ...(contentChanged ? [canEditContent(role, existing.status)] : []),
+  ];
+  const refused = checks.find((d) => !d.allowed);
+  if (refused && !refused.allowed) {
+    recordAuditEvent({
+      actor: role,
+      action: "denied",
+      propertyId: id,
+      details: `${existing.status} -> ${status}: ${refused.reason}`,
+    });
+    revalidatePath("/admin/audit");
+    return { status: "error", message: refused.reason };
   }
 
   await propertyProvider.update(
@@ -68,27 +78,28 @@ export async function updatePropertyAction(
     { summary, description, status: status as PropertyStatus },
     role,
   );
-  // Deliberately NOT revalidating this action's own invoking page
-  // (`/admin/properties/${id}`) here: useActionState already refreshes
-  // the calling page with the action's returned state. Re-revalidating
-  // the same path from inside its own action caused the page to get
-  // stuck showing the global loading fallback indefinitely after save
-  // (a real defect found during Day 4 testing — see TEST_REPORT.md).
+  // Not revalidating this action's own page — useActionState refreshes
+  // it, and re-revalidating it caused a stuck loading state (TEST_REPORT.md, Day 4).
   revalidatePath("/admin/properties");
   revalidatePath("/admin/audit");
-
   return { status: "success", message: "Property updated." };
 }
 
-export async function setMockRoleAction(formData: FormData): Promise<void> {
+/** Development-only sign-in: chooses a role to test with. Disabled in production. */
+export async function devSignInAction(formData: FormData): Promise<void> {
   const value = formData.get("role");
   if (
+    isDevSignInEnabled() &&
     typeof value === "string" &&
     (ROLES as readonly string[]).includes(value)
   ) {
-    const { setMockRole } = await import("@/lib/auth/session");
-    await setMockRole(value as Role);
+    await startDevSession(value as Role);
+    redirect("/admin/properties");
   }
-  revalidatePath("/admin", "layout");
-  redirect("/admin/properties");
+  redirect("/admin/sign-in");
+}
+
+export async function signOutAction(): Promise<void> {
+  await endSession();
+  redirect("/admin/sign-in");
 }

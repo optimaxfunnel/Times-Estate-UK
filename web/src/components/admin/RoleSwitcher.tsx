@@ -1,43 +1,26 @@
-import { ROLES, ROLE_LABELS, type Role } from "@/lib/auth/roles";
-import { setMockRoleAction } from "@/lib/property/admin-actions";
+import { ROLE_LABELS, type Role } from "@/lib/auth/roles";
+import { signOutAction } from "@/lib/property/admin-actions";
 
 /**
- * ⚠️ Development-only tool. In a real deployment this entire control
- * would not exist — a visitor would sign in with real credentials and
- * receive whatever role an administrator assigned them, not choose their
- * own. This exists purely so today's permission boundaries can be tested
- * against real pages. See /lib/auth/session.ts for the full explanation.
+ * Banner shown on every admin page while the development sign-in is in
+ * use: who you are signed in as, a clear "not real authentication"
+ * warning, and sign out. (File name kept for history; it no longer
+ * switches roles — signing in again does.)
  */
 export function RoleSwitcher({ currentRole }: { currentRole: Role }) {
   return (
-    <div className="border-b border-dashed border-warning/60 bg-warning/10 px-4 py-3 text-sm">
-      <p className="font-semibold text-warning-text">
-        Development-only role switcher — not real authentication
+    <div className="flex flex-wrap items-center justify-between gap-3 border-b border-dashed border-warning/60 bg-warning/10 px-4 py-3 text-sm">
+      <p className="text-warning-text">
+        <span className="font-semibold">Development sign-in</span> — not real
+        authentication. Signed in as{" "}
+        <span className="font-semibold">{ROLE_LABELS[currentRole]}</span>.
       </p>
-      <form
-        action={setMockRoleAction}
-        className="mt-2 flex flex-wrap items-center gap-2"
-      >
-        <label htmlFor="role-select" className="sr-only">
-          Switch demo role
-        </label>
-        <select
-          id="role-select"
-          name="role"
-          defaultValue={currentRole}
-          className="rounded-sm border border-border-strong bg-surface px-2 py-1 text-sm"
-        >
-          {ROLES.map((role) => (
-            <option key={role} value={role}>
-              {ROLE_LABELS[role]}
-            </option>
-          ))}
-        </select>
+      <form action={signOutAction}>
         <button
           type="submit"
           className="rounded-sm border border-warning px-3 py-1 text-sm font-medium text-warning-text hover:bg-warning hover:text-white"
         >
-          Switch role
+          Sign out
         </button>
       </form>
     </div>

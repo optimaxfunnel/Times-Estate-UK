@@ -1,5 +1,83 @@
 # ADMIN_AND_CMS.md — Times Estate Ltd
 
+## Day 4 Task 2 update (2026-10-29) — secure administration structure
+
+**Plain-English summary.** The admin area now has a proper lock on the
+door, even though the real key (staff sign-in) hasn't been chosen yet.
+Nobody gets in without signing in; the sign-in that exists today is a
+testing stand-in that only works on a development computer and is
+switched off automatically in a live build. Every role can do only what
+it needs, live listings can only be changed by a Manager or
+Administrator, and important actions — including refused attempts — are
+written to the audit log.
+
+### The five roles (least privilege)
+
+| Permission | Administrator | Manager | Property Editor | Content Editor | Enquiry Viewer |
+|---|---|---|---|---|---|
+| Enter admin | ✔ | ✔ | ✔ | ✔ | ✔ |
+| Create / edit draft properties | ✔ | ✔ | ✔ | — | — |
+| Submit for approval | ✔ | ✔ | ✔ | — | — |
+| **Publish / change a live listing** | ✔ | ✔ | — | — | — |
+| Withdraw / archive | ✔ | ✔ | — | — | — |
+| Edit content pages | ✔ | — | — | ✔ | — |
+| View enquiries | ✔ | ✔ | — | — | ✔ |
+| Manage leads | ✔ | ✔ | — | — | — |
+| View audit log | ✔ | ✔ | — | — | — |
+| Manage users | ✔ | — | — | — | — |
+
+### The ten property states
+
+Draft · Awaiting approval · **Available · Under offer · Sold subject to
+contract · Let agreed** (the only four shown publicly) · Sold · Let ·
+Withdrawn · Archived.
+
+| Move | Who may make it |
+|---|---|
+| Draft ↔ Awaiting approval | Anyone who can edit properties |
+| Into any public state | Manager, Administrator |
+| Into Sold or Let | Manager, Administrator |
+| Into Withdrawn or Archived | Manager, Administrator |
+| Taking a live listing back to Draft | Manager, Administrator |
+| Editing the text of a live listing | Manager, Administrator (it is a public change) |
+
+### How each rule is met
+
+| Rule | How |
+|---|---|
+| 1. Draft/unapproved never public | Public search and every property page show only the four public states; any other state returns "Page not found" (verified on a production build: the draft demo property shows "Page not found", never its content; the HTTP status is 200 because the page streams — a minor search-engine point, recorded in TEST_REPORT.md) |
+| 2. Public changes need authorisation | Server-side rules in `lib/property/workflow.ts`, checked on every save regardless of what the form shows |
+| 3. Important changes logged | Create, edit, status change, sign-in, sign-out and **refused attempts** go to the audit log (verified live: a Property Editor's attempt to publish appeared as "denied") |
+| 4. Least privilege | Table above; every permission is denied unless listed (`lib/auth/roles.ts`) |
+| 5. Secure, established authentication | **Not yet available — see limitations.** The stand-in uses a signed (HMAC-SHA256), expiring (8 h), httpOnly, SameSite=Strict cookie, so it cannot be forged by editing a cookie (verified by test and by a forged-cookie request) |
+| 6. No fake users or passwords | None exist. The stand-in has no accounts or passwords; it simply picks a role to test with |
+
+### Limitations (must be resolved before going live)
+
+1. **Real staff sign-in is not connected.** Recommended: Auth.js with
+   email magic link or password + two-factor (INTEGRATIONS.md) — needs
+   your approval. Until then a production build shows "Administration is
+   not available" and nobody can sign in (verified).
+2. **No individual user accounts**, so the audit log records the role,
+   not the person.
+3. **Audit log and property edits are kept in memory** and lost on
+   restart — needs the database (also awaiting approval).
+4. **Content Editor** has the permission but no content-editing screen
+   exists yet (no CMS chosen).
+5. `ADMIN_SESSION_SECRET` (placeholder in `.env.example`) must be set
+   to a long random value on any shared server.
+
+**Code:** `lib/auth/session.ts`, `lib/auth/session-token.ts`,
+`lib/auth/roles.ts`, `lib/auth/audit-log.ts`, `lib/property/workflow.ts`,
+`app/admin/sign-in/page.tsx`, `proxy.ts`. **Tests:** 81/81, including
+role boundaries, every status transition rule, and token tampering,
+expiry and wrong-secret rejection.
+
+---
+
+# Historical — Day 4 (September) record
+
+
 ## What this document is
 
 Explains the administration area built today (`web/src/app/admin/`): who

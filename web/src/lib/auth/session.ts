@@ -1,49 +1,104 @@
 import { cookies } from "next/headers";
-import { type Role, ROLES } from "@/lib/auth/roles";
+import { redirect } from "next/navigation";
+import { type Role } from "@/lib/auth/roles";
+import {
+  SESSION_TTL_SECONDS,
+  signSession,
+  verifySession,
+  type SessionPayload,
+} from "@/lib/auth/session-token";
+import { recordAuditEvent } from "@/lib/auth/audit-log";
 
 /**
- * ⚠️ DEVELOPMENT-ONLY MOCK SESSION — NOT REAL AUTHENTICATION.
+ * Admin session — DEVELOPMENT MOCK SIGN-IN, hardened.
  *
- * This reads a plain, unsigned cookie to let today's build demonstrate
- * and test the five-role permission model against real pages. It has
- * none of the properties a real authentication system needs:
+ * No real authentication provider has been approved yet (Rule 4;
+ * INTEGRATIONS.md recommends Auth.js). Until one is, this module gives
+ * the admin area a safe stand-in:
  *
- *   - no password or credential of any kind
- *   - no verification that the "user" is who they claim (anyone can
- *     change the cookie value in their own browser)
- *   - no session expiry, no secure/httpOnly flags meaningfully enforced
- *     against a determined visitor, no CSRF protection
+ *  - FAIL CLOSED: no valid session → no admin access (the old mock gave
+ *    every visitor the Property Editor role by default).
+ *  - SIGNED + EXPIRING: the cookie is an HMAC-signed token (8 hours);
+ *    editing it in the browser invalidates it.
+ *  - httpOnly, SameSite=Strict, Secure outside development.
+ *  - DISABLED IN PRODUCTION: `isDevSignInEnabled()` is false whenever
+ *    NODE_ENV is "production", so a deployed build has no way to sign
+ *    in at all until real authentication is connected — the admin area
+ *    shows "not available" rather than an open door.
+ *  - NO USERS OR PASSWORDS: the dev sign-in picks a role for testing;
+ *    there is no account, password or personal data anywhere.
  *
- * CLAUDE.md Rule 4 requires the owner's approval before any real
- * authentication or paid identity service is connected — see
- * /INTEGRATIONS.md's Authentication section for the options compared
- * (Auth.js, Clerk, Auth0). This mock exists ONLY so that permission
- * boundaries (who can create/edit/approve a property, who can see
- * enquiries, etc.) can be built and tested today, and MUST be replaced
- * before this admin area is ever deployed anywhere reachable by the
- * public — see CLAUDE.md Rule 6.
- *
- * No fake "production" user accounts or passwords exist anywhere in this
- * codebase, per today's explicit instruction.
+ * Every page and server action calls `requireRole()` (or `getSession()`),
+ * never the cookie directly, so swapping in a real provider changes
+ * this file only.
  */
 
-const SESSION_COOKIE = "dev_mock_role";
-const DEFAULT_ROLE: Role = "property_editor";
+const COOKIE = "te_admin_session";
 
-export async function getCurrentRole(): Promise<Role> {
-  const store = await cookies();
-  const value = store.get(SESSION_COOKIE)?.value;
-  if (value && (ROLES as readonly string[]).includes(value)) {
-    return value as Role;
-  }
-  return DEFAULT_ROLE;
+/** A random secret per server start, used only when no secret is configured (development). */
+const devSecret =
+  globalThis.crypto?.randomUUID?.() + "-" + globalThis.crypto?.randomUUID?.();
+
+function sessionSecret(): string {
+  const configured = process.env.ADMIN_SESSION_SECRET;
+  if (configured && configured.length >= 32) return configured;
+  return devSecret;
 }
 
-export async function setMockRole(role: Role) {
+export function isDevSignInEnabled(): boolean {
+  return process.env.NODE_ENV !== "production";
+}
+
+export async function getSession(): Promise<SessionPayload | null> {
+  if (!isDevSignInEnabled()) return null; // no real provider connected yet
   const store = await cookies();
-  store.set(SESSION_COOKIE, role, {
+  return verifySession(store.get(COOKIE)?.value, sessionSecret());
+}
+
+/** For pages and actions: the signed-in role, or a redirect to sign-in. */
+export async function requireRole(): Promise<Role> {
+  const session = await getSession();
+  if (!session) redirect("/admin/sign-in");
+  return session.role;
+}
+
+/** Kept for existing callers — identical to `requireRole()`. */
+export const getCurrentRole = requireRole;
+
+export async function startDevSession(role: Role): Promise<void> {
+  if (!isDevSignInEnabled()) return;
+  const payload: SessionPayload = {
+    sub: `dev:${role}`,
+    role,
+    provider: "dev-mock",
+    exp: Math.floor(Date.now() / 1000) + SESSION_TTL_SECONDS,
+  };
+  const store = await cookies();
+  store.set(COOKIE, await signSession(payload, sessionSecret()), {
     httpOnly: true,
-    sameSite: "lax",
-    path: "/",
+    sameSite: "strict",
+    secure: process.env.NODE_ENV !== "development",
+    path: "/admin",
+    maxAge: SESSION_TTL_SECONDS,
   });
+  recordAuditEvent({
+    actor: role,
+    action: "sign_in",
+    propertyId: "-",
+    details: "Development sign-in (mock, no credentials)",
+  });
+}
+
+export async function endSession(): Promise<void> {
+  const session = await getSession();
+  const store = await cookies();
+  store.delete({ name: COOKIE, path: "/admin" });
+  if (session) {
+    recordAuditEvent({
+      actor: session.role,
+      action: "sign_out",
+      propertyId: "-",
+      details: "Signed out",
+    });
+  }
 }
