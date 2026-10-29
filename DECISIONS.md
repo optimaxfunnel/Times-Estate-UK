@@ -7,6 +7,18 @@ compliance positions) remain the owner's or their professional
 advisers', per `CLAUDE.md` Rule 5; this log covers project-management
 and technical judgement calls made in carrying out an instruction.
 
+## 2026-10-29 — Core content pages built (no database or integrations needed)
+
+**Built:** `/why-choose-us`, `/landlords`, `/buyers` (Buyers & Tenants, one page with two sections; `/tenants` redirects to its tenants section), `/areas`. Already existing and kept: Home, About, Residential, Commercial, Property Management, Contact, and the legal pages — every legal page now carries the "Draft — requires legal review" banner (Fees was missing it; added).
+
+**Judgement calls:**
+- *Why Choose Us* also carries the sitemap's "How we protect you" content (redress, CMP, PI insurance, deposit scheme), each with its real status, rather than a second near-duplicate page.
+- *Areas We Cover* lists the seven areas printed on the existing live website, labelled **Requires verification**, and is `noindex` until coverage is confirmed and real guides exist. No area guide or coverage claim is made.
+- *Guaranteed rent* is mentioned on Landlords only to say it is not offered until verified and legally reviewed.
+- No reviews, statistics, team, awards, fees or "best/leading" claims anywhere; every unverified item shows Supplied by owner, Missing, Requires verification or Requires professional review.
+
+Navigation and the XML sitemap updated. Checks: typecheck, lint, tests 69/69, production build; every page returns 200.
+
 ## 2026-10-20 — Segment 2 (strategy, design-application options, sitemap, journeys, SEO/redirects) delivered at Approval Gate 2
 
 **Instruction:** "I approve Segment 1. Complete Segment 2 only." —

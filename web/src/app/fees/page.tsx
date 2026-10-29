@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { PageHero } from "@/components/layout/PageHero";
 import { Section } from "@/components/ui/Section";
 import { PlaceholderNotice } from "@/components/ui/PlaceholderNotice";
+import { DraftLegalNotice } from "@/components/layout/DraftLegalNotice";
 
 export const metadata: Metadata = {
   title: "Fee Information",
@@ -20,6 +21,7 @@ export default function FeesPage() {
       />
 
       <Section className="max-w-3xl space-y-10">
+        <DraftLegalNotice />
         <div>
           <h2 className="text-xl font-semibold text-ink">
             Tenants — permitted payments

@@ -63,6 +63,12 @@ const securityHeaders = [
 ];
 
 const nextConfig: NextConfig = {
+  // Tenants share the Buyers & Tenants page (SITEMAP.md S2.1).
+  async redirects() {
+    return [
+      { source: "/tenants", destination: "/buyers#tenants", permanent: false },
+    ];
+  },
   async headers() {
     return [
       {

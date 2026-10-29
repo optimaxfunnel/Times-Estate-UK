@@ -167,6 +167,7 @@ export const headerNav: readonly NavGroup[] = [
     children: [
       { label: "Let your property", href: "/let" },
       { label: "Property management", href: "/property-management" },
+      { label: "Landlords overview", href: "/landlords" },
       { label: "Commercial lettings", href: "/commercial" },
     ],
   },
@@ -175,6 +176,7 @@ export const headerNav: readonly NavGroup[] = [
     href: "/rent",
     children: [
       { label: "Property to rent", href: "/rent" },
+      { label: "Renting with us", href: "/buyers#tenants" },
       { label: "Report a repair", href: "/report-a-repair" },
       { label: "Property alerts", href: "/property-alerts" },
     ],
@@ -188,9 +190,18 @@ export const headerNav: readonly NavGroup[] = [
       { label: "Residential", href: "/residential" },
       { label: "Commercial", href: "/commercial" },
       { label: "Property management", href: "/property-management" },
+      { label: "Buying with us", href: "/buyers" },
     ],
   },
-  { label: "About", href: "/about" },
+  {
+    label: "About",
+    href: "/about",
+    children: [
+      { label: "About us", href: "/about" },
+      { label: "Why choose us", href: "/why-choose-us" },
+      { label: "Areas we cover", href: "/areas" },
+    ],
+  },
   { label: "Contact", href: "/contact" },
 ];
 
