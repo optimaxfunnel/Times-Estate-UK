@@ -5,6 +5,7 @@ import { z } from "zod";
 import { LEAD_STAGES } from "@/lib/leads/types";
 import {
   updateLeadStage,
+  updateLeadDetails,
   addLeadNote,
   getLeadById,
   recordLeadValuation,
@@ -24,6 +25,13 @@ const stageUpdateSchema = z.object({
   stage: z.enum(LEAD_STAGES),
   note: z.string().trim().optional().default(""),
   accessConfirmed: z.string().optional(),
+  assignedTo: z.string().trim().max(80).optional().default(""),
+  priority: z.enum(["routine", "urgent", "emergency"]).optional(),
+  followUpDate: z
+    .string()
+    .regex(/^(\d{4}-\d{2}-\d{2})?$/, "Enter the follow-up date as a date.")
+    .optional()
+    .default(""),
 });
 
 /**
@@ -53,7 +61,15 @@ export async function updateLeadStageAction(
     };
   }
 
-  const { id, stage, note, accessConfirmed } = parsed.data;
+  const {
+    id,
+    stage,
+    note,
+    accessConfirmed,
+    assignedTo,
+    priority,
+    followUpDate,
+  } = parsed.data;
   const existing = getLeadById(id);
   if (!existing) return { status: "error", message: "Lead not found." };
   const decision = canChangeLeadStage(
@@ -77,6 +93,11 @@ export async function updateLeadStageAction(
   ) {
     addLeadNote(id, "Access confirmed with the occupier by staff.", role);
   }
+  updateLeadDetails(
+    id,
+    { assignedTo, priority, followUpDate: followUpDate || null },
+    role,
+  );
   const lead = updateLeadStage(id, stage, role);
   if (!lead) return { status: "error", message: "Lead not found." };
 

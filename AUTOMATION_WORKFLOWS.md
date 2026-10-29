@@ -1,5 +1,78 @@
 # AUTOMATION_WORKFLOWS.md — Times Estate Ltd
 
+## Day 5 Task 3 — lead-management workflows (2026-10-29)
+
+**Plain-English summary.** Every enquiry becomes a "lead" that staff
+work through in the admin area, from New to Closed. Nothing is sent to
+anyone automatically: the website records the enquiry, flags it to the
+right team, and shows staff when something is overdue. Every change is
+written to the audit log.
+
+### What every lead holds
+
+| Field | Where it comes from |
+|---|---|
+| Date and time | Set when the form is received |
+| Source page | The page the form was on |
+| Category | The form type (table below) |
+| Property reference | Property id and address, where the form was on a property |
+| Contact details | Name, email, phone (from the form, cleaned) |
+| Consent status | Privacy consent with timestamp; marketing consent where asked (alerts) |
+| Assigned person | Set by a Manager/Administrator; a viewing is pre-tagged with the property's assigned staff member |
+| Priority | Routine / Urgent / Emergency — repairs take the urgency the tenant chose; staff can change it |
+| Current status | One of the nine stages below |
+| Follow-up date | Set by staff; flagged when it passes |
+| Internal notes | Added by staff, with author and time |
+
+**Stages:** New → Acknowledged → Assigned → Contact attempted →
+Appointment booked → Qualified → Instruction won / Instruction lost →
+Closed. A viewing cannot be marked "Appointment booked" until staff
+confirm access with the occupier.
+
+### Workflow per category
+
+All categories share: **validation** — contact details, honeypot, rate
+limit, sanitisation (Task 1); **audit log** — creation, every stage,
+assignment, priority and follow-up change, valuation records and refused
+attempts; **failure recovery** — if saving fails the visitor is shown
+the phone number and nothing partial is stored; if the staff
+notification fails it is marked "Failed" on the lead and in the server
+log, and the lead is still in the admin list, so nothing is lost while
+the server runs (**but everything is lost on restart until a database
+is approved** — the main open risk).
+
+| Category | Trigger | Extra validation | Consent | Internal action today | Proposed external communication (not built) | Human approval | Escalation flag |
+|---|---|---|---|---|---|---|---|
+| Sales valuation | Form on `/sell` | Property address | Privacy | Lead created, routed to sales | Acknowledgement email: "we'll call to arrange a visit" — no figure | Wording, recipient, provider; any valuation figure confirmed only by a Manager/Admin | Routine — not acknowledged in 24 h |
+| Rental valuation | `/let` | Property address | Privacy | Routed to lettings | As above | As above | Routine |
+| Commercial valuations | `/commercial` | Property address | Privacy | Routed to commercial | As above | As above | Routine |
+| Management enquiry | `/property-management` | — | Privacy | Routed to property management | Acknowledgement email | Wording etc.; no fee quoted automatically | Routine |
+| Landlord or vendor enquiry | `/landlords` | "I am a" + message | Privacy | Routed (proposed) to valuations | Acknowledgement email | As above | Routine |
+| Buyer registration | `/register` | Requirements | Privacy | Routed to sales | Matching-property emails | Wording; **marketing consent needed before any property emails** | Routine |
+| Tenant registration | `/register` | Requirements | Privacy | Routed to lettings | As above | As above | Routine |
+| Commercial enquiry | `/commercial` | Requirement | Privacy | Routed to commercial | Acknowledgement email | Wording etc. | Routine |
+| Viewing request | Every property page | Property id, first-choice date (today or later) and time, qualification question | Privacy | Routed to the property's assigned staff member, or the branch | Email proposing a time **only after** staff have agreed access | Staff must confirm access with the occupier before "Appointment booked"; the site never confirms a viewing | Routine |
+| Repair report | `/report-a-repair` | Address, issue, description, urgency; two consents; file type/size | Privacy + contractor sharing | Priority set from urgency; emergency guidance shown first | Email to management team; later, contractor instruction | Contractor instruction is always a person's decision | Emergency 15 min · Urgent 2 h · Routine 24 h |
+| Callback request | `/callback` | Preferred time | Privacy | Routed to general | Text/email confirming the slot | Wording etc. | Routine |
+| General enquiry | `/contact` | Message | Privacy | Routed to general | Auto-acknowledgement | Wording etc. | Routine |
+
+### Escalation (built, flags only)
+
+The admin leads list shows **"Due soon"** (75% of the target) and
+**"Overdue"** (target passed, or follow-up date passed) beside the
+stage, with the reason read out to screen readers. Targets above are
+**proposals for you to confirm**. Escalating to a manager, phoning a
+contractor or texting a tenant stays a person's decision; nothing is
+sent automatically. Code: `lib/leads/escalation.ts` (5 tests).
+
+### Needs your decision before any external communication
+
+Recipient mailboxes, reply-to address, wording of each message,
+retention period for leads, the email/SMS provider, and the response
+targets above.
+
+---
+
 ## Day 5 Task 1 — secure forms (2026-10-29)
 
 **Every form, where it is, and what it creates.** All run through one

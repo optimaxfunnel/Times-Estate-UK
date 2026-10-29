@@ -5,7 +5,12 @@ import {
   updateLeadStageAction,
   type LeadAdminState,
 } from "@/lib/leads/admin-actions";
-import { LEAD_STAGES, LEAD_STAGE_LABELS, type Lead } from "@/lib/leads/types";
+import {
+  LEAD_PRIORITY_LABELS,
+  LEAD_STAGES,
+  LEAD_STAGE_LABELS,
+  type Lead,
+} from "@/lib/leads/types";
 import { TextAreaField } from "@/components/forms/Field";
 import { Button } from "@/components/ui/Button";
 import { Alert } from "@/components/ui/Alert";
@@ -37,6 +42,58 @@ export function LeadStageForm({ lead }: { lead: Lead }) {
             </option>
           ))}
         </select>
+      </div>
+      <div className="grid gap-4 sm:grid-cols-3">
+        <div className="space-y-1">
+          <label
+            htmlFor="assignedTo"
+            className="block text-sm font-medium text-ink"
+          >
+            Assigned person
+          </label>
+          <input
+            id="assignedTo"
+            name="assignedTo"
+            defaultValue={lead.assignedTo ?? ""}
+            placeholder="Name or team"
+            className="w-full rounded-sm border border-border-strong bg-surface px-3 py-2 text-sm"
+          />
+        </div>
+        <div className="space-y-1">
+          <label
+            htmlFor="priority"
+            className="block text-sm font-medium text-ink"
+          >
+            Priority
+          </label>
+          <select
+            id="priority"
+            name="priority"
+            defaultValue={lead.priority}
+            className="w-full rounded-sm border border-border-strong bg-surface px-3 py-2 text-sm"
+          >
+            {Object.entries(LEAD_PRIORITY_LABELS).map(([value, label]) => (
+              <option key={value} value={value}>
+                {label}
+              </option>
+            ))}
+          </select>
+        </div>
+        <div className="space-y-1">
+          <label
+            htmlFor="followUpDate"
+            className="block text-sm font-medium text-ink"
+          >
+            Follow-up date
+          </label>
+          <input
+            id="followUpDate"
+            name="followUpDate"
+            type="date"
+            defaultValue={lead.followUpDate ?? ""}
+            className="w-full rounded-sm border border-border-strong bg-surface px-3 py-2 text-sm"
+          />
+        </div>
       </div>
       {lead.category === "viewing_request" && (
         <div className="rounded-sm border border-warning/40 bg-warning/5 p-3 text-sm">

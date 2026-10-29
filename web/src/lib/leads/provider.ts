@@ -140,6 +140,48 @@ export function assignLead(
   return lead;
 }
 
+export function updateLeadDetails(
+  id: string,
+  changes: {
+    assignedTo?: string;
+    priority?: Lead["priority"];
+    followUpDate?: string | null;
+  },
+  actor: string,
+): Lead | null {
+  const lead = getLeadById(id);
+  if (!lead) return null;
+  const parts: string[] = [];
+  if (
+    changes.assignedTo !== undefined &&
+    changes.assignedTo !== (lead.assignedTo ?? "")
+  ) {
+    lead.assignedTo = changes.assignedTo || undefined;
+    if (lead.assignedTo && lead.stage === "new") lead.stage = "assigned";
+    parts.push(`assigned to ${lead.assignedTo ?? "nobody"}`);
+  }
+  if (changes.priority && changes.priority !== lead.priority) {
+    parts.push(`priority ${lead.priority} -> ${changes.priority}`);
+    lead.priority = changes.priority;
+  }
+  if (
+    changes.followUpDate !== undefined &&
+    (changes.followUpDate ?? "") !== (lead.followUpDate ?? "")
+  ) {
+    lead.followUpDate = changes.followUpDate || undefined;
+    parts.push(`follow-up ${lead.followUpDate ?? "cleared"}`);
+  }
+  if (parts.length === 0) return lead;
+  lead.updatedAt = new Date().toISOString();
+  recordAuditEvent({
+    actor,
+    action: "update",
+    propertyId: lead.id,
+    details: `Lead ${parts.join(", ")}`,
+  });
+  return lead;
+}
+
 export function addLeadNote(
   id: string,
   text: string,

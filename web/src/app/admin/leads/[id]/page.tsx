@@ -97,7 +97,19 @@ function LeadSummary({ lead }: { lead: import("@/lib/leads/types").Lead }) {
         <Info label="Source page" value={lead.sourcePage} />
         <Info label="Priority" value={LEAD_PRIORITY_LABELS[lead.priority]} />
         <Info label="Stage" value={LEAD_STAGE_LABELS[lead.stage]} />
-        <Info label="Consent given" value={lead.consentGiven ? "Yes" : "No"} />
+        <Info
+          label="Consent"
+          value={
+            lead.consentGiven
+              ? `Given ${new Date(lead.consentTimestamp).toLocaleString("en-GB")}${lead.marketingConsent ? " · marketing: yes" : ""}`
+              : "Not given"
+          }
+        />
+        <Info
+          label="Assigned person"
+          value={lead.assignedTo ?? "Not assigned"}
+        />
+        <Info label="Follow-up date" value={lead.followUpDate ?? "None set"} />
         <Info label="Contact name" value={lead.contactName} />
         <Info label="Email" value={lead.contactEmail} />
         <Info label="Phone" value={lead.contactPhone} />

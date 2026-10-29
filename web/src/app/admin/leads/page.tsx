@@ -1,3 +1,4 @@
+import { escalationFor } from "@/lib/leads/escalation";
 import Link from "next/link";
 import type { Metadata } from "next";
 import { listLeads } from "@/lib/leads/provider";
@@ -73,7 +74,25 @@ export default async function AdminLeadsPage() {
                 <td className="px-4 py-2">
                   {LEAD_PRIORITY_LABELS[lead.priority]}
                 </td>
-                <td className="px-4 py-2">{LEAD_STAGE_LABELS[lead.stage]}</td>
+                <td className="px-4 py-2">
+                  {LEAD_STAGE_LABELS[lead.stage]}
+                  {(() => {
+                    const e = escalationFor(lead);
+                    return e.level === "none" ? null : (
+                      <span
+                        className={
+                          e.level === "overdue"
+                            ? "ml-2 inline-block rounded-sm bg-danger px-1.5 py-0.5 text-xs font-semibold text-white"
+                            : "ml-2 inline-block rounded-sm bg-warning px-1.5 py-0.5 text-xs font-semibold text-white"
+                        }
+                        title={e.reason}
+                      >
+                        {e.level === "overdue" ? "Overdue" : "Due soon"}
+                        <span className="sr-only">: {e.reason}</span>
+                      </span>
+                    );
+                  })()}
+                </td>
                 <td className="px-4 py-2">
                   {lead.notificationStatus === "failed" ? (
                     <span className="text-danger">Failed</span>
