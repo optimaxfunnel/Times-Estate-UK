@@ -152,6 +152,23 @@ export function addLeadNote(
   return lead;
 }
 
+export function recordLeadValuation(
+  id: string,
+  record: NonNullable<Lead["valuation"]>,
+): Lead | null {
+  const lead = getLeadById(id);
+  if (!lead) return null;
+  lead.valuation = record;
+  lead.updatedAt = new Date().toISOString();
+  recordAuditEvent({
+    actor: record.confirmedBy,
+    action: "approve",
+    propertyId: lead.id,
+    details: `Valuation confirmed: £${record.figure.toLocaleString("en-GB")} (${record.basis.replace(/_/g, " ")})`,
+  });
+  return lead;
+}
+
 /** Test-only reset so each test file starts from a clean slate. */
 export function __resetLeadsForTests() {
   leads = [];

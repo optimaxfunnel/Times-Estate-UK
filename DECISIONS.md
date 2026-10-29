@@ -7,6 +7,16 @@ compliance positions) remain the owner's or their professional
 advisers', per `CLAUDE.md` Rule 5; this log covers project-management
 and technical judgement calls made in carrying out an instruction.
 
+## 2026-10-29 — Day 5 Task 2: valuation and viewing controls
+
+**Four kinds of valuation, kept apart** (`lib/valuation-terms.ts`, shown to visitors on Sell, Let and Commercial): initial market appraisal (what the site books, free, in person); automated estimate (not offered); formal valuation (qualified valuer); regulated valuation (RICS-registered valuer).
+
+**A figure needs an authorised person.** Valuation enquiries now have an internal "Valuation record" in admin. Only a Manager or Administrator can confirm a figure; it is stamped with who and when, written to the audit log, and never shown publicly. An automated estimate can never be recorded as a valuation, and a formal or regulated valuation needs the valuer's name and report reference (`lib/leads/controls.ts`, 8 tests).
+
+**Viewing requests.** The request now captures the property id as well as its address; dates must be today or later (checked on the server); finance or move-in timing is asked as the qualification question; the lead notification names the property's assigned staff member, or the branch if none; the confirmation page says the viewing is not confirmed. **A viewing can only be marked "Appointment booked" after staff tick that access has been agreed with the occupier** (and the landlord or owner where needed) — the website never confirms one itself.
+
+Also fixed: field labels that already ended in "(optional)" showed the marker twice. Tests 98 → 106.
+
 ## 2026-10-29 — Day 5 Task 1: secure forms
 
 - **One new record type**, "Landlord or vendor enquiry", for the only

@@ -10,6 +10,8 @@ import { getCurrentRole } from "@/lib/auth/session";
 import { hasPermission } from "@/lib/auth/roles";
 import { Alert } from "@/components/ui/Alert";
 import { LeadStageForm } from "@/components/admin/LeadStageForm";
+import { ValuationRecordForm } from "@/components/admin/ValuationRecordForm";
+import { VALUATION_CATEGORIES } from "@/lib/leads/controls";
 
 export const metadata: Metadata = { title: "Admin — Lead" };
 
@@ -49,6 +51,14 @@ export default async function AdminLeadDetailPage({
           <LeadStageForm lead={lead} />
         </div>
       </div>
+      {VALUATION_CATEGORIES.includes(lead.category) && (
+        <div className="rounded-sm border border-border bg-surface p-6">
+          <ValuationRecordForm
+            lead={lead}
+            canRecord={hasPermission(role, "approve_property")}
+          />
+        </div>
+      )}
       {lead.notes.length > 0 && (
         <div>
           <h2 className="text-lg font-semibold text-ink">Notes</h2>

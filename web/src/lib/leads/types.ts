@@ -105,4 +105,6 @@ export interface Lead {
    */
   notificationStatus: "not_sent" | "sent" | "failed";
   notificationLog: string[];
+  /** Internal only — a figure confirmed by an authorised person (lib/leads/controls.ts). Never shown publicly. */
+  valuation?: import("@/lib/leads/controls").ValuationRecord;
 }

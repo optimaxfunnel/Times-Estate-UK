@@ -38,7 +38,23 @@ export function LeadStageForm({ lead }: { lead: Lead }) {
           ))}
         </select>
       </div>
-      <TextAreaField label="Add a note (optional)" name="note" />
+      {lead.category === "viewing_request" && (
+        <div className="rounded-sm border border-warning/40 bg-warning/5 p-3 text-sm">
+          <label className="flex items-start gap-2">
+            <input
+              type="checkbox"
+              name="accessConfirmed"
+              className="mt-1 accent-accent"
+            />
+            <span>
+              Access has been agreed with the occupier (and the landlord or
+              owner where needed). Required before marking this viewing as
+              booked — the website never confirms a viewing itself.
+            </span>
+          </label>
+        </div>
+      )}
+      <TextAreaField label="Add a note" name="note" />
       {state.status === "success" && (
         <Alert tone="success">{state.message}</Alert>
       )}

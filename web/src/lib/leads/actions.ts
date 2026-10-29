@@ -14,6 +14,8 @@ import {
 } from "@/lib/security/honeypot";
 import { checkRateLimit } from "@/lib/security/rate-limit";
 import { sanitiseFields } from "@/lib/security/sanitize";
+import { isTodayOrLater } from "@/lib/leads/controls";
+import { propertyProvider } from "@/lib/property/provider";
 
 type BaseFieldKey = keyof z.infer<typeof baseContactSchema>;
 
@@ -86,6 +88,15 @@ export async function submitLeadForm(
     }
   }
 
+  if (category === "viewing_request") {
+    for (const key of ["preferredDate1", "preferredDate2"]) {
+      const v = sanitised[key];
+      if (v && !isTodayOrLater(v)) {
+        fieldErrors[key] = "Please choose a date from today onwards.";
+      }
+    }
+  }
+
   if (Object.keys(fieldErrors).length > 0) {
     return { status: "error", fieldErrors };
   }
@@ -111,6 +122,14 @@ export async function submitLeadForm(
     ) {
       extra[key] = value;
     }
+  }
+
+  // Viewing requests: find who is responsible for the property, so the
+  // notification goes to the assigned staff member (or the branch).
+  if (category === "viewing_request" && propertyReference) {
+    const propertyId = propertyReference.split(" — ")[0];
+    const property = await propertyProvider.getById(propertyId);
+    extra.assignedStaff = property?.assignedStaffMemberId ?? "unassigned";
   }
 
   const lead = createLead({

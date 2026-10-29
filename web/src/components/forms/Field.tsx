@@ -15,7 +15,8 @@ function FieldLabel({
 }) {
   return (
     <label htmlFor={htmlFor} className="block text-sm font-medium text-ink">
-      {label}{" "}
+      {/* Older labels already end in "(optional)"; strip it so the marker never repeats. */}
+      {label.replace(/s*(optional)s*$/i, "")}{" "}
       <span className="text-xs font-normal text-secondary">
         {required ? "(required)" : "(optional)"}
       </span>

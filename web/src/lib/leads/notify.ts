@@ -65,7 +65,10 @@ function assignedTeamFor(lead: Lead): string {
     case "repair_report":
       return "property management";
     case "viewing_request":
-      return "branch/negotiator";
+      return lead.extra?.assignedStaff &&
+        lead.extra.assignedStaff !== "unassigned"
+        ? `assigned staff member (${lead.extra.assignedStaff})`
+        : "branch/negotiator (no staff member assigned to this property)";
     default:
       return "general enquiries";
   }

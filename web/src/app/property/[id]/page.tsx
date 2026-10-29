@@ -332,7 +332,7 @@ export default async function PropertyDetailPage({
                 category="viewing_request"
                 sourcePage={`/property/${publicProperty.id}`}
                 submitLabel="Request a Viewing"
-                propertyReference={publicProperty.displayAddress}
+                propertyReference={`${publicProperty.id} — ${publicProperty.displayAddress}`}
                 fields={[
                   {
                     type: "date",
