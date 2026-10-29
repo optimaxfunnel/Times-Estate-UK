@@ -27,6 +27,14 @@ export function EmergencyGuidance() {
         situation — if in doubt, treat it as an emergency and call the relevant
         number above.
       </p>
+      <p className="mt-2 text-xs text-ink/70">
+        <span className="font-semibold text-warning-text">
+          Wording requires professional review.
+        </span>{" "}
+        The phone numbers are the public UK emergency numbers. Times Estate
+        Ltd&rsquo;s own out-of-hours arrangements have not yet been confirmed,
+        so none are promised here.
+      </p>
     </div>
   );
 }

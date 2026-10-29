@@ -9,7 +9,12 @@ import {
 } from "@/lib/security/honeypot";
 import { checkRateLimit } from "@/lib/security/rate-limit";
 import { sanitiseFields, sanitiseText } from "@/lib/security/sanitize";
-import { validateFile, sanitiseFilename } from "@/lib/security/file-upload";
+import {
+  validateFile,
+  sanitiseFilename,
+  matchesFileSignature,
+  MAX_FILES,
+} from "@/lib/security/file-upload";
 import {
   REPAIR_ISSUE_CATEGORIES,
   REPAIR_URGENCY_OPTIONS,
@@ -45,6 +50,7 @@ const repairSchema = z
       },
     ),
     accessInformation: z.string().trim().optional().default(""),
+    tenancyReference: z.string().trim().max(40).optional().default(""),
     privacyConsent: z.string().optional(),
     contractorShareConsent: z.string().optional(),
   })
@@ -99,14 +105,30 @@ export async function submitRepairReport(
   const photoFiles = formData
     .getAll("photos")
     .filter((f): f is File => f instanceof File && f.size > 0);
+  if (photoFiles.length > MAX_FILES) {
+    return {
+      status: "error",
+      fieldErrors: { photos: `Please attach no more than ${MAX_FILES} files.` },
+    };
+  }
   const fileNotes: string[] = [];
   for (const file of photoFiles) {
     const validation = validateFile(file);
     const safeName = sanitiseFilename(file.name);
+    if (!validation.valid) {
+      return { status: "error", fieldErrors: { photos: validation.reason! } };
+    }
+    const head = new Uint8Array(await file.slice(0, 16).arrayBuffer());
+    if (!matchesFileSignature(head, file.type)) {
+      return {
+        status: "error",
+        fieldErrors: {
+          photos: `${safeName} does not look like a real ${file.type.split("/")[1].toUpperCase()} file. Please attach the original photo or PDF.`,
+        },
+      };
+    }
     fileNotes.push(
-      validation.valid
-        ? `${safeName} (${Math.round(file.size / 1024)}KB, ${file.type}) — validated, not yet stored (no storage provider approved)`
-        : `${safeName} — rejected: ${validation.reason}`,
+      `${safeName} (${Math.round(file.size / 1024)}KB, ${file.type}) — checked; awaiting storage and malware scan (no storage provider approved, so not kept)`,
     );
   }
 
@@ -119,6 +141,7 @@ export async function submitRepairReport(
     description,
     urgency,
     accessInformation,
+    tenancyReference,
   } = result.data;
 
   const lead = createLead({
@@ -133,6 +156,7 @@ export async function submitRepairReport(
       issueCategory,
       urgency,
       accessInformation: sanitiseText(accessInformation),
+      tenancyReference: sanitiseText(tenancyReference) || "not given",
       attachments: fileNotes.length > 0 ? fileNotes.join("; ") : "none",
     },
     consentGiven: true,

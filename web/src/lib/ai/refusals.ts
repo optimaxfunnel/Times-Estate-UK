@@ -48,6 +48,19 @@ export const REFUSAL_RULES: RefusalRule[] = [
   },
   {
     keywords: [
+      "is this an emergency",
+      "is it an emergency",
+      "is it dangerous",
+      "is it safe to stay",
+      "should i call 999",
+      "is my repair urgent",
+      "can i stay in the property",
+    ],
+    response:
+      "I can't decide whether something is an emergency or safe — please follow the emergency guidance on the Report a Repair page, and if in doubt call 999 (or 0800 111 999 for gas). Our team will review your report; I don't make that judgement.",
+  },
+  {
+    keywords: [
       "survey",
       "structural advice",
       "is this property safe",

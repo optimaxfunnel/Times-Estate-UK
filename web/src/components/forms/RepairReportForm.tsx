@@ -76,8 +76,14 @@ export function RepairReportForm() {
       <TextField
         label="Property address"
         name="propertyAddress"
+        autoComplete="street-address"
         required
         error={state.fieldErrors?.propertyAddress}
+      />
+      <TextField
+        label="Tenancy or property reference, if you have one"
+        name="tenancyReference"
+        error={state.fieldErrors?.tenancyReference}
       />
       <SelectField
         label="Issue category"

@@ -7,6 +7,20 @@ compliance positions) remain the owner's or their professional
 advisers', per `CLAUDE.md` Rule 5; this log covers project-management
 and technical judgement calls made in carrying out an instruction.
 
+## 2026-10-29 — Day 5 Task 4: repair reporting
+
+**Journey collects:** property address plus an optional tenancy or property reference (new), issue category, description, up to 5 photos or PDFs, contact details, access information, the tenant's own urgency choice, and two separate consents (privacy; sharing with contractors).
+
+**Uploads — two real gaps found and fixed:** the 5-file limit was defined but never enforced (now it is), and the file type was taken on trust from the browser (a renamed program could pass as a photo). Each file's first bytes are now checked against its claimed type (JPEG, PNG, HEIC, PDF). Bad files now return a clear error to the tenant instead of being silently noted. Size limit 8 MB each; names cleaned.
+
+**Storage (not connected):** `lib/security/attachment-store.ts` fixes the rules any provider must follow — private bucket, no public links, short-lived signed links only for Managers/Administrators, files unopenable until a malware scan marks them clean (infected ones quarantined), and deletion 12 months after the repair is closed (**proposed — owner to confirm**). Until storage is approved, files are checked and then discarded; only a description is kept.
+
+**Emergency guidance:** immediate danger, gas, fire, serious flooding, loss of electricity — public UK numbers (999, 0800 111 999, 105). The box now states that its **wording requires professional review** and that Times Estate Ltd's own out-of-hours arrangements are not yet confirmed, so none are promised.
+
+**The assistant never classifies:** new refusal rule — it will not say whether something is an emergency or safe; it points to the guidance and 999. The tenant's urgency choice sets priority; staff decide.
+
+Tests 111 → 116.
+
 ## 2026-10-29 — Day 5 Task 2: valuation and viewing controls
 
 **Four kinds of valuation, kept apart** (`lib/valuation-terms.ts`, shown to visitors on Sell, Let and Commercial): initial market appraisal (what the site books, free, in person); automated estimate (not offered); formal valuation (qualified valuer); regulated valuation (RICS-registered valuer).
