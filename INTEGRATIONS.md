@@ -1,5 +1,46 @@
 # INTEGRATIONS.md — Times Estate Ltd
 
+## Task 1 service comparison (2026-10-29)
+
+**Nothing below is connected, signed up for or paid for.** Each row is
+a decision for the owner (Rule 4). Costs are **indicative ranges from
+general knowledge of these vendors' public tiers, not quotes and not
+re-checked against their pricing pages today** — confirm on the
+vendor's site at the point of approval. "Essential now?" means needed
+before a public launch.
+
+### Recommended set (smallest that works)
+
+| Service | Purpose | Essential now? | Cost (indicative) | Maintenance | Security implications | Simpler alternative | Migration options |
+|---|---|---|---|---|---|---|---|
+| **Database** — managed Postgres (Neon or Supabase, UK/EU region) | Store listings, leads, audit log, alerts so nothing is lost on restart | **Yes** (no persistence today) | Free tier to start; ~£15–£25/month at small scale | Backups automatic; schema migrations with each release | Holds personal data → UK GDPR processor contract, EU/UK region, encryption at rest, least-privilege credentials | SQLite file on a single VPS (free, but one server, manual backups) | Standard Postgres — dump/restore to any host; adapter keeps pages unchanged |
+| **CMS** — none yet; listings via the built admin | Staff edit listings/pages | No | £0 | None extra | Admin must sit behind real auth | Content in code (today) | Add Payload or Sanity later behind the same provider pattern |
+| **Authentication** — Auth.js (self-hosted) with email magic link or password + TOTP MFA | Staff login to admin; replaces the mock cookie | **Yes** (before admin is public) | £0 (library) | Library updates | Session security, MFA, brute-force limits; no visitor accounts | Admin only on a private network/VPN (no public admin) | Clerk/Auth0 later if SSO wanted; user table stays in our DB |
+| **Search** — Postgres queries (today's filters) | Filter/sort listings | No extra service | £0 | None | None beyond the DB | — (this is the simple option) | Postgres full-text, then Meilisearch/Algolia only if listings reach thousands |
+| **Email** — transactional sender (Resend or Postmark) | Lead notifications to staff, confirmations to customers, alert emails | **Yes** (forms send nothing today) | Free tier ~3,000/month; ~£10–£15/month beyond | DNS records (SPF/DKIM/DMARC) once; bounce monitoring | Domain authentication prevents spoofing; API key kept server-side only | Notifications to one staff Gmail via SMTP (fragile, poor deliverability) | Provider-agnostic sender adapter; swap by changing one class + DNS |
+| **File storage** — S3-compatible (Cloudflare R2 or Supabase Storage) | Property photos, floor plans, repair-report photos | Yes once real photos exist | Free tier; pennies per GB | Lifecycle rules for repair photos (retention) | Repair photos are personal data — private bucket, signed URLs, virus/type checks (already type/size-checked) | Store on the VPS disk (no CDN, manual backup) | S3 API is portable between vendors |
+| **Analytics** — none, or a cookieless tool (Plausible / self-hosted Umami) | Visit and conversion counts | No | £0 (Umami self-hosted) to ~£9/month (Plausible) | Minimal | Cookieless → no consent banner needed; Google Analytics would require one (PECR) | No analytics (today, compliant by absence) | Export CSV; switching costs nothing |
+| **Hosting** — managed Node host (Vercel Pro, Render or Railway) **or** UK VPS with a process manager | Run the site | **Yes** (at launch) | Vercel Pro ~$20/month; Render/Railway ~£5–£20; VPS ~£5–£15 | Managed: almost none. VPS: OS patches, process manager, TLS | Managed hosts patch the platform; VPS puts patching on us. A process-manager watchdog also limits the hang-defect blast radius | Single VPS | Standard Next.js build runs on any of them; DNS change to move |
+| **Monitoring** — uptime check (UptimeRobot / Better Stack) + error tracking (Sentry) | Know when the site or a form breaks | Yes at launch (uptime); recommended (errors) | Free tiers for both at this size | Alert routing to a staff mailbox | Error reports can contain personal data → scrub form fields before sending | Host's built-in logs + a free uptime ping | Both are drop-in; remove by deleting one SDK |
+| **Maps** (from SITEMAP map view) | Map results | No | Free tier (MapTiler/OpenStreetMap-based) to usage-based (Google) | API key rotation | Approximate coordinates only (privacy rule); key restricted to domain | "Search by Area" panel (built) | Map component behind an adapter |
+| **AI assistant provider** | Replace rule-based assistant | No | Usage-based | Prompt/safety review | Must keep `AI_SAFETY_RULES.md` refusals; no personal data in prompts without a DPA | Rule-based assistant (today) | Provider interface already exists |
+| **CRM / portal feed** | Sync real listings (Reapit, Alto, Jupix, Street) | No — depends on Segment 1 Q6 | £40–£150+/month (CRM) | Feed mapping upkeep | Vendor DPA; API credentials | Enter listings in the admin | New `PropertyProvider` class |
+
+**Minimum to launch** (once the hang defect is resolved and launch is
+approved): database, authentication, email, hosting, uptime
+monitoring — roughly **£10–£60/month** in total at launch scale,
+matching Segment 1's estimate.
+
+**Local substitutes in place now:** demo property provider (database),
+mock role cookie (auth — development only), logged-not-sent
+notifications (email), in-memory uploads (files), none (analytics),
+rule-based assistant (AI), "Search by Area" panel (maps).
+
+---
+
+# Historical — Day 3 comparison (2026-09-07)
+
+
 ## Status of this document
 
 A comparison of external service options for later days' work.

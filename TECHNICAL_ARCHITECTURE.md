@@ -1,5 +1,52 @@
 # TECHNICAL_ARCHITECTURE.md — Times Estate Ltd
 
+## Task 1 confirmation (2026-10-29) — current architecture decision
+
+**Plain-English summary.** The existing stack is the right one and is
+kept. Two things must change before any deployment: Next.js and React
+need a routine upgrade to their current patch releases (security
+fixes), and the site needs a real database, real login and an email
+sender — each a paid or third-party service the owner must approve
+first (`INTEGRATIONS.md`). Nothing has been installed, upgraded,
+connected or purchased by this task.
+
+**How versions were checked.** Latest published versions were read
+from the official npm registry on 2026-10-29 (`npm view <package>
+version`); Node.js minimum from the Next.js documentation bundled with
+the installed package (`node_modules/next/dist/docs`, "Installation":
+minimum Node.js 20.9).
+
+| Layer | In the project today | Current stable (2026-10-29) | Decision | Why |
+|---|---|---|---|---|
+| Framework | Next.js 16.3.4 (App Router) | **16.4.3** | **Keep; upgrade to 16.4.x before deploy** (approval needed — a package change) | 16.3.4 carries the critical advisory set found in Segment 1 (cache poisoning on self-hosted deploys, among others); fixed in 16.3.8+/16.4.x. Same major version, no rewrite |
+| UI library | React 19.2.8 | **19.3.1** | Keep; upgrade alongside Next | Minor release |
+| Language | TypeScript 5, `strict: true` | 7.0.2 published | **Keep TypeScript 5.x for now** | TS 7 is a new major (native compiler); adopt only after Next.js/ESLint tooling formally supports it. Strict mode stays on |
+| Styling | Tailwind CSS 4 | 4.3.3 | Keep | Design tokens already flow through `@theme` |
+| Validation | Zod 4.5 on every server action | 4.6.7 | Keep (patch upgrade) | All form input is validated server-side, sanitised, rate-limited and honeypot-checked (`lib/leads/actions.ts`) |
+| Accessible components | Hand-built (native `<details>`, `<button>`, ARIA tabs, CSS dropdowns) | React Aria Components 1.22, Radix 1.3 | **Keep hand-built; add React Aria only for the dialog, combobox and date picker** when those are built | Native elements already pass Lighthouse a11y 100; a library earns its place only for complex widgets where focus management is hard to get right |
+| Images | Plain `<img>` with width/height (no real photos yet) | Next.js `next/image` + sharp 0.35.5 | **Adopt `next/image` when real property photos arrive** | Responsive sizes, WebP/AVIF, lazy-loading. Not used today, which also kept the image-optimiser SSRF advisory out of reach — the Next upgrade closes it before adoption |
+| Unit tests | Vitest 5 + Testing Library (66 tests) | 5.0.5 | Keep | Fast, already in CI-ready form |
+| Browser tests | None (manual + Lighthouse) | Playwright 1.64 + @axe-core/playwright 4.14 | **Add** (dev dependency, free, no account) | Covers the search, valuation, viewing and repair journeys end-to-end and runs axe accessibility checks on every page — closes the "no E2E suite" gap from Segment 1 |
+| Runtime | Node 24 on the owner's PC | Next.js minimum 20.9 | Pin Node 22 LTS or 24 LTS in `package.json` `engines` | Removes the 22/24 drift seen in Segment 1 |
+
+**Architecture pattern kept.** Every external dependency sits behind
+an adapter interface the pages already use (`PropertyProvider`,
+the leads provider, AI provider). Swapping today's in-memory/demo
+implementations for real services means writing one new class each,
+not changing pages. Local substitutes until approval: in-memory demo
+data (database), mock role cookie (auth — **must never be deployed**),
+"notification logged, not sent" (email), in-memory uploads (files),
+none (analytics), rule-based assistant (AI).
+
+**Blockers unchanged by this task:** the server-hang defect (not
+reproduced in Linux, still open on the owner's Windows machine), no
+persistence, mock authentication. See `QA_REPORT.md`.
+
+---
+
+# Historical — Day 3 record (2026-09-07)
+
+
 ## Status of this document
 
 Records the technology choices made on Day 3 (7 September 2026) to build
