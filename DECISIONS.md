@@ -7,6 +7,24 @@ compliance positions) remain the owner's or their professional
 advisers', per `CLAUDE.md` Rule 5; this log covers project-management
 and technical judgement calls made in carrying out an instruction.
 
+## 2026-10-29 — Day 5 Task 1: secure forms
+
+- **One new record type**, "Landlord or vendor enquiry", for the only
+  form in the brief that had no home; placed on `/landlords` and given
+  a proposed route in `EMAIL_AND_FORM_ROUTING.md`.
+- **Confirmation is now a page** (`/enquiry-received`), not just a
+  message in place, so every form ends the same way. The address
+  carries only the form type and record reference.
+- **Browser-side checks added in front of the server checks**, never
+  instead of them; the error summary takes focus so screen-reader users
+  hear what to fix.
+- **No live form submission was sent while testing.** The unresolved
+  server-hang fault was triggered by form submissions on this PC
+  before; it was not re-triggered on purpose. Browser checks were tested
+  live; the server pipeline is covered by existing tests.
+- **Outbound email stays off** pending the owner's approval of
+  recipients, reply-to, wording, retention and provider.
+
 ## 2026-10-29 — Day 4 Tasks 3–4: listing and detail pages, property search
 
 **Listing experiences.** The four searches (residential for sale / to let,

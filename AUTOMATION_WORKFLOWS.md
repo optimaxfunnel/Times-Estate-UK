@@ -1,5 +1,50 @@
 # AUTOMATION_WORKFLOWS.md — Times Estate Ltd
 
+## Day 5 Task 1 — secure forms (2026-10-29)
+
+**Every form, where it is, and what it creates.** All run through one
+server pipeline (`lib/leads/actions.ts`; repairs and alerts have their
+own actions with the same protections).
+
+| Form | Page | Record type |
+|---|---|---|
+| Residential sales valuation | `/sell` | `sales_valuation` |
+| Residential rental valuation | `/let` | `rental_valuation` |
+| Commercial sales valuation | `/commercial` | `commercial_sales_valuation` |
+| Commercial rental valuation | `/commercial` | `commercial_rental_valuation` |
+| Property-management assessment | `/property-management` | `management_enquiry` |
+| Viewing request | every property page | `viewing_request` |
+| **Landlord or vendor enquiry (new)** | `/landlords` | `landlord_vendor_enquiry` |
+| Buyer / tenant registration | `/register` | `buyer_registration` / `tenant_registration` |
+| Commercial-property enquiry | `/commercial` | `commercial_enquiry` |
+| Callback request | `/callback` | `callback_request` |
+| General contact | `/contact` | `general_enquiry` |
+| Property alerts | `/property-alerts` | alert record (separate, with its own marketing consent) |
+| Repair reporting | `/report-a-repair` | `repair_report` (with photo upload) |
+
+**What every form has:**
+
+| Requirement | How |
+|---|---|
+| Accessible labels | A visible label on every field, linked to it |
+| Clear required fields | Every label says "(required)" or "(optional)" in words |
+| Client-side assistance | Before sending: checks required fields, email and phone; shows an error summary that takes focus and links to each field; autocomplete hints for name, email, phone |
+| Server-side validation | Zod validation of contact details and each form's required fields — the real gate |
+| Sanitisation | Every text field cleaned before storage (`lib/security/sanitize.ts`) |
+| Spam protection | Hidden honeypot field; a bot that fills it gets a fake success and no record |
+| Rate limiting | Per form, with a clear "please wait" message |
+| Helpful errors | Plain-English messages next to each field and in the summary; server errors give the phone number |
+| Confirmation page | `/enquiry-received` — reference, what happens next, phone number; repair confirmations repeat the emergency guidance. Only the form type and reference are in the address, never personal details |
+| Privacy wording | "We use these details only to respond to this request…", with the Privacy Policy linked |
+| Consent | Privacy confirmation required on every enquiry; property alerts additionally ask for marketing consent |
+| Internal-notification design | `lib/leads/notify.ts`: each record is routed to a team (sales, lettings, commercial, management, general) — see `EMAIL_AND_FORM_ROUTING.md` |
+| Delivery-failure logging | Every notification attempt is recorded on the record as "not sent", "sent" or "failed", with a timestamped log line; staff see it in the admin leads list |
+
+**Outbound email is not active.** Nothing is emailed to staff or
+customers. It stays off until you approve: recipient addresses,
+reply-to address, wording, retention rules, and the email provider.
+
+
 ## Status of this document
 
 **Confirmed as an accurate description of what today's code actually

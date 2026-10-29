@@ -54,4 +54,6 @@ export const LEAD_CONFIRMATION_COPY: Partial<Record<LeadCategory, string>> = {
     "Your repair has been logged. A member of the property management team will triage it.",
   callback_request: "We'll call you back at the time you've requested.",
   general_enquiry: "A member of the Times Estate Ltd team will be in touch.",
+  landlord_vendor_enquiry:
+    "A member of our sales or lettings team will contact you to talk through your property.",
 };

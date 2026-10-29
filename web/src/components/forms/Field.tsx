@@ -1,5 +1,28 @@
 import { cn } from "@/lib/cn";
 
+/**
+ * Every field says whether it is required, in words, not only with a
+ * symbol or colour (WCAG 3.3.2). Optional fields say "optional".
+ */
+function FieldLabel({
+  htmlFor,
+  label,
+  required,
+}: {
+  htmlFor: string;
+  label: string;
+  required?: boolean;
+}) {
+  return (
+    <label htmlFor={htmlFor} className="block text-sm font-medium text-ink">
+      {label}{" "}
+      <span className="text-xs font-normal text-secondary">
+        {required ? "(required)" : "(optional)"}
+      </span>
+    </label>
+  );
+}
+
 const inputClasses =
   "w-full rounded-sm border border-border-strong bg-surface px-3 py-2 text-sm text-ink " +
   "placeholder:text-secondary focus-visible:border-accent";
@@ -18,9 +41,7 @@ export function TextField({
   const errorId = `${name}-error`;
   return (
     <div className="space-y-1">
-      <label htmlFor={name} className="block text-sm font-medium text-ink">
-        {label}
-      </label>
+      <FieldLabel htmlFor={name} label={label} required={props.required} />
       <input
         id={name}
         name={name}
@@ -52,9 +73,7 @@ export function TextAreaField({
   const errorId = `${name}-error`;
   return (
     <div className="space-y-1">
-      <label htmlFor={name} className="block text-sm font-medium text-ink">
-        {label}
-      </label>
+      <FieldLabel htmlFor={name} label={label} required={props.required} />
       <textarea
         id={name}
         name={name}
@@ -89,9 +108,7 @@ export function SelectField({
   const errorId = `${name}-error`;
   return (
     <div className="space-y-1">
-      <label htmlFor={name} className="block text-sm font-medium text-ink">
-        {label}
-      </label>
+      <FieldLabel htmlFor={name} label={label} required={props.required} />
       <select
         id={name}
         name={name}

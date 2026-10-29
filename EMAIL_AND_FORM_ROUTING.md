@@ -35,6 +35,7 @@ invented for this table; it's read directly from the source of truth.
 | `viewing_request` | Viewing request | viewings@ → hello@ |
 | `repair_report` | Repair report | repairs@ → hello@ |
 | `callback_request` | Callback request | hello@ |
+| `landlord_vendor_enquiry` *(added 2026-10-29)* | Landlord or vendor enquiry | valuations@ → hello@ *(proposed)* |
 | `general_enquiry` | General enquiry | hello@ |
 
 **Every row above is currently "Not sent"** — confirmed in

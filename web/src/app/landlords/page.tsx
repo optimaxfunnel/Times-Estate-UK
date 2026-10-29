@@ -4,6 +4,7 @@ import { Section } from "@/components/ui/Section";
 import { ButtonLink } from "@/components/ui/ButtonLink";
 import { PlaceholderNotice } from "@/components/ui/PlaceholderNotice";
 import { TextLink } from "@/components/ui/TextLink";
+import { LeadForm } from "@/components/forms/LeadForm";
 
 export const metadata: Metadata = {
   title: "Landlords and Property Owners",
@@ -83,6 +84,52 @@ export default function LandlordsPage() {
             <strong>Guaranteed rent.</strong> Not offered on this website until
             the scheme&rsquo;s terms are confirmed and legally reviewed.
           </PlaceholderNotice>
+        </div>
+      </Section>
+
+      <Section aria-labelledby="enquiry-heading">
+        <div className="max-w-xl">
+          <h2 id="enquiry-heading" className="text-2xl font-bold text-ink">
+            Landlord or vendor enquiry
+          </h2>
+          <p className="mt-2 text-sm text-ink/80">
+            Not sure which service you need? Tell us about your property and a
+            member of the team will call you to talk it through.
+          </p>
+          <div className="mt-6">
+            <LeadForm
+              category="landlord_vendor_enquiry"
+              sourcePage="/landlords"
+              submitLabel="Send enquiry"
+              fields={[
+                {
+                  type: "select",
+                  name: "enquirerType",
+                  label: "I am a",
+                  required: true,
+                  options: [
+                    { value: "landlord", label: "Landlord" },
+                    {
+                      value: "vendor",
+                      label: "Property owner thinking of selling",
+                    },
+                    { value: "both", label: "Not sure yet" },
+                  ],
+                },
+                {
+                  type: "text",
+                  name: "propertyAddress",
+                  label: "Property address or postcode",
+                },
+                {
+                  type: "textarea",
+                  name: "message",
+                  label: "What would you like to talk about?",
+                  required: true,
+                },
+              ]}
+            />
+          </div>
         </div>
       </Section>
     </>

@@ -17,6 +17,7 @@ export const LEAD_CATEGORIES = [
   "repair_report",
   "callback_request",
   "general_enquiry",
+  "landlord_vendor_enquiry",
 ] as const;
 export type LeadCategory = (typeof LEAD_CATEGORIES)[number];
 
@@ -33,6 +34,7 @@ export const LEAD_CATEGORY_LABELS: Record<LeadCategory, string> = {
   repair_report: "Repair report",
   callback_request: "Callback request",
   general_enquiry: "General enquiry",
+  landlord_vendor_enquiry: "Landlord or vendor enquiry",
 };
 
 export const LEAD_STAGES = [

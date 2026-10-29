@@ -1,6 +1,7 @@
 "use client";
 
-import { useActionState } from "react";
+import { useActionState, useEffect } from "react";
+import { useRouter } from "next/navigation";
 import { submitPropertyAlert } from "@/lib/actions";
 import { TextField, CheckboxField } from "@/components/forms/Field";
 import { HoneypotField } from "@/components/forms/HoneypotField";
@@ -25,6 +26,14 @@ export function AlertForm({
     submitPropertyAlert,
     initialState,
   );
+
+  const router = useRouter();
+  useEffect(() => {
+    if (state.status === "success") {
+      const q = new URLSearchParams({ type: "property_alert" });
+      router.push(`/enquiry-received?${q.toString()}`);
+    }
+  }, [state, router]);
 
   if (state.status === "success") {
     return (
