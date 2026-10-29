@@ -29,7 +29,7 @@ export function LeadStageForm({ lead }: { lead: Lead }) {
           id="stage"
           name="stage"
           defaultValue={lead.stage}
-          className="w-full rounded-sm border border-border bg-surface px-3 py-2 text-sm sm:w-72"
+          className="w-full rounded-sm border border-border-strong bg-surface px-3 py-2 text-sm sm:w-72"
         >
           {LEAD_STAGES.map((stage) => (
             <option key={stage} value={stage}>

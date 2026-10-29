@@ -17,6 +17,7 @@ import { cn } from "@/lib/cn";
 import { Badge } from "@/components/ui/Badge";
 import { ButtonLink } from "@/components/ui/ButtonLink";
 import { PropertyCard } from "@/components/ui/PropertyCard";
+import { EmptyState } from "@/components/ui/StatusPanel";
 import { FilterSidebar } from "@/components/property/FilterSidebar";
 import { SortSelect } from "@/components/property/SortSelect";
 import { Pagination } from "@/components/property/Pagination";
@@ -156,22 +157,24 @@ export async function ListingExplorer({
         </div>
 
         {result.items.length === 0 ? (
-          <div className="mt-6 rounded-sm border border-dashed border-border bg-accent-tint/30 p-8 text-center">
-            <p className="text-lg font-semibold text-ink">
-              No properties match your search
-            </p>
-            <p className="mx-auto mt-2 max-w-md text-sm text-ink/70">
-              Try widening your search — for example, a lower minimum price or a
-              wider location — or register for an alert and we&rsquo;ll let you
-              know when something suitable becomes available.
-            </p>
-            <div className="mt-4 flex flex-wrap justify-center gap-3">
-              <ButtonLink href={basePath} variant="secondary">
-                Clear filters
-              </ButtonLink>
-              <ButtonLink href={alertHref}>Create a Property Alert</ButtonLink>
-            </div>
-          </div>
+          <EmptyState
+            className="mt-6"
+            title="No properties match your search"
+            actions={
+              <>
+                <ButtonLink href={basePath} variant="secondary">
+                  Clear filters
+                </ButtonLink>
+                <ButtonLink href={alertHref}>
+                  Create a Property Alert
+                </ButtonLink>
+              </>
+            }
+          >
+            Try widening your search — for example, a lower minimum price or a
+            wider location — or register for an alert and we&rsquo;ll let you
+            know when something suitable becomes available.
+          </EmptyState>
         ) : (
           <ul
             className={cn(

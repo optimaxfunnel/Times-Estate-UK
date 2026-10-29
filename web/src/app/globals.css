@@ -26,7 +26,8 @@
   --color-accent-vivid: #d9772e; /* original bright Copper Orange — dark-background contexts only (5.8:1 on --color-ink) and non-text fills */
   --color-accent-tint: #fbebdd; /* Soft Copper Tint — section backgrounds needing a light accent wash */
   --color-secondary: #6b6259; /* warm neutral grey — supporting UI, icons, borders */
-  --color-border: #e5e1db; /* soft warm-tinted hairline border */
+  --color-border: #e5e1db; /* soft warm-tinted hairline — dividers and card edges only (decorative, 1.3:1) */
+  --color-border-strong: #8c8279; /* warm neutral, 3.76:1 on white — form-control boundaries (WCAG 1.4.11 needs 3:1) */
   --color-success: #2f6b4f;
   /* Warning is kept a distinct, more golden hue from the Copper Orange
      accent so "caution" badges don't visually blend with brand buttons —
@@ -41,6 +42,10 @@
   --color-danger: #a3311f;
   --radius-sm: 0.5rem; /* 8px — BRAND_GUIDELINES.md §E: cards, buttons, form fields */
   --focus-ring: #1f4b8c;
+  /* Motion: short and calm. Nothing on the site moves on its own. */
+  --duration-fast: 150ms;
+  --duration-base: 200ms;
+  --ease-standard: cubic-bezier(0.2, 0, 0, 1);
 }
 
 @theme inline {
@@ -53,6 +58,7 @@
   --color-accent-tint: var(--color-accent-tint);
   --color-secondary: var(--color-secondary);
   --color-border: var(--color-border);
+  --color-border-strong: var(--color-border-strong);
   --color-success: var(--color-success);
   --color-warning: var(--color-warning);
   --color-warning-text: var(--color-warning-text);
@@ -78,11 +84,26 @@ h4 {
   font-family: var(--font-heading), Georgia, serif;
 }
 
-/* Visible, high-contrast focus ring for every interactive element. */
+/* Visible, high-contrast focus ring for every interactive element.
+   A two-tone indicator: the blue outline (8.6:1 on white) plus a white
+   halo filling the offset gap, so the ring stays visible on the dark
+   hero, valuation band and any ink surface too (white on ink 18.4:1). */
 :focus-visible {
   outline: 3px solid var(--focus-ring);
   outline-offset: 2px;
+  box-shadow: 0 0 0 2px #ffffff;
   border-radius: 2px;
+}
+
+/* Skeleton shimmer for loading placeholders (see components/ui/Skeleton). */
+@keyframes skeleton-pulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.55;
+  }
 }
 
 /* Respect the visitor's reduced-motion preference everywhere. */

@@ -40,7 +40,7 @@ export function SortSelect({
           next.delete("page");
           router.push(`${basePath}?${next.toString()}`);
         }}
-        className="rounded-sm border border-border bg-surface px-2 py-1.5 text-sm font-medium text-ink"
+        className="rounded-sm border border-border-strong bg-surface px-2 py-1.5 text-sm font-medium text-ink"
       >
         {OPTIONS.map((option) => (
           <option key={option.value} value={option.value}>

@@ -1,5 +1,122 @@
 # DESIGN_SYSTEM.md — Times Estate Ltd
 
+**Current as of 2026-10-29.** Describes what is **built and running**
+in `web/`, not a proposal. Colours are the approved, unchanged scheme
+(you asked on 2026-10-20 for no colour-scheme change); the only
+addition is one warm-grey border shade, needed so form fields are
+visible enough for accessibility. If an option is chosen at Approval
+Gate 2 (A, B, C or a mix), this document is updated to match — today
+it reflects the built site, which is closest to Option B.
+
+Where things live: tokens in `web/src/app/globals.css`; components in
+`web/src/components/`. Contrast is checked by `npm run check:contrast`
+(fails the build check if any pairing drops below WCAG AA).
+
+## 1. Colour tokens
+
+| Token | Hex | Use | Contrast (checked) |
+|---|---|---|---|
+| `ink` | `#141414` | Text, dark bands (hero, valuation band) | 18.4:1 on white |
+| `background` / `surface` | `#FFFFFF` | Page and cards | — |
+| `accent` (copper) | `#A8551A` | Buttons, links, active states on light | 5.28:1 as text and behind white text |
+| `accent-dark` | `#8A4515` | Button hover/pressed | 7.14:1 behind white text |
+| `accent-vivid` | `#D9772E` | On dark surfaces only; non-text accents | 5.81:1 on ink — **fails on white, never used there for text** |
+| `accent-tint` | `#FBEBDD` | Soft panels, hover backgrounds | copper text 4.53:1, grey text 5.13:1 on it |
+| `secondary` (warm grey) | `#6B6259` | Supporting text, icons, counts | 5.97:1 on white |
+| `border` | `#E5E1DB` | Dividers, card edges (decorative only) | 1.3:1 — not for form fields |
+| `border-strong` *(new)* | `#8C8279` | Form-field and empty-state borders | 3.76:1 (needs 3:1) |
+| `warning` / `warning-text` | `#8A6008` / `#7A5A08` | Status badges / warning text | 5.59:1 / 6.38:1 |
+| `success` | `#2F6B4F` | Success messages | 6.29:1 |
+| `danger` | `#A3311F` | Errors | 6.96:1 |
+| `focus-ring` | `#1F4B8C` | Focus outline | 8.59:1 on white; white halo 18.4:1 on dark |
+
+## 2. Typography
+
+- **Headings and wordmark:** Merriweather 700/900 (`font-heading`).
+- **Body, UI, forms:** Inter (`font-sans`).
+- **Scale (Tailwind):** H1 `text-4xl`→`text-6xl` hero, `text-3xl`/`4xl`
+  page titles; H2 `text-2xl`/`3xl`; H3 `text-lg`; body `text-base`
+  (16px); small `text-sm` (14px); minimum `text-xs` (12px) — labels in
+  uppercase get `tracking` 0.2–0.35em. Headings use `text-balance`.
+- Prices and counts use plain numerals; one `<h1>` per page.
+- *Pending Gate 2/3:* the wordmark face (Playfair Display proposed) and
+  the measured Segment 1 palette — not applied until approved.
+
+## 3. Spacing, grid, breakpoints
+
+- **Spacing:** Tailwind 4px scale. Rhythm used: 4/8/12/16 inside
+  components, 24/32 between groups, 48–64 between page sections
+  (`Section`: `py-12 sm:py-16`). Groups use `gap`, not margins.
+- **Containers:** `Container` default `max-w-6xl` (reading pages),
+  `size="wide"` `max-w-[88rem]` (header, footer, listings). Side
+  padding 16 / 24 / 32px.
+- **Grid:** listings 1 → 2 (`sm`) → 3 (`xl`) → 4 columns (1400px+);
+  explorer `sidebar 14rem · results · area panel 15rem` at `xl`,
+  sidebar collapses behind a "Filter Results" toggle below `lg`.
+- **Breakpoints (Tailwind defaults):** `sm` 640 · `md` 768 · `lg`
+  1024 · `xl` 1280 · `2xl` 1536. Header switches to the mobile menu
+  below `xl`. Every page works at 360px with no sideways scroll.
+- **Radius:** `rounded-sm` 8px (buttons, fields, cards); `rounded-full`
+  for pills, heart and pagination. **Shadow:** `shadow-sm` on cards,
+  `shadow-md` on hover, `shadow-lg/xl` only on menus and the hero
+  search card.
+
+## 4. Components (built)
+
+| Component | File | Accessibility notes |
+|---|---|---|
+| Buttons (`primary`, `secondary`, `ghost`, `inverted`) | `ui/Button.tsx`, `ui/ButtonLink.tsx` | Real `<button>`/`<a>`; ≥44px tall; disabled state shown with reduced opacity + not-allowed cursor |
+| Text link | `ui/TextLink.tsx` *(new)* | Always underlined (colour never the only cue); external links announce "opens in a new tab" |
+| Form controls | `forms/Field.tsx`, `forms/FileUploadField.tsx` | Visible `<label>` per field; errors linked with `aria-describedby` + `aria-invalid`; borders now `border-strong` (3.76:1); placeholders in `secondary` (5.97:1) |
+| Filters | `property/FilterSidebar.tsx`, `SortSelect.tsx` | Plain GET form (works without JavaScript); native `<details>` groups (keyboard + expanded state for free) |
+| Alerts | `ui/Alert.tsx` | `role="alert"` for danger, `status` otherwise |
+| Badges | `ui/Badge.tsx` (content status), card ribbons | Text labels, never colour alone |
+| Property card | `ui/PropertyCard.tsx` | One named link per card (image link hidden from screen readers to avoid duplicates); 44px heart button with `aria-pressed`; "Sample property — not real" on demo data |
+| Navigation | `layout/Header.tsx`, `layout/MobileMenu.tsx` | CSS dropdowns open on hover **and** keyboard focus; mobile menu: Escape closes and returns focus |
+| Pagination | `property/Pagination.tsx` | `aria-current="page"`; 40px targets; labelled prev/next |
+| Footer | `layout/Footer.tsx` | Labelled `nav` landmarks; regulatory status badges |
+| Content sections | `ui/Section.tsx`, `ui/Container.tsx`, `layout/PageHero.tsx`, `home/*` | Landmarks + logical heading order |
+| Loading state | `ui/Skeleton.tsx` *(new)*, `app/loading.tsx` | Card-shaped skeletons (no layout jump); announced once via `role="status"`; shapes hidden from screen readers |
+| Empty state | `ui/StatusPanel.tsx` `EmptyState` *(new)* — used by the listing explorer | Says what happened and what to do next |
+| Error state | `ui/StatusPanel.tsx` `ErrorState` *(new)*, `app/error.tsx`, `app/global-error.tsx` | `role="alert"`; never shows technical detail; always gives the phone number |
+
+## 5. Focus indicators
+
+Every interactive element gets a 3px blue outline (2px offset) **plus a
+white halo**, so the ring is visible on white, on the copper tint, and
+on the dark hero/valuation bands. Confirmed live with real keyboard
+Tab presses on 2026-10-29 (`:focus-visible` → `solid 3px #1F4B8C` +
+`0 0 0 2px #FFF`). Skip link is the first Tab stop.
+
+## 6. Motion
+
+- Durations: `--duration-fast` 150ms, `--duration-base` 200ms; easing
+  `--ease-standard`. Used for colour/opacity transitions, dropdown
+  fade, chevron rotation, card shadow on hover, skeleton pulse.
+- **Nothing moves on its own** (no carousels, no autoplay, no parallax).
+- **Reduced motion:** a global rule cuts every animation and transition
+  to near-zero under `prefers-reduced-motion: reduce`; the skeleton
+  pulse is additionally `motion-safe:` only.
+
+## 7. Checks run (2026-10-29)
+
+| Check | Result |
+|---|---|
+| `npm run check:contrast` — 18 token pairings | **All pass** (lowest: copper on tint 4.53:1) |
+| Keyboard: Tab order, focus-visible ring, unnamed controls | 34 focusable elements on the homepage, **0 without an accessible name**; ring confirmed live |
+| Unit tests | **69/69** (3 new for loading/empty/error states) |
+| Typecheck / lint / format | Pass |
+
+**Fixed while building:** form-field borders were 1.3:1 (fails WCAG
+1.4.11) → 3.76:1; placeholders were 40–45% ink (≈3:1) → `secondary`
+5.97:1; the focus ring was low-contrast on dark bands → white halo
+added.
+
+---
+
+# Historical — Day 3 design system (2026-09-07, "The Established Line", superseded)
+
+
 ## What this document is
 
 A record of the visual building blocks now implemented in the website

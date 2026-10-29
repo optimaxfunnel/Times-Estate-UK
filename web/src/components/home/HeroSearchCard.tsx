@@ -33,7 +33,7 @@ const gbp = new Intl.NumberFormat("en-GB", {
 });
 
 const selectClass =
-  "w-full appearance-none rounded-sm border border-border bg-surface px-3 py-2.5 text-sm text-ink focus-visible:border-accent";
+  "w-full appearance-none rounded-sm border border-border-strong bg-surface px-3 py-2.5 text-sm text-ink focus-visible:border-accent";
 
 /**
  * The hero's quick search: three tabs (Buy · Rent · Commercial), each a
@@ -120,7 +120,7 @@ export function HeroSearchCard() {
               name="location"
               type="search"
               placeholder="Location, postcode or keyword (e.g. SW17)"
-              className="w-full rounded-sm border border-border bg-surface py-2.5 pl-9 pr-3 text-sm text-ink placeholder:text-ink/45 focus-visible:border-accent"
+              className="w-full rounded-sm border border-border-strong bg-surface py-2.5 pl-9 pr-3 text-sm text-ink placeholder:text-secondary focus-visible:border-accent"
             />
           </div>
           <button

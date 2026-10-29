@@ -156,7 +156,7 @@ export function FilterSidebar({
               step={1000}
               defaultValue={single(params, "minPrice")}
               placeholder="0"
-              className="mt-1 w-full rounded-sm border border-border bg-surface px-2 py-1.5 text-sm"
+              className="mt-1 w-full rounded-sm border border-border-strong bg-surface px-2 py-1.5 text-sm"
             />
           </label>
           <label className="block">
@@ -168,7 +168,7 @@ export function FilterSidebar({
               step={1000}
               defaultValue={single(params, "maxPrice")}
               placeholder="No max"
-              className="mt-1 w-full rounded-sm border border-border bg-surface px-2 py-1.5 text-sm"
+              className="mt-1 w-full rounded-sm border border-border-strong bg-surface px-2 py-1.5 text-sm"
             />
           </label>
         </div>
@@ -187,7 +187,7 @@ export function FilterSidebar({
             name="location"
             defaultValue={single(params, "location")}
             placeholder="Area or postcode, e.g. SW17"
-            className="w-full rounded-sm border border-border bg-surface px-2 py-1.5 text-sm"
+            className="w-full rounded-sm border border-border-strong bg-surface px-2 py-1.5 text-sm"
           />
         </label>
         <CheckboxList

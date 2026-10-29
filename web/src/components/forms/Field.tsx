@@ -1,8 +1,8 @@
 import { cn } from "@/lib/cn";
 
 const inputClasses =
-  "w-full rounded-sm border border-border bg-surface px-3 py-2 text-sm text-ink " +
-  "placeholder:text-ink/40 focus-visible:border-accent";
+  "w-full rounded-sm border border-border-strong bg-surface px-3 py-2 text-sm text-ink " +
+  "placeholder:text-secondary focus-visible:border-accent";
 
 export function TextField({
   label,

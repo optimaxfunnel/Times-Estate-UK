@@ -25,7 +25,7 @@ export function RoleSwitcher({ currentRole }: { currentRole: Role }) {
           id="role-select"
           name="role"
           defaultValue={currentRole}
-          className="rounded-sm border border-border bg-surface px-2 py-1 text-sm"
+          className="rounded-sm border border-border-strong bg-surface px-2 py-1 text-sm"
         >
           {ROLES.map((role) => (
             <option key={role} value={role}>
