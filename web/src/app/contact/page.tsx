@@ -27,7 +27,7 @@ export default function ContactPage() {
             <h2 className="text-lg font-semibold text-ink">Address</h2>
             <dl className="mt-2 space-y-3 text-sm text-ink/70">
               <div>
-                <dt className="text-xs uppercase tracking-wide text-ink/50">
+                <dt className="text-xs uppercase tracking-wide text-secondary">
                   Trading address
                 </dt>
                 <dd className="mt-1 flex flex-wrap items-center gap-2">
@@ -36,7 +36,7 @@ export default function ContactPage() {
                 </dd>
               </div>
               <div>
-                <dt className="text-xs uppercase tracking-wide text-ink/50">
+                <dt className="text-xs uppercase tracking-wide text-secondary">
                   Registered office
                 </dt>
                 <dd className="mt-1">{siteConfig.registeredOffice.value}</dd>
@@ -52,8 +52,8 @@ export default function ContactPage() {
                   <a href="tel:+442086728080" className="hover:text-accent">
                     {siteConfig.phoneLandline.value}
                   </a>
+                  <Badge status={siteConfig.phoneLandline.status} />
                 </dd>
-                <Badge status={siteConfig.phoneLandline.status} />
               </div>
               <div className="flex flex-wrap items-center gap-2">
                 <dt className="sr-only">Mobile</dt>
@@ -61,8 +61,8 @@ export default function ContactPage() {
                   <a href="tel:+447779991313" className="hover:text-accent">
                     {siteConfig.phoneMobile.value}
                   </a>
+                  <Badge status={siteConfig.phoneMobile.status} />
                 </dd>
-                <Badge status={siteConfig.phoneMobile.status} />
               </div>
             </dl>
           </div>
@@ -78,8 +78,8 @@ export default function ContactPage() {
                   >
                     {siteConfig.email.value}
                   </a>
+                  <Badge status={siteConfig.email.status} />
                 </dd>
-                <Badge status={siteConfig.email.status} />
               </div>
             </dl>
           </div>

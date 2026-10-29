@@ -4,6 +4,28 @@ All notable changes to this project are recorded here, most recent first.
 This is a project log, not a marketing document — it should stay accurate
 and plain.
 
+## 2026-10-29 — Architecture confirmed, design system, core pages, responsive QA
+
+**Added:** `/why-choose-us`, `/landlords`, `/buyers` (with `/tenants` redirect),
+`/areas`; `app/global-error.tsx`; `ui/TextLink`, `ui/Skeleton`,
+`ui/StatusPanel` (empty + error states) and a test file;
+`scripts/check-contrast.mjs` (`npm run check:contrast`); tokens
+`border-strong`, motion durations; two-tone focus ring.
+
+**Changed:** form-field borders (1.3:1 → 3.76:1) and placeholders;
+route loading state (skeletons); listing explorer empty state; nav and
+XML sitemap for the new pages; Fees page now shows the legal-review
+banner; Contact page contrast and list markup; 404 page title.
+`TECHNICAL_ARCHITECTURE.md`, `INTEGRATIONS.md`, `DESIGN_SYSTEM.md`,
+`TEST_REPORT.md` rewritten with earlier versions kept as historical.
+
+**Packages:** none added. `npm audit fix` (non-breaking) updated
+transitive dependencies; `next` upgrade held for approval.
+
+**Checks:** typecheck, lint, format, 69/69 tests, contrast 17/17,
+Lighthouse accessibility 100 on 10 pages, production build pass,
+secret scan clean; `npm audit` 1 critical (next).
+
 ## 2026-10-20 — Front end rebuilt to the owner's reference homepage; supplied logo installed
 
 **Scope:** the owner's instruction to build the front end to match

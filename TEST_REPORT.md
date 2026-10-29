@@ -1,5 +1,72 @@
 # TEST_REPORT.md — Times Estate Ltd
 
+## 2026-10-29 — Responsive, accessibility and release checks (current)
+
+Every command below was actually run on the owner's PC (Windows 11,
+Node 24.19.0) against a **production build** (`next build` then
+`next start -p 3001`) unless stated. The Day 7 record is kept below.
+
+### Commands and results
+
+| # | Command | Result |
+|---|---|---|
+| 1 | `npx tsc --noEmit` | **Pass**, 0 errors |
+| 2 | `npx eslint` | **Pass**, 0 errors, 0 warnings |
+| 3 | `npx prettier --check .` | **Pass** |
+| 4 | `npx vitest run` | **Pass — 69/69 tests, 13 files** (incl. header, property card, badge, loading/empty/error states) |
+| 5 | `npm run check:contrast` (WCAG pairings for every colour token) | **Pass — 17/17** (lowest: copper on tint 4.53:1) |
+| 6 | `npx lighthouse <url> --only-categories=accessibility,best-practices,seo` (mobile, isolated Chrome profile), 10 pages | Accessibility **100** on `/`, `/buy`, `/why-choose-us`, `/landlords`, `/buyers`, `/areas`, `/about`, `/fees`, `/property/demo-res-sale-1`, and `/contact` **after fixes** (was 93). Best Practices **100** everywhere. SEO **100**, except `/areas` and demo property pages at 69 — **intended**: both are deliberately `noindex` |
+| 7 | `npx next build` | **Pass** — 37 routes compiled and generated |
+| 8 | `npm audit` | **1 critical**: `next` 16.3.4 (advisory set incl. GHSA-h694-7cp9-m8p3). Fix = upgrade to 16.4.3 — **awaiting owner approval** (see `TECHNICAL_ARCHITECTURE.md`). All other advisories cleared earlier today with non-breaking `npm audit fix` |
+| 9 | Secret scan: `git ls-files` for `.env`/key files + `git grep` for live/test API keys, AWS/GitHub/Slack/Google keys and private-key blocks | **Nothing found**. Only `.env.example` (placeholders) is tracked. (A dedicated tool such as gitleaks is not installed.) |
+
+### Responsive capture (browser automation)
+
+- **Headless Chrome screenshots** (`chrome --headless=new --window-size=W,H --screenshot`)
+  of 10 pages — Home, Buy, Why choose us, Landlords, Buyers & tenants,
+  Areas, About, Contact, a property detail page, Fees — at **tablet 768,
+  laptop 1280, desktop 1440, wide 1920**: 40 images in
+  `qa-screenshots/2026-10-29/` (kept on this PC, not committed — 13 MB).
+- **Small mobile 360 and large mobile 430:** headless Chrome will not
+  render narrower than about 500px, so those 20 captures came out
+  clipped and are set aside in `headless-narrow-not-representative/`.
+  Mobile was instead tested in the real in-app browser at an emulated
+  360px viewport: Home, Buy, Why choose us, a property page, Cookie
+  policy and Contact measured **no horizontal overflow**
+  (`scrollWidth` = viewport width); real 360px capture saved as
+  `real-360-home.jpg`.
+
+### What was inspected, and findings
+
+| Area | Finding |
+|---|---|
+| Alignment, spacing, typography, hierarchy | Consistent at every width; one H1 per page; sections step 48–64px |
+| Navigation | Desktop dropdowns open on hover and keyboard focus; new pages appear in the About, Landlords, Tenants and Services menus |
+| Mobile menu | Opens at 360px, lists every grouped link; **Escape closes it and returns focus to the menu button** (verified) |
+| Image cropping | No photographs exist; illustration placeholders keep a 4:3 frame at all widths |
+| Overflow | None at 360px on the pages measured; none visible at 768–1920 |
+| Keyboard focus | 3px blue ring + white halo, visible on light and dark sections (verified with real Tab presses) |
+| Reduced motion | Global rule stops all animation/transition under `prefers-reduced-motion`; nothing auto-plays. (OS-level emulation not available in this environment; verified by CSS inspection) |
+| Loading / error | Route loading shows card-shaped skeletons; empty results show the empty-state panel; unknown URL shows "Page not found" with a link home |
+
+### Defects found and fixed today
+
+1. **Contact page contrast** — address labels in 50% grey (3.48:1) → `secondary` (5.97:1).
+2. **Contact page markup** — status badges sat outside `<dd>` inside a `<dl>` (invalid list structure for screen readers) → moved inside.
+3. **404 page** had the generic site title → now titled "Page not found" and `noindex`.
+
+### Remaining defects (not fixed today)
+
+- **Critical:** `next` 16.3.4 security advisory — needs the approved upgrade.
+- **Critical (carried over):** server-hang defect on some form submissions (Windows only; not reproduced in Linux). Not re-tested today.
+- **Critical (carried over):** no database; mock admin login.
+- **Minor:** narrow-width headless screenshots need a browser tool that supports device emulation (Playwright recommended — not installed without approval).
+
+---
+
+# Historical — Day 7 record (2026-09-07)
+
+
 **Date:** 7 September 2026 (Day 7 — final quality assurance)
 **Scope:** Every check listed in today's brief. All commands were
 actually executed and every live-browser test below was actually

@@ -126,3 +126,7 @@ so a visitor or reviewer can immediately see which is which.
    this register immediately and flag any page currently using it.
 4. This register is reviewed in full before the Day 7 launch-readiness
    review, and nothing with a non-Confirmed status is permitted to go live.
+
+| 16 | Areas covered (candidate list) | Tooting, Mitcham, Streatham, Balham, Colliers Wood, Wimbledon, Clapham | Owner's existing live website (Segment 1 audit, 2026-10-19) | Requires verification | — | 2026-10-29 | Shown on `/areas` with a Requires verification badge; page is noindex; no area guides written |
+| 17 | Tenancy deposit protection scheme | — | — | Missing | — | 2026-10-29 | Shown as Missing on `/why-choose-us` |
+| 18 | "No automated valuation figure" | Structural fact about this website | `lib/valuation-terms.ts`, `AI_SAFETY_RULES.md` | Confirmed | Build team | 2026-10-29 | Used on `/why-choose-us` and `/landlords` |

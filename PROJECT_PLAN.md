@@ -8,6 +8,22 @@ actually been completed, and what is proposed next. Nothing below Day 1 has
 been started — days 2–7 are a proposed sequence for the owner to review and
 adjust, not a commitment already in motion.
 
+## Current position (2026-10-29)
+
+**Build stage complete for pages that need no database or external
+service. Day 4 (property data, CMS, listings) has not started.**
+
+- Architecture confirmed (`TECHNICAL_ARCHITECTURE.md`, `INTEGRATIONS.md`):
+  Next.js / React / strict TypeScript / Tailwind kept; no services connected.
+- Design system implemented and documented (`DESIGN_SYSTEM.md`).
+- Pages built: Home, About, Why Choose Us, Residential, Commercial,
+  Property Management, Landlords, Buyers & Tenants, Areas We Cover,
+  Contact, plus legal pages marked "Draft — requires legal review".
+- Tested at six widths with production build; results in `TEST_REPORT.md`.
+
+**Decisions needed before Day 4:** see the end-of-day report in
+`CHANGELOG.md` (2026-10-29).
+
 ## Governing rules
 
 This plan operates under the permanent rules in `CLAUDE.md`, in particular:

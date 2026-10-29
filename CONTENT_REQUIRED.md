@@ -9,6 +9,17 @@ is held back.
 Status key: Confirmed / Supplied by owner / Missing / Requires verification
 / Requires professional review.
 
+## Added 2026-10-29 (new pages)
+
+- [ ] Confirmed list of areas covered — Requires verification (`/areas` shows the existing website's list, labelled)
+- [ ] Tenancy deposit protection scheme name and membership — Missing (`/why-choose-us`, `/buyers`)
+- [ ] Tenant permitted payments and deposit level — Missing (`/buyers`, `/fees`)
+- [ ] Landlord let-only and management fees — Missing (`/landlords`, `/fees`)
+- [ ] Out-of-hours emergency repair process — Missing (`/buyers`, `/report-a-repair`)
+- [ ] Renters' Rights Act 2025 landlord guidance — Requires professional review (`/landlords`)
+- [ ] Guaranteed rent scheme terms — Requires verification + professional review (not offered on site)
+- [ ] Client reviews with evidence, team profiles — Missing (`/why-choose-us`)
+
 ## Company and legal
 
 - [x] Full legal company name — Confirmed (verified against Companies House)
