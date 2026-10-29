@@ -60,6 +60,9 @@ const commercialDetailsSchema = z.object({
     .optional(),
   leaseTermsSummary: z.string().max(2000).optional(),
   possessionDate: z.string().optional(),
+  energyRating: z
+    .enum(["A+", "A", "B", "C", "D", "E", "F", "G", "exempt"])
+    .optional(),
   investmentYieldPercent: z
     .object({ value: z.coerce.number().min(0).max(100), verified: z.boolean() })
     .optional(),

@@ -161,6 +161,10 @@ export const COMMERCIAL_USE_LABELS: Record<CommercialUse, string> = {
   other: "Other",
 };
 
+/** Commercial EPCs use A+ as well as A–G. */
+export type CommercialEpcRating =
+  "A+" | "A" | "B" | "C" | "D" | "E" | "F" | "G" | "exempt";
+
 export type VatPosition = "vat_applicable" | "vat_not_applicable" | "tbc";
 
 export interface VerifiedFigure {
@@ -180,6 +184,8 @@ export interface CommercialDetails {
   vatPosition?: VatPosition;
   leaseTermsSummary?: string;
   possessionDate?: string; // ISO date
+  /** Commercial EPC rating (A+ to G). Must match the real certificate. */
+  energyRating?: CommercialEpcRating;
   /** Never shown publicly unless `verified` is true — see /DATA_MODEL.md. */
   investmentYieldPercent?: VerifiedFigure;
 }

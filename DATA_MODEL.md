@@ -1,5 +1,51 @@
 # DATA_MODEL.md — Times Estate Ltd Property Data Model
 
+## Day 4 Task 1 update (2026-10-29)
+
+**Plain-English summary.** One property record covers all four kinds of
+listing — residential sales, residential lettings, commercial sales and
+commercial lettings. Every record has the same common fields, plus a
+residential section or a commercial section. Every field is marked
+mandatory or optional, public or private, and how it is verified.
+
+**Baseline before today's changes:** all 69 tests passed and the
+production build succeeded — nothing was failing.
+
+**What changed today:**
+
+- **Commercial EPC rating** added (`energyRating`, A+ to G or exempt) —
+  the one field in the brief the model did not yet have. Shown on the
+  property page when present; must match the real certificate.
+- **Commercial purchase price** uses the common `price` field with a
+  sale listing type (rent uses `rentPerAnnum` or `price` with a
+  "per annum" qualifier) — documented rather than duplicated.
+- **The field tables below now also exist in code**
+  (`web/src/lib/property/field-rules.ts`), and a test checks that every
+  private field is removed before a property reaches a public page,
+  that an unverified investment yield is never shown, and that every
+  field the brief lists is covered. Tests: 73/73.
+
+**How "verified" works** — three kinds, recorded per field in the code:
+
+| Kind | Meaning | Examples |
+|---|---|---|
+| System | Set by the software; nothing to check | reference, dates, status, demo flag |
+| As supplied | Entered by staff and shown as entered | description, bedrooms, features |
+| Must verify | Checked against a source document before a real listing is published | EPC rating (certificate), tenure (title register), council tax band, lease length, service charge, ground rent, floor area (survey), business rates, use class (planning record), investment yield (own verified flag) |
+
+Every property also carries a record-level `verification` flag
+(verified / unverified) and a `isDemo` flag that drives the visible
+"Sample property — not real" label. The detailed tables follow
+unchanged from Day 4 (September), with the commercial EPC row added.
+
+| Added field | Mandatory? | Public/Private | Verified? |
+|---|---|---|---|
+| Commercial EPC rating | Optional | Public | **Must verify** against the commercial EPC certificate |
+| Internal reference | Mandatory | Private | System — the record `id` (e.g. `demo-res-sale-1`); a human-friendly reference such as "TE-0001" can be added when real listings start, if the owner wants one |
+
+---
+
+
 ## What this document is
 
 Describes the single structured model used for every property on the

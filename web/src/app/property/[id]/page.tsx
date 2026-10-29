@@ -247,6 +247,9 @@ export default async function PropertyDetailPage({
                 {commercial.useClass && (
                   <Info label="Use class" value={commercial.useClass} />
                 )}
+                {commercial.energyRating && (
+                  <Info label="EPC rating" value={commercial.energyRating} />
+                )}
                 {commercial.possessionDate && (
                   <Info label="Possession" value={commercial.possessionDate} />
                 )}
