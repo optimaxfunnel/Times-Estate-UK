@@ -19,7 +19,12 @@ export interface Facets {
   postcodes: FacetOption[];
   features: FacetOption[];
   statuses: FacetOption[];
+  tenures: FacetOption[];
+  furnishings: FacetOption[];
 }
+
+const humanise = (v: string) =>
+  v.charAt(0).toUpperCase() + v.slice(1).replace(/_/g, " ");
 
 function tally(
   items: Property[],
@@ -84,6 +89,16 @@ export function computeFacets(items: Property[]): Facets {
       items,
       (p) => p.status,
       (v) => STATUS_LABELS[v as keyof typeof STATUS_LABELS] ?? v,
+    ),
+    tenures: tally(
+      items,
+      (p) => p.residential?.tenure ?? p.commercial?.tenure,
+      (v) => humanise(v),
+    ),
+    furnishings: tally(
+      items,
+      (p) => p.residential?.furnishing,
+      (v) => humanise(v),
     ),
   };
 }

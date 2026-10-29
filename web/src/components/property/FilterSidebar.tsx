@@ -88,6 +88,7 @@ export function FilterSidebar({
   params,
   facets,
   scope,
+  listingType,
   className,
 }: {
   action: string;
@@ -95,6 +96,8 @@ export function FilterSidebar({
   facets: Facets;
   /** Which groups make sense: a residential page hides commercial uses, and vice versa. */
   scope: "residential" | "commercial" | "all";
+  /** Sale or letting page — lettings get furnishing and availability filters. */
+  listingType?: "sale" | "letting";
   className?: string;
 }) {
   const sort = single(params, "sort");
@@ -205,7 +208,65 @@ export function FilterSidebar({
         />
       </Group>
 
+      {scope !== "residential" && (
+        <Group title="Floor area (sq ft)" open={false}>
+          <div className="grid grid-cols-2 gap-2">
+            <label className="block">
+              <span className="text-xs text-secondary">Min</span>
+              <input
+                type="number"
+                name="minFloorAreaSqFt"
+                min={0}
+                step={100}
+                defaultValue={single(params, "minFloorAreaSqFt")}
+                className="mt-1 w-full rounded-sm border border-border-strong bg-surface px-2 py-1.5 text-sm"
+              />
+            </label>
+            <label className="block">
+              <span className="text-xs text-secondary">Max</span>
+              <input
+                type="number"
+                name="maxFloorAreaSqFt"
+                min={0}
+                step={100}
+                defaultValue={single(params, "maxFloorAreaSqFt")}
+                className="mt-1 w-full rounded-sm border border-border-strong bg-surface px-2 py-1.5 text-sm"
+              />
+            </label>
+          </div>
+        </Group>
+      )}
+
+      <Group title="Tenure" open={false}>
+        <CheckboxList
+          name="tenure"
+          options={facets.tenures}
+          checked={selected(params, "tenure")}
+        />
+      </Group>
+
+      {listingType === "letting" && scope !== "commercial" && (
+        <Group title="Furnishing" open={false}>
+          <CheckboxList
+            name="furnishing"
+            options={facets.furnishings}
+            checked={selected(params, "furnishing")}
+          />
+        </Group>
+      )}
+
       <Group title="Availability" open={false}>
+        {listingType === "letting" && (
+          <label className="block">
+            <span className="text-xs text-secondary">Available by</span>
+            <input
+              type="date"
+              name="availableBy"
+              defaultValue={single(params, "availableBy")}
+              className="mt-1 w-full rounded-sm border border-border-strong bg-surface px-2 py-1.5 text-sm"
+            />
+          </label>
+        )}
         <CheckboxList
           name="status"
           options={facets.statuses}

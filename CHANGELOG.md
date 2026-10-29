@@ -4,6 +4,14 @@ All notable changes to this project are recorded here, most recent first.
 This is a project log, not a marketing document — it should stay accurate
 and plain.
 
+## 2026-10-29 (later) — Day 4: data model, secure admin, listings and search
+
+- Data model: commercial EPC rating; field rules in code with tests (Task 1).
+- Admin: signed, expiring, fail-closed session; development sign-in disabled in production; status workflow rules; refused attempts audited; proxy check (Task 2).
+- Listings: category switcher; detail pages gain floor plans/brochure/tour, EPC panel, visible breadcrumb, phone route (Task 3).
+- Search: tenure, furnishing, availability-date and floor-area filters; save-this-search; no-result suggestions (Task 4).
+- Tests 69 → 86. No packages added; nothing connected.
+
 ## 2026-10-29 — Architecture confirmed, design system, core pages, responsive QA
 
 **Added:** `/why-choose-us`, `/landlords`, `/buyers` (with `/tenants` redirect),

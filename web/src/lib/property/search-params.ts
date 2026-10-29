@@ -13,7 +13,17 @@ import {
   type PropertyCategory,
   type PropertyStatus,
   type ResidentialPropertyType,
+  type Tenure,
+  type Furnishing,
 } from "@/lib/property/types";
+
+const TENURES = [
+  "freehold",
+  "leasehold",
+  "share_of_freehold",
+  "commonhold",
+] as const;
+const FURNISHINGS = ["furnished", "unfurnished", "part_furnished"] as const;
 
 export type SearchParams = Record<string, string | string[] | undefined>;
 
@@ -95,6 +105,15 @@ export function buildListParams(
       .map((p) => p.trim())
       .filter(Boolean),
     features: list(params, "feature"),
+    tenures: allowed(list(params, "tenure"), TENURES) as Tenure[],
+    furnishings: allowed(
+      list(params, "furnishing"),
+      FURNISHINGS,
+    ) as Furnishing[],
+    availableBy: /^\d{4}-\d{2}-\d{2}$/.test(str(params, "availableBy") ?? "")
+      ? str(params, "availableBy")
+      : undefined,
+    maxFloorAreaSqFt: num(params, "maxFloorAreaSqFt"),
     // A visitor can narrow by marketing status, but only ever within the
     // statuses that are public anyway (types.ts PUBLICLY_VISIBLE_STATUSES).
     statuses: allowed(

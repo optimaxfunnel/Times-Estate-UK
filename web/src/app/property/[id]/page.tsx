@@ -1,8 +1,14 @@
+import Link from "next/link";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { Section } from "@/components/ui/Section";
 import { PropertyGallery } from "@/components/property/PropertyGallery";
 import { ShareButton } from "@/components/property/ShareButton";
+import {
+  EpcPanel,
+  PropertyContact,
+  PropertyDocuments,
+} from "@/components/property/PropertyExtras";
 import { FavouriteButton } from "@/components/property/FavouriteButton";
 import { LeadForm } from "@/components/forms/LeadForm";
 import { JsonLd } from "@/components/seo/JsonLd";
@@ -59,16 +65,21 @@ export default async function PropertyDetailPage({
   const residential = publicProperty.residential;
 
   const listingJsonLd = propertyJsonLd(publicProperty);
+  const searchPage =
+    publicProperty.category === "commercial"
+      ? publicProperty.listingType === "sale"
+        ? { name: "Commercial for sale", path: "/commercial/for-sale" }
+        : { name: "Commercial to let", path: "/commercial/to-let" }
+      : publicProperty.listingType === "sale"
+        ? { name: "Property for sale", path: "/buy" }
+        : { name: "Property to rent", path: "/rent" };
 
   return (
     <>
       <JsonLd
         data={breadcrumbJsonLd([
           { name: "Home", path: "/" },
-          {
-            name: publicProperty.listingType === "sale" ? "Buy" : "Rent",
-            path: publicProperty.listingType === "sale" ? "/buy" : "/rent",
-          },
+          searchPage,
           {
             name: publicProperty.displayAddress,
             path: `/property/${publicProperty.id}`,
@@ -77,9 +88,29 @@ export default async function PropertyDetailPage({
       />
       {listingJsonLd && <JsonLd data={listingJsonLd} />}
       <Section className="border-b border-border bg-surface">
+        <nav aria-label="Breadcrumb" className="mb-4 text-sm text-secondary">
+          <ol className="flex flex-wrap items-center gap-1.5">
+            <li>
+              <Link href="/" className="hover:text-accent">
+                Home
+              </Link>
+            </li>
+            <li aria-hidden="true">/</li>
+            <li>
+              <Link href={searchPage.path} className="hover:text-accent">
+                {searchPage.name}
+              </Link>
+            </li>
+            <li aria-hidden="true">/</li>
+            <li aria-current="page" className="text-ink">
+              {publicProperty.displayAddress}
+            </li>
+          </ol>
+        </nav>
         {publicProperty.isDemo && (
           <p className="mb-4 inline-block w-fit rounded-sm bg-warning px-3 py-1 text-xs font-semibold uppercase tracking-wide text-white">
-            Sample property — not a genuine Times Estate Ltd instruction
+            Sample property — invented for testing, not a genuine Times Estate
+            Ltd instruction
           </p>
         )}
         <div className="flex flex-wrap items-start justify-between gap-4">
@@ -105,6 +136,8 @@ export default async function PropertyDetailPage({
       <Section containerClassName="grid gap-10 lg:grid-cols-3">
         <div className="space-y-8 lg:col-span-2">
           <PropertyGallery images={publicProperty.media.images} />
+          <PropertyDocuments media={publicProperty.media} />
+          <EpcPanel property={publicProperty} />
 
           <div>
             <h2 className="text-xl font-semibold text-ink">Description</h2>
@@ -283,6 +316,7 @@ export default async function PropertyDetailPage({
         </div>
 
         <aside className="space-y-6">
+          <PropertyContact />
           <div className="rounded-sm border border-border bg-surface p-6">
             <h2 className="text-lg font-semibold text-ink">Book a viewing</h2>
             <p className="mt-2 text-sm text-ink/70">

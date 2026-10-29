@@ -7,6 +7,7 @@ import {
   type PropertyStatus,
   type ResidentialPropertyType,
   type Tenure,
+  type Furnishing,
 } from "@/lib/property/types";
 import { demoProperties } from "@/data/demo-properties";
 import { recordAuditEvent } from "@/lib/auth/audit-log";
@@ -53,6 +54,12 @@ export interface PropertyFilter {
   postcodes?: string[];
   /** Narrows within whatever statuses the caller may already see — never widens past the public set. */
   statuses?: PropertyStatus[];
+  /** Any-of tenure (residential or commercial). */
+  tenures?: Tenure[];
+  /** Lettings: any-of furnishing. */
+  furnishings?: Furnishing[];
+  /** Lettings: available on or before this ISO date (properties with no date count as available now). */
+  availableBy?: string;
 }
 
 export type PropertySortKey = "price_asc" | "price_desc" | "newest";
@@ -176,6 +183,18 @@ function matchesFilter(
   }
   if (filter.statuses && filter.statuses.length > 0) {
     if (!filter.statuses.includes(property.status)) return false;
+  }
+  if (filter.tenures && filter.tenures.length > 0) {
+    const tenure = property.residential?.tenure ?? property.commercial?.tenure;
+    if (!tenure || !filter.tenures.includes(tenure)) return false;
+  }
+  if (filter.furnishings && filter.furnishings.length > 0) {
+    const f = property.residential?.furnishing;
+    if (!f || !filter.furnishings.includes(f)) return false;
+  }
+  if (filter.availableBy) {
+    const from = property.residential?.availableFrom;
+    if (from && from > filter.availableBy) return false;
   }
   return true;
 }

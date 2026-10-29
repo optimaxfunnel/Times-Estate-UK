@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { PageHero } from "@/components/layout/PageHero";
 import { Section } from "@/components/ui/Section";
 import { PropertyCard } from "@/components/ui/PropertyCard";
+import { SavedSearchList } from "@/components/property/SavedSearchList";
 import { getFavouriteIds } from "@/lib/favourites";
 import { getFavouriteProperties } from "@/lib/property/actions";
 import type { PublicProperty } from "@/lib/property/types";
@@ -50,6 +51,7 @@ export default function FavouritesPage() {
             ))}
           </ul>
         )}
+        <SavedSearchList />
       </Section>
     </>
   );

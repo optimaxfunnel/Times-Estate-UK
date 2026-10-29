@@ -7,6 +7,46 @@ compliance positions) remain the owner's or their professional
 advisers', per `CLAUDE.md` Rule 5; this log covers project-management
 and technical judgement calls made in carrying out an instruction.
 
+## 2026-10-29 — Day 4 Tasks 3–4: listing and detail pages, property search
+
+**Listing experiences.** The four searches (residential for sale / to let,
+commercial for sale / to let) stay four separate, shareable pages, now
+joined by a category switcher at the top of each. Each keeps its own
+filters: residential gets bedrooms and property type; lettings add
+furnishing and an "available by" date; commercial gets use and a floor-
+area range; all get price, location, area, tenure, features and
+availability.
+
+**Detail pages** now also show floor plans, brochure and virtual tour
+(each "Not yet supplied" when missing), an Energy Performance (EPC) panel
+that says "EPC not yet recorded — Missing" rather than staying silent, a
+visible breadcrumb that points to the right category (commercial pages
+used to point to Buy/Rent), and a "Prefer to talk?" phone route beside
+the viewing form. The existing share button, favourites, viewing request
+and material-information disclaimer are kept. Demo listings now read
+"Sample property — invented for testing, not a genuine Times Estate Ltd
+instruction", and every demo address is plainly fictional ("Sample
+Street", "Placeholder House").
+
+**Search additions:** "Save this search" (stored in this browser, listed
+on Saved properties — the foundation for alert emails once an email
+service is approved); no-result suggestions that each drop one filter;
+everything in the URL so any search can be shared or bookmarked.
+
+**Deliberately not built:**
+- *Radius search* — needs coordinates for every listing and a geocoding
+  or map service (a third-party integration, Rule 4). The data model
+  already has a coordinates field; the filter is added when a provider is
+  approved.
+- *Map view* — not approved; the "Search by Area" panel stays.
+- *Incremental loading* — numbered pagination is kept: it is simpler for
+  keyboard and screen-reader users and gives every page its own URL.
+
+**Checks:** 86/86 tests (5 new for the filters, including that no URL can
+make a non-public property appear); Lighthouse accessibility 100 on
+`/rent`, `/commercial/to-let`, a no-results search, two property pages
+and Saved properties; typecheck, lint and production build pass.
+
 ## 2026-10-29 — Core content pages built (no database or integrations needed)
 
 **Built:** `/why-choose-us`, `/landlords`, `/buyers` (Buyers & Tenants, one page with two sections; `/tenants` redirects to its tenants section), `/areas`. Already existing and kept: Home, About, Residential, Commercial, Property Management, Contact, and the legal pages — every legal page now carries the "Draft — requires legal review" banner (Fees was missing it; added).
