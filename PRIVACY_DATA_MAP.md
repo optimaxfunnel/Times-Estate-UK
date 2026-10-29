@@ -1,5 +1,35 @@
 # PRIVACY_DATA_MAP.md — Times Estate Ltd
 
+## Day 5 Task 6 update (2026-10-29) — data map
+
+**This map does not claim legal compliance.** Every "basis" below is a
+proposal for a solicitor or data-protection adviser to confirm. Today
+**all data is held in server memory and lost on restart; no real
+customer data has been collected.**
+
+| Information | Purpose | Proposed basis (requires review) | Stored | Access | Retention question | Shared with | Deletion | Security control | Review needed |
+|---|---|---|---|---|---|---|---|---|---|
+| Name, email, phone (every enquiry) | Reply to the enquiry | Steps at the person's request / legitimate interests | Lead record (memory; database once approved) | Manager, Administrator; Enquiry Viewer (read only) | How long after closure? (proposal: 2 years for won/lost instructions, 12 months otherwise) | Email provider once approved | Admin deletion function (to build); on request | Validation, sanitisation, rate limit, role checks | Yes — basis and retention |
+| Property address (valuation, repair) | Arrange visit / repair | As above | Lead record | As above | As above | Contractors (repairs, with consent) | As above | As above | Yes |
+| Viewing dates, qualification answer | Arrange a viewing | As above | Lead record | As above | Short (proposal: 6 months) | Vendor/landlord only as needed | As above | As above | Yes |
+| Repair description, access information, tenancy reference | Fix the repair | Contract with the tenant / landlord's legal duty | Lead record | Manager, Administrator | Proposal: 12 months after closure | Contractors, **only with the tenant's separate consent** | As above | Role checks | Yes |
+| Repair photos / documents | Show the problem | As above | **Not stored today** (checked, then discarded) | When stored: Managers/Admins via short-lived links, only after malware scan | Proposal: 12 months after closure | Contractors with consent | Automatic once storage exists | Type, size, signature checks; private storage rules | Yes |
+| Privacy consent + timestamp | Record of consent / notice | Record-keeping | Lead record | As above | Kept as long as the lead | — | With the lead | — | Yes |
+| Marketing consent (alerts) | Property alert emails | Consent | Alert record | Manager, Administrator | Until withdrawn; re-confirm periodically | Email provider once approved | Unsubscribe link (to build) | Separate tick box, never pre-ticked | Yes — PECR wording |
+| Saved properties, saved searches | Visitor convenience | Not personal data held by us | Visitor's own browser only | Visitor only | Visitor clears it | Nobody | Visitor's browser | Never sent to the server | No |
+| Admin session (role, expiry) | Staff sign-in | Legitimate interests (security) | Signed cookie | The staff member | 8 hours | — | Expires / sign out | Signed, httpOnly, SameSite=Strict | No |
+| Audit log (role, action, record id) | Accountability | Legitimate interests | Memory (database once approved) | Manager, Administrator | Proposal: 6 years | — | Never edited; deletion policy to decide | Append-only | Yes |
+| AI assistant messages | Answer the question | Legitimate interests | **Not stored** | — | — | No AI company connected | — | No personal data needed | Revisit when a provider is approved |
+| Server logs (notification lines include the lead reference) | Troubleshooting | Legitimate interests | Hosting logs (once hosted) | Developers | Proposal: 30 days | Host | Host log rotation | No names or emails in log lines | Yes |
+
+**Still missing before real data:** a database with encryption at rest
+and backups, real staff accounts with two-factor sign-in, an ICO
+registration number, a data-subject request process, a deletion
+function in admin, processor agreements with each provider, and a
+solicitor-reviewed privacy notice.
+
+---
+
 ## Status of this document
 
 **Confirmed as an accurate description of what today's code actually

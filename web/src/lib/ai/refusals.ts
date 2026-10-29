@@ -90,6 +90,29 @@ export const REFUSAL_RULES: RefusalRule[] = [
       "I can't approve a tenant or confirm a tenancy — that involves referencing and a decision by our lettings team.",
   },
   {
+    keywords: [
+      "book me in",
+      "confirm my viewing",
+      "is my viewing confirmed",
+      "confirm the appointment",
+      "guarantee a viewing",
+    ],
+    response:
+      "I can't book or confirm an appointment — I can start a viewing or callback request, and a member of the team will contact you to agree a time.",
+  },
+  {
+    keywords: [
+      "what is my house worth",
+      "how much is my house worth",
+      "how much is my property worth",
+      "value my house",
+      "give me a valuation",
+      "what would it sell for",
+    ],
+    response:
+      "I can't give a valuation figure — a member of our team gives a free initial market appraisal after visiting the property. You can request one on the Sell or Let page.",
+  },
+  {
     keywords: ["are you a real person", "are you human", "is this a person"],
     response:
       "I'm an AI assistant, not a person — I'm happy to help, or I can put you in touch with the team.",

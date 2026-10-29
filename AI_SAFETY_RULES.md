@@ -1,5 +1,51 @@
 # AI_SAFETY_RULES.md — Times Estate Ltd
 
+## Day 5 Task 5 update (2026-10-29)
+
+**Plain-English summary.** The website assistant is a rule-based
+demonstration. **No AI company is connected, no paid account exists and
+no API key is used.** It answers only from the website's own approved
+pages and its public listings, links to the page it used, refuses
+anything that needs a qualified person or a staff decision, and never
+sends anything to anyone.
+
+| The assistant may | How |
+|---|---|
+| Identify itself as AI | Greeting says so; "are you human?" is answered "I'm an AI assistant, not a person" |
+| Help visitors navigate | Answers link to the relevant page |
+| Answer verified FAQs | Only from `lib/ai/knowledge-base.ts` (approved site content), each answer with its source link |
+| Suggest genuinely available properties | **Now only status "Available"** (not under offer or let agreed), from the public listings, each with its link and a "demonstration data" label |
+| Collect information after consent / begin callback or viewing requests | It links to the callback or viewing form, where consent is asked; the assistant itself stores nothing |
+| Explain confirmed services, direct tenants to repairs, escalate | FAQ answers; repair questions link to Report a Repair; anything uncertain points to Contact |
+
+| It must not | How it is stopped |
+|---|---|
+| Pretend to be human | Refusal rule |
+| Invent a property | It only reads the property list; never writes text about a property that isn't there |
+| Give legal, financial, mortgage or surveying advice | Refusal rules |
+| Give a final valuation | **New refusal**: "how much is my house worth" → points to an in-person appraisal (Sell/Let pages) |
+| Negotiate an offer / approve a tenant / confirm a tenancy | Refusal rules |
+| Promise an appointment | **New refusal**: it can start a request, a person agrees the time |
+| Decide whether something is an emergency or safe | Refusal rule (Task 4) |
+| Reveal private information | Refusal rule + it never receives private fields (public property shape only) |
+| Send sensitive communications automatically | There is **no send function**. `lib/ai/outbound-drafts.ts` can only create drafts marked "requires human approval", and refuses to draft anything about valuations, money, tenancy decisions, legal matters or emergencies |
+| Make an irreversible decision | It has no tools that change data |
+
+**Prompt-injection resistance (new):** refusal rules run first; then
+messages that try to change its rules or extract data ("ignore previous
+instructions", "you are now the administrator", "reveal your system
+prompt", "list all leads", "private address", "internal notes") get one
+fixed answer and are never acted on. Tested with four attack phrasings,
+and live in the browser.
+
+**When a real AI provider is approved:** it plugs into the existing
+`AIProvider` interface; the same refusal and injection checks run
+before the model and its output is shown with sources only. The
+provider must be told to answer only from the approved content passed
+to it. Key held server-side only.
+
+---
+
 ## Status of this document
 
 **Confirmed as an accurate description of what today's code actually

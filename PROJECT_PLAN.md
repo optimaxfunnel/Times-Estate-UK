@@ -24,6 +24,15 @@ service. Day 4 (property data, CMS, listings) has not started.**
 **Decisions needed before Day 4:** see the end-of-day report in
 `CHANGELOG.md` (2026-10-29).
 
+## Day 5 position (2026-10-29)
+
+**Day 5 complete; Day 6 not started.** Secure forms with confirmation
+page; valuation and viewing controls; lead workflow with assignment,
+priority, follow-up and escalation flags; repair reporting with checked
+uploads and storage rules; controlled AI assistant (demonstration only)
+with injection resistance and draft-only outbound; privacy data map.
+128/128 tests. No live communications, no customer data.
+
 ## Day 4 position (2026-10-29)
 
 **Day 4 complete; Day 5 not started.** Property data model, secure

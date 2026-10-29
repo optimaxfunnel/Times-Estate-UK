@@ -1,5 +1,18 @@
 # INTEGRATIONS.md — Times Estate Ltd
 
+## Day 5 additions (2026-10-29) — still requiring approval
+
+| Service | Why it's now needed | Built boundary | Credentials needed |
+|---|---|---|---|
+| Email provider (e.g. Resend, Postmark) | Staff notifications, confirmations, alert emails | `lib/leads/notify.ts` (logs "not sent"); `lib/ai/outbound-drafts.ts` (drafts only) | API key (server-side), SPF/DKIM/DMARC on the domain |
+| File storage + malware scanning (e.g. Cloudflare R2 or Supabase Storage + a scanning service) | Keep repair photos privately | `lib/security/attachment-store.ts` (refuses everything today) | Storage keys (server-side) |
+| AI provider (optional) | A more capable assistant | `lib/ai/provider.ts` interface, demonstration mode today | API key (server-side), data-processing terms |
+| Database | Leads, valuations, audit log survive restarts | Provider interfaces | Connection string (server-side) |
+
+Nothing has been signed up for, paid for or connected.
+
+---
+
 ## Day 4 Task 5 — CRM and portal feed boundary (2026-10-29)
 
 **Is there a confirmed CRM or portal agreement? No.** Nothing in the

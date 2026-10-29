@@ -4,6 +4,24 @@ All notable changes to this project are recorded here, most recent first.
 This is a project log, not a marketing document — it should stay accurate
 and plain.
 
+## 2026-10-29 (Day 5)
+
+- **Forms:** required/optional labels, browser-side checks with error
+  summary, confirmation page, landlord/vendor enquiry, privacy wording.
+- **Valuations and viewings:** internal valuation record (Manager/Admin
+  only; never automated); viewing booking needs confirmed occupier
+  access; future-date check; assigned-staff routing.
+- **Leads:** assignment, priority, follow-up editing; due-soon/overdue
+  flags; full workflow table.
+- **Repairs:** 5-file limit enforced; file signatures checked; tenancy
+  reference; private storage rules (scan, signed links, retention);
+  emergency guidance marked for review.
+- **AI:** available-only suggestions; appointment and valuation
+  refusals; injection detection; draft-only outbound module.
+- **Docs:** AI_SAFETY_RULES, PRIVACY_DATA_MAP, AUTOMATION_WORKFLOWS,
+  TEST_REPORT, INTEGRATIONS, CONTENT_VERIFICATION_REGISTER.
+- Tests 94 → 128. No packages added; nothing connected.
+
 ## 2026-10-29 (Day 4 Task 5 + verification)
 
 - **Added:** `lib/property/feeds/feed-adapter.ts` — CRM feed boundary
