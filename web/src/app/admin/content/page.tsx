@@ -24,10 +24,18 @@ export default async function AdminContentPage() {
         <table className="w-full min-w-[40rem] border-collapse text-left text-sm">
           <thead>
             <tr className="border-b border-border text-ink/70">
-              <th scope="col" className="py-2 pr-4 font-medium">Item</th>
-              <th scope="col" className="py-2 pr-4 font-medium">Where</th>
-              <th scope="col" className="py-2 pr-4 font-medium">Status</th>
-              <th scope="col" className="py-2 pr-4 font-medium">Action</th>
+              <th scope="col" className="py-2 pr-4 font-medium">
+                Item
+              </th>
+              <th scope="col" className="py-2 pr-4 font-medium">
+                Where
+              </th>
+              <th scope="col" className="py-2 pr-4 font-medium">
+                Status
+              </th>
+              <th scope="col" className="py-2 pr-4 font-medium">
+                Action
+              </th>
             </tr>
           </thead>
           <tbody>

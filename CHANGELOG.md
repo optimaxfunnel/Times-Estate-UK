@@ -4,6 +4,19 @@ All notable changes to this project are recorded here, most recent first.
 This is a project log, not a marketing document — it should stay accurate
 and plain.
 
+## 2026-10-30 (Day 6 Tasks 2–3 — SEO and regulatory readiness)
+
+- Header shows both phone numbers (landline, then mobile) as the owner asked.
+- SEO: descriptions and canonical addresses added to five pages that lacked
+  them; /favourites marked noindex; sitemap now 26 pages incl. new
+  /company-information (/areas stays out, noindexed); structured-data and
+  indexing tests added (6). SEO_PLAN.md: full Day 6 plan.
+- New /company-information page (company disclosure, each fact with its status);
+  linked in the footer.
+- REGULATORY_READINESS.md: topic-by-topic readiness table for solicitor/compliance
+  review, with sources. No compliance is claimed.
+- Tests 133 → 139.
+
 ## 2026-10-30 (Day 6 Task 1 — content)
 
 - Internal "not yet supplied" notes are now hidden on the public build

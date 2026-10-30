@@ -81,30 +81,52 @@ export function Header() {
             Get a Valuation
             <IconArrowRight className="h-4 w-4" />
           </Link>
-          <a
-            href="tel:+442086728080"
-            className="group/phone flex items-center gap-2 whitespace-nowrap rounded-sm text-ink"
-          >
+          <div className="flex items-center gap-2 whitespace-nowrap text-ink">
             <IconPhone className="h-6 w-6 text-accent" />
+            {/* Landline first, then mobile — order set by the owner. */}
             <span className="flex flex-col leading-tight">
-              <span className="text-base font-bold tracking-tight group-hover/phone:text-accent">
+              <a
+                href="tel:+442086728080"
+                aria-label={`Call our landline on ${siteConfig.phoneLandline.value}`}
+                className="text-sm font-bold tracking-tight hover:text-accent"
+              >
                 {siteConfig.phoneLandline.value}
-              </span>
-              <span className="text-[0.6rem] font-semibold uppercase tracking-[0.18em] text-ink/60">
-                Call us today
-              </span>
+              </a>
+              <a
+                href="tel:+447779991313"
+                aria-label={`Call our mobile on ${siteConfig.phoneMobile.value}`}
+                className="text-sm font-bold tracking-tight hover:text-accent"
+              >
+                {siteConfig.phoneMobile.value}
+              </a>
             </span>
-          </a>
+          </div>
         </div>
 
         <div className="flex items-center gap-2 xl:hidden">
           <a
             href="tel:+442086728080"
             aria-label={`Call ${siteConfig.displayName.value} on ${siteConfig.phoneLandline.value}`}
-            className="hidden h-11 w-11 items-center justify-center rounded-sm text-accent hover:bg-accent-tint min-[360px]:inline-flex"
+            className="hidden h-11 w-11 items-center justify-center rounded-sm text-accent hover:bg-accent-tint min-[360px]:inline-flex min-[480px]:hidden"
           >
             <IconPhone className="h-6 w-6" />
           </a>
+          <span className="hidden flex-col text-right leading-tight min-[480px]:flex">
+            <a
+              href="tel:+442086728080"
+              aria-label={`Call our landline on ${siteConfig.phoneLandline.value}`}
+              className="inline-flex min-h-6 items-center justify-end text-sm font-bold text-ink hover:text-accent"
+            >
+              {siteConfig.phoneLandline.value}
+            </a>
+            <a
+              href="tel:+447779991313"
+              aria-label={`Call our mobile on ${siteConfig.phoneMobile.value}`}
+              className="inline-flex min-h-6 items-center justify-end text-sm font-bold text-ink hover:text-accent"
+            >
+              {siteConfig.phoneMobile.value}
+            </a>
+          </span>
           <MobileMenu />
         </div>
       </Container>

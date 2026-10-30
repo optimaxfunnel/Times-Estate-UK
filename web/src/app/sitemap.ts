@@ -41,6 +41,9 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "/complaints",
     "/fees",
     "/accessibility",
+    "/company-information",
+    // "/areas" is deliberately absent: it is noindexed until coverage is
+    // confirmed and real area guides exist (SEO_PLAN.md, area strategy).
   ];
 
   return routes.map((path) => ({

@@ -3,7 +3,12 @@ import { PageHero } from "@/components/layout/PageHero";
 import { Section } from "@/components/ui/Section";
 import { ButtonLink } from "@/components/ui/ButtonLink";
 
-export const metadata: Metadata = { title: "Residential Sales & Lettings" };
+export const metadata: Metadata = {
+  title: "Residential Sales & Lettings",
+  description:
+    "Residential sales, lettings and property management from Times Estate Ltd on Upper Tooting Road, London SW17.",
+  alternates: { canonical: "/residential" },
+};
 
 const links = [
   {

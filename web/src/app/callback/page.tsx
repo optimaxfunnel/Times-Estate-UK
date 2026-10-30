@@ -3,7 +3,12 @@ import { PageHero } from "@/components/layout/PageHero";
 import { Section } from "@/components/ui/Section";
 import { LeadForm } from "@/components/forms/LeadForm";
 
-export const metadata: Metadata = { title: "Request a Callback" };
+export const metadata: Metadata = {
+  title: "Request a Callback",
+  description:
+    "Ask Times Estate Ltd to call you back about buying, selling, letting or managing property in South West London.",
+  alternates: { canonical: "/callback" },
+};
 
 export default function CallbackPage() {
   return (

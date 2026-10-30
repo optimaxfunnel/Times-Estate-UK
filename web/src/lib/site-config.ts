@@ -231,6 +231,7 @@ export const footerNav = {
     { label: "Terms of Website Use", href: "/terms" },
     { label: "Complaints Handling Procedure", href: "/complaints" },
     { label: "Fee Information", href: "/fees" },
+    { label: "Company Information", href: "/company-information" },
     { label: "Accessibility Statement", href: "/accessibility" },
   ],
 } as const;

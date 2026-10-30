@@ -5,7 +5,12 @@ import { EmergencyGuidance } from "@/components/ui/EmergencyGuidance";
 import { RepairReportForm } from "@/components/forms/RepairReportForm";
 import { PlaceholderNotice } from "@/components/ui/PlaceholderNotice";
 
-export const metadata: Metadata = { title: "Report a Repair" };
+export const metadata: Metadata = {
+  title: "Report a Repair",
+  description:
+    "Tenants of properties managed by Times Estate Ltd can report a repair here. In an emergency, call the emergency services first.",
+  alternates: { canonical: "/report-a-repair" },
+};
 
 export default function ReportARepairPage() {
   return (

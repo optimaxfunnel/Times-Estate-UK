@@ -3,7 +3,12 @@ import { PageHero } from "@/components/layout/PageHero";
 import { Section } from "@/components/ui/Section";
 import { LeadForm } from "@/components/forms/LeadForm";
 
-export const metadata: Metadata = { title: "Register Your Requirements" };
+export const metadata: Metadata = {
+  title: "Register Your Requirements",
+  description:
+    "Tell Times Estate Ltd what kind of property you are looking for to buy or rent, and we will be in touch.",
+  alternates: { canonical: "/register" },
+};
 
 const budgetFields = (label: string) => [
   {

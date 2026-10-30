@@ -1,5 +1,59 @@
 # REGULATORY_READINESS.md — Times Estate Ltd
 
+## Day 6 Task 3 update (2026-10-30) — readiness for professional review
+
+**Read this first.** This section prepares the website **for review by a
+qualified UK solicitor or compliance professional**. It is **not** a
+statement that Times Estate Ltd complies with any law. Having a privacy
+page, a fees page or a complaints page does not by itself make the
+business compliant; what matters is that the wording is accurate and the
+business actually works that way. Every row below marked **Solicitor**
+or **Compliance** must be signed off by that person before launch.
+
+Research for this update used current secondary summaries of official
+guidance (listed at the end). **The reviewer should check each point
+against the official source, as rules have changed recently.**
+
+| Topic | What the website now has | Status | Who must review | Open question for the owner |
+|---|---|---|---|---|
+| Company disclosure (Companies Act trading disclosures) | New **/company-information** page: registered name, number, "registered in England and Wales", registered office, trading address, phone, email; also in the footer | Name, number, office **Verified**; others Supplied by the business owner | Compliance | VAT number (or not registered)? ICO registration number? |
+| UK GDPR | Privacy notice draft (/privacy-policy); data map (PRIVACY_DATA_MAP.md) with proposed lawful bases and retention | Draft | **Solicitor** | Retention periods; ICO registration; who handles data requests |
+| PECR and cookies | Cookie notice draft (/cookie-policy). The site today sets **no tracking or advertising cookies**: only a staff sign-in cookie (essential) and saved properties kept in the visitor's own browser. So **no consent banner is needed today**; one must be added before any analytics or advertising tool is switched on | Draft | **Solicitor** | Will you want analytics? (DEPLOYMENT.md lists consent-friendly options) |
+| PECR — marketing emails | Property alerts need a separate, unticked consent box; no emails are sent today | Built; email off | Solicitor | Wording of the consent line |
+| Equality Act 2010 / accessibility | Accessibility statement (/accessibility); WCAG 2.2 AA testing recorded in ACCESSIBILITY.md; Day 6 Task 4 re-tests it | Draft | Compliance | A named contact for accessibility requests |
+| Consumer protection (CPRs, now Part 4 Chapter 1 of the DMCC Act 2024) | No invented claims (register); demonstration listings visibly labelled; material information fields on every property page | Ready for review | Compliance | — |
+| DMCC Act — price transparency / "drip pricing" (in force 6 April 2025) | Fee page structure requires any unavoidable charge to be shown **within the headline price**, not added later; rent and price shown with their mandatory extras (deposit, service charge, ground rent) on property pages | Structure only — amounts missing | **Solicitor** | Do you charge any compulsory extra fee to buyers or tenants? |
+| Agent fee transparency (Consumer Rights Act 2015 s.83; Tenant Fees Act 2019) | /fees sets out tenant permitted payments and the landlord/seller fee structure; **amounts are missing** | **Launch blocker** | Solicitor | Full landlord fee schedule incl. VAT; deposit level; holding deposit |
+| Redress scheme | Property Redress Scheme membership shown on /company-information, /why-choose-us and footer, labelled "Requires verification" | Supplied by the business owner | Compliance | Confirm membership directly with the scheme |
+| Client Money Protection | Client Money Protect membership shown the same way. **The CMP certificate itself must be displayed (or linked) on the website** | Supplied by the business owner | Compliance | Permission to publish the certificate PDF |
+| EPC | Every property page shows an EPC rating field, marked "must verify against the EPC register". It is **not yet compulsory** before a listing is approved — recommend making it so (or "exempt") | Partly built | Compliance | — |
+| Material information (NTSELAT Parts A, B, C) | Property pages show price/rent, council tax band, tenure, lease length, ground rent, service charge, deposit, EPC, floor area, rooms. **Part B (utilities, broadband, mobile signal, parking, construction) and Part C (flood risk, building safety, restrictions, rights of way) fields are not yet in the data model** | Partly built | Compliance | Which property software will supply these? |
+| Complaints procedure | /complaints draft: how to complain, then escalation to the redress scheme | Draft — **timescales missing** | Compliance | Your acknowledgement and final-response times (must fit the scheme's rules) |
+| Accessibility statement | /accessibility draft | Draft | Compliance | — |
+| Renters' Rights Act 2025 | Not described on the site. Main tenancy changes started 1 May 2026; landlord database later. Mentioned only as "guidance to follow" | Not started (deliberately) | **Solicitor** | Do you want a landlord guide? |
+| AI assistant and regulated advice | The assistant **refuses** legal, financial, mortgage and surveying advice, valuation figures, tenancy decisions and emergency classification, and says it is an AI (tests: refusals, assistant-safety) | Built and tested | Compliance | — |
+
+### Drafts now in place (all carry a "Draft — requires legal review" banner)
+
+Privacy notice · Cookie notice · Terms of use · Accessibility statement ·
+Complaints information · Fee information structure · **Company
+information (new today)**.
+
+### Sources consulted (secondary summaries; reviewer to confirm against originals)
+
+- Material information Parts A–C: summaries of the NTSELAT guidance
+  (Mondaq; Letting Agent Today, Nov 2023). Official: National Trading
+  Standards Estate and Letting Agency Team.
+- DMCC Act drip pricing in force 6 April 2025; CMA final guidance and
+  price transparency guidance CMA209 (CMS; Taylor Wessing; CMA PDF on
+  gov.uk).
+- Renters' Rights Act 2025: Royal Assent 27 Oct 2025; main tenancy
+  provisions from 1 May 2026; later phases to follow (Gowling WLG;
+  Trowers & Hamlins; Mishcon de Reya roadmap summaries).
+
+---
+
+
 ## Status of this document
 
 **This document does not claim Times Estate Ltd or this website is

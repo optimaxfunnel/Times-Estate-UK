@@ -1,5 +1,148 @@
 # SEO_PLAN.md — Times Estate Ltd
 
+## Day 6 Task 2 update (2026-10-30) — ethical local SEO, current plan
+
+**Plain-English summary.** The site is set up so search engines can
+understand it accurately: every public page has its own title,
+description and preferred web address, a sitemap lists only real public
+pages, and the business is described to search engines using only facts
+in the content register. Nothing is hidden, stuffed or invented. Area
+pages are **not** being created until you confirm where you work.
+
+### 1. Search-intent map
+
+| What someone is trying to do | Typical search | Page that answers it |
+|---|---|---|
+| Sell a home, find out its value | "estate agents Tooting", "house valuation SW17" | /sell |
+| Let a property / find a managing agent | "letting agents Tooting", "property management SW17" | /let, /property-management, /landlords |
+| Buy a home | "flats for sale Tooting" | /buy (property pages once real listings exist) |
+| Rent a home | "flats to rent Tooting" | /rent |
+| Commercial space | "shops to let Tooting", "commercial property agent SW17" | /commercial, /commercial/for-sale, /commercial/to-let |
+| Contact the agency | "Times Estate Ltd", "Times Estate Tooting phone" | /contact, /company-information |
+| Existing tenant with a problem | "Times Estate report repair" | /report-a-repair |
+| Check credentials or fees | "Times Estate Ltd fees", "redress" | /fees, /company-information, /complaints |
+
+### 2. Page-to-keyword map, titles and descriptions
+
+One main topic per page; no two pages chase the same phrase. Titles use
+the template "Page | Times Estate Ltd".
+
+| Page | Main topic | Title | Meta description (summary) | H1 |
+|---|---|---|---|---|
+| / | Estate agent in Tooting / SW London | Times Estate Ltd \| London Property Experts | Residential and commercial sales, lettings and management | Browse London Properties |
+| /sell | Selling, valuation | Sell Your Home | Free initial market appraisal* | Book a free initial market appraisal |
+| /let | Letting, rental appraisal | Let Your Property | Let-only and managed lettings | (page H1) |
+| /property-management | Managing agent | Property Management | Managed service for landlords | (page H1) |
+| /buy, /rent | Property search | Property for Sale / to Rent | Search listings | (page H1) |
+| /commercial (+ for-sale, to-let) | Commercial agency | Commercial Property | Sales, lettings and management for commercial property | (page H1) |
+| /landlords, /buyers | Audience guides | Landlords / Buyers & Tenants | What to expect working with us | (page H1) |
+| /contact | Contact | Contact Us | Phone, email, address | (page H1) |
+| /company-information **(new)** | Company disclosure | Company Information | Registered details, redress, client money protection | Company Information |
+| /callback, /register, /property-alerts, /report-a-repair | Tasks | (as named) | **Descriptions and canonicals added today** | (page H1) |
+| Legal pages | Policies | (as named) | One each | (page H1) |
+
+\* "free" is owner wording awaiting confirmation (CONTENT_VERIFICATION_REGISTER.md).
+
+**Heading structure:** one H1 per page (the page hero), H2 for sections,
+H3 inside sections — checked in the Day 6 accessibility pass and kept.
+
+**Internal links:** header (grouped menus), footer (all services and
+legal pages, now including Company Information), in-page calls to
+action between related pages (sell ↔ fees, let ↔ property management,
+rent ↔ report a repair), breadcrumbs on property pages.
+
+### 3. Canonical addresses, sitemap and robots
+
+- Every indexable page declares its own canonical address. **Added
+  today** for /callback, /residential, /register, /property-alerts and
+  /report-a-repair, which were missing one.
+- `/sitemap.xml` lists 26 public pages. It deliberately leaves out
+  /admin, /favourites, /enquiry-received, /areas (see §6) and every
+  property page (all are demonstration data).
+- `/robots.txt` allows everything except /admin and /favourites and
+  points to the sitemap.
+- Pages that must never appear in search results are also marked
+  "noindex": all of /admin, /enquiry-received, /areas, and now
+  /favourites.
+- The live domain (`NEXT_PUBLIC_SITE_URL`) is set at deployment; the
+  redirect plan from the old site is in SEO_REDIRECT_PLAN.md.
+
+### 4. Open Graph and sharing
+
+Site name, British English locale and large-image card are set
+sitewide; each page's title and description are reused for shares. A
+sharing image (1200×630) is **not yet made** — it should use the
+owner-supplied logo once a clean export arrives.
+
+### 5. Structured data (what search engines are told)
+
+| Markup | Where | Contents | Deliberately left out |
+|---|---|---|---|
+| RealEstateAgent | Every page | Name, registered name, website, registered office address | Phone, email, opening hours, reviews, ratings, awards, founding date, staff numbers — none is Verified yet |
+| BreadcrumbList | Property pages | Home → section → property | — |
+| RealEstateListing | Property pages | Address, summary, price, image | **Not emitted for any demonstration property** — so today none at all |
+
+**Validation (automated, `structured-data.test.ts`):** markup is valid
+JSON with the schema.org context and type; it contains no rating,
+review, award, opening-hours, founding-date or staff-count claims; no
+listing markup is produced for any demonstration property; the sitemap
+excludes admin, favourites and property pages and has no duplicates;
+robots blocks admin and favourites. 6 tests, all passing. Google's
+online Rich Results Test can only be run once the site is on a public
+address — listed as a launch-week check.
+
+**Decision for you:** the phone numbers now appear in the header. They
+could be added to the search-engine markup too (helps local search), but
+they are "Supplied by the business owner", not Verified. Say so if you
+are happy for them to be added.
+
+### 6. Area-page strategy
+
+- **No area pages are created today.** The seven areas named on your
+  current website (Tooting, Mitcham, Streatham, Balham, Colliers Wood,
+  Wimbledon, Clapham) have not been re-confirmed for this site.
+- /areas stays as one honest page, hidden from search engines, listing
+  them as "Requires verification".
+- When you confirm an area, it gets a page only if it can carry
+  **genuinely different, sourced content**: the streets and property
+  types you actually handle there, real (not demonstration) listings in
+  that area, transport and amenities with sources. No copy-and-swap
+  location pages, no doorway pages, no implied offices outside SW17.
+
+### 7. FAQ and guide strategy
+
+Guides answer real questions customers ask you, are written from your
+own process, and are checked before publishing:
+
+1. "What happens when you value my home?" (needs your real process)
+2. "What a landlord needs before letting" — gas, electrical, EPC,
+   deposit protection, Right to Rent (**solicitor review**)
+3. "What the Renters' Rights Act changes for landlords and tenants"
+   (**solicitor review**; most changes started 1 May 2026)
+4. "Tenant fees: what we can and can't charge" (once fees are supplied)
+5. "How to report a repair and what counts as an emergency"
+   (**professional review**)
+
+FAQ markup is not used: Google now shows FAQ rich results only for
+government and health sites, so it would add nothing.
+
+### 7a. Image alternative text
+
+The logo is decorative beside the written name (`alt=""`); property
+images use the alt text stored with each image; the hero illustration
+is decorative. When real listing photos arrive, each needs a short,
+factual description (e.g. "Front of the house from the street"), never
+keywords.
+
+### 8. Not done, by design
+
+Keyword stuffing, duplicated location pages, doorway pages, fake
+offices or numbers, hidden text, fabricated reviews, and listing markup
+for demonstration properties.
+
+---
+
+
 ## Status of this document
 
 **Confirmed as an accurate description of what today's code actually

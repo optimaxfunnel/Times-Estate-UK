@@ -3,7 +3,12 @@ import { PageHero } from "@/components/layout/PageHero";
 import { Section } from "@/components/ui/Section";
 import { AlertForm } from "@/components/forms/AlertForm";
 
-export const metadata: Metadata = { title: "Property Alerts" };
+export const metadata: Metadata = {
+  title: "Property Alerts",
+  description:
+    "Sign up for property alerts from Times Estate Ltd. You choose what you hear about and can unsubscribe at any time.",
+  alternates: { canonical: "/property-alerts" },
+};
 
 export default async function PropertyAlertsPage({
   searchParams,
