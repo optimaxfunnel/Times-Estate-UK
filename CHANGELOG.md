@@ -4,6 +4,17 @@ All notable changes to this project are recorded here, most recent first.
 This is a project log, not a marketing document — it should stay accurate
 and plain.
 
+## 2026-10-30 (Day 6 Task 1 — content)
+
+- Internal "not yet supplied" notes are now hidden on the public build
+  (shown in development, or on staging with NEXT_PUBLIC_SHOW_CONTENT_NOTES=true);
+  some are replaced by a plain public line. New staff page /admin/content lists
+  every open item and which ones block launch.
+- Homepage hero: removed "across London" and "trusted local expert"; now names
+  the Upper Tooting Road office. Commercial intro no longer implies a separate team.
+- CONTENT_VERIFICATION_REGISTER.md: new current table using the Day 6 statuses.
+- Tests 128 → 133.
+
 ## 2026-10-29 (Day 5)
 
 - **Forms:** required/optional labels, browser-side checks with error

@@ -1,7 +1,10 @@
 import type { Metadata } from "next";
 import { PageHero } from "@/components/layout/PageHero";
 import { Section } from "@/components/ui/Section";
-import { PlaceholderNotice } from "@/components/ui/PlaceholderNotice";
+import {
+  PlaceholderNotice,
+  showContentNotes,
+} from "@/components/ui/PlaceholderNotice";
 import { Badge } from "@/components/ui/Badge";
 import { siteConfig } from "@/lib/site-config";
 
@@ -118,18 +121,24 @@ export default function AboutPage() {
         </PlaceholderNotice>
       </Section>
 
-      <Section>
-        <h2 className="text-2xl font-semibold text-ink">Our team</h2>
-        <PlaceholderNotice status="missing" className="mt-4">
-          Staff names, roles and photography have not yet been supplied (see
-          /CONTENT_REQUIRED.md). This section will only be populated with real
-          people who have consented to appear.
-        </PlaceholderNotice>
-      </Section>
+      {showContentNotes() && (
+        <Section>
+          <h2 className="text-2xl font-semibold text-ink">Our team</h2>
+          <PlaceholderNotice status="missing" className="mt-4">
+            Staff names, roles and photography have not yet been supplied (see
+            /CONTENT_REQUIRED.md). This section will only be populated with real
+            people who have consented to appear.
+          </PlaceholderNotice>
+        </Section>
+      )}
 
       <Section className="bg-secondary/5">
         <h2 className="text-2xl font-semibold text-ink">Areas we cover</h2>
-        <PlaceholderNotice status="missing" className="mt-4">
+        <PlaceholderNotice
+          status="missing"
+          className="mt-4"
+          publicText="Our office is on Upper Tooting Road, Tooting, London SW17. Ask us whether we cover your area."
+        >
           Our specific geographic coverage has not yet been confirmed beyond our
           registered office in South West London. We do not list neighbourhood
           names here until this is confirmed — see /SITEMAP.md, open question 4.

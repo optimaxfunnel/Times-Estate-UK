@@ -14,7 +14,62 @@ Status key:
 - **Requires verification** — needs an independent check (e.g. Companies House, redress scheme register, regulator database).
 - **Requires professional review** — needs sign-off from a qualified professional (solicitor, accountant, compliance adviser, etc.).
 
-## Register
+## Day 6 content register (2026-10-30) — current
+
+**This table is the current record of every material factual statement
+on the public site.** The older table below is kept as history. Statuses
+used here are only: **Verified**, **Supplied by the business owner**,
+**Placeholder**, **Requires legal or professional review**,
+**Demonstration content**.
+
+**How placeholders are handled now:** internal "not yet supplied" notes
+show on the site in development, and on a staging copy only if
+`NEXT_PUBLIC_SHOW_CONTENT_NOTES=true` is set. On the public site they are
+hidden, or replaced by a plain line that makes no claim (for example
+"Ask us for a written fee quote"). Staff can still see every open item at
+**/admin/content**.
+
+| Statement | Source | Status | Website location | Action required |
+|---|---|---|---|---|
+| Company name "Times Estate Ltd" | Companies House record 09597081 | Verified | Header, footer, every page | None |
+| Company number 09597081, incorporated 19 May 2015, active | Companies House | Verified | Footer, /about | None |
+| Registered office: 145 Upper Tooting Road, London SW17 7TJ | Companies House | Verified | Footer, /contact | None |
+| Office (trading address): 127 Upper Tooting Road, London SW17 7TJ | Owner; business card | Supplied by the business owner | Footer, /contact, homepage, /about | Owner to confirm it is the address visitors should come to |
+| "Our office on Upper Tooting Road in South West London" | Derived from the two addresses above | Supplied by the business owner | Homepage hero | None beyond the row above |
+| Phone 0208 672 8080; mobile 0777 999 1313 | Owner; business card | Supplied by the business owner | Header, footer, /contact | Test that both numbers are answered |
+| Construction line 0208 6738 555 | Owner; business card | Supplied by the business owner | /about, footer (mention only) | None |
+| Email timesestatesuk@gmail.com | Owner; business card | Supplied by the business owner | Footer, /contact | Consider a domain address before launch (see EMAIL_AND_FORM_ROUTING.md) |
+| Property Redress Scheme member, PRS030616, to 14/04/2027 | Owner-supplied certificate | Supplied by the business owner | /why-choose-us, footer | Confirm with the scheme directly, then mark Verified. **Launch blocker** (membership must be displayed accurately) |
+| Client Money Protect member, CMP013294, to 19/06/2027 | Owner-supplied certificate | Supplied by the business owner | /why-choose-us, /landlords | Confirm with the scheme directly. **Launch blocker** |
+| Professional indemnity insurance with Folgate / APC | Owner-supplied policy wording (no schedule) | Supplied by the business owner | /why-choose-us | Owner to supply the policy schedule |
+| "London Property Experts" | Tagline in the owner's logo | Supplied by the business owner | Logo, header, page title, hero eyebrow | Owner to confirm the London-wide coverage it implies; body copy no longer says "across London" |
+| Services: residential and commercial sales, lettings and management; valuations; viewings; repair reporting | Owner (Day 1 scope) | Supplied by the business owner | Navigation, service pages | None |
+| "Free initial market appraisal" | Existing site copy (owner) | Supplied by the business owner | /sell, /let, assistant | Owner to confirm it is free and without obligation |
+| "We quote fees in writing before you instruct us" | Build team wording | Requires legal or professional review | /landlords, /sell, /let | Owner to confirm this is the practice |
+| Tenant permitted payments and deposit protection scheme | — | Placeholder | /fees, /buyers | Owner to supply. **Launch blocker** — letting agents must publish fees on their website |
+| Landlord fees, sales commission, VAT treatment | — | Placeholder | /fees, /let, /sell | Owner to supply. **Launch blocker** for lettings fees and VAT |
+| Opening hours | — | Placeholder | /contact | Owner to supply |
+| Areas covered beyond SW17 | — | Placeholder | /about, /areas | Owner to confirm |
+| Commercial sectors covered | — | Placeholder | /commercial | Owner to confirm |
+| Team, history, reviews, track record | — | Placeholder | /about, /why-choose-us (hidden publicly) | Only with evidence and consent |
+| Complaints timescales | — | Requires legal or professional review | /complaints | Set to match redress scheme rules. **Launch blocker** |
+| Repair response times, out-of-hours process | — | Placeholder | /report-a-repair, /buyers | Owner to supply |
+| Emergency numbers 999, 0800 111 999 (gas), 105 (power cut) | Public UK services | Verified | /report-a-repair | Wording around them: professional review. **Launch blocker** |
+| Privacy policy, cookie policy, terms (drafts) | Build team drafts | Requires legal or professional review | /privacy-policy, /cookie-policy, /terms | Solicitor review; retention periods. **Launch blocker** |
+| Form privacy wording | Build team draft | Requires legal or professional review | Every form | Solicitor review |
+| Renters' Rights Act 2025 guidance | — | Requires legal or professional review | /landlords (note only) | Solicitor to write or review |
+| Guaranteed rent | — | Requires legal or professional review | Not offered | Stays off the site until terms are reviewed |
+| All property listings, prices, photos and counts | Fabricated test data | Demonstration content | Homepage, /buy, /rent, /commercial, /property/* | Visibly labelled "Demonstration" on every card and page; replace with the real feed |
+| Assistant answers | Approved site content only | Demonstration content | Chat assistant | Labelled as an AI demonstration |
+
+**Copy changed today:** homepage hero no longer says "across London" or
+"trusted local expert" (unevidenced); commercial page no longer implies a
+separate commercial team (no team details supplied). Nothing was added
+that is not in this table.
+
+---
+
+## Register (historical, Day 1–5)
 
 | # | Item | Value used | Source | Status | Verified by | Date | Notes |
 |---|---|---|---|---|---|---|---|

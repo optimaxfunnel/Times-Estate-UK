@@ -94,7 +94,15 @@ export default function BuyersAndTenantsPage() {
             supplied. They will be listed on{" "}
             <TextLink href="/fees">Fees</TextLink>.
           </PlaceholderNotice>
-          <PlaceholderNotice status="missing">
+          <PlaceholderNotice
+            status="missing"
+            publicText={
+              <>
+                <strong>Already a managed tenant?</strong>{" "}
+                <TextLink href="/report-a-repair">Report a repair</TextLink>.
+              </>
+            }
+          >
             <strong>Already a managed tenant?</strong>{" "}
             <TextLink href="/report-a-repair">Report a repair</TextLink>. Our
             out-of-hours emergency process has not yet been supplied.

@@ -7,7 +7,10 @@ export function LegalPlaceholderPage({ title }: { title: string }) {
     <>
       <PageHero eyebrow="Legal" title={title} />
       <Section>
-        <PlaceholderNotice status="requires-professional-review">
+        <PlaceholderNotice
+          status="requires-professional-review"
+          publicText="This page is being prepared. Please contact us if you need this information."
+        >
           This page has not yet been drafted. Legal and regulatory text
           (including this page) must be reviewed by a qualified solicitor before
           publication — see CLAUDE.md Rule 5 and /CONTENT_REQUIRED.md. No

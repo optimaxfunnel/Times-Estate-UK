@@ -83,7 +83,10 @@ export default function ContactPage() {
               </div>
             </dl>
           </div>
-          <PlaceholderNotice status="missing">
+          <PlaceholderNotice
+            status="missing"
+            publicText="Please call, email or use the form to get in touch."
+          >
             Opening hours have not yet been supplied by the owner (see
             /CONTENT_REQUIRED.md), so they are not shown here. Please call,
             email, or use the form to get in touch for now.

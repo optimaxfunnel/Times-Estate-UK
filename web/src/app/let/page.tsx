@@ -49,7 +49,10 @@ export default function LetPage() {
             </p>
           </div>
           <ValuationTermsNotice />
-          <PlaceholderNotice status="missing">
+          <PlaceholderNotice
+            status="missing"
+            publicText="Ask us for a written quote for letting or management."
+          >
             Fee information for letting and management has not yet been
             supplied, so it is not published here.
           </PlaceholderNotice>

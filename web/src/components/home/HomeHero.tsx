@@ -25,8 +25,8 @@ export function HomeHero() {
             Browse London Properties
           </h1>
           <p className="mt-5 max-w-md text-base leading-relaxed text-white/80 sm:text-lg">
-            Homes, investments and commercial spaces across London. Find your
-            next move with a trusted local expert.
+            Homes and commercial property to buy and rent, from our office
+            on Upper Tooting Road in South West London.
           </p>
         </div>
         <HeroSearchCard />

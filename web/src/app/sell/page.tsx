@@ -37,7 +37,10 @@ export default function SellPage() {
             </ol>
           </div>
           <ValuationTermsNotice />
-          <PlaceholderNotice status="missing">
+          <PlaceholderNotice
+            status="missing"
+            publicText="Ask us for a written fee quote when we contact you."
+          >
             Our fee structure has not yet been supplied, so it is not published
             here. Ask us for a fee quote when we contact you.
           </PlaceholderNotice>

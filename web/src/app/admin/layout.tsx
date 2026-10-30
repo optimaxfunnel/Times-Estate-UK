@@ -60,6 +60,12 @@ export default async function AdminLayout({
                 Leads
               </Link>
             )}
+            <Link
+              href="/admin/content"
+              className="text-sm text-ink hover:text-accent"
+            >
+              Content
+            </Link>
             {hasPermission(role, "view_audit_log") && (
               <Link
                 href="/admin/audit"

@@ -33,7 +33,7 @@ export default function CommercialPage() {
       <PageHero
         eyebrow="Commercial"
         title="Commercial sales, lettings and management"
-        intro="A dedicated commercial service for landlords, occupiers and investors — separate from our residential team."
+        intro="Sales, lettings and management for commercial property owners, occupiers and investors."
       />
 
       <Section>
