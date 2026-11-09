@@ -1,83 +1,21 @@
 import Link from "next/link";
-import { footerNav, headerNav, siteConfig } from "@/lib/site-config";
-import { socialProfiles } from "@/lib/social-config";
+import { footerNav, siteConfig } from "@/lib/site-config";
 import { Container } from "@/components/ui/Container";
 import { Badge } from "@/components/ui/Badge";
-import { BrandLockup } from "@/components/brand/BrandLockup";
-import { SocialLinks } from "@/components/social/SocialLinks";
-import { IconMail, IconMobile, IconPhone } from "@/components/icons";
 
 /**
- * Light footer to the owner's 2026-10-20 reference: one row of lockup ·
- * top-level navigation · contact details · social links, then the
- * detailed link columns and the regulatory/legal line the reference
- * doesn't show but a UK estate agency's site must carry
- * (COMPLIANCE_REGISTER.md).
+ * Light footer: the detailed link columns and the regulatory/legal line
+ * a UK estate agency's site must carry (COMPLIANCE_REGISTER.md).
  */
 export function Footer() {
   const year = new Date().getFullYear();
 
   return (
     <footer className="mt-auto border-t border-border bg-surface text-ink">
-      <Container
-        size="wide"
-        className="flex flex-col gap-6 py-8 lg:flex-row lg:items-center lg:justify-between"
-      >
-        <Link href="/" className="inline-flex rounded-sm">
-          <BrandLockup size="sm" />
-        </Link>
-
-        <nav aria-label="Footer">
-          <ul className="flex flex-wrap items-center gap-x-5 gap-y-2 text-sm">
-            {headerNav.map((item) => (
-              <li key={item.label}>
-                <Link href={item.href} className="hover:text-accent">
-                  {item.label}
-                </Link>
-              </li>
-            ))}
-          </ul>
-        </nav>
-
-        <ul className="flex flex-wrap items-center gap-x-5 gap-y-2 text-sm">
-          <li>
-            <a
-              href="tel:+442086728080"
-              className="inline-flex min-h-6 items-center gap-2 hover:text-accent"
-            >
-              <IconPhone className="h-4 w-4 text-accent" />
-              {siteConfig.phoneLandline.value}
-            </a>
-          </li>
-          <li>
-            <a
-              href="tel:+447779991313"
-              className="inline-flex min-h-6 items-center gap-2 hover:text-accent"
-            >
-              <IconMobile className="h-4 w-4 text-accent" />
-              {siteConfig.phoneMobile.value}
-            </a>
-          </li>
-          <li>
-            <a
-              href={`mailto:${siteConfig.email.value}`}
-              className="inline-flex min-h-6 items-center gap-2 hover:text-accent"
-            >
-              <IconMail className="h-4 w-4 text-accent" />
-              {siteConfig.email.value}
-            </a>
-          </li>
-        </ul>
-
-        {/* Primary sitewide social location. Renders nothing until at
-            least one profile is enabled with a real URL (social-config.ts). */}
-        <SocialLinks profiles={socialProfiles} variant="footer" />
-      </Container>
-
-      <nav
-        aria-label="Site directory"
-        className="border-t border-border bg-accent-tint/40"
-      >
+      {/* 2026-11-09: the top strip (logo, menu links, phones, email and the
+          footer social-links slot) was removed at the owner's request.
+          Phones remain in the header; email and social links on /contact. */}
+      <nav aria-label="Site directory" className="bg-accent-tint/40">
         {/* One landmark for the whole link directory: a nav per column
             gave screen-reader users seven near-identical landmarks. */}
         <Container

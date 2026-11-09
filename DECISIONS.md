@@ -9,6 +9,19 @@
 
 ---
 
+### 2026-11-09 — Footer top strip removed (owner decision)
+
+- **Decision (owner):** remove the footer's top row: the logo, the
+  repeated menu links, both phone numbers and the email address. The
+  owner's words: "Remove this from the website as I didn't need it on
+  website".
+- **Effect:** phone numbers stay in the header and on `/contact`; the
+  email address now appears only on `/contact`. The footer's social-
+  links slot went with the strip. All channels are switched off anyway,
+  and social links still have places on `/contact` and in the mobile
+  menu. The link columns, regulatory details and company line are
+  unchanged.
+
 ### 2026-11-09 — Intro video stays on every first-visited page (owner decision)
 
 - **Decision (owner):** keep the full-screen intro video on whichever
