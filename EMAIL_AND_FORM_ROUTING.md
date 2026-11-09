@@ -55,6 +55,26 @@ is a separate mechanism, not a `Lead` — see `SITEMAP.md` §20: it stores
 a match request, and the alert *email* itself needs the transactional
 sender in §5 below, not yet built either.
 
+**Update 2026-11-09: domain and existing email.** The owner confirms
+they can log in where `timesestates.co.uk` is registered. Its public DNS
+shows it is run by **20i** (StackDNS, managed in StackCP), with email
+**already hosted on 20i StackMail** (MX `mx.stackmail.com`). SPF allows
+only StackMail and the web server
+(`v=spf1 include:spf.stackmail.com a mx -all`), and DMARC is already at
+`p=quarantine`.
+
+**Recommendation (pending the owner's choice):** use the email hosting
+the business already has, with no new supplier and no DNS change:
+- `hello@timesestates.co.uk` as the monitored mailbox;
+- `noreply@timesestates.co.uk` as the website's sender (StackMail SMTP),
+  for staff notifications and Supabase sign-in emails.
+
+A dedicated sending service (Resend, Postmark) remains an option if
+volume grows. Adding one means editing SPF and DKIM first, because the
+current `-all` plus `quarantine` would otherwise send its mail to spam.
+Sections below that assume Google Workspace, Microsoft 365 or Zoho, or
+starting DMARC at `p=none`, predate this finding.
+
 **Domain status:** `timesestates.co.uk` is recorded elsewhere
 (`CONTENT_VERIFICATION_REGISTER.md` item 11) as supplied by the owner,
 **not independently verified as owned/controlled by Times Estate
