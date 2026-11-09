@@ -81,7 +81,7 @@ export async function startDevSession(role: Role): Promise<void> {
     path: "/admin",
     maxAge: SESSION_TTL_SECONDS,
   });
-  recordAuditEvent({
+  await recordAuditEvent({
     actor: role,
     action: "sign_in",
     propertyId: "-",
@@ -94,7 +94,7 @@ export async function endSession(): Promise<void> {
   const store = await cookies();
   store.delete({ name: COOKIE, path: "/admin" });
   if (session) {
-    recordAuditEvent({
+    await recordAuditEvent({
       actor: session.role,
       action: "sign_out",
       propertyId: "-",

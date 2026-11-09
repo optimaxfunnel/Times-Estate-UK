@@ -254,7 +254,7 @@ choose from, not a decision made on their behalf.
 | Successful production build | ✅ Confirmed (`QA_REPORT.md` §2) |
 | No unresolved critical/major defects | ❌ **Not met** — critical hang defect open |
 | Environment variables set for production | ❌ Not started — see table below |
-| Real, persistent database connected | ❌ Not started — see §1, §11 |
+| Real, persistent database connected | ⚠️ Chosen and built (Supabase, London); owner to create the account and connect it — see §11 |
 | Real authentication for `/admin` | ❌ Still a development-only mock |
 | Domain owned and DNS access confirmed | ❌ Unconfirmed — see §3 |
 | Email provider chosen and configured | ❌ Not started — see `EMAIL_AND_FORM_ROUTING.md` |
@@ -425,13 +425,38 @@ not an enhancement.** Once one exists:
 
 ## 11. Real database — launch prerequisite, not originally in this phase's list, added because §1 and §10 both depend on it
 
-Not part of Phase 7's own checklist, but both the hosting-architecture
-finding (§1) and the disaster-recovery finding (§10) independently
-point to the same prerequisite, so it's recorded here rather than left
-implicit. `INTEGRATIONS.md` already compares database options; none
-chosen. Migrating the existing `PropertyProvider` and lead-store
-interfaces to a real database requires no page or component changes,
-by design — only the implementation behind those interfaces changes.
+**Status 2026-11-09: chosen and built; not yet connected.**
+
+- **Owner decision:** Supabase, London region, Pro plan (about £20 a
+  month; confirm the price at sign-up). See `DECISIONS.md`.
+- **Built and tested:** enquiries, property records and the activity
+  log are stored in PostgreSQL. Tables are created automatically on
+  first connection (`web/src/lib/db/schema.ts`), with row-level
+  security on, so Supabase's public API can read nothing. A test proves
+  data survives a restart. Until `DATABASE_URL` is set, the site uses
+  a local PostgreSQL saved in `web/.data/` (this computer only).
+
+### Owner's steps to connect Supabase (about 15 minutes)
+
+1. Sign up at supabase.com with the business email, and create a
+   project. **Region: London (eu-west-2).** Choose a strong database
+   password and keep it in a password manager.
+2. Upgrade the project to the **Pro** plan. It gives daily backups,
+   and the free plan pauses after a week without visitors.
+3. In the dashboard, accept Supabase's **Data Processing Agreement**
+   (UK GDPR) and keep a copy.
+4. Project → **Connect** → copy the **"Transaction pooler"** connection
+   string (port 6543) and put your database password into it.
+5. Paste it as `DATABASE_URL=…` into the file `web/.env` on this
+   computer. **Do not paste it into chat, email or GitHub.** On the
+   live site it goes in the hosting provider's environment settings.
+6. Tell the developer "Supabase is connected". They then start the
+   site, which creates the tables; check the tables show "RLS enabled"
+   in Supabase; run the full checks against it; and test a backup
+   restore into a separate project (R6/R7) before any launch.
+
+**Remaining before launch:** steps 1–6, and a decision on when real
+listings replace the samples (then set `SEED_DEMO_PROPERTIES=false`).
 
 ## 12. Rollback procedure
 

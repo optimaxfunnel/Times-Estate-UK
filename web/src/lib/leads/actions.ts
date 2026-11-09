@@ -152,7 +152,7 @@ export async function submitLeadForm(
     extra.assignedStaff = property?.assignedStaffMemberId ?? "unassigned";
   }
 
-  const lead = createLead({
+  const lead = await createLead({
     category,
     sourcePage,
     propertyReference,

@@ -25,8 +25,9 @@
 - [ ] Testing with a screen-reader user
 - [x] **Next.js upgrade approved and applied (9 Nov):** 16.4.5; website
   dependencies have 0 known vulnerabilities; all checks re-run
-- [ ] **Choose and connect a database**, so that leads aren't lost
-  on restart
+- [x] **Database chosen and built (9 Nov):** Supabase, London; data now
+  survives restarts (tested)
+- [ ] **Owner: create the Supabase account and connect it** (`DEPLOYMENT.md` §11)
 - [ ] **Real staff sign-in with two-step verification**
 - [ ] **Email provider, form recipients and reply-to addresses**
   approved

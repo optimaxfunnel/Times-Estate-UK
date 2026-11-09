@@ -33,8 +33,8 @@ function form(over: Record<string, string> = {}, files: File[] = []): FormData {
 const jpeg = (name = "leak.jpg") =>
   new File([new Uint8Array([0xff, 0xd8, 0xff, 0xe0, ...new Array(60).fill(0)])], name, { type: "image/jpeg" });
 
-beforeEach(() => {
-  __resetLeadsForTests();
+beforeEach(async () => {
+  await __resetLeadsForTests();
   __resetRateLimitForTests();
 });
 
@@ -42,7 +42,7 @@ describe("repair reports", () => {
   it("logs a report with its urgency as the lead priority", async () => {
     const r = await submitRepairReport(idle, form());
     expect(r.status).toBe("success");
-    const lead = getLeadById(r.reference!)!;
+    const lead = (await getLeadById(r.reference!))!;
     expect(lead.category).toBe("repair_report");
     expect(lead.priority).toBe("urgent");
     expect(lead.extra?.attachments).toBe("none");
@@ -52,14 +52,14 @@ describe("repair reports", () => {
     const r = await submitRepairReport(idle, form({ urgency: "emergency" }));
     expect(r.message).toMatch(/emergency/i);
     expect(r.message).toMatch(/do not wait/i);
-    expect(getLeadById(r.reference!)!.priority).toBe("emergency");
+    expect((await getLeadById(r.reference!))!.priority).toBe("emergency");
   });
 
   it("requires consent to share details with a contractor", async () => {
     const r = await submitRepairReport(idle, form({ contractorShareConsent: "" }));
     expect(r.status).toBe("error");
     expect(r.fieldErrors!.contractorShareConsent).toBeTruthy();
-    expect(listLeads()).toHaveLength(0);
+    expect((await listLeads())).toHaveLength(0);
   });
 
   it("rejects an invented issue category or urgency", async () => {
@@ -70,7 +70,7 @@ describe("repair reports", () => {
   it("checks a real photo but does not keep it", async () => {
     const r = await submitRepairReport(idle, form({}, [jpeg()]));
     expect(r.status).toBe("success");
-    expect(getLeadById(r.reference!)!.extra?.attachments).toMatch(/not kept/);
+    expect((await getLeadById(r.reference!))!.extra?.attachments).toMatch(/not kept/);
   });
 
   it("rejects a program disguised as a photo", async () => {
@@ -88,6 +88,6 @@ describe("repair reports", () => {
   it("stores nothing for a bot", async () => {
     const r = await submitRepairReport(idle, form({ website: "x" }));
     expect(r.status).toBe("success");
-    expect(listLeads()).toHaveLength(0);
+    expect((await listLeads())).toHaveLength(0);
   });
 });

@@ -24,8 +24,8 @@ const contact = {
   privacyConsent: "on",
 };
 
-beforeEach(() => {
-  __resetLeadsForTests();
+beforeEach(async () => {
+  await __resetLeadsForTests();
   __resetRateLimitForTests();
 });
 
@@ -36,7 +36,7 @@ describe("lead form submission", () => {
       form({ ...contact, leadCategory: "sales_valuation", sourcePage: "/sell", propertyAddress: "1 Test Road, SW17" }),
     );
     expect(r.status).toBe("success");
-    const lead = getLeadById(r.reference!)!;
+    const lead = (await getLeadById(r.reference!))!;
     expect(lead.category).toBe("sales_valuation");
     expect(lead.sourcePage).toBe("/sell");
     expect(lead.consentGiven).toBe(true);
@@ -49,7 +49,7 @@ describe("lead form submission", () => {
       const r = await submitLeadForm(idle, form({ ...contact, leadCategory }));
       expect(r.status).toBe("error");
     }
-    expect(listLeads()).toHaveLength(0);
+    expect((await listLeads())).toHaveLength(0);
   });
 
   it("lists each missing required field", async () => {
@@ -61,7 +61,7 @@ describe("lead form submission", () => {
     expect(Object.keys(r.fieldErrors!)).toEqual(
       expect.arrayContaining(["fullName", "email", "phone", "propertyAddress", "currentlyTenanted"]),
     );
-    expect(listLeads()).toHaveLength(0);
+    expect((await listLeads())).toHaveLength(0);
   });
 
   // Finding (2026-11-09, minor): the consent message only appears once the
@@ -74,7 +74,7 @@ describe("lead form submission", () => {
     );
     expect(r.status).toBe("error");
     expect(r.fieldErrors!.privacyConsent).toMatch(/Privacy Policy/);
-    expect(listLeads()).toHaveLength(0);
+    expect((await listLeads())).toHaveLength(0);
   });
 
   it("pretends to succeed for a bot but stores nothing", async () => {
@@ -84,7 +84,7 @@ describe("lead form submission", () => {
     );
     expect(r.status).toBe("success");
     expect(r.reference).toBeUndefined();
-    expect(listLeads()).toHaveLength(0);
+    expect((await listLeads())).toHaveLength(0);
   });
 
   it("asks a person to wait after repeated submissions", async () => {
@@ -107,7 +107,7 @@ describe("lead form submission", () => {
         $ACTION_ID_abc: "1",
       }),
     );
-    const lead = getLeadById(r.reference!)!;
+    const lead = (await getLeadById(r.reference!))!;
     expect(lead.contactName).toBe("Test Person");
     expect(lead.detail).toBe("xHello");
     expect(lead.extra ?? {}).not.toHaveProperty("leadCategory");
@@ -120,7 +120,7 @@ describe("lead form submission", () => {
       idle,
       form({ ...contact, leadCategory: "general_enquiry", sourcePage: "https://evil.example/x", message: "hi" }),
     );
-    expect(getLeadById(r.reference!)!.sourcePage).toBe("/");
+    expect((await getLeadById(r.reference!))!.sourcePage).toBe("/");
   });
 
   it("rejects viewing dates in the past", async () => {

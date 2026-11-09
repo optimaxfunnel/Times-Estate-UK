@@ -1,3 +1,4 @@
+import { randomUUID } from "node:crypto";
 import type {
   Lead,
   LeadCategory,
@@ -6,12 +7,13 @@ import type {
 } from "@/lib/leads/types";
 import { recordAuditEvent } from "@/lib/auth/audit-log";
 import { logNotificationAttempt } from "@/lib/leads/notify";
+import { getDb, __truncateAllForTests } from "@/lib/db/client";
 
 /**
- * In-memory lead store — a stand-in for a real CRM/database, exactly like
- * `DemoPropertyProvider` (see /web/src/lib/property/provider.ts). Resets
- * when the server restarts. No customer data is imported here; every lead
- * is created by a real form submission during this running session.
+ * Lead store, kept in the database (`leads` table) since 2026-11-09 so
+ * enquiries survive restarts. Each lead is stored whole as JSON; stage and
+ * category are copied into their own columns for filtering. Every lead is
+ * created by a real form submission — none is imported.
  */
 
 export interface CreateLeadInput {
@@ -28,9 +30,6 @@ export interface CreateLeadInput {
   priority?: LeadPriority;
 }
 
-let leads: Lead[] = [];
-let counter = 0;
-
 function defaultPriority(
   category: LeadCategory,
   extra?: Record<string, string>,
@@ -44,11 +43,23 @@ function defaultPriority(
   return "routine";
 }
 
-export function createLead(input: CreateLeadInput): Lead {
-  counter += 1;
+type Row = { data: Lead | string };
+const parse = (r: Row): Lead =>
+  typeof r.data === "string" ? (JSON.parse(r.data) as Lead) : r.data;
+
+async function save(lead: Lead): Promise<void> {
+  const db = await getDb();
+  await db.query(
+    "update leads set data = $2::jsonb, stage = $3, updated_at = $4 where id = $1",
+    [lead.id, JSON.stringify(lead), lead.stage, lead.updatedAt],
+  );
+}
+
+export async function createLead(input: CreateLeadInput): Promise<Lead> {
   const now = new Date().toISOString();
   const lead: Lead = {
-    id: `lead-${counter}-${Date.now().toString(36)}`,
+    // Unique without a shared counter, so ids never repeat after a restart.
+    id: `lead-${Date.now().toString(36)}-${randomUUID().slice(0, 6)}`,
     createdAt: now,
     updatedAt: now,
     category: input.category,
@@ -73,8 +84,13 @@ export function createLead(input: CreateLeadInput): Lead {
   lead.notificationStatus = notifyResult.status;
   lead.notificationLog.push(notifyResult.log);
 
-  leads.push(lead);
-  recordAuditEvent({
+  const db = await getDb();
+  await db.query(
+    `insert into leads (id, data, category, stage, created_at, updated_at)
+     values ($1, $2::jsonb, $3, $4, $5, $5)`,
+    [lead.id, JSON.stringify(lead), lead.category, lead.stage, now],
+  );
+  await recordAuditEvent({
     actor: "system",
     action: "create",
     propertyId: lead.propertyReference ?? lead.id,
@@ -83,36 +99,39 @@ export function createLead(input: CreateLeadInput): Lead {
   return lead;
 }
 
-export function listLeads(filter?: {
+/** Newest first (by insertion order, so same-millisecond leads stay in order). */
+export async function listLeads(filter?: {
   category?: LeadCategory;
   stage?: LeadStage;
-}): Lead[] {
-  // Newest first. Leads are always appended in creation order, so
-  // reversing is correct even when two leads share the same millisecond
-  // timestamp (sorting by createdAt alone can't distinguish those, and
-  // did produce a flaky ordering here before this fix).
-  return leads
-    .filter((l) => !filter?.category || l.category === filter.category)
-    .filter((l) => !filter?.stage || l.stage === filter.stage)
-    .slice()
-    .reverse();
+}): Promise<Lead[]> {
+  const db = await getDb();
+  const rows = await db.query<Row>(
+    `select data from leads
+     where ($1::text is null or category = $1) and ($2::text is null or stage = $2)
+     order by seq desc`,
+    [filter?.category ?? null, filter?.stage ?? null],
+  );
+  return rows.map(parse);
 }
 
-export function getLeadById(id: string): Lead | null {
-  return leads.find((l) => l.id === id) ?? null;
+export async function getLeadById(id: string): Promise<Lead | null> {
+  const db = await getDb();
+  const rows = await db.query<Row>("select data from leads where id = $1", [id]);
+  return rows[0] ? parse(rows[0]) : null;
 }
 
-export function updateLeadStage(
+export async function updateLeadStage(
   id: string,
   stage: LeadStage,
   actor: string,
-): Lead | null {
-  const lead = getLeadById(id);
+): Promise<Lead | null> {
+  const lead = await getLeadById(id);
   if (!lead) return null;
   const before = lead.stage;
   lead.stage = stage;
   lead.updatedAt = new Date().toISOString();
-  recordAuditEvent({
+  await save(lead);
+  await recordAuditEvent({
     actor,
     action: "status_change",
     propertyId: lead.id,
@@ -121,17 +140,18 @@ export function updateLeadStage(
   return lead;
 }
 
-export function assignLead(
+export async function assignLead(
   id: string,
   assignee: string,
   actor: string,
-): Lead | null {
-  const lead = getLeadById(id);
+): Promise<Lead | null> {
+  const lead = await getLeadById(id);
   if (!lead) return null;
   lead.assignedTo = assignee;
   lead.stage = lead.stage === "new" ? "assigned" : lead.stage;
   lead.updatedAt = new Date().toISOString();
-  recordAuditEvent({
+  await save(lead);
+  await recordAuditEvent({
     actor,
     action: "update",
     propertyId: lead.id,
@@ -140,7 +160,7 @@ export function assignLead(
   return lead;
 }
 
-export function updateLeadDetails(
+export async function updateLeadDetails(
   id: string,
   changes: {
     assignedTo?: string;
@@ -148,8 +168,8 @@ export function updateLeadDetails(
     followUpDate?: string | null;
   },
   actor: string,
-): Lead | null {
-  const lead = getLeadById(id);
+): Promise<Lead | null> {
+  const lead = await getLeadById(id);
   if (!lead) return null;
   const parts: string[] = [];
   if (
@@ -173,7 +193,8 @@ export function updateLeadDetails(
   }
   if (parts.length === 0) return lead;
   lead.updatedAt = new Date().toISOString();
-  recordAuditEvent({
+  await save(lead);
+  await recordAuditEvent({
     actor,
     action: "update",
     propertyId: lead.id,
@@ -182,27 +203,29 @@ export function updateLeadDetails(
   return lead;
 }
 
-export function addLeadNote(
+export async function addLeadNote(
   id: string,
   text: string,
   author: string,
-): Lead | null {
-  const lead = getLeadById(id);
+): Promise<Lead | null> {
+  const lead = await getLeadById(id);
   if (!lead) return null;
   lead.notes.push({ timestamp: new Date().toISOString(), author, text });
   lead.updatedAt = new Date().toISOString();
+  await save(lead);
   return lead;
 }
 
-export function recordLeadValuation(
+export async function recordLeadValuation(
   id: string,
   record: NonNullable<Lead["valuation"]>,
-): Lead | null {
-  const lead = getLeadById(id);
+): Promise<Lead | null> {
+  const lead = await getLeadById(id);
   if (!lead) return null;
   lead.valuation = record;
   lead.updatedAt = new Date().toISOString();
-  recordAuditEvent({
+  await save(lead);
+  await recordAuditEvent({
     actor: record.confirmedBy,
     action: "approve",
     propertyId: lead.id,
@@ -211,8 +234,7 @@ export function recordLeadValuation(
   return lead;
 }
 
-/** Test-only reset so each test file starts from a clean slate. */
-export function __resetLeadsForTests() {
-  leads = [];
-  counter = 0;
+/** Test-only reset so each test starts from a clean slate. */
+export async function __resetLeadsForTests(): Promise<void> {
+  await __truncateAllForTests();
 }

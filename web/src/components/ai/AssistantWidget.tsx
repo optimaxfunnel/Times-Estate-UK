@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { askAssistant } from "@/lib/ai/actions";
-import { AI_GREETING } from "@/lib/ai/demo-provider";
+import { AI_GREETING } from "@/lib/ai/greeting";
 import type { AIMessage, AISource } from "@/lib/ai/provider";
 import { Button } from "@/components/ui/Button";
 

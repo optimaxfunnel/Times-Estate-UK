@@ -9,6 +9,27 @@
 
 ---
 
+## 9 November 2026 — database layer
+
+| Check | Result |
+|---|---|
+| Automated tests | ✅ 269 / 269 (40 files), including: **data survives the database being closed and reopened**; sample listings loaded once only; row-level security on for all three tables |
+| Type-check, lint, `npm audit --omit=dev` | ✅ Pass; 0 vulnerabilities |
+| Production build | ✅ 42 routes; build uses an in-memory database (no shared folder between build workers) |
+| **Real restart test on the running site** | ✅ Enquiry sent through `/sell` (ref `lead-mw92iuy5-61ba4a`) → site **stopped** → database read directly: the enquiry, its activity-log entry and the 9 sample listings were all there → site restarted and working |
+| Forms, JavaScript on/off | ✅ As before: leads created; server stays responsive |
+| Accessibility (axe) | ✅ 74 scans, 0 violations; no sideways scrolling |
+
+**Defect found and fixed during this work:** the first run on the live
+server failed with a server error on form submission. The local
+database folder was neither created nor placed in a fixed location.
+Now it is always `web/.data/pglite` and is created when missing. The
+restart test now uses a not-yet-existing folder, so it would catch
+this.
+
+**Not yet tested:** a connection to the real Supabase database (it
+needs the owner's account; see `DEPLOYMENT.md` §11).
+
 ## 9 November 2026 — after the Next.js upgrade (16.3.4 → 16.4.5)
 
 Run against a clean production build on Next.js 16.4.5.

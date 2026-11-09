@@ -4,6 +4,7 @@ import { searchKnowledgeBase } from "@/lib/ai/knowledge-base";
 import { propertyProvider } from "@/lib/property/provider";
 import { formatPriceLabel } from "@/lib/property/format";
 import { toPublicProperty } from "@/lib/property/types";
+import { AI_GREETING } from "@/lib/ai/greeting";
 
 /**
  * Phrases typical of prompt-injection or data-extraction attempts. The
@@ -32,8 +33,7 @@ export function looksLikeInjection(query: string): boolean {
   return INJECTION.test(query);
 }
 
-const GREETING =
-  "Hello — I'm the Times Estate Ltd AI assistant (demonstration mode). I can help you find a page, search for a property, or start a callback/viewing request. I can't give legal, financial or valuation advice, and everything I suggest is reviewed by a person before anything is sent.";
+const GREETING = AI_GREETING;
 
 const FALLBACK =
   "I'm not sure about that from what I've been given access to. I can help with property search, valuations, viewings, repairs or general enquiries — or I can point you to a member of the team.";
@@ -147,4 +147,4 @@ export class DemoAIProvider implements AIProvider {
 }
 
 export const aiProvider: AIProvider = new DemoAIProvider();
-export const AI_GREETING = GREETING;
+export { AI_GREETING };

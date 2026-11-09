@@ -70,7 +70,7 @@ export async function updateLeadStageAction(
     priority,
     followUpDate,
   } = parsed.data;
-  const existing = getLeadById(id);
+  const existing = await getLeadById(id);
   if (!existing) return { status: "error", message: "Lead not found." };
   const decision = canChangeLeadStage(
     role,
@@ -79,7 +79,7 @@ export async function updateLeadStageAction(
     accessConfirmed === "on",
   );
   if (!decision.allowed) {
-    recordAuditEvent({
+    await recordAuditEvent({
       actor: role,
       action: "denied",
       propertyId: id,
@@ -91,18 +91,18 @@ export async function updateLeadStageAction(
     existing.category === "viewing_request" &&
     stage === "appointment_booked"
   ) {
-    addLeadNote(id, "Access confirmed with the occupier by staff.", role);
+    await addLeadNote(id, "Access confirmed with the occupier by staff.", role);
   }
-  updateLeadDetails(
+  await updateLeadDetails(
     id,
     { assignedTo, priority, followUpDate: followUpDate || null },
     role,
   );
-  const lead = updateLeadStage(id, stage, role);
+  const lead = await updateLeadStage(id, stage, role);
   if (!lead) return { status: "error", message: "Lead not found." };
 
   if (note) {
-    addLeadNote(id, note, role);
+    await addLeadNote(id, note, role);
   }
 
   revalidatePath("/admin/leads");
@@ -138,11 +138,11 @@ export async function recordValuationAction(
     };
   }
   const { id, figure, basis, valuerReference } = parsed.data;
-  const lead = getLeadById(id);
+  const lead = await getLeadById(id);
   if (!lead) return { status: "error", message: "Lead not found." };
   const decision = canRecordValuation(role, lead, basis, valuerReference);
   if (!decision.allowed) {
-    recordAuditEvent({
+    await recordAuditEvent({
       actor: role,
       action: "denied",
       propertyId: id,
@@ -150,7 +150,7 @@ export async function recordValuationAction(
     });
     return { status: "error", message: decision.reason };
   }
-  recordLeadValuation(id, {
+  await recordLeadValuation(id, {
     figure,
     basis: basis as
       "initial_appraisal" | "formal_valuation" | "regulated_valuation",

@@ -47,3 +47,6 @@ qa-screenshots/
 
 # Recovery working files and backups (2026-11-09) — large; kept locally only
 _recovery/
+
+# Local development database (PGlite) — may contain test enquiries; never commit
+.data/

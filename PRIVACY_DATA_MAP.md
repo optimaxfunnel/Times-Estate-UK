@@ -7,6 +7,16 @@
 > Anything dated 9 November was added after the restore. See
 > `RECOVERY_REPORT_2026-11-09.md`.
 
+> **Update 2026-11-09 — database.** Enquiries, property records and the
+> activity log are now stored in a PostgreSQL database and survive
+> restarts. Supabase in the London region (UK data residency, daily
+> backups on the Pro plan) has been chosen but is not yet connected; until
+> it is, the data is kept in a local database on this computer
+> (`web/.data/`, never uploaded). Row-level security is on for every
+> table, so Supabase's public API cannot read customer details. Retention
+> periods and a deletion process are still for the owner to set. Sections
+> below that say "in-memory" describe the position before this change.
+
 
 ## Day 5 Task 6 update (2026-10-29) — data map
 

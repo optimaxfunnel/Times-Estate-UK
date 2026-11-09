@@ -77,6 +77,9 @@ const longCache = [
 
 const nextConfig: NextConfig = {
   poweredByHeader: false,
+  // Database drivers run on the server as normal Node packages (PGlite
+  // loads its PostgreSQL engine from files at runtime), not bundled.
+  serverExternalPackages: ["@electric-sql/pglite", "postgres"],
   experimental: {
     serverActions: {
       // Just above the 20MB repair-upload total (file-upload.ts), so the

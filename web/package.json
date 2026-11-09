@@ -13,7 +13,9 @@
     "check:contrast": "node scripts/check-contrast.mjs"
   },
   "dependencies": {
+    "@electric-sql/pglite": "0.5.11",
     "next": "16.4.5",
+    "postgres": "3.4.9",
     "react": "19.2.8",
     "react-dom": "19.2.8",
     "zod": "^4.5.4"

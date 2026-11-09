@@ -63,7 +63,7 @@ export async function updatePropertyAction(
   ];
   const refused = checks.find((d) => !d.allowed);
   if (refused && !refused.allowed) {
-    recordAuditEvent({
+    await recordAuditEvent({
       actor: role,
       action: "denied",
       propertyId: id,

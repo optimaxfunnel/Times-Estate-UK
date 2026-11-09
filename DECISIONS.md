@@ -9,6 +9,27 @@
 
 ---
 
+### 2026-11-09 — Database: Supabase, London region (owner decision)
+
+- **Decision (owner):** "Supabase (London)", from the recommendation
+  of Supabase in the London region on the Pro plan (about £20 a month).
+- **Why recommended:** UK data residency; daily backups on Pro; standard
+  PostgreSQL, so no lock-in. The same supplier can also cover two more
+  launch blockers (staff sign-in with two-step verification, and
+  private repair-photo storage), giving one supplier and one DPA.
+  Those two are **not** decided yet.
+- **Built (no account, no cost):** a database layer for enquiries,
+  properties and the activity log; PGlite (in-app PostgreSQL) locally
+  and for tests; `postgres` 3.4.9 for Supabase. Both packages were
+  pinned to releases at least two weeks old. Row-level security is on
+  for every table.
+- **Not done (owner steps):** Supabase account, Pro plan, DPA,
+  connection string in `web/.env`. Steps in `DEPLOYMENT.md` §11.
+- **Judgement call (recorded):** sample listings are loaded into an
+  empty properties table while `SEED_DEMO_PROPERTIES` is not "false",
+  so the site behaves as before. Set it to "false" once real listings
+  exist.
+
 ### 2026-11-09 — Next.js security upgrade approved and applied (owner decision)
 
 - **Approval (owner):** "Approve Next.js upgrade", given in reply to the

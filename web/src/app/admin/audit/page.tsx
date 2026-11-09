@@ -17,7 +17,7 @@ export default async function AdminAuditPage() {
     );
   }
 
-  const events = getAuditLog();
+  const events = await getAuditLog();
 
   return (
     <div>

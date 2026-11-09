@@ -9,6 +9,23 @@
 
 ---
 
+## 2026-11-09 — Database layer (owner chose Supabase, London)
+
+- Enquiries, property records and the activity log now live in
+  PostgreSQL (`web/src/lib/db/`) and survive restarts. Local and test
+  runs use PGlite; Supabase connects through `DATABASE_URL`.
+- Row-level security on every table; tables created automatically.
+- Added `@electric-sql/pglite` 0.5.11 and `postgres` 3.4.9, pinned and
+  at least two weeks old. Website dependencies: 0 known
+  vulnerabilities.
+- The assistant button no longer pulls server code (and the sample
+  listings) into visitors' browsers: its greeting moved to
+  `lib/ai/greeting.ts`.
+- Fixed before commit: the local database folder was not created when
+  missing; a test now covers it.
+- 269 tests (new: data survives a restart; samples loaded once;
+  row-level security on).
+
 ## 2026-11-09 — Next.js security upgrade (owner approved)
 
 - `next` and `eslint-config-next` 16.3.4 → 16.4.5. Website

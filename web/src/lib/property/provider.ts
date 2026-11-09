@@ -11,12 +11,15 @@ import {
 } from "@/lib/property/types";
 import { demoProperties } from "@/data/demo-properties";
 import { recordAuditEvent } from "@/lib/auth/audit-log";
+import { getDb } from "@/lib/db/client";
 
 /**
  * The adapter boundary for property data.
  *
- * Today, the only implementation is `DemoPropertyProvider`, backed by an
- * in-memory array of fabricated demonstration properties. No live CRM or
+ * Today, the implementation is `DbPropertyProvider`: properties are kept in
+ * the database (`properties` table) since 2026-11-09, so edits and status
+ * changes survive restarts. While no real listings exist, an empty table is
+ * filled with the fabricated, clearly labelled sample properties. No live CRM or
  * portal is connected — see /INTEGRATIONS.md for the comparison of real
  * providers (Reapit, Alto, Dezrez, Jupix, Street, SME Professional) and
  * what each would require.
@@ -225,19 +228,51 @@ function sortProperties(
   }
 }
 
+type Row = { data: Property | string };
+const parse = (r: Row): Property =>
+  typeof r.data === "string" ? (JSON.parse(r.data) as Property) : r.data;
+
 /**
- * In-memory demonstration provider. Mutations persist only for the
- * lifetime of the running server process — restarting `next dev` resets
- * everything back to /web/src/data/demo-properties.ts.
+ * Sample listings are loaded into an EMPTY properties table only, and only
+ * while SEED_DEMO_PROPERTIES is not "false". Set it to "false" once real
+ * listings replace the samples, so a cleared table is never refilled with
+ * fabricated data (CLAUDE.md Rules 1–2).
  */
-class DemoPropertyProvider implements PropertyProvider {
-  private items: Property[] = [...demoProperties];
+const seedDemoProperties = () => process.env.SEED_DEMO_PROPERTIES !== "false";
+
+/** `ifNew`: skip silently if the id exists (makes sample loading safe to repeat). */
+async function insertProperty(p: Property, ifNew = false): Promise<void> {
+  const db = await getDb();
+  await db.query(
+    `insert into properties (id, data, status, created_at, updated_at)
+     values ($1, $2::jsonb, $3, $4, $5)${ifNew ? " on conflict (id) do nothing" : ""}`,
+    [p.id, JSON.stringify(p), p.status, p.createdAt, p.updatedAt],
+  );
+}
+
+/**
+ * Database-backed provider. The property volume of a single agency is
+ * small (hundreds at most), so records are read whole and the existing,
+ * tested filter and sort logic above runs unchanged on them.
+ */
+class DbPropertyProvider implements PropertyProvider {
+  private async all(): Promise<Property[]> {
+    const db = await getDb();
+    let rows = await db.query<Row>("select data from properties");
+    if (rows.length === 0 && seedDemoProperties()) {
+      // Two first visitors may both get here; "on conflict do nothing"
+      // makes the second load a harmless no-op.
+      for (const p of demoProperties) await insertProperty(p, true);
+      rows = await db.query<Row>("select data from properties");
+    }
+    return rows.map(parse);
+  }
 
   async list(params: PropertyListParams): Promise<PropertyListResult> {
     const page = Math.max(1, params.page ?? 1);
     const pageSize = params.pageSize ?? DEFAULT_PAGE_SIZE;
 
-    let scoped = this.items;
+    let scoped = await this.all();
     if (params.statuses) {
       scoped = scoped.filter((p) => params.statuses!.includes(p.status));
     } else if (!params.includeNonPublicStatuses) {
@@ -260,12 +295,16 @@ class DemoPropertyProvider implements PropertyProvider {
   }
 
   async getById(id: string): Promise<Property | null> {
-    return this.items.find((p) => p.id === id) ?? null;
+    await this.all(); // makes sure sample listings are loaded on first use
+    const db = await getDb();
+    const rows = await db.query<Row>("select data from properties where id = $1", [id]);
+    return rows[0] ? parse(rows[0]) : null;
   }
 
   async create(input: Property, actor: string): Promise<Property> {
-    this.items.push(input);
-    recordAuditEvent({
+    await this.all();
+    await insertProperty(input);
+    await recordAuditEvent({
       actor,
       action: "create",
       propertyId: input.id,
@@ -279,24 +318,27 @@ class DemoPropertyProvider implements PropertyProvider {
     patch: Partial<Property>,
     actor: string,
   ): Promise<Property> {
-    const index = this.items.findIndex((p) => p.id === id);
-    if (index === -1) throw new Error(`Property ${id} not found`);
-    const before = this.items[index];
+    const before = await this.getById(id);
+    if (!before) throw new Error(`Property ${id} not found`);
     const updated: Property = {
       ...before,
       ...patch,
       updatedAt: new Date().toISOString(),
     };
-    this.items[index] = updated;
+    const db = await getDb();
+    await db.query(
+      "update properties set data = $2::jsonb, status = $3, updated_at = $4 where id = $1",
+      [id, JSON.stringify(updated), updated.status, updated.updatedAt],
+    );
     if (patch.status && patch.status !== before.status) {
-      recordAuditEvent({
+      await recordAuditEvent({
         actor,
         action: "status_change",
         propertyId: id,
         details: `${before.status} -> ${patch.status}`,
       });
     } else {
-      recordAuditEvent({
+      await recordAuditEvent({
         actor,
         action: "update",
         propertyId: id,
@@ -308,9 +350,8 @@ class DemoPropertyProvider implements PropertyProvider {
 }
 
 /**
- * Single shared instance for the running server process — a stand-in for
- * a real database connection pool. Replace with a real `PropertyProvider`
- * implementation once a CRM/database is approved (see /INTEGRATIONS.md);
- * every caller below already goes through this interface only.
+ * Single shared instance. A CRM feed (see /INTEGRATIONS.md) would add
+ * records through this same interface; every caller already goes through
+ * it only.
  */
-export const propertyProvider: PropertyProvider = new DemoPropertyProvider();
+export const propertyProvider: PropertyProvider = new DbPropertyProvider();

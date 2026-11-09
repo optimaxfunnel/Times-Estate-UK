@@ -25,74 +25,74 @@ const input = (over: Partial<CreateLeadInput> = {}): CreateLeadInput => ({
   ...over,
 });
 
-beforeEach(() => __resetLeadsForTests());
+beforeEach(async () => { await __resetLeadsForTests(); });
 
 describe("lead store", () => {
-  it("lists newest first and filters by type and stage", () => {
-    const a = createLead(input());
-    const b = createLead(input({ category: "callback_request" }));
-    expect(listLeads().map((l) => l.id)).toEqual([b.id, a.id]);
-    expect(listLeads({ category: "callback_request" })).toHaveLength(1);
-    updateLeadStage(a.id, "closed", "manager");
-    expect(listLeads({ stage: "closed" }).map((l) => l.id)).toEqual([a.id]);
+  it("lists newest first and filters by type and stage", async () => {
+    const a = await createLead(input());
+    const b = await createLead(input({ category: "callback_request" }));
+    expect((await listLeads()).map((l) => l.id)).toEqual([b.id, a.id]);
+    expect((await listLeads({ category: "callback_request" }))).toHaveLength(1);
+    await updateLeadStage(a.id, "closed", "manager");
+    expect((await listLeads({ stage: "closed" })).map((l) => l.id)).toEqual([a.id]);
   });
 
-  it("records the consent time when the lead is created", () => {
-    const lead = createLead(input());
+  it("records the consent time when the lead is created", async () => {
+    const lead = await createLead(input());
     expect(lead.consentTimestamp).toBe(lead.createdAt);
   });
 
-  it("sets repair priority from the urgency chosen", () => {
-    expect(createLead(input({ category: "repair_report", extra: { urgency: "emergency" } })).priority).toBe("emergency");
-    expect(createLead(input({ category: "repair_report", extra: { urgency: "urgent" } })).priority).toBe("urgent");
-    expect(createLead(input({ category: "repair_report" })).priority).toBe("routine");
-    expect(createLead(input()).priority).toBe("routine");
+  it("sets repair priority from the urgency chosen", async () => {
+    expect((await createLead(input({ category: "repair_report", extra: { urgency: "emergency" } }))).priority).toBe("emergency");
+    expect((await createLead(input({ category: "repair_report", extra: { urgency: "urgent" } }))).priority).toBe("urgent");
+    expect((await createLead(input({ category: "repair_report" }))).priority).toBe("routine");
+    expect((await createLead(input())).priority).toBe("routine");
   });
 
-  it("moves a new lead to Assigned when someone is assigned", () => {
-    const lead = createLead(input());
-    expect(assignLead(lead.id, "manager", "administrator")?.stage).toBe("assigned");
+  it("moves a new lead to Assigned when someone is assigned", async () => {
+    const lead = await createLead(input());
+    expect((await assignLead(lead.id, "manager", "administrator"))?.stage).toBe("assigned");
   });
 
-  it("logs each change in the audit log", () => {
-    const lead = createLead(input());
-    updateLeadDetails(lead.id, { priority: "urgent", followUpDate: "2099-01-01" }, "manager");
-    expect(getAuditLog()[0].details).toMatch(/priority routine -> urgent.*follow-up 2099-01-01/);
+  it("logs each change in the audit log", async () => {
+    const lead = await createLead(input());
+    await updateLeadDetails(lead.id, { priority: "urgent", followUpDate: "2099-01-01" }, "manager");
+    expect((await getAuditLog())[0].details).toMatch(/priority routine -> urgent.*follow-up 2099-01-01/);
   });
 
-  it("does nothing, and logs nothing, when nothing changed", () => {
-    const lead = createLead(input());
-    const before = getAuditLog().length;
-    updateLeadDetails(lead.id, { priority: "routine" }, "manager");
-    expect(getAuditLog()).toHaveLength(before);
+  it("does nothing, and logs nothing, when nothing changed", async () => {
+    const lead = await createLead(input());
+    const before = (await getAuditLog()).length;
+    await updateLeadDetails(lead.id, { priority: "routine" }, "manager");
+    expect((await getAuditLog())).toHaveLength(before);
   });
 
-  it("keeps notes and records a confirmed valuation", () => {
-    const lead = createLead(input({ category: "sales_valuation" }));
-    addLeadNote(lead.id, "Called, left message", "manager");
-    recordLeadValuation(lead.id, {
+  it("keeps notes and records a confirmed valuation", async () => {
+    const lead = await createLead(input({ category: "sales_valuation" }));
+    await addLeadNote(lead.id, "Called, left message", "manager");
+    await recordLeadValuation(lead.id, {
       figure: 500000,
       basis: "initial_appraisal",
       confirmedBy: "manager",
       confirmedAt: new Date().toISOString(),
     });
-    const saved = getLeadById(lead.id)!;
+    const saved = (await getLeadById(lead.id))!;
     expect(saved.notes[0].text).toBe("Called, left message");
     expect(saved.valuation?.figure).toBe(500000);
-    expect(getAuditLog()[0].action).toBe("approve");
+    expect((await getAuditLog())[0].action).toBe("approve");
   });
 
-  it("returns null for an unknown lead instead of throwing", () => {
-    expect(getLeadById("nope")).toBeNull();
-    expect(updateLeadStage("nope", "closed", "manager")).toBeNull();
-    expect(addLeadNote("nope", "x", "manager")).toBeNull();
+  it("returns null for an unknown lead instead of throwing", async () => {
+    expect((await getLeadById("nope"))).toBeNull();
+    expect(await updateLeadStage("nope", "closed", "manager")).toBeNull();
+    expect(await addLeadNote("nope", "x", "manager")).toBeNull();
   });
 });
 
 describe("staff notification (no email provider connected)", () => {
-  it("records 'not sent' and never logs the customer's personal details", () => {
+  it("records 'not sent' and never logs the customer's personal details", async () => {
     const log = vi.spyOn(console, "log").mockImplementation(() => {});
-    const lead = createLead(input());
+    const lead = await createLead(input());
     expect(lead.notificationStatus).toBe("not_sent");
     expect(lead.notificationLog[0]).toMatch(/NOT SENT/);
     const written = JSON.stringify(log.mock.calls) + lead.notificationLog.join();
@@ -100,23 +100,23 @@ describe("staff notification (no email provider connected)", () => {
     log.mockRestore();
   });
 
-  it("records a delivery failure so staff know to check the list", () => {
+  it("records a delivery failure so staff know to check the list", async () => {
     const err = vi.spyOn(console, "error").mockImplementation(() => {});
-    const lead = createLead(input({ contactEmail: "faildelivery@example.com" }));
+    const lead = await createLead(input({ contactEmail: "faildelivery@example.com" }));
     expect(lead.notificationStatus).toBe("failed");
     expect(lead.notificationLog[0]).toMatch(/DELIVERY FAILED/);
     err.mockRestore();
   });
 
-  it("routes each type to the right team", () => {
+  it("routes each type to the right team", async () => {
     vi.spyOn(console, "log").mockImplementation(() => {});
-    const team = (category: CreateLeadInput["category"]) =>
-      createLead(input({ category })).notificationLog[0];
-    expect(team("sales_valuation")).toMatch(/sales team/);
-    expect(team("tenant_registration")).toMatch(/lettings team/);
-    expect(team("commercial_enquiry")).toMatch(/commercial team/);
-    expect(team("repair_report")).toMatch(/property management team/);
-    expect(team("general_enquiry")).toMatch(/general enquiries team/);
+    const team = async (category: CreateLeadInput["category"]) =>
+      (await createLead(input({ category }))).notificationLog[0];
+    expect(await team("sales_valuation")).toMatch(/sales team/);
+    expect(await team("tenant_registration")).toMatch(/lettings team/);
+    expect(await team("commercial_enquiry")).toMatch(/commercial team/);
+    expect(await team("repair_report")).toMatch(/property management team/);
+    expect(await team("general_enquiry")).toMatch(/general enquiries team/);
     vi.restoreAllMocks();
   });
 });

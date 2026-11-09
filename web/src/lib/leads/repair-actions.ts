@@ -149,7 +149,7 @@ export async function submitRepairReport(
     tenancyReference,
   } = result.data;
 
-  const lead = createLead({
+  const lead = await createLead({
     category: "repair_report",
     sourcePage: "/report-a-repair",
     propertyReference: propertyAddress,

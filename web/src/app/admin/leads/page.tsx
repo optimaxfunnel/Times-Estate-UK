@@ -19,7 +19,7 @@ export default async function AdminLeadsPage() {
     return <Alert tone="danger">Your current role cannot view leads.</Alert>;
   }
 
-  const leads = listLeads();
+  const leads = await listLeads();
   const canManage = hasPermission(role, "manage_leads");
 
   return (

@@ -27,7 +27,7 @@ export default async function AdminLeadDetailPage({
     return <Alert tone="danger">Your current role cannot view leads.</Alert>;
   }
 
-  const lead = getLeadById(id);
+  const lead = await getLeadById(id);
   if (!lead) notFound();
 
   if (!hasPermission(role, "manage_leads")) {

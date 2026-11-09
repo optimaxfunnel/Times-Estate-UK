@@ -140,7 +140,7 @@ describe("submitLeadForm", () => {
       }),
     );
     expect(r.status).toBe("success");
-    const lead = r.reference ? getLeadById(r.reference) : undefined;
+    const lead = r.reference ? await getLeadById(r.reference) : undefined;
     expect(lead?.category).toBe("rental_valuation");
     expect(lead?.sourcePage).toBe("/let");
     expect(lead?.extra).not.toHaveProperty("leadCategory");
