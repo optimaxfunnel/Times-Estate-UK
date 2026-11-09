@@ -9,6 +9,23 @@
 
 ---
 
+## 9 November 2026 — email-link page and Supabase sign-in settings
+
+- **Supabase settings** (done in the owner's Chrome, with permission):
+  public sign-up **off** (confirmed through Supabase's public settings);
+  Site URL `http://localhost:3100/admin/auth/callback`; redirect URLs
+  `/admin/auth/callback` and `/admin/auth/confirm` (confirmed after
+  reloading the page).
+- **Found:** email templates cannot be edited without custom SMTP.
+  Built `/admin/auth/callback` to handle Supabase's default links (tokens
+  after "#").
+- **Tested in a real browser on the production build:** a link with no
+  tokens, and a link with forged tokens, both end on sign-in with the
+  "link expired" message and **no session cookie**; the admin area stays
+  closed. Type-check, lint and 282/282 tests pass.
+- **Still untested:** a real invitation end to end (needs the owner's
+  role row and invitation, steps 5–6).
+
 ## 9 November 2026 — staff sign-in (Supabase Auth)
 
 | Check | Result |

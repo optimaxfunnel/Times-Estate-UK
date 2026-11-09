@@ -9,6 +9,13 @@
 
 ---
 
+## 2026-11-09 — Email-link page; Supabase sign-in settings applied
+
+- New `/admin/auth/callback` page handles Supabase's default
+  invitation and reset links. Templates are locked until custom SMTP.
+- Supabase: public sign-up off; Site URL and redirect URLs set
+  (`DEPLOYMENT.md` §11b, steps 1–4 complete).
+
 ## 2026-11-09 — Staff sign-in with two-step verification (Supabase Auth)
 
 - New pages: staff sign-in, two-step code (set-up with QR code, or

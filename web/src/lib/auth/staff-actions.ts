@@ -80,6 +80,33 @@ export async function verifyTwoStepCodeAction(formData: FormData): Promise<void>
   redirect(pathFor(decision));
 }
 
+const linkSchema = z.object({
+  access_token: z.string().min(20),
+  refresh_token: z.string().min(1),
+  type: z.string().optional(),
+});
+
+/**
+ * Finishes an invitation or reset link that arrived with tokens after "#"
+ * (Supabase's default email templates). The tokens are checked with
+ * Supabase before a session is set; anything else is refused.
+ */
+export async function acceptEmailLinkAction(formData: FormData): Promise<void> {
+  requireConfigured();
+  const limit = await checkRateLimit("admin-email-link");
+  if (!limit.allowed) redirect("/admin/sign-in?error=too_many");
+  const parsed = linkSchema.safeParse(Object.fromEntries(formData.entries()));
+  if (!parsed.success) redirect("/admin/sign-in?error=link");
+  const supabase = await createSupabaseServer();
+  const { data, error } = await supabase.auth.setSession({
+    access_token: parsed.data.access_token,
+    refresh_token: parsed.data.refresh_token,
+  });
+  if (error || !data.user) redirect("/admin/sign-in?error=link");
+  // Invitations and resets both go on to choose a password.
+  redirect("/admin/set-password");
+}
+
 const passwordSchema = z
   .object({
     password: z.string().min(12),
@@ -116,7 +143,7 @@ export async function forgotPasswordAction(formData: FormData): Promise<void> {
     const origin = `${h.get("x-forwarded-proto") ?? "http"}://${h.get("host")}`;
     const supabase = await createSupabaseServer();
     await supabase.auth.resetPasswordForEmail(parsed.data.email, {
-      redirectTo: `${origin}/admin/auth/confirm`,
+      redirectTo: `${origin}/admin/auth/callback`,
     });
   }
   redirect("/admin/forgot-password?sent=1");

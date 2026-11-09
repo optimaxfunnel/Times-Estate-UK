@@ -467,22 +467,24 @@ email and password, then a 6-digit code from an authenticator app.
 Access also needs a row in the `staff_roles` table, which only the
 owner edits. Without all three, the admin area stays closed.
 
-### Owner's steps in Supabase (about 15 minutes)
+### Owner's steps in Supabase (steps 1–4 complete; 5–7 remain)
 
-1. **Authentication → Sign In / Providers:** switch **off** "Allow new
-   users to sign up". Leave the Email provider on. Only invited staff
-   should ever have accounts.
-2. **Authentication → Multi-Factor:** make sure **Authenticator app
-   (TOTP)** is enabled (it is by default). Phone/SMS is not needed.
-3. **Authentication → URL Configuration:** set **Site URL** to
-   `http://localhost:3100` for now (the live address once the site is
-   launched), and add `http://localhost:3100/admin/auth/confirm` to the
-   **Redirect URLs**.
-4. **Authentication → Emails → Templates:**
-   - **Invite user:** make the link
-     `{{ .SiteURL }}/admin/auth/confirm?token_hash={{ .TokenHash }}&type=invite`
-   - **Reset password:** make the link
-     `{{ .SiteURL }}/admin/auth/confirm?token_hash={{ .TokenHash }}&type=recovery`
+1. ✅ **Done 2026-11-09 (by the developer, in the owner's Chrome, with permission):**
+   public sign-up switched **off** (Authentication → Sign In / Providers).
+2. ✅ **Authenticator app (TOTP)** is Supabase's default; nothing to change.
+3. ✅ **Done 2026-11-09:** Authentication → URL Configuration. **Site URL**
+   is `http://localhost:3100/admin/auth/callback`. **Redirect URLs** are
+   `http://localhost:3100/admin/auth/callback` and
+   `http://localhost:3100/admin/auth/confirm`. At launch, change all three
+   to the live address.
+4. **Email templates: not changeable yet.** Supabase only allows editing
+   them once emails go through your own email service (custom SMTP).
+   The default emails work anyway: they bring people to
+   `/admin/auth/callback`, which hands the one-time tokens to the server
+   and wipes them from the address bar. Once SMTP is set up, the templates
+   can instead link to
+   `{{ .SiteURL }}`-based `/admin/auth/confirm?token_hash={{ .TokenHash }}&type=invite`
+   (or `type=recovery`). Both routes are supported.
 5. **Table Editor → staff_roles → Insert row,** one per person:
    **email** in lower case, and **role**, which must be one of
    `administrator`, `manager`, `property_editor`, `content_editor` or

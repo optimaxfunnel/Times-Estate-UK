@@ -14,7 +14,7 @@ import { createServerClient } from "@supabase/ssr";
  * the signed session, the two-step verification level and the role on
  * the server via `requireRole()` (lib/auth/session.ts).
  */
-const OPEN_PATHS = ["/admin/sign-in", "/admin/forgot-password", "/admin/auth/confirm"];
+const OPEN_PATHS = ["/admin/sign-in", "/admin/forgot-password", "/admin/auth/confirm", "/admin/auth/callback"];
 
 export async function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;
