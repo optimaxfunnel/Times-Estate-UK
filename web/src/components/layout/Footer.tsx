@@ -2,9 +2,10 @@ import Link from "next/link";
 import { footerNav, siteConfig } from "@/lib/site-config";
 import { Container } from "@/components/ui/Container";
 import { Badge } from "@/components/ui/Badge";
+import { BrandLockup } from "@/components/brand/BrandLockup";
 
 /**
- * Light footer: the detailed link columns and the regulatory/legal line
+ * Light footer: the logo, the detailed link columns and the regulatory/legal line
  * a UK estate agency's site must carry (COMPLIANCE_REGISTER.md).
  */
 export function Footer() {
@@ -12,9 +13,18 @@ export function Footer() {
 
   return (
     <footer className="mt-auto border-t border-border bg-surface text-ink">
-      {/* 2026-11-09: the top strip (logo, menu links, phones, email and the
-          footer social-links slot) was removed at the owner's request.
+      {/* 2026-11-09: the top strip (menu links, phones, email and the
+          footer social-links slot) was removed at the owner's request;
+          the owner then asked for the logo alone to be added back.
           Phones remain in the header; email and social links on /contact. */}
+      <div className="bg-accent-tint/40">
+        <Container size="wide" className="pt-8">
+          {/* The lockup's visible text names this link (WCAG 2.5.3), as in the header. */}
+          <Link href="/" className="inline-flex rounded-sm">
+            <BrandLockup />
+          </Link>
+        </Container>
+      </div>
       <nav aria-label="Site directory" className="bg-accent-tint/40">
         {/* One landmark for the whole link directory: a nav per column
             gave screen-reader users seven near-identical landmarks. */}

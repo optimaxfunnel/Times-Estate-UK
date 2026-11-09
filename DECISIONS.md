@@ -21,6 +21,10 @@
   and social links still have places on `/contact` and in the mobile
   menu. The link columns, regulatory details and company line are
   unchanged.
+- **Follow-up (owner, same day):** "Add this logo in the footer". The
+  logo lockup (emblem and live-text wordmark, as in the header) is back
+  at the top of the footer on its own, linking to the homepage. The
+  menu links, phones and email stay removed.
 
 ### 2026-11-09 — Intro video stays on every first-visited page (owner decision)
 
