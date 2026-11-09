@@ -9,6 +9,23 @@
 
 ---
 
+## 9 November 2026 — staff sign-in (Supabase Auth)
+
+| Check | Result |
+|---|---|
+| Automated tests | ✅ 282 / 282 (41 files). New: password alone never admits; unverified email refused; no role (or an unknown role) refused; email matching ignores capitals; `staff_roles` accepts only the five roles and lower-case emails; row-level security on; tests cannot reach live Supabase Auth |
+| Type-check, lint, `npm audit --omit=dev` | ✅ Pass; 0 vulnerabilities |
+| Production build | ✅ 44 routes, with the admin proxy active. One build warning about dynamic filesystem tracing on `/admin/two-step` (harmless; review at hosting) |
+| Signed-out visitor, every admin page | ✅ Redirected to `/admin/sign-in` (two-step and set-password pages included) |
+| Forged invitation link | ✅ Refused by Supabase → "link expired" message |
+| Unsupported link type | ✅ Refused |
+| Accessibility (axe) on sign-in, its error states and forgotten password | ✅ 8 scans, 0 violations; no sideways scrolling |
+| `staff_roles` in Supabase | ✅ Created, row-level security on, 0 policies |
+
+**Not yet tested:** a complete sign-in with a real staff account
+(invite, password, QR set-up, code, role). It needs the owner to
+invite someone; the developer may not create accounts.
+
 ## 9 November 2026 — live Supabase database connected (Ireland, eu-west-1)
 
 | Check | Result |

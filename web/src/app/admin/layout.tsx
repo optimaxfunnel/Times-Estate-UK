@@ -4,6 +4,7 @@ import { getSession } from "@/lib/auth/session";
 import { hasPermission, ROLE_LABELS } from "@/lib/auth/roles";
 import { RoleSwitcher } from "@/components/admin/RoleSwitcher";
 import { Container } from "@/components/ui/Container";
+import { signOutAction } from "@/lib/property/admin-actions";
 
 /**
  * Applies to every page under /admin. This is defence-in-depth for
@@ -36,7 +37,7 @@ export default async function AdminLayout({
 
   return (
     <div className="min-h-screen bg-secondary/5">
-      <RoleSwitcher currentRole={role} />
+      {session.provider === "dev-mock" && <RoleSwitcher currentRole={role} />}
       <header className="border-b border-border bg-surface">
         <Container className="flex h-16 items-center justify-between">
           <nav aria-label="Admin" className="flex items-center gap-6">
@@ -75,10 +76,22 @@ export default async function AdminLayout({
               </Link>
             )}
           </nav>
-          <p className="text-sm text-ink/70">
-            Signed in as{" "}
-            <span className="font-medium text-ink">{ROLE_LABELS[role]}</span>
-          </p>
+          <div className="flex items-center gap-4">
+            <p className="text-sm text-ink/70">
+              Signed in as{" "}
+              <span className="font-medium text-ink">{ROLE_LABELS[role]}</span>
+            </p>
+            {session.provider === "supabase" && (
+              <form action={signOutAction}>
+                <button
+                  type="submit"
+                  className="min-h-6 rounded-sm border border-border-strong px-3 py-1 text-sm text-ink hover:border-accent hover:text-accent"
+                >
+                  Sign out
+                </button>
+              </form>
+            )}
+          </div>
         </Container>
       </header>
       <Container className="py-8">{children}</Container>

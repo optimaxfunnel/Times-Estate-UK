@@ -31,6 +31,16 @@ export const SCHEMA_STATEMENTS: readonly string[] = [
      updated_at  timestamptz not null
    )`,
   `create index if not exists leads_category_stage_idx on leads (category, stage)`,
+  // Who may use the admin area, and with which role. Edited only by the
+  // owner in Supabase's table editor; staff can never change their own role.
+  // Matched to the signed-in, email-confirmed Supabase account by email.
+  `create table if not exists staff_roles (
+     email         text primary key check (email = lower(email)),
+     role          text not null check (role in ('administrator','manager','property_editor','content_editor','enquiry_viewer')),
+     display_name  text,
+     created_at    timestamptz not null default now()
+   )`,
+  `alter table staff_roles enable row level security`,
   `create table if not exists audit_events (
      seq         bigserial primary key,
      at          timestamptz not null default now(),

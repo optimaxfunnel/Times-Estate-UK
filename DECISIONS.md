@@ -9,6 +9,32 @@
 
 ---
 
+### 2026-11-09 — Staff sign-in: Supabase Auth with two-step verification (owner decision)
+
+- **Decision (owner):** "Supabase Auth". Recommended over Auth.js
+  (two-step verification would have to be built by hand, which is the
+  riskiest option) and Clerk (another supplier, data mostly in the US,
+  and a likely fee for two-step verification).
+- **Built:** sign-in on the server only (the browser never talks to
+  Supabase, so the security policy is unchanged). Admission needs a
+  password, **plus** a 6-digit authenticator-app code (session level
+  "aal2"), **plus** an owner-assigned row in `staff_roles`.
+  - Invitation and password-reset links go through
+    `/admin/auth/confirm`.
+  - Refused attempts are logged without the typed email address.
+  - Sign-in steps are rate-limited.
+- **Judgement calls (recorded):**
+  - Roles are matched by **confirmed email** in a table the owner
+    edits in Supabase, rather than by Supabase's internal user id,
+    because that is far easier for a non-technical owner. Changing an
+    email in Supabase requires confirming it, so this is safe.
+  - Authenticator-app codes, not SMS: free, and harder to intercept.
+  - The development test sign-in now appears only when Supabase Auth
+    is not configured.
+- **Packages:** `@supabase/supabase-js` 2.118.0 and `@supabase/ssr`
+  0.12.7, pinned and at least two weeks old.
+- **Owner steps:** `DEPLOYMENT.md` §11b.
+
 ### 2026-11-09 — Supabase project kept in Ireland, not London (owner decision)
 
 - **Found:** the owner's new Supabase project (`cpisoyatzpdbhakfymcq`)

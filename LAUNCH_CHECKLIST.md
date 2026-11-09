@@ -30,6 +30,9 @@
 - [x] **Supabase connected (9 Nov):** tables created with row-level security; enquiries saved and read back
 - [ ] **Owner: confirm the Pro plan and accept the DPA** in Supabase; **test a backup restore** once the first daily backup exists
 - [x] **Test enquiries removed** from Supabase (9 Nov, owner request; deletion logged)
+- [x] **Staff sign-in built (9 Nov):** Supabase Auth, password + authenticator code + owner-assigned role
+- [ ] **Owner: Supabase sign-in settings and staff invitations** (`DEPLOYMENT.md` §11b); then a full sign-in test with a real account
+- [ ] Supabase emails through the business email service (SMTP) before launch
 - [ ] Switch off sample listings (`SEED_DEMO_PROPERTIES=false`) when real ones arrive
 - [ ] **Real staff sign-in with two-step verification**
 - [ ] **Email provider, form recipients and reply-to addresses**

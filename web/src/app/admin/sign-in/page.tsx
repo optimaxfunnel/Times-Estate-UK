@@ -1,14 +1,50 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import { redirect } from "next/navigation";
 import { ROLES, ROLE_LABELS, permissionsFor } from "@/lib/auth/roles";
-import { getSession, isDevSignInEnabled } from "@/lib/auth/session";
+import {
+  getSession,
+  isDevSignInEnabled,
+  isSupabaseAuthConfigured,
+} from "@/lib/auth/session";
 import { devSignInAction } from "@/lib/property/admin-actions";
+import { staffSignInAction } from "@/lib/auth/staff-actions";
 import { Alert } from "@/components/ui/Alert";
+import { AuthPage, TextInput, buttonClass } from "@/components/admin/AuthForm";
 
 export const metadata: Metadata = { title: "Admin — Sign in" };
 
-export default async function AdminSignInPage() {
+export default async function AdminSignInPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ error?: string }>;
+}) {
+  const { error } = await searchParams;
   if (await getSession()) redirect("/admin/properties");
+
+  // Real staff sign-in (Supabase Auth, with two-step verification).
+  if (isSupabaseAuthConfigured()) {
+    return (
+      <AuthPage
+        title="Staff sign-in"
+        intro="For Times Estate Ltd staff only. After your password you'll be asked for a 6-digit code from your authenticator app."
+        error={error}
+      >
+        <form action={staffSignInAction} className="space-y-4">
+          <TextInput label="Email address" name="email" type="email" autoComplete="username" />
+          <TextInput label="Password" name="password" type="password" autoComplete="current-password" />
+          <button type="submit" className={buttonClass}>
+            Continue
+          </button>
+        </form>
+        <p className="mt-6 text-sm">
+          <Link href="/admin/forgot-password" className="text-accent underline underline-offset-2">
+            Forgotten your password?
+          </Link>
+        </p>
+      </AuthPage>
+    );
+  }
 
   if (!isDevSignInEnabled()) {
     return (
@@ -29,10 +65,9 @@ export default async function AdminSignInPage() {
     <div className="mx-auto max-w-2xl py-12">
       <h1 className="text-2xl font-semibold text-ink">Development sign-in</h1>
       <Alert tone="warning" title="Not real authentication" className="mt-4">
-        This sign-in exists only on a development computer, to test what each
-        role can do. It has no accounts or passwords and is switched off
-        automatically in a production build. Real staff sign-in (Auth.js or
-        another approved service) replaces it before the site goes live.
+        This sign-in exists only on a development computer without Supabase
+        configured, to test what each role can do. It has no accounts or
+        passwords and is switched off automatically in a production build.
       </Alert>
       <form action={devSignInAction} className="mt-6 space-y-3">
         <fieldset className="space-y-2">
@@ -62,10 +97,7 @@ export default async function AdminSignInPage() {
             </label>
           ))}
         </fieldset>
-        <button
-          type="submit"
-          className="rounded-sm bg-accent px-5 py-2.5 text-sm font-semibold text-white hover:bg-accent-dark"
-        >
+        <button type="submit" className={buttonClass}>
           Sign in
         </button>
       </form>

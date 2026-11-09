@@ -459,6 +459,64 @@ not an enhancement.** Once one exists:
 **Remaining before launch:** steps 1–6, and a decision on when real
 listings replace the samples (then set `SEED_DEMO_PROPERTIES=false`).
 
+## 11b. Staff sign-in — Supabase Auth with two-step verification
+
+**Status 2026-11-09: built and tested on this computer; no staff invited yet.**
+Owner decision: Supabase Auth (DECISIONS.md). Staff sign in with an
+email and password, then a 6-digit code from an authenticator app.
+Access also needs a row in the `staff_roles` table, which only the
+owner edits. Without all three, the admin area stays closed.
+
+### Owner's steps in Supabase (about 15 minutes)
+
+1. **Authentication → Sign In / Providers:** switch **off** "Allow new
+   users to sign up". Leave the Email provider on. Only invited staff
+   should ever have accounts.
+2. **Authentication → Multi-Factor:** make sure **Authenticator app
+   (TOTP)** is enabled (it is by default). Phone/SMS is not needed.
+3. **Authentication → URL Configuration:** set **Site URL** to
+   `http://localhost:3100` for now (the live address once the site is
+   launched), and add `http://localhost:3100/admin/auth/confirm` to the
+   **Redirect URLs**.
+4. **Authentication → Emails → Templates:**
+   - **Invite user:** make the link
+     `{{ .SiteURL }}/admin/auth/confirm?token_hash={{ .TokenHash }}&type=invite`
+   - **Reset password:** make the link
+     `{{ .SiteURL }}/admin/auth/confirm?token_hash={{ .TokenHash }}&type=recovery`
+5. **Table Editor → staff_roles → Insert row,** one per person:
+   **email** in lower case, and **role**, which must be one of
+   `administrator`, `manager`, `property_editor`, `content_editor` or
+   `enquiry_viewer`. Optionally add a **display_name**. Start with
+   yourself as `administrator`.
+6. **Authentication → Users → Invite user:** enter the same email.
+7. The person opens the email → chooses a password (12+ characters) →
+   scans the QR code with Google or Microsoft Authenticator → types the
+   6-digit code → is in.
+
+**When someone leaves:** delete their row in `staff_roles` (access stops
+at their next page) **and** delete the user under Authentication → Users.
+
+**Email limits:** Supabase's built-in email sender only allows a few
+emails an hour and is meant for testing. That is fine for inviting a
+handful of staff, but before launch it should send through the
+business's email service (the email-provider decision; Authentication →
+Emails → SMTP Settings).
+
+### What was tested (2026-11-09)
+
+Every admin page redirects a signed-out visitor to sign-in. A forged
+invitation link is refused by Supabase. 0 accessibility violations on
+the new pages. 10 new automated tests cover the access rules: password
+alone never admits; no role means no access; role and email checks;
+row-level security on `staff_roles`. **Not yet tested end to end with a
+real staff account:** that needs the owner's invitation (step 6). The
+developer cannot create accounts on the owner's behalf.
+
+**Build note:** the build reports "dynamic filesystem access" for the
+admin two-step page (from the local-database helper). It is harmless
+but should be checked when the hosting provider is chosen, as it can
+enlarge serverless bundles.
+
 ## 12. Rollback procedure
 
 1. Every deployment is tied to a specific Git commit (automatic on

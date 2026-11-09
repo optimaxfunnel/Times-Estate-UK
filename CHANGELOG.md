@@ -9,6 +9,20 @@
 
 ---
 
+## 2026-11-09 — Staff sign-in with two-step verification (Supabase Auth)
+
+- New pages: staff sign-in, two-step code (set-up with QR code, or
+  code entry), choose a password, forgotten password; plus the
+  email-link handler `/admin/auth/confirm`.
+- Every admin page and action requires a password, an authenticator
+  code and an owner-assigned role (`staff_roles` table, row-level
+  security on).
+- The admin header has a Sign out button; the development banner
+  shows only in test mode.
+- Added `@supabase/supabase-js` 2.118.0 and `@supabase/ssr` 0.12.7.
+  Website dependencies: 0 known vulnerabilities.
+- 282 tests (10 new); 0 accessibility violations on the new pages.
+
 ## 2026-11-09 — Supabase connected (project in Ireland, owner decision)
 
 - The live database is connected on this computer; tables created with
