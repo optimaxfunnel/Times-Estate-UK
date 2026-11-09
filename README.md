@@ -50,9 +50,9 @@ server-hang fixed on Day 7; a test enforces it.
 2. ~~A database~~ — **connected 2026-11-09** (Supabase, project in Ireland).
    Still to do: confirm the Pro plan and DPA, and test a backup restore
    (`DEPLOYMENT.md` §11).
-3. ~~Real staff sign-in~~ — **built 2026-11-09** (Supabase Auth with
-   two-step verification). The owner still has to complete the Supabase
-   settings and invite staff (`DEPLOYMENT.md` §11b).
+3. ~~Real staff sign-in~~ — **working 2026-11-09** (Supabase Auth with
+   two-step verification; owner signed in as Administrator). Other staff
+   are invited the same way (`DEPLOYMENT.md` §11b).
 4. **Fees** — tenant and landlord fees and VAT position must be
    published.
 5. **Verification** of the Property Redress Scheme and Client Money

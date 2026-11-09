@@ -176,7 +176,7 @@ material.
   (**Update 2026-11-09:** the owner approved the upgrade; Next.js is now
   16.4.5, and website dependencies have 0 known vulnerabilities.)
   **Launch is still blocked** by: ~~the Next.js update~~ (done), ~~the database~~ (Supabase connected 2026-11-09, project in Ireland/eu-west-1 by owner decision; restore test pending), ~~no
-  real staff sign-in~~ (Supabase Auth built 2026-11-09; owner to invite staff) with two-step verification, unpublished fees,
+  real staff sign-in~~ (Supabase Auth working 2026-11-09; owner signed in as Administrator) with two-step verification, unpublished fees,
   unverified redress/CMP memberships, and outstanding solicitor review.
   Staff guide: `OPERATIONS_MANUAL.md` (rewritten Day 7).
 - **2026-11-09 — recovery of an incomplete copy (not a numbered

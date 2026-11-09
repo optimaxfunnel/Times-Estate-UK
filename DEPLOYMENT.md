@@ -461,13 +461,13 @@ listings replace the samples (then set `SEED_DEMO_PROPERTIES=false`).
 
 ## 11b. Staff sign-in — Supabase Auth with two-step verification
 
-**Status 2026-11-09: built and tested on this computer; no staff invited yet.**
+**Status 2026-11-09: working.** The owner signed in as Administrator with two-step verification (TEST_REPORT.md).
 Owner decision: Supabase Auth (DECISIONS.md). Staff sign in with an
 email and password, then a 6-digit code from an authenticator app.
 Access also needs a row in the `staff_roles` table, which only the
 owner edits. Without all three, the admin area stays closed.
 
-### Owner's steps in Supabase (steps 1–4 complete; 5–7 remain)
+### Owner's steps in Supabase (all complete for the owner; repeat 5–7 for each further staff member)
 
 1. ✅ **Done 2026-11-09 (by the developer, in the owner's Chrome, with permission):**
    public sign-up switched **off** (Authentication → Sign In / Providers).

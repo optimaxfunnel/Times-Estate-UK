@@ -9,6 +9,26 @@
 
 ---
 
+## 9 November 2026 — first real staff sign-in (owner, Administrator)
+
+The owner added an `administrator` row in `staff_roles`, invited
+themselves from Supabase, and completed the whole flow on this
+computer's production build.
+
+| Check (read directly from Supabase) | Result |
+|---|---|
+| Public sign-up | ✅ Off |
+| Role row | ✅ `administrator`, lower-case email, display name set |
+| Account | ✅ Invited, email confirmed, password set |
+| Authenticator app | ✅ One verified factor; no half-finished set-ups left |
+| Session | ✅ Level **aal2** (password **and** 6-digit code verified) |
+| Website activity log | ✅ "administrator sign_in — Staff sign-in with two-step verification" (×2); the earlier failed attempt is logged as "denied" without the email |
+| Server log | ✅ No errors |
+
+**Role limits** for the other four roles are covered by the automated
+tests. A live check needs one account per role; the owner can also
+switch their own role temporarily to see the reduced menu.
+
 ## 9 November 2026 — email-link page and Supabase sign-in settings
 
 - **Supabase settings** (done in the owner's Chrome, with permission):
