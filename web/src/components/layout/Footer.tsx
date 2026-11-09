@@ -71,12 +71,15 @@ export function Footer() {
       </nav>
 
       <div className="border-t border-border py-5">
-        {/* 2026-11-09: stacked one statement per line, to the owner's layout.
+        {/* 2026-11-09: one statement per line in two side-by-side blocks (stacked on phones), to the owner's layout.
             The company number is a Companies Act trading disclosure, so it is
             labelled as such (the owner's mock-up said "Call", but it is not a
             phone number). Left-aligned, so it stays clear of the fixed
             "Ask the assistant" button in the bottom-right corner. */}
-        <Container size="wide" className="space-y-6 text-xs text-ink/60">
+        <Container
+          size="wide"
+          className="grid gap-6 text-xs text-ink/60 md:grid-cols-2 md:items-center md:gap-10"
+        >
           <div className="space-y-1.5">
             <p>
               &copy; {year} {siteConfig.legalName.value}. All rights reserved.
