@@ -519,6 +519,48 @@ admin two-step page (from the local-database helper). It is harmless
 but should be checked when the hosting provider is chosen, as it can
 enlarge serverless bundles.
 
+## 11c. Email — the business's existing 20i StackMail
+
+**Status 2026-11-09: built, switched off.** Owner decision: use the
+email hosting `timesestates.co.uk` already has at 20i (StackMail)
+rather than a new supplier. Its strict SPF (`-all`) and DMARC
+(`quarantine`) already allow StackMail, so no DNS change is needed.
+
+**What the website sends (once switched on):** one email to staff per
+new enquiry, from `Times Estate Ltd website <noreply@timesestates.co.uk>`
+to `hello@timesestates.co.uk`. It holds **no customer personal data**:
+only the type, reference, priority, time (UK) and a link to the
+enquiry in the admin area. Emergency repairs are flagged in the
+subject. No emails go to customers (that is a separate decision).
+
+### Owner's steps
+
+1. **StackCP → Email:** check which mailboxes exist for
+   `timesestates.co.uk`. Create `hello@` (if missing) and `noreply@`,
+   each with a strong password kept in a password manager.
+2. **StackCP → the noreply@ mailbox → Email Configuration:** confirm
+   the outgoing server. Expected: `smtp.stackmail.com`, port `465`
+   (SSL). If it differs, tell the developer.
+3. **Supabase → Authentication → Emails → SMTP Settings:** switch on
+   custom SMTP and enter:
+   - sender email `noreply@timesestates.co.uk`, sender name
+     `Times Estate Ltd`;
+   - host `smtp.stackmail.com`, port `465`;
+   - username `noreply@timesestates.co.uk`, and the noreply@
+     **password (you type this yourself)**.
+
+   This removes Supabase's few-emails-an-hour limit and lets the
+   invitation and reset templates be customised later.
+4. **web/.env on this computer:** after `SMTP_PASSWORD=`, paste the
+   noreply@ password and save. Every other email setting is already
+   filled in. **Never paste the password into chat.**
+5. **Approve** the recipient (`hello@timesestates.co.uk`) and the
+   wording (see TEST_REPORT.md, "staff email"). The developer then sets
+   `EMAIL_NOTIFICATIONS=on` and sends one test.
+
+On the live site, the same settings go into the hosting provider's
+environment settings, never into git.
+
 ## 12. Rollback procedure
 
 1. Every deployment is tied to a specific Git commit (automatic on

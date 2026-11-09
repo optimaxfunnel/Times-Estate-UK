@@ -9,6 +9,17 @@
 
 ---
 
+## 2026-11-09 — Staff email notifications via 20i StackMail (switched off)
+
+- New `lib/leads/email.ts`: one staff email per enquiry, with no
+  customer personal data; emergencies flagged. Sends only when
+  configured and `EMAIL_NOTIFICATIONS=on`.
+- Added `nodemailer` 10.2.1 (and its types). Website dependencies: 0
+  known vulnerabilities.
+- Owner steps in `DEPLOYMENT.md` §11c; settings in `.env.example`
+  section 5.
+- 286 tests.
+
 ## 2026-11-09 — Email-link page; Supabase sign-in settings applied
 
 - New `/admin/auth/callback` page handles Supabase's default

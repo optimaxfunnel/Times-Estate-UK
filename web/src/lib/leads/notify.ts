@@ -1,17 +1,16 @@
 import type { Lead } from "@/lib/leads/types";
+import { emailConfig, sendStaffEmail } from "@/lib/leads/email";
 
 /**
  * Internal-notification boundary.
  *
- * IMPORTANT: no real outbound email is sent anywhere in this codebase.
- * CLAUDE.md Rule 4 and today's brief both require the owner's explicit
- * approval of a recipient address, reply-to address, wording, retention
- * rule and service provider before any real email goes out — none of
- * that exists yet (see /INTEGRATIONS.md). Every "notification" today is
- * logged to the server console and recorded on the lead itself, so the
- * *behaviour* (including failure handling) can be built and tested now,
- * and swapped for a real provider later without changing any calling
- * code — same adapter pattern as `PropertyProvider`.
+ * Since 2026-11-09 a real staff email is sent through the business's
+ * 20i StackMail, but ONLY when it is configured and switched on with
+ * EMAIL_NOTIFICATIONS=on (lib/leads/email.ts). That switch is the owner's
+ * go-ahead on recipient and wording (CLAUDE.md Rule 4). Until then, and
+ * always in tests, each notification is recorded on the lead as "not
+ * sent", and the failure path is exercised with a simulated outage.
+ * Either way the outcome is stored on the lead and shown to staff.
  */
 
 export interface NotificationResult {
@@ -47,6 +46,26 @@ export function logNotificationAttempt(lead: Lead): NotificationResult {
   const log = `[${timestamp}] NOT SENT (no email provider approved) — lead ${lead.id} (${lead.category}) logged for the ${assignedTeamFor(lead)} team. View it at /admin/leads/${lead.id}.`;
   console.log(log);
   return { status: "not_sent", log };
+}
+
+/**
+ * The one entry point used when a lead is created. Sends a real staff
+ * email when email notifications are configured and switched on
+ * (lib/leads/email.ts); otherwise records "not sent", as before.
+ */
+export async function notifyStaff(lead: Lead): Promise<NotificationResult> {
+  const config = emailConfig();
+  if (!config) return logNotificationAttempt(lead);
+  const timestamp = new Date().toISOString();
+  const result = await sendStaffEmail(lead, config);
+  if (result.ok) {
+    const log = `[${timestamp}] SENT staff notification for lead ${lead.id} (${lead.category}) to the ${assignedTeamFor(lead)} team.`;
+    console.log(log);
+    return { status: "sent", log };
+  }
+  const log = `[${timestamp}] DELIVERY FAILED for lead ${lead.id} (${lead.category}): ${result.error}. Staff must check the admin leads list directly.`;
+  console.error(log);
+  return { status: "failed", log };
 }
 
 function assignedTeamFor(lead: Lead): string {

@@ -6,7 +6,7 @@ import type {
   LeadStage,
 } from "@/lib/leads/types";
 import { recordAuditEvent } from "@/lib/auth/audit-log";
-import { logNotificationAttempt } from "@/lib/leads/notify";
+import { notifyStaff } from "@/lib/leads/notify";
 import { getDb, __truncateAllForTests } from "@/lib/db/client";
 
 /**
@@ -80,7 +80,7 @@ export async function createLead(input: CreateLeadInput): Promise<Lead> {
     notificationLog: [],
   };
 
-  const notifyResult = logNotificationAttempt(lead);
+  const notifyResult = await notifyStaff(lead);
   lead.notificationStatus = notifyResult.status;
   lead.notificationLog.push(notifyResult.log);
 

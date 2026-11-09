@@ -33,7 +33,9 @@
 - [x] **Staff sign-in built (9 Nov):** Supabase Auth, password + authenticator code + owner-assigned role
 - [x] **Supabase sign-in set up; owner signed in as Administrator with two-step verification (9 Nov)**
 - [ ] Invite the other staff members, each with the right role (`DEPLOYMENT.md` §11b steps 5–7)
-- [ ] Supabase emails through the business email service (SMTP) before launch
+- [x] **Email service chosen (9 Nov):** existing 20i StackMail; staff notifications built (off)
+- [ ] **Owner:** create hello@ and noreply@ in StackCP; enter SMTP in Supabase; add the noreply@ password to web/.env (DEPLOYMENT.md §11c)
+- [ ] **Owner:** approve the staff-email recipient and wording; then switch on and send a test
 - [ ] Switch off sample listings (`SEED_DEMO_PROPERTIES=false`) when real ones arrive
 - [ ] **Real staff sign-in with two-step verification**
 - [ ] **Email provider, form recipients and reply-to addresses**

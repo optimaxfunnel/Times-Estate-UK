@@ -9,6 +9,35 @@
 
 ---
 
+## 9 November 2026 — staff email (20i StackMail), built and switched off
+
+| Check | Result |
+|---|---|
+| Automated tests | ✅ 286 / 286. New: wording; emergency and urgent subjects; **no customer name, email, phone or message in the email**; never sends under tests |
+| Type-check, lint, `npm audit --omit=dev`, production build | ✅ Pass; 0 vulnerabilities; 44 routes |
+| Real email sent | ⏸ Not yet: waiting for the noreply@ password and the owner's approval |
+
+**Staff email wording, for the owner's approval** (example for a
+sales valuation):
+
+> **Subject:** New sales valuation (lead-…)
+>
+> A new sales valuation has arrived through the website.
+>
+> Type: Sales valuation · Priority: Routine · Received: 9 Nov 2026,
+> 10:00 (UK time) · Reference: lead-…
+>
+> Open it (staff sign-in required): https://…/admin/leads/lead-…
+>
+> Customer details are kept in the admin area only, not in this email.
+>
+> — Times Estate Ltd website (automatic message; replies are not read)
+
+Emergency repairs: the subject starts "EMERGENCY —", and the last
+line reads "This was reported as an EMERGENCY. Check it now. The
+customer was told to call the emergency services first if anyone is
+in danger."
+
 ## 9 November 2026 — first real staff sign-in (owner, Administrator)
 
 The owner added an `administrator` row in `staff_roles`, invited

@@ -9,6 +9,29 @@
 
 ---
 
+### 2026-11-09 — Email: the domain's existing 20i StackMail (owner decision)
+
+- **Found:** `timesestates.co.uk` is run by 20i and already has email
+  hosting on StackMail, with strict SPF (`-all`) and DMARC
+  (`quarantine`) that allow StackMail.
+- **Decision (owner):** "Use 20i StackMail": `hello@` as the staff
+  mailbox and `noreply@` as the website's sender. There is no new
+  supplier and no DNS change.
+- **Advised against:** sending Times Estate Ltd's email from
+  `farhan@leadfennec.com` (a different business). It would confuse
+  customers, complicate data protection, and tie the site to one
+  person's account.
+- **Built (switched off):** one staff email per new enquiry,
+  **containing no customer personal data**, only the type, reference,
+  priority, time and a link (staff sign in to see details). Emergencies
+  are flagged in the subject. It sends only when
+  `EMAIL_NOTIFICATIONS=on`, which waits for the owner's approval of
+  recipient and wording (Rule 4). Never under tests. `nodemailer`
+  10.2.1, pinned.
+- **Not built:** emails to customers. That is a separate decision on
+  wording and consent.
+- **Owner steps:** `DEPLOYMENT.md` §11c.
+
 ### 2026-11-09 — Staff sign-in: Supabase Auth with two-step verification (owner decision)
 
 - **Decision (owner):** "Supabase Auth". Recommended over Auth.js
