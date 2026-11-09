@@ -26,7 +26,7 @@ minimum Node.js 20.9).
 
 | Layer | In the project today | Current stable (2026-10-29) | Decision | Why |
 |---|---|---|---|---|
-| Framework | Next.js 16.3.4 (App Router) | **16.4.3** | **Keep; upgrade to 16.4.x before deploy** (approval needed — a package change) | 16.3.4 carries the critical advisory set found in Segment 1 (cache poisoning on self-hosted deploys, among others); fixed in 16.3.8+/16.4.x. Same major version, no rewrite |
+| Framework | Next.js **16.4.5** (App Router) — upgraded 2026-11-09, owner approved | 16.4.5 | **Done** | 16.3.4 carries the critical advisory set found in Segment 1 (cache poisoning on self-hosted deploys, among others); fixed in 16.3.8+/16.4.x. Same major version, no rewrite |
 | UI library | React 19.2.8 | **19.3.1** | Keep; upgrade alongside Next | Minor release |
 | Language | TypeScript 5, `strict: true` | 7.0.2 published | **Keep TypeScript 5.x for now** | TS 7 is a new major (native compiler); adopt only after Next.js/ESLint tooling formally supports it. Strict mode stays on |
 | Styling | Tailwind CSS 4 | 4.3.3 | Keep | Design tokens already flow through `@theme` |

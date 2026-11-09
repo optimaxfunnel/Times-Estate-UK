@@ -45,8 +45,8 @@ server-hang fixed on Day 7; a test enforces it.
 
 ## What blocks launch
 
-1. **Next.js security update** 16.3.4 → 16.4.3 (critical advisories) —
-   reply "approve the Next.js upgrade".
+1. ~~Next.js security update~~ — **done 2026-11-09** (owner approved;
+   now 16.4.5, website dependencies have 0 known vulnerabilities).
 2. **A database** — today all enquiries and staff changes are lost on
    restart.
 3. **Real staff sign-in with two-step verification** — the current

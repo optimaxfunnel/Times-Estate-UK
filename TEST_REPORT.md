@@ -9,6 +9,34 @@
 
 ---
 
+## 9 November 2026 — after the Next.js upgrade (16.3.4 → 16.4.5)
+
+Run against a clean production build on Next.js 16.4.5.
+
+| Check | Result |
+|---|---|
+| `npm audit --omit=dev` (what visitors receive) | ✅ **0 vulnerabilities** (before: 1 critical package, 11 advisories) |
+| `npm audit` (including developer tools) | ⚠️ 8 moderate, all in lint tooling (`typescript-eslint` → `minimatch`); not shipped; only offered fix is a downgrade |
+| Type-check, lint | ✅ Pass |
+| Automated tests | ✅ 266 / 266 (39 files) |
+| Colour-contrast check (`npm run check:contrast`) | ✅ Pass |
+| Production build | ✅ 42 routes, admin check (proxy) active |
+| Accessibility (axe 4.13.0) | ✅ 74 scans, 0 violations; no sideways scrolling at 6 widths |
+| Security headers / X-Powered-By / admin redirect | ✅ Present / absent / `/admin/*` → `/admin/sign-in` (307) |
+| Lighthouse, returning visitor | ✅ Desktop 100 on all 6 pages; mobile 96–100 (homepage 99 in three repeat runs, after one noisy first reading of 82) |
+| **Real form submissions, JavaScript on** | ✅ Contact, Sell and Repair each create a lead and land on the confirmation page with a reference |
+| **Real form submissions, JavaScript off** (the Day 7 server-hang scenario) | ✅ Leads created; **server responds instantly afterwards, so no hang**. ⚠️ See below. |
+
+**Open item (minor):** with JavaScript switched off, the visitor sees
+"Received — a member of the Times Estate Ltd team will be in touch",
+but the rest of the page stays on "Loading page…" and no reference
+number is shown, because the move to the confirmation page needs
+JavaScript. The enquiry itself is received. Whether 16.3.4 behaved
+the same could not be checked: the Day 7 notes on this were in the
+lost commits.
+
+---
+
 ## 9 November 2026 (later) — lost tests rewritten
 
 The tests lost in the incomplete copy were rewritten from scratch

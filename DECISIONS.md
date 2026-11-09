@@ -9,6 +9,22 @@
 
 ---
 
+### 2026-11-09 — Next.js security upgrade approved and applied (owner decision)
+
+- **Approval (owner):** "Approve Next.js upgrade", given in reply to the
+  request for "approve the Next.js upgrade". Taken as that approval.
+- **Done:** `next` and `eslint-config-next` 16.3.4 → **16.4.5**, pinned
+  exactly. The Day 7 plan named 16.4.3, but newer advisories have been
+  published since; 16.4.5 is the version that clears all 11 (two
+  critical, remote code execution). Same major version; no code
+  changes were needed.
+- **Result:** `npm audit --omit=dev` finds 0 vulnerabilities.
+  **Left as is:** 8 moderate advisories in developer-only lint tooling
+  (`typescript-eslint` → `minimatch`). They are never shipped to
+  visitors, and npm's only offered fix would downgrade the linter to an
+  older major version.
+- **Re-checked:** see `TEST_REPORT.md` (2026-11-09, Next.js upgrade).
+
 ### 2026-11-09 — Footer top strip removed (owner decision)
 
 - **Decision (owner):** remove the footer's top row: the logo, the

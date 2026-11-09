@@ -3,7 +3,8 @@
 ## Current state (2026-10-31) — read first
 
 Nothing in this document has been carried out. Before any step:
-1. The owner approves the Next.js update (16.3.4 → 16.4.3).
+1. ~~The owner approves the Next.js update~~ — **done 2026-11-09**
+   (approved by the owner; upgraded to 16.4.5).
 2. A database and a staff sign-in service are chosen and approved
    (§1, §11).
 3. The checks in `TEST_REPORT.md` (Day 7 Task 4) are re-run on the

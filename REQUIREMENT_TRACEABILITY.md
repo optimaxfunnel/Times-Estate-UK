@@ -144,7 +144,7 @@ kept as history.
 | I3 | Upload security | `lib/security/file-upload.ts`, `attachment-store.ts` | `repair-uploads.test.ts` | Complete | — |
 | I4 | Admin locked in production | `lib/auth/session.ts`, `proxy.ts` | `curl` 307 to sign-in on production build | Complete | — |
 | I5 | Real staff sign-in with MFA | — | — | Blocked | Owner to choose provider |
-| I6 | Dependencies free of critical advisories | `package.json` | `npm audit`: 1 critical (Next.js 16.3.4) | Requires owner approval | "approve the Next.js upgrade" |
+| I6 | Dependencies free of critical advisories | `package.json` | 2026-11-09: Next.js upgraded to 16.4.5 (owner approved); `npm audit --omit=dev`: 0 vulnerabilities. 8 moderate advisories remain in developer-only lint tooling (not shipped) | Done | Recheck `npm audit` before deployment |
 | I7 | No secrets or customer data in the repository | `.gitignore`, `.env.example` | Secret scan incl. full history, Day 6 | Complete | — |
 | I8 | Form submission must not hang the server | `components/forms/LeadForm.tsx` (unbound action), `lib/leads/form-config.ts` | Reproduced and CPU-profiled, root cause fixed; all 14 public forms re-submitted on a production build with the server healthy after each; `form-config.test.ts` (regression guard + 6 tests) — TEST_REPORT.md Day 7 Task 2 | Complete | — (updated 2026-10-30, Task 2) |
 

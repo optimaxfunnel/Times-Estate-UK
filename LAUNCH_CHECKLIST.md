@@ -23,8 +23,8 @@
 - [ ] **Correct the cookie table** on `/cookie-policy` (out-of-date
   cookie name; two storage items missing). Part of the solicitor review.
 - [ ] Testing with a screen-reader user
-- [ ] **Approve and apply the Next.js upgrade** ("approve the Next.js
-  upgrade")
+- [x] **Next.js upgrade approved and applied (9 Nov):** 16.4.5; website
+  dependencies have 0 known vulnerabilities; all checks re-run
 - [ ] **Choose and connect a database**, so that leads aren't lost
   on restart
 - [ ] **Real staff sign-in with two-step verification**

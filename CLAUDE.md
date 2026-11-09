@@ -173,7 +173,9 @@ material.
   forever on no-JavaScript form posts) — cross-device visual review and
   the final 18-check test suite (all pass except the Next.js 16.3.4
   dependency audit, awaiting the owner's "approve the Next.js upgrade").
-  **Launch is still blocked** by: the Next.js update, no database, no
+  (**Update 2026-11-09:** the owner approved the upgrade; Next.js is now
+  16.4.5, and website dependencies have 0 known vulnerabilities.)
+  **Launch is still blocked** by: ~~the Next.js update~~ (done), no database, no
   real staff sign-in with two-step verification, unpublished fees,
   unverified redress/CMP memberships, and outstanding solicitor review.
   Staff guide: `OPERATIONS_MANUAL.md` (rewritten Day 7).

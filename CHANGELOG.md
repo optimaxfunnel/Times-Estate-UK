@@ -9,6 +9,14 @@
 
 ---
 
+## 2026-11-09 — Next.js security upgrade (owner approved)
+
+- `next` and `eslint-config-next` 16.3.4 → 16.4.5. Website
+  dependencies: 0 known vulnerabilities (was 1 critical package
+  carrying 11 advisories).
+- Footer changes the same day (owner requests): top strip removed;
+  logo added back; bottom lines restacked into two side-by-side blocks.
+
 ## 2026-11-09 (end of day) — Git history repaired; originals restored
 
 - Repaired `.git` (HEAD and index missing; one pack file lost) on a new
