@@ -21,7 +21,8 @@ export interface AuditEvent {
     | "archive"
     | "sign_in"
     | "sign_out"
-    | "denied";
+    | "denied"
+    | "delete";
   /** The record affected (property or lead id), or "-" for session events. */
   propertyId: string;
   details: string;

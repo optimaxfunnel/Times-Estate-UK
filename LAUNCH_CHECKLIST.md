@@ -29,7 +29,8 @@
   survives restarts (tested)
 - [x] **Supabase connected (9 Nov):** tables created with row-level security; enquiries saved and read back
 - [ ] **Owner: confirm the Pro plan and accept the DPA** in Supabase; **test a backup restore** once the first daily backup exists
-- [ ] **Remove the test enquiries** from Supabase before launch, and switch off sample listings when real ones arrive
+- [x] **Test enquiries removed** from Supabase (9 Nov, owner request; deletion logged)
+- [ ] Switch off sample listings (`SEED_DEMO_PROPERTIES=false`) when real ones arrive
 - [ ] **Real staff sign-in with two-step verification**
 - [ ] **Email provider, form recipients and reply-to addresses**
   approved

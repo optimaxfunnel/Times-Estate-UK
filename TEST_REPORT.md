@@ -28,8 +28,10 @@ records (1 test enquiry, 9 sample listings), and two new tests cover
 it. The re-check found all 11 records stored as objects.
 
 **Still to do:** a backup-restore test once the first daily backup
-exists (needs the Pro plan); remove the two test enquiries (name
-"Detail Check") before launch.
+exists (needs the Pro plan). The two test enquiries ("Detail Check")
+were **deleted at the owner's request** the same day. Supabase then held
+0 enquiries and 9 sample listings, and the activity log records the
+deletion.
 
 ## 9 November 2026 — database layer
 

@@ -254,7 +254,7 @@ choose from, not a decision made on their behalf.
 | Successful production build | ✅ Confirmed (`QA_REPORT.md` §2) |
 | No unresolved critical/major defects | ❌ **Not met** — critical hang defect open |
 | Environment variables set for production | ❌ Not started — see table below |
-| Real, persistent database connected | ✅ Connected 2026-11-09 (Supabase, Ireland/eu-west-1): tables created with row-level security; enquiry saved and read back. Restore test and test-record clean-up still to do (§11) — see §11 |
+| Real, persistent database connected | ✅ Connected 2026-11-09 (Supabase, Ireland/eu-west-1): tables created with row-level security; enquiry saved and read back. Test enquiries deleted (owner request). Restore test still to do (§11) — see §11 |
 | Real authentication for `/admin` | ❌ Still a development-only mock |
 | Domain owned and DNS access confirmed | ❌ Unconfirmed — see §3 |
 | Email provider chosen and configured | ❌ Not started — see `EMAIL_AND_FORM_ROUTING.md` |
