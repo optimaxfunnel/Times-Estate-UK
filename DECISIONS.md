@@ -25,6 +25,16 @@
   logo lockup (emblem and live-text wordmark, as in the header) is back
   at the top of the footer on its own, linking to the homepage. The
   menu links, phones and email stay removed.
+- **Follow-up (owner, same day):** the footer's bottom lines were
+  restacked to the owner's mock-up, one statement per line: copyright
+  and registration; registered office; company number; then a gap and
+  the Construction line with its phone number on the next line.
+  **One deliberate difference:** the mock-up read "Call 09597081", but
+  09597081 is the Companies House registration number, not a phone
+  number, and the Companies Act trading-disclosure rules require it on
+  the website as the company number. It is shown as "Company number:
+  09597081". Easy to change if the owner wants different wording that
+  still identifies it as the company number.
 
 ### 2026-11-09 — Intro video stays on every first-visited page (owner decision)
 

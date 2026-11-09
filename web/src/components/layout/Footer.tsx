@@ -71,25 +71,33 @@ export function Footer() {
       </nav>
 
       <div className="border-t border-border py-5">
-        <Container
-          size="wide"
-          className="flex flex-col gap-2 text-xs text-ink/60 lg:flex-row lg:items-start lg:justify-between"
-        >
-          <p className="max-w-3xl">
-            &copy; {year} {siteConfig.legalName.value}. All rights reserved.
-            Registered in England &amp; Wales, company number{" "}
-            {siteConfig.companiesHouseNumber.value}. Registered office:{" "}
-            {siteConfig.registeredOffice.value}.
-          </p>
-          {/* Right margin keeps this clear of the fixed "Ask the assistant"
-              button that sits in the bottom-right corner of every page. */}
-          <p className="lg:mr-44">
-            Also offering Construction &amp; renovation services — call{" "}
-            <a href="tel:+442086738555" className="hover:text-accent">
-              {siteConfig.constructionPhone.value}
-            </a>
-            .
-          </p>
+        {/* 2026-11-09: stacked one statement per line, to the owner's layout.
+            The company number is a Companies Act trading disclosure, so it is
+            labelled as such (the owner's mock-up said "Call", but it is not a
+            phone number). Left-aligned, so it stays clear of the fixed
+            "Ask the assistant" button in the bottom-right corner. */}
+        <Container size="wide" className="space-y-6 text-xs text-ink/60">
+          <div className="space-y-1.5">
+            <p>
+              &copy; {year} {siteConfig.legalName.value}. All rights reserved.
+              Registered in England &amp; Wales.
+            </p>
+            <p>Registered office: {siteConfig.registeredOffice.value}.</p>
+            <p>Company number: {siteConfig.companiesHouseNumber.value}</p>
+          </div>
+          <div className="space-y-1.5">
+            <p>Also offering Construction &amp; renovation services</p>
+            <p>
+              call{" "}
+              <a
+                href="tel:+442086738555"
+                className="underline underline-offset-2 hover:text-accent"
+              >
+                {siteConfig.constructionPhone.value}
+              </a>
+              .
+            </p>
+          </div>
         </Container>
       </div>
     </footer>
