@@ -16,8 +16,8 @@ function appDir(): string {
 /**
  * The one database connection for the server.
  *
- *  - DATABASE_URL set  → the live PostgreSQL database (Supabase, London;
- *    owner decision 2026-11-09). Connection details live only in the
+ *  - DATABASE_URL set  → the live PostgreSQL database (Supabase, project in
+ *    Ireland/eu-west-1; owner decisions 2026-11-09). Connection details live only in the
  *    host's settings or the git-ignored `web/.env` — never in code.
  *  - DATABASE_URL unset → PGlite, a full PostgreSQL that runs inside this
  *    app with no account: saved under `web/.data/` when running the site
@@ -42,12 +42,20 @@ function localKind(): DbKind {
     : "pglite-file";
 }
 
+/**
+ * SAFETY: automated tests empty tables between runs, so they must never
+ * reach the live database. Under the test runner DATABASE_URL is ignored.
+ */
+function liveUrl(): string | undefined {
+  return process.env.VITEST ? undefined : process.env.DATABASE_URL || undefined;
+}
+
 export function dbKind(): DbKind {
-  return process.env.DATABASE_URL ? "postgres" : localKind();
+  return liveUrl() ? "postgres" : localKind();
 }
 
 async function open(): Promise<Db> {
-  const url = process.env.DATABASE_URL;
+  const url = liveUrl();
   if (url) {
     const { default: postgres } = await import("postgres");
     const isLocalHost = /@(localhost|127\.0\.0\.1)[:/]/.test(url);
@@ -119,6 +127,9 @@ export async function __closeDbForTests(): Promise<void> {
 
 /** Tests only: empty every table. */
 export async function __truncateAllForTests(): Promise<void> {
+  if (dbKind() === "postgres") {
+    throw new Error("Refusing to empty a live database: tests only run against a local one.");
+  }
   const db = await getDb();
   await db.query("truncate table leads, audit_events, properties restart identity");
 }

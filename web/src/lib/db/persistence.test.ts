@@ -27,6 +27,19 @@ afterAll(async () => {
   fs.rmSync(dir, { recursive: true, force: true });
 });
 
+describe("tests can never touch the live database", () => {
+  it("ignores DATABASE_URL under the test runner", () => {
+    const saved = process.env.DATABASE_URL;
+    process.env.DATABASE_URL = "postgresql://user:pw@live.example.com:6543/postgres";
+    try {
+      expect(dbKind()).not.toBe("postgres");
+    } finally {
+      if (saved === undefined) delete process.env.DATABASE_URL;
+      else process.env.DATABASE_URL = saved;
+    }
+  });
+});
+
 describe("data survives a restart", () => {
   it("keeps enquiries, property edits and the activity log after the database is closed and reopened", async () => {
     expect(dbKind()).toBe("pglite-file");
@@ -49,6 +62,23 @@ describe("data survives a restart", () => {
     expect((await listLeads()).map((l) => l.id)).toContain(lead.id);
     expect((await getAuditLog()).some((e) => e.details === "before restart")).toBe(true);
     expect((await propertyProvider.getById("demo-res-sale-1"))?.summary).toBe("Edited before the restart.");
+  });
+
+  it("stores records as structured JSON objects, not as text", async () => {
+    const db = await getDb();
+    const rows = await db.query<{ t: string; k: string }>(
+      "select 'leads' as t, jsonb_typeof(data) as k from leads union all select 'properties', jsonb_typeof(data) from properties",
+    );
+    expect(rows.length).toBeGreaterThan(0);
+    for (const r of rows) expect(r.k).toBe("object");
+  });
+
+  it("repairs a record that was stored as text", async () => {
+    const db = await getDb();
+    await db.query("insert into leads (id, data, category, stage, created_at, updated_at) values ('text-lead', to_jsonb($1::text), 'general_enquiry', 'new', now(), now())", [JSON.stringify({ id: "text-lead", notes: [] })]);
+    await __closeDbForTests(); // repair runs when the database is next opened
+    const fixed = await (await getDb()).query<{ k: string }>("select jsonb_typeof(data) as k from leads where id = 'text-lead'");
+    expect(fixed[0].k).toBe("object");
   });
 
   it("loads the sample listings only once, not again on every start", async () => {

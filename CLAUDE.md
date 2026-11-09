@@ -175,7 +175,7 @@ material.
   dependency audit, awaiting the owner's "approve the Next.js upgrade").
   (**Update 2026-11-09:** the owner approved the upgrade; Next.js is now
   16.4.5, and website dependencies have 0 known vulnerabilities.)
-  **Launch is still blocked** by: ~~the Next.js update~~ (done), the database not yet connected (Supabase chosen and built 2026-11-09; owner to create the account), no
+  **Launch is still blocked** by: ~~the Next.js update~~ (done), ~~the database~~ (Supabase connected 2026-11-09, project in Ireland/eu-west-1 by owner decision; restore test pending), no
   real staff sign-in with two-step verification, unpublished fees,
   unverified redress/CMP memberships, and outstanding solicitor review.
   Staff guide: `OPERATIONS_MANUAL.md` (rewritten Day 7).

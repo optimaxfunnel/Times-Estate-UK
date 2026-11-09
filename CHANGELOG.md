@@ -9,6 +9,18 @@
 
 ---
 
+## 2026-11-09 — Supabase connected (project in Ireland, owner decision)
+
+- The live database is connected on this computer; tables created with
+  row-level security; enquiries saved and read back.
+- Fixed: records stored as JSON text on Supabase; start-up repair
+  added.
+- Safety: tests ignore `DATABASE_URL` and refuse to empty a live
+  database.
+- Privacy Policy must now say data is stored in Ireland (EU); added to
+  the solicitor items.
+- 272 tests.
+
 ## 2026-11-09 — Database layer (owner chose Supabase, London)
 
 - Enquiries, property records and the activity log now live in

@@ -11,6 +11,11 @@
 
 ## Added 9 November 2026
 
+- [ ] **Privacy Policy: where data is stored.** Customer enquiries are
+  stored with Supabase in **Ireland (EU)** (owner decision, 9 Nov). The
+  Privacy Policy must say so, and name Supabase as a processor. Include
+  this in the solicitor review.
+
 - [ ] **Cookie Policy table update:** it lists a cookie name that no
   longer exists (`dev_mock_role`; the staff cookie is now
   `te_admin_session`) and omits the saved-searches and "intro seen"

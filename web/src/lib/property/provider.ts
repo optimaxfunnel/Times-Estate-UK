@@ -245,7 +245,7 @@ async function insertProperty(p: Property, ifNew = false): Promise<void> {
   const db = await getDb();
   await db.query(
     `insert into properties (id, data, status, created_at, updated_at)
-     values ($1, $2::jsonb, $3, $4, $5)${ifNew ? " on conflict (id) do nothing" : ""}`,
+     values ($1, $2::text::jsonb, $3, $4, $5)${ifNew ? " on conflict (id) do nothing" : ""}`,
     [p.id, JSON.stringify(p), p.status, p.createdAt, p.updatedAt],
   );
 }
@@ -327,7 +327,7 @@ class DbPropertyProvider implements PropertyProvider {
     };
     const db = await getDb();
     await db.query(
-      "update properties set data = $2::jsonb, status = $3, updated_at = $4 where id = $1",
+      "update properties set data = $2::text::jsonb, status = $3, updated_at = $4 where id = $1",
       [id, JSON.stringify(updated), updated.status, updated.updatedAt],
     );
     if (patch.status && patch.status !== before.status) {

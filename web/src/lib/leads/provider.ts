@@ -50,7 +50,7 @@ const parse = (r: Row): Lead =>
 async function save(lead: Lead): Promise<void> {
   const db = await getDb();
   await db.query(
-    "update leads set data = $2::jsonb, stage = $3, updated_at = $4 where id = $1",
+    "update leads set data = $2::text::jsonb, stage = $3, updated_at = $4 where id = $1",
     [lead.id, JSON.stringify(lead), lead.stage, lead.updatedAt],
   );
 }
@@ -87,7 +87,7 @@ export async function createLead(input: CreateLeadInput): Promise<Lead> {
   const db = await getDb();
   await db.query(
     `insert into leads (id, data, category, stage, created_at, updated_at)
-     values ($1, $2::jsonb, $3, $4, $5, $5)`,
+     values ($1, $2::text::jsonb, $3, $4, $5, $5)`,
     [lead.id, JSON.stringify(lead), lead.category, lead.stage, now],
   );
   await recordAuditEvent({

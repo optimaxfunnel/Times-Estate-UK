@@ -9,6 +9,28 @@
 
 ---
 
+## 9 November 2026 — live Supabase database connected (Ireland, eu-west-1)
+
+| Check | Result |
+|---|---|
+| Connection from this computer | ✅ PostgreSQL 17 via the transaction pooler; password accepted first time (held only in `web/.env`) |
+| Tables created by the website on first run | ✅ `properties`, `leads`, `audit_events` |
+| Row-level security | ✅ On for all three, with **0 access policies**, so Supabase's public API can read nothing |
+| Real enquiries through the website | ✅ `/sell` and `/contact`: each saved in Supabase with its activity-log entry, and read back directly from the database |
+| Sample listings | ✅ 9 loaded once, all labelled demo |
+| Automated tests | ✅ 272 / 272, and tests **cannot** reach the live database (guard plus test) |
+
+**Defect found and fixed:** on Supabase, records were first stored
+as JSON *text* instead of JSON objects (the driver encoded them
+twice); the local database did not show this. Values are now passed
+as text and cast once. A start-up repair converted the affected
+records (1 test enquiry, 9 sample listings), and two new tests cover
+it. The re-check found all 11 records stored as objects.
+
+**Still to do:** a backup-restore test once the first daily backup
+exists (needs the Pro plan); remove the two test enquiries (name
+"Detail Check") before launch.
+
 ## 9 November 2026 — database layer
 
 | Check | Result |

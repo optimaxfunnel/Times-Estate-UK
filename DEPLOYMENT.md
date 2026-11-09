@@ -254,7 +254,7 @@ choose from, not a decision made on their behalf.
 | Successful production build | ✅ Confirmed (`QA_REPORT.md` §2) |
 | No unresolved critical/major defects | ❌ **Not met** — critical hang defect open |
 | Environment variables set for production | ❌ Not started — see table below |
-| Real, persistent database connected | ⚠️ Chosen and built (Supabase, London); owner to create the account and connect it — see §11 |
+| Real, persistent database connected | ✅ Connected 2026-11-09 (Supabase, Ireland/eu-west-1): tables created with row-level security; enquiry saved and read back. Restore test and test-record clean-up still to do (§11) — see §11 |
 | Real authentication for `/admin` | ❌ Still a development-only mock |
 | Domain owned and DNS access confirmed | ❌ Unconfirmed — see §3 |
 | Email provider chosen and configured | ❌ Not started — see `EMAIL_AND_FORM_ROUTING.md` |
@@ -425,9 +425,9 @@ not an enhancement.** Once one exists:
 
 ## 11. Real database — launch prerequisite, not originally in this phase's list, added because §1 and §10 both depend on it
 
-**Status 2026-11-09: chosen and built; not yet connected.**
+**Status 2026-11-09: connected on this computer** (Supabase project in Ireland, eu-west-1; see the steps below for what remains).
 
-- **Owner decision:** Supabase, London region, Pro plan (about £20 a
+- **Owner decision:** Supabase, Pro plan (about £20 a
   month; confirm the price at sign-up). See `DECISIONS.md`.
 - **Built and tested:** enquiries, property records and the activity
   log are stored in PostgreSQL. Tables are created automatically on
@@ -439,7 +439,8 @@ not an enhancement.** Once one exists:
 ### Owner's steps to connect Supabase (about 15 minutes)
 
 1. Sign up at supabase.com with the business email, and create a
-   project. **Region: London (eu-west-2).** Choose a strong database
+   project. (The project was created in **Ireland, eu-west-1**, and the
+   owner chose on 2026-11-09 to keep it there; see DECISIONS.md.) Choose a strong database
    password and keep it in a password manager.
 2. Upgrade the project to the **Pro** plan. It gives daily backups,
    and the free plan pauses after a week without visitors.

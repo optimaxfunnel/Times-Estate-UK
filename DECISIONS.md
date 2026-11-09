@@ -9,6 +9,27 @@
 
 ---
 
+### 2026-11-09 — Supabase project kept in Ireland, not London (owner decision)
+
+- **Found:** the owner's new Supabase project (`cpisoyatzpdbhakfymcq`)
+  was created in **Ireland (AWS eu-west-1, Dublin)**, not London as
+  decided earlier the same day. It was identified without any
+  password: only Supabase's eu-west-1 connection pooler recognised the
+  project.
+- **Options put to the owner:** recreate it in London while it was
+  still empty (about 5 minutes), or keep Ireland.
+- **Decision (owner):** "Keep Ireland".
+- **Consequences:**
+  - This is lawful under UK GDPR: the UK treats the EU/EEA as adequate,
+    so UK-to-EU storage needs no extra safeguards.
+  - The claim of **UK data residency no longer applies**. The Privacy
+    Policy must state that customer data is stored with Supabase in
+    the EU (Ireland). This is added to the solicitor-review items in
+    `CONTENT_REQUIRED.md` and the staff content list.
+  - Connection: transaction pooler
+    `aws-0-eu-west-1.pooler.supabase.com:6543`. The password is held
+    only in `web/.env` on this computer, never in chat or git.
+
 ### 2026-11-09 — Database: Supabase, London region (owner decision)
 
 - **Decision (owner):** "Supabase (London)", from the recommendation

@@ -9,10 +9,12 @@
 
 > **Update 2026-11-09 — database.** Enquiries, property records and the
 > activity log are now stored in a PostgreSQL database and survive
-> restarts. Supabase in the London region (UK data residency, daily
-> backups on the Pro plan) has been chosen but is not yet connected; until
-> it is, the data is kept in a local database on this computer
-> (`web/.data/`, never uploaded). Row-level security is on for every
+> restarts. Supabase has been chosen, with the project in **Ireland (EU,
+> eu-west-1)** — the owner's decision, lawful under UK GDPR because the
+> UK treats the EU/EEA as adequate; the Privacy Policy must say so. Daily
+> backups come with the Pro plan. **Connected 2026-11-09.** Without
+> the connection setting (e.g. on a developer's computer), a local
+> database in `web/.data/` is used instead and never uploaded. Row-level security is on for every
 > table, so Supabase's public API cannot read customer details. Retention
 > periods and a deletion process are still for the owner to set. Sections
 > below that say "in-memory" describe the position before this change.

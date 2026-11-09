@@ -1,8 +1,8 @@
 /**
  * Database tables (PostgreSQL). Applied automatically on first connection
  * (every statement is idempotent), and identical for the local PGlite
- * database and the live Supabase database (London region, chosen by the
- * owner 2026-11-09 — DECISIONS.md).
+ * database and the live Supabase database (project in Ireland, eu-west-1;
+ * owner decisions 2026-11-09 — DECISIONS.md).
  *
  * Records are kept as JSON documents (`data`) so the existing, tested
  * TypeScript types stay the single definition of each record; a few
@@ -39,6 +39,12 @@ export const SCHEMA_STATEMENTS: readonly string[] = [
      record_id   text not null,
      details     text not null
    )`,
+  // Repair (2026-11-09): the first live run on Supabase stored records as
+  // a JSON *string* rather than a JSON object (the driver encoded the value
+  // twice). Values are now passed as text and cast once; these turn any
+  // such record back into an object. They do nothing when there is none.
+  `update properties set data = (data #>> '{}')::jsonb where jsonb_typeof(data) = 'string'`,
+  `update leads      set data = (data #>> '{}')::jsonb where jsonb_typeof(data) = 'string'`,
   `alter table properties   enable row level security`,
   `alter table leads        enable row level security`,
   `alter table audit_events enable row level security`,

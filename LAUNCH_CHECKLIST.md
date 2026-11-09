@@ -25,9 +25,11 @@
 - [ ] Testing with a screen-reader user
 - [x] **Next.js upgrade approved and applied (9 Nov):** 16.4.5; website
   dependencies have 0 known vulnerabilities; all checks re-run
-- [x] **Database chosen and built (9 Nov):** Supabase, London; data now
+- [x] **Database chosen and built (9 Nov):** Supabase (project in Ireland, eu-west-1); data now
   survives restarts (tested)
-- [ ] **Owner: create the Supabase account and connect it** (`DEPLOYMENT.md` §11)
+- [x] **Supabase connected (9 Nov):** tables created with row-level security; enquiries saved and read back
+- [ ] **Owner: confirm the Pro plan and accept the DPA** in Supabase; **test a backup restore** once the first daily backup exists
+- [ ] **Remove the test enquiries** from Supabase before launch, and switch off sample listings when real ones arrive
 - [ ] **Real staff sign-in with two-step verification**
 - [ ] **Email provider, form recipients and reply-to addresses**
   approved

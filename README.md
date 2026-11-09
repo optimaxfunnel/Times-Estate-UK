@@ -47,9 +47,9 @@ server-hang fixed on Day 7; a test enforces it.
 
 1. ~~Next.js security update~~ — **done 2026-11-09** (owner approved;
    now 16.4.5, website dependencies have 0 known vulnerabilities).
-2. **A database** — chosen (Supabase, London) and built 2026-11-09;
-   the owner still has to create the account and connect it
-   (`DEPLOYMENT.md` §11). Until then, data is kept only on this computer.
+2. ~~A database~~ — **connected 2026-11-09** (Supabase, project in Ireland).
+   Still to do: confirm the Pro plan and DPA, and test a backup restore
+   (`DEPLOYMENT.md` §11).
 3. **Real staff sign-in with two-step verification** — the current
    sign-in is for testing only and switches off on the live site.
 4. **Fees** — tenant and landlord fees and VAT position must be

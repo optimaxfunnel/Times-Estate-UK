@@ -24,6 +24,7 @@ export const contentGaps: readonly ContentGap[] = [
   { item: "Sales commission", location: "/fees, /sell", status: "Placeholder", action: "Owner to supply", blocksLaunch: false },
   { item: "VAT registration and whether fees include VAT", location: "/fees", status: "Placeholder", action: "Owner / accountant to confirm", blocksLaunch: true },
   { item: "Redress scheme and Client Money Protection membership", location: "/why-choose-us, footer", status: "Supplied by the business owner", action: "Confirm with each scheme directly, then mark Verified", blocksLaunch: true },
+  { item: "Privacy Policy must state data is stored with Supabase in Ireland (EU) (2026-11-09)", location: "/privacy-policy", status: "Requires legal or professional review", action: "Add where data is stored and name Supabase as a processor; solicitor to review.", blocksLaunch: true },
   { item: "Cookie Policy table out of date (found 2026-11-09)", location: "/cookie-policy", status: "Requires legal or professional review", action: "Replace the old 'dev_mock_role' cookie name; add saved searches and 'intro seen' storage. Part of the solicitor review.", blocksLaunch: false },
   { item: "Professional indemnity insurance schedule", location: "/why-choose-us", status: "Supplied by the business owner", action: "Owner to supply the policy schedule (only the wording was supplied)", blocksLaunch: false },
   { item: "Opening hours", location: "/contact", status: "Placeholder", action: "Owner to supply", blocksLaunch: false },
