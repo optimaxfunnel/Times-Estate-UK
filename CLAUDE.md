@@ -162,6 +162,43 @@ material.
   database, which is both a data-loss risk on every restart and a
   hosting-architecture constraint (see `DEPLOYMENT.md` §1). No hosting
   account, DNS change, mailbox, or paid service has been created.
+- **Second 7-day build, Days 3–7 (to 2026-10-31) — complete,
+  not deployed.** Architecture, design system, core pages, property
+  data and admin with approval workflow, listings and search, forms,
+  lead workflow, repair reporting, controlled AI assistant, privacy
+  map, SEO, regulatory-readiness material, accessibility, performance
+  and security hardening. Day 7 audit (`REQUIREMENT_TRACEABILITY.md`,
+  89 requirements), full functional testing — which **found and fixed
+  the critical server-hang defect** (a bound server action looping
+  forever on no-JavaScript form posts) — cross-device visual review and
+  the final 18-check test suite (all pass except the Next.js 16.3.4
+  dependency audit, awaiting the owner's "approve the Next.js upgrade").
+  **Launch is still blocked** by: the Next.js update, no database, no
+  real staff sign-in with two-step verification, unpublished fees,
+  unverified redress/CMP memberships, and outstanding solicitor review.
+  Staff guide: `OPERATIONS_MANUAL.md` (rewritten Day 7).
+- **2026-11-09 — recovery of an incomplete copy (not a numbered
+  phase).** The folder on this computer (`D:\Muzaffar UK\Times Estate
+  Ltd`) was a partial copy: 21 documents, about 90 code files, the
+  settings files and much of `node_modules` were missing, and `.git`
+  is damaged. 79 original code files were recovered from the old
+  build's source maps; 6 modules and the settings files were rebuilt;
+  the 21 documents were rebuilt. Every rebuilt file is marked
+  **RECONSTRUCTED**. Type-check, lint and the production build pass.
+  The lost tests were then rewritten (new, not the originals): **241
+  pass in 32 files** (157 on 31 Oct). Full QA then re-run on the production
+  build: axe 74 scans / 0 violations; no sideways scrolling at 6
+  widths after fixing the `/cookie-policy` table on phones;
+  Lighthouse 100 on desktop, 97–100 for returning mobile visitors,
+  87–93 on a first mobile visit (the owner's intro video). See the
+  `QA_REPORT.md` addendum. Still not ready for deployment.
+  **Later the same day the git history was repaired** (branch
+  `recovery-2026-11-09`, from commit `5284b25` of 30 Oct; the 16
+  commits after it are lost). 71 missing files and the originals of
+  the rebuilt documents and modules were restored from it, so most
+  "RECONSTRUCTED" material has been replaced by originals. 266 tests
+  pass. See the "Final position" section of the recovery report. Nothing committed
+  (git damaged) or deployed. See `RECOVERY_REPORT_2026-11-09.md`.
 - See `PROJECT_PLAN.md` for the Day 1–7 build record, `TEST_REPORT.md`
   for its test results, and `DECISIONS.md` for everything decided
   since.
@@ -279,6 +316,7 @@ but no longer the first place to look for current status.
 | ★ `DESIGN_APPLICATION_OPTIONS.md` | **PRIMARY (Segment 2).** Options A/B/C for applying the supplied identity, component by component, with a recommendation — the owner's choice at Gate 2. |
 | ★ `SEO_REDIRECT_PLAN.md` | **PRIMARY (Segment 2).** Canonical host, the row-by-row 301/410 map for every live `timesestates.co.uk` URL, intent-to-page mapping, on-page rules, launch-week SEO checklist — a plan, nothing executed. |
 | `segment-1/` | Segment 1 (2026-10-19) audit set from a separate session: `BRAND_SOURCE_AUDIT.md` (measured colours, logo limitations), `EXISTING_URL_REGISTER.md` (live site URLs), a 24-row `COMPLIANCE_REGISTER.md`, `SKILLS_AND_TOOLS_REGISTER.md`, `SEGMENT_1_END_REPORT.md` (seven open questions). Read alongside the root documents. |
+| ★ `REQUIREMENT_TRACEABILITY.md` | **PRIMARY (Day 7, 2026-10-30).** Every requirement from the control documents and owner decisions, with where it is built, the test evidence, its status and the next action. The best single answer to "what is finished?". |
 | `REGULATORY_READINESS.md` | UK legal/regulatory topics reviewed today, each with a status — never a claim of compliance (Day 6). |
 | `ACCESSIBILITY.md` | Dated WCAG 2.2 AA testing record — automated and manual, defects found and fixed (Day 6). |
 | `SECURITY.md` | Security controls reviewed and hardened today, and what still must happen before real deployment (Day 6). |

@@ -1,5 +1,58 @@
 # QA_REPORT.md — Times Estates (Times Estate Ltd)
 
+## Addendum — full QA after recovery (2026-11-09)
+
+The folder on this computer was an incomplete copy and was restored
+on 9 November (`RECOVERY_REPORT_2026-11-09.md`). Every check below was
+run against the recovered project's **production build** in Microsoft
+Edge.
+
+| Check | Result |
+|---|---|
+| Type-check, lint | ✅ Pass |
+| Automated tests | ✅ 241 / 241 (rewritten; see `TEST_REPORT.md`) |
+| Production build | ✅ 41 pages |
+| Accessibility (axe-core 4.13.0, WCAG 2.0–2.2 A/AA) | ✅ **74 scans, 0 violations** (`ACCESSIBILITY.md`) |
+| Responsive (6 widths × 34 pages) | ✅ after fixing 1 defect: the `/cookie-policy` table scrolled the page sideways on phones |
+| Lighthouse: accessibility / best practices / SEO | ✅ 100 / 100 / 100 on 6 pages, mobile and desktop. The exception is the demo property page's SEO score of 69, which is **by design** (demo listings are hidden from search engines, as in Phase 6). |
+| Lighthouse performance, desktop | ✅ **100** on all 6 pages; load (LCP) 0.7 s |
+| Lighthouse performance, mobile, **returning visitor** | ✅ **97–100**; LCP 0.8–1.1 s (better than Phase 6's 2.6–2.7 s) |
+| Lighthouse performance, mobile, **first visit** | ⚠️ **87–93**; LCP 3.3–3.6 s. See below. |
+| Security headers | ✅ Present on every page (`SECURITY.md`) |
+| Console errors | ✅ None apart from the deliberate not-found page |
+
+**The first-visit mobile figure is a design trade-off, not a defect.**
+On the first page a visitor opens, whichever it is, the owner's
+full-screen intro video plays (as the owner asked, re-supplied
+2026-11-02). Its poster image becomes the "largest content", and
+because it is added by script, the browser can't fetch it early. If
+the owner wants a faster first impression on phones, the options are:
+- show the intro on the homepage only;
+- load the poster image earlier, with a priority hint.
+
+That is the owner's call. **Decided 2026-11-09: the owner keeps the
+intro on every first-visited page** (`DECISIONS.md`).
+
+**Content finding for the owner and solicitor (not changed: legal
+wording, Rule 5):** the cookie table on `/cookie-policy` is out of
+date.
+- It names a cookie `dev_mock_role` that no longer exists. The staff
+  cookie is now `te_admin_session`, which is only set in development.
+- It omits two things the site stores in the visitor's browser:
+  saved searches (`times-estate-saved-searches`) and the "intro seen"
+  note (`te_intro_seen`, session only).
+
+All are strictly necessary, so no consent banner is needed, but the
+list should be accurate before launch.
+
+**Recommendation:** the technical checks of Rule 7 are now complete
+and recorded. **The site is still not ready for deployment** because
+of the business and legal blockers in `LAUNCH_CHECKLIST.md` (Next.js
+upgrade, database, real staff sign-in, fees, memberships, solicitor
+review, real listings).
+
+---
+
 ## Status of this document
 
 **Phase 6 deliverable (2026-09-09) — the current, primary QA record.**

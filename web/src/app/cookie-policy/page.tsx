@@ -39,7 +39,14 @@ export default function CookiePolicyPage() {
           <h2 className="text-xl font-semibold text-ink">
             What this site does store in your browser
           </h2>
-          <table className="mt-3 w-full border-collapse text-sm">
+          {/* 2026-11-09: scroll box so the table no longer widens the page on phones (WCAG 1.4.10). */}
+          <div
+            className="mt-3 overflow-x-auto"
+            role="region"
+            aria-label="Cookies and browser storage"
+            tabIndex={0}
+          >
+          <table className="w-full min-w-[36rem] border-collapse text-sm">
             <thead>
               <tr className="border-b border-border text-left">
                 <th className="py-2 pr-4 font-medium text-ink">Name</th>
@@ -75,6 +82,7 @@ export default function CookiePolicyPage() {
               </tr>
             </tbody>
           </table>
+          </div>
         </div>
 
         <div>

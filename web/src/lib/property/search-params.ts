@@ -150,9 +150,11 @@ export function summariseSearch(params: SearchParams): string {
   const minPrice = str(params, "minPrice");
   const maxPrice = str(params, "maxPrice");
   if (minPrice || maxPrice) {
-    parts.push(
-      `priced ${minPrice ? `from £${minPrice}` : ""}${maxPrice ? ` up to £${maxPrice}` : ""}`.trim(),
-    );
+    // 2026-11-09: joined with spaces so "max price only" no longer reads "priced  up to".
+    const range = [minPrice && `from £${minPrice}`, maxPrice && `up to £${maxPrice}`]
+      .filter(Boolean)
+      .join(" ");
+    parts.push(`priced ${range}`);
   }
   const minBedrooms = str(params, "minBedrooms");
   if (minBedrooms) parts.push(`${minBedrooms}+ bedrooms`);

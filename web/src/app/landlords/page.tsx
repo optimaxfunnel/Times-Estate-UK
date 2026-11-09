@@ -54,7 +54,10 @@ export default function LandlordsPage() {
             >
               <h2 className="text-lg font-bold text-ink">{s.title}</h2>
               <p className="mt-2 flex-1 text-sm text-ink/80">{s.body}</p>
-              <TextLink href={s.href} className="mt-4 text-sm">
+              <TextLink
+                href={s.href}
+                className="mt-4 inline-flex min-h-6 items-center text-sm"
+              >
                 {s.cta} →
               </TextLink>
             </li>

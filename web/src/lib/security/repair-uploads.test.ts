@@ -3,7 +3,10 @@ import {
   matchesFileSignature,
   sanitiseFilename,
   validateFile,
+  totalSizeError,
+  MAX_TOTAL_BYTES,
 } from "@/lib/security/file-upload";
+import nextConfig from "../../../next.config";
 import {
   attachmentStore,
   canOpenAttachment,
@@ -84,5 +87,27 @@ describe("the assistant does not classify emergencies", () => {
       checkRefusal("Is this an emergency? water is coming through the ceiling"),
     ).not.toBeNull();
     expect(checkRefusal("is it safe to stay tonight")).not.toBeNull();
+  });
+});
+
+describe("total upload size", () => {
+  const MB = 1024 * 1024;
+
+  it("accepts typical phone photos up to 20MB together", () => {
+    expect(
+      totalSizeError([{ size: 4 * MB }, { size: 5 * MB }, { size: 6 * MB }]),
+    ).toBeNull();
+  });
+
+  it("explains when the files are too large together", () => {
+    expect(
+      totalSizeError([{ size: 8 * MB }, { size: 8 * MB }, { size: 8 * MB }]),
+    ).toMatch(/20MB together/);
+  });
+
+  it("keeps the framework body limit just above the total, so our message is the one shown", () => {
+    const limit = nextConfig.experimental?.serverActions?.bodySizeLimit;
+    expect(limit).toBe("21mb");
+    expect(MAX_TOTAL_BYTES).toBeLessThan(21 * MB);
   });
 });

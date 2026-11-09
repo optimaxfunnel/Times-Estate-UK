@@ -101,162 +101,164 @@ export function HeroSearchCard() {
         ))}
       </div>
 
-      <form
+      {/* The tab panel is a wrapper, not the form itself: role="tabpanel"
+          on a <form> hid its form role from assistive technology. */}
+      <div
         id={`${baseId}-panel`}
         role="tabpanel"
         aria-labelledby={`${baseId}-tab-${active}`}
-        action={action}
-        method="get"
-        className="mt-4 space-y-3"
+        className="mt-4"
       >
-        <div className="flex gap-2">
-          <label htmlFor={`${baseId}-location`} className="sr-only">
-            Location, postcode or keyword
-          </label>
-          <div className="relative flex-1">
-            <IconSearch className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-accent" />
-            <input
-              id={`${baseId}-location`}
-              name="location"
-              type="search"
-              placeholder="Location, postcode or keyword (e.g. SW17)"
-              className="w-full rounded-sm border border-border-strong bg-surface py-2.5 pl-9 pr-3 text-sm text-ink placeholder:text-secondary focus-visible:border-accent"
-            />
-          </div>
-          <button
-            type="submit"
-            className="shrink-0 rounded-sm bg-accent px-5 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-accent-dark"
-          >
-            Search
-          </button>
-        </div>
-
-        <div className="grid grid-cols-2 gap-2 lg:grid-cols-4">
-          <div>
-            <label htmlFor={`${baseId}-min`} className="sr-only">
-              Minimum price
+        <form action={action} method="get" className="space-y-3">
+          <div className="flex gap-2">
+            <label htmlFor={`${baseId}-location`} className="sr-only">
+              Location, postcode or keyword
             </label>
-            <select
-              id={`${baseId}-min`}
-              name="minPrice"
-              defaultValue=""
-              className={selectClass}
+            <div className="relative flex-1">
+              <IconSearch className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-accent" />
+              <input
+                id={`${baseId}-location`}
+                name="location"
+                type="search"
+                placeholder="Area or postcode, e.g. SW17"
+                className="w-full rounded-sm border border-border-strong bg-surface py-2.5 pl-9 pr-3 text-sm text-ink placeholder:text-secondary focus-visible:border-accent"
+              />
+            </div>
+            <button
+              type="submit"
+              className="shrink-0 rounded-sm bg-accent px-5 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-accent-dark"
             >
-              <option value="">Min Price</option>
-              {bands.map((band) => (
-                <option key={band} value={band}>
-                  {gbp.format(band)}
-                  {suffix}
-                </option>
-              ))}
-            </select>
-          </div>
-          <div>
-            <label htmlFor={`${baseId}-max`} className="sr-only">
-              Maximum price
-            </label>
-            <select
-              id={`${baseId}-max`}
-              name="maxPrice"
-              defaultValue=""
-              className={selectClass}
-            >
-              <option value="">Max Price</option>
-              {bands.map((band) => (
-                <option key={band} value={band}>
-                  {gbp.format(band)}
-                  {suffix}
-                </option>
-              ))}
-            </select>
+              Search
+            </button>
           </div>
 
-          {active === "commercial" ? (
-            <>
-              <div>
-                <label htmlFor={`${baseId}-use`} className="sr-only">
-                  Commercial use
-                </label>
-                <select
-                  id={`${baseId}-use`}
-                  name="commercialUse"
-                  defaultValue=""
-                  className={selectClass}
-                >
-                  <option value="">Property Type</option>
-                  {COMMERCIAL_USES.map((use) => (
-                    <option key={use} value={use}>
-                      {COMMERCIAL_USE_LABELS[use]}
-                    </option>
-                  ))}
-                </select>
-              </div>
-              <div>
-                <label htmlFor={`${baseId}-ctype`} className="sr-only">
-                  For sale or to let
-                </label>
-                {/* Not a submitted field — it chooses which commercial
+          <div className="grid grid-cols-2 gap-2 lg:grid-cols-4">
+            <div>
+              <label htmlFor={`${baseId}-min`} className="sr-only">
+                Minimum price
+              </label>
+              <select
+                id={`${baseId}-min`}
+                name="minPrice"
+                defaultValue=""
+                className={selectClass}
+              >
+                <option value="">Min Price</option>
+                {bands.map((band) => (
+                  <option key={band} value={band}>
+                    {gbp.format(band)}
+                    {suffix}
+                  </option>
+                ))}
+              </select>
+            </div>
+            <div>
+              <label htmlFor={`${baseId}-max`} className="sr-only">
+                Maximum price
+              </label>
+              <select
+                id={`${baseId}-max`}
+                name="maxPrice"
+                defaultValue=""
+                className={selectClass}
+              >
+                <option value="">Max Price</option>
+                {bands.map((band) => (
+                  <option key={band} value={band}>
+                    {gbp.format(band)}
+                    {suffix}
+                  </option>
+                ))}
+              </select>
+            </div>
+
+            {active === "commercial" ? (
+              <>
+                <div>
+                  <label htmlFor={`${baseId}-use`} className="sr-only">
+                    Commercial use
+                  </label>
+                  <select
+                    id={`${baseId}-use`}
+                    name="commercialUse"
+                    defaultValue=""
+                    className={selectClass}
+                  >
+                    <option value="">Property Type</option>
+                    {COMMERCIAL_USES.map((use) => (
+                      <option key={use} value={use}>
+                        {COMMERCIAL_USE_LABELS[use]}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+                <div>
+                  <label htmlFor={`${baseId}-ctype`} className="sr-only">
+                    For sale or to let
+                  </label>
+                  {/* Not a submitted field — it chooses which commercial
                     search page the form posts to. */}
-                <select
-                  id={`${baseId}-ctype`}
-                  value={commercialType}
-                  onChange={(e) =>
-                    setCommercialType(e.target.value as "sale" | "letting")
-                  }
-                  className={selectClass}
-                >
-                  <option value="sale">For Sale</option>
-                  <option value="letting">To Let</option>
-                </select>
-              </div>
-            </>
-          ) : (
-            <>
-              <div>
-                <label htmlFor={`${baseId}-type`} className="sr-only">
-                  Property type
-                </label>
-                <select
-                  id={`${baseId}-type`}
-                  name="propertyType"
-                  defaultValue=""
-                  className={selectClass}
-                >
-                  <option value="">Property Type</option>
-                  {RESIDENTIAL_PROPERTY_TYPES.map((type) => (
-                    <option key={type} value={type}>
-                      {RESIDENTIAL_PROPERTY_TYPE_LABELS[type]}
-                    </option>
-                  ))}
-                </select>
-              </div>
-              <div>
-                <label htmlFor={`${baseId}-beds`} className="sr-only">
-                  Minimum bedrooms
-                </label>
-                <select
-                  id={`${baseId}-beds`}
-                  name="minBedrooms"
-                  defaultValue=""
-                  className={selectClass}
-                >
-                  <option value="">Bedrooms</option>
-                  {[1, 2, 3, 4, 5].map((n) => (
-                    <option key={n} value={n}>
-                      {n}+ beds
-                    </option>
-                  ))}
-                </select>
-              </div>
-            </>
-          )}
-        </div>
+                  <select
+                    id={`${baseId}-ctype`}
+                    value={commercialType}
+                    onChange={(e) =>
+                      setCommercialType(e.target.value as "sale" | "letting")
+                    }
+                    className={selectClass}
+                  >
+                    <option value="sale">For Sale</option>
+                    <option value="letting">To Let</option>
+                  </select>
+                </div>
+              </>
+            ) : (
+              <>
+                <div>
+                  <label htmlFor={`${baseId}-type`} className="sr-only">
+                    Property type
+                  </label>
+                  <select
+                    id={`${baseId}-type`}
+                    name="propertyType"
+                    defaultValue=""
+                    className={selectClass}
+                  >
+                    <option value="">Property Type</option>
+                    {RESIDENTIAL_PROPERTY_TYPES.map((type) => (
+                      <option key={type} value={type}>
+                        {RESIDENTIAL_PROPERTY_TYPE_LABELS[type]}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+                <div>
+                  <label htmlFor={`${baseId}-beds`} className="sr-only">
+                    Minimum bedrooms
+                  </label>
+                  <select
+                    id={`${baseId}-beds`}
+                    name="minBedrooms"
+                    defaultValue=""
+                    className={selectClass}
+                  >
+                    <option value="">Bedrooms</option>
+                    {[1, 2, 3, 4, 5].map((n) => (
+                      <option key={n} value={n}>
+                        {n}+ beds
+                      </option>
+                    ))}
+                  </select>
+                </div>
+              </>
+            )}
+          </div>
 
-        <p className="inline-flex items-center gap-1.5 text-xs font-medium text-ink/70">
-          <IconPin className="h-4 w-4 text-accent" />
-          London &amp; surrounding areas
-        </p>
-      </form>
+          <p className="inline-flex items-center gap-1.5 text-xs font-medium text-ink/70">
+            <IconPin className="h-4 w-4 text-accent" />
+            London &amp; surrounding areas
+          </p>
+        </form>
+      </div>
     </div>
   );
 }

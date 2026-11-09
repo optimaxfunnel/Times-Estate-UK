@@ -21,6 +21,20 @@ export const ALLOWED_FILE_TYPES = [
 
 export const MAX_FILE_SIZE_BYTES = 8 * 1024 * 1024; // 8MB
 export const MAX_FILES = 5;
+/**
+ * All files in one report together. Must stay just under the Server
+ * Action body limit in next.config.ts (21mb) — above that the framework
+ * rejects the whole submission before this code can explain why.
+ */
+export const MAX_TOTAL_BYTES = 20 * 1024 * 1024; // 20MB
+
+/** A plain-English error if the files are too large together, else null. */
+export function totalSizeError(files: { size: number }[]): string | null {
+  const total = files.reduce((sum, f) => sum + f.size, 0);
+  return total > MAX_TOTAL_BYTES
+    ? "Your files are larger than 20MB together. Please attach fewer or smaller photos."
+    : null;
+}
 
 export interface FileValidationResult {
   valid: boolean;

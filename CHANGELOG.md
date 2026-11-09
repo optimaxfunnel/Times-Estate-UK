@@ -1,5 +1,76 @@
 # CHANGELOG.md — Times Estate Ltd Website Project
 
+> **Restored 9 November 2026 from the project's git history** (commit
+> `5284b25`, 30 October 2026). This file was missing from the folder on
+> this computer. Any changes made to it between 31 October and
+> 2 November could not be recovered, so Day 7 updates may be absent.
+> Anything dated 9 November was added after the restore. See
+> `RECOVERY_REPORT_2026-11-09.md`.
+
+---
+
+## 2026-11-09 (end of day) — Git history repaired; originals restored
+
+- Repaired `.git` (HEAD and index missing; one pack file lost) on a new
+  branch, `recovery-2026-11-09`, from commit `5284b25` (30 Oct).
+- Restored 71 missing original files, swapped today's rebuilt documents
+  and modules for their originals, and re-applied the post-30-October
+  settings proven by the last build. See `RECOVERY_REPORT_2026-11-09.md`.
+- 266 tests pass (39 files); build 42 routes; accessibility 74/0.
+
+## 2026-11-09 (later) — Tests rewritten and full QA re-run
+
+- 159 new tests written (241 in total, all passing). See `TEST_REPORT.md`.
+- Fixed: a double space in the plain-English search summary.
+- Fixed: the cookie table on `/cookie-policy` made the page scroll
+  sideways on phones. It now has its own labelled scroll box.
+- Accessibility, screen-size and Lighthouse audits re-run on the
+  production build. See the `QA_REPORT.md` addendum and
+  `ACCESSIBILITY.md`.
+- Recorded for the owner: the cookie table's content is out of date;
+  the intro video slows the first mobile visit.
+
+## 2026-11-09 — Recovery of an incomplete copy
+
+**Added back (original code, recovered from the last build):** 79
+files, including 20 pages: About, Sell, Let, Landlords, Residential,
+Commercial to let, Report a repair, Callback, Company information,
+Complaints, Privacy Policy, Why choose us, Enquiry received,
+Favourites, each property's own page, the admin property screens, and
+the not-found page. Also the header, form fields, buttons, homepage
+hero, listing explorer, property gallery, demonstration properties,
+lead handling and search-engine data.
+
+**Rebuilt (marked RECONSTRUCTED in each file):** property validation,
+the property approval rules, the public/private field rules, the repair
+attachment boundary, the early enquiry checks, the staff content-status
+list, and the website, CSS and test settings files.
+
+**Removed:** the recovered `EnquiryForm.tsx` (unused; contained the
+retired server-hang pattern).
+
+**Fixed:** the early enquiry and alert actions no longer write
+personal details to the server log. The role switcher was pointed at
+the renamed sign-in action. The launch settings now use this
+computer's folder.
+
+**Images:** the favicon was restored from the old build. The 120 px
+and 240 px emblem sizes and the PNG fallback were re-made from the
+owner's emblem files.
+
+**Libraries:** reinstalled at the lock-file versions. Next.js stays at
+16.3.4.
+
+**Documents:** the 21 missing documents were rebuilt, each labelled
+RECONSTRUCTED. `RECOVERY_REPORT_2026-11-09.md` was added.
+
+**Checks:** type-check, lint, 82/82 tests and the production build
+(41 pages) pass, and the production site was checked in a browser.
+Nothing deployed or committed.
+
+---
+
+
 All notable changes to this project are recorded here, most recent first.
 This is a project log, not a marketing document — it should stay accurate
 and plain.

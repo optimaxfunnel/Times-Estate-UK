@@ -1,109 +1,122 @@
-import { describe, expect, it, beforeEach } from "vitest";
+// Rewritten 2026-11-09 after the original test files were lost (RECOVERY_REPORT_2026-11-09.md).
+import { beforeEach, describe, expect, it, vi } from "vitest";
 import {
-  createLead,
-  listLeads,
-  getLeadById,
-  updateLeadStage,
-  addLeadNote,
   __resetLeadsForTests,
+  addLeadNote,
+  assignLead,
+  createLead,
+  getLeadById,
+  listLeads,
+  recordLeadValuation,
+  updateLeadDetails,
+  updateLeadStage,
+  type CreateLeadInput,
 } from "@/lib/leads/provider";
+import { getAuditLog } from "@/lib/auth/audit-log";
 
-const baseInput = {
-  category: "general_enquiry" as const,
+const input = (over: Partial<CreateLeadInput> = {}): CreateLeadInput => ({
+  category: "general_enquiry",
   sourcePage: "/contact",
-  contactName: "Jo Bloggs",
-  contactEmail: "jo@example.com",
-  contactPhone: "07123456789",
-  detail: "A test enquiry.",
+  contactName: "Private Person",
+  contactEmail: "private.person@example.com",
+  contactPhone: "020 7946 0001",
+  detail: "Hello",
   consentGiven: true,
-};
+  ...over,
+});
 
-describe("createLead", () => {
-  beforeEach(() => __resetLeadsForTests());
+beforeEach(() => __resetLeadsForTests());
 
-  it("creates a lead with stage New and a unique id", () => {
-    const lead = createLead(baseInput);
-    expect(lead.stage).toBe("new");
-    expect(lead.id).toBeTruthy();
-    expect(getLeadById(lead.id)?.id).toBe(lead.id);
+describe("lead store", () => {
+  it("lists newest first and filters by type and stage", () => {
+    const a = createLead(input());
+    const b = createLead(input({ category: "callback_request" }));
+    expect(listLeads().map((l) => l.id)).toEqual([b.id, a.id]);
+    expect(listLeads({ category: "callback_request" })).toHaveLength(1);
+    updateLeadStage(a.id, "closed", "manager");
+    expect(listLeads({ stage: "closed" }).map((l) => l.id)).toEqual([a.id]);
   });
 
-  it("defaults to routine priority for a non-repair lead", () => {
-    const lead = createLead(baseInput);
-    expect(lead.priority).toBe("routine");
+  it("records the consent time when the lead is created", () => {
+    const lead = createLead(input());
+    expect(lead.consentTimestamp).toBe(lead.createdAt);
   });
 
-  it("derives priority from urgency for a repair report", () => {
-    const emergency = createLead({
-      ...baseInput,
-      category: "repair_report",
-      extra: { urgency: "emergency" },
-    });
-    expect(emergency.priority).toBe("emergency");
-
-    const routine = createLead({
-      ...baseInput,
-      category: "repair_report",
-      extra: { urgency: "routine" },
-    });
-    expect(routine.priority).toBe("routine");
+  it("sets repair priority from the urgency chosen", () => {
+    expect(createLead(input({ category: "repair_report", extra: { urgency: "emergency" } })).priority).toBe("emergency");
+    expect(createLead(input({ category: "repair_report", extra: { urgency: "urgent" } })).priority).toBe("urgent");
+    expect(createLead(input({ category: "repair_report" })).priority).toBe("routine");
+    expect(createLead(input()).priority).toBe("routine");
   });
 
-  it("logs a delivery failure without losing the lead, when delivery is simulated to fail", () => {
-    const lead = createLead({
-      ...baseInput,
-      contactEmail: "test+faildelivery@example.com",
+  it("moves a new lead to Assigned when someone is assigned", () => {
+    const lead = createLead(input());
+    expect(assignLead(lead.id, "manager", "administrator")?.stage).toBe("assigned");
+  });
+
+  it("logs each change in the audit log", () => {
+    const lead = createLead(input());
+    updateLeadDetails(lead.id, { priority: "urgent", followUpDate: "2099-01-01" }, "manager");
+    expect(getAuditLog()[0].details).toMatch(/priority routine -> urgent.*follow-up 2099-01-01/);
+  });
+
+  it("does nothing, and logs nothing, when nothing changed", () => {
+    const lead = createLead(input());
+    const before = getAuditLog().length;
+    updateLeadDetails(lead.id, { priority: "routine" }, "manager");
+    expect(getAuditLog()).toHaveLength(before);
+  });
+
+  it("keeps notes and records a confirmed valuation", () => {
+    const lead = createLead(input({ category: "sales_valuation" }));
+    addLeadNote(lead.id, "Called, left message", "manager");
+    recordLeadValuation(lead.id, {
+      figure: 500000,
+      basis: "initial_appraisal",
+      confirmedBy: "manager",
+      confirmedAt: new Date().toISOString(),
     });
+    const saved = getLeadById(lead.id)!;
+    expect(saved.notes[0].text).toBe("Called, left message");
+    expect(saved.valuation?.figure).toBe(500000);
+    expect(getAuditLog()[0].action).toBe("approve");
+  });
+
+  it("returns null for an unknown lead instead of throwing", () => {
+    expect(getLeadById("nope")).toBeNull();
+    expect(updateLeadStage("nope", "closed", "manager")).toBeNull();
+    expect(addLeadNote("nope", "x", "manager")).toBeNull();
+  });
+});
+
+describe("staff notification (no email provider connected)", () => {
+  it("records 'not sent' and never logs the customer's personal details", () => {
+    const log = vi.spyOn(console, "log").mockImplementation(() => {});
+    const lead = createLead(input());
+    expect(lead.notificationStatus).toBe("not_sent");
+    expect(lead.notificationLog[0]).toMatch(/NOT SENT/);
+    const written = JSON.stringify(log.mock.calls) + lead.notificationLog.join();
+    expect(written).not.toMatch(/private\.person|Private Person|7946/);
+    log.mockRestore();
+  });
+
+  it("records a delivery failure so staff know to check the list", () => {
+    const err = vi.spyOn(console, "error").mockImplementation(() => {});
+    const lead = createLead(input({ contactEmail: "faildelivery@example.com" }));
     expect(lead.notificationStatus).toBe("failed");
     expect(lead.notificationLog[0]).toMatch(/DELIVERY FAILED/);
-    // The lead itself must still exist and be manageable even though notification failed.
-    expect(getLeadById(lead.id)).not.toBeNull();
+    err.mockRestore();
   });
 
-  it("logs a normal not-sent status when delivery is not simulated to fail", () => {
-    const lead = createLead(baseInput);
-    expect(lead.notificationStatus).toBe("not_sent");
-  });
-});
-
-describe("listLeads", () => {
-  beforeEach(() => __resetLeadsForTests());
-
-  it("filters by category", () => {
-    createLead(baseInput);
-    createLead({
-      ...baseInput,
-      category: "repair_report",
-      extra: { urgency: "routine" },
-    });
-    const repairs = listLeads({ category: "repair_report" });
-    expect(repairs).toHaveLength(1);
-    expect(repairs[0].category).toBe("repair_report");
-  });
-
-  it("returns newest first", () => {
-    const first = createLead(baseInput);
-    const second = createLead(baseInput);
-    const all = listLeads();
-    expect(all[0].id).toBe(second.id);
-    expect(all[1].id).toBe(first.id);
-  });
-});
-
-describe("stage transitions and notes", () => {
-  beforeEach(() => __resetLeadsForTests());
-
-  it("moves a lead through its stages and records who changed it", () => {
-    const lead = createLead(baseInput);
-    const updated = updateLeadStage(lead.id, "acknowledged", "manager");
-    expect(updated?.stage).toBe("acknowledged");
-
-    const withNote = addLeadNote(lead.id, "Called, left voicemail.", "manager");
-    expect(withNote?.notes).toHaveLength(1);
-    expect(withNote?.notes[0].text).toBe("Called, left voicemail.");
-  });
-
-  it("returns null when updating a lead that doesn't exist", () => {
-    expect(updateLeadStage("does-not-exist", "closed", "manager")).toBeNull();
+  it("routes each type to the right team", () => {
+    vi.spyOn(console, "log").mockImplementation(() => {});
+    const team = (category: CreateLeadInput["category"]) =>
+      createLead(input({ category })).notificationLog[0];
+    expect(team("sales_valuation")).toMatch(/sales team/);
+    expect(team("tenant_registration")).toMatch(/lettings team/);
+    expect(team("commercial_enquiry")).toMatch(/commercial team/);
+    expect(team("repair_report")).toMatch(/property management team/);
+    expect(team("general_enquiry")).toMatch(/general enquiries team/);
+    vi.restoreAllMocks();
   });
 });

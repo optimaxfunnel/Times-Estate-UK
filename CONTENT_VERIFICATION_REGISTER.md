@@ -1,5 +1,15 @@
 # CONTENT_VERIFICATION_REGISTER.md
 
+## Day 7 note (2026-10-31)
+
+No new facts added on Day 7. Copy changes during the visual review
+were labels only: the listings count now shows "Demonstration" and the
+empty reviews panel "Not yet published" instead of the internal
+"Missing" badge; the homepage search placeholder reads "Area or
+postcode, e.g. SW17". The mobile menu now shows both owner-supplied
+phone numbers (landline first). The Day 6 table below remains current.
+
+
 This is the master log of every business fact and content item used
 anywhere on the Times Estate Ltd website. It exists to enforce Rule 1 in
 `CLAUDE.md`: nothing is invented. Every row must be added before the

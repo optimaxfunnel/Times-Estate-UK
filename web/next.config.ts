@@ -62,7 +62,28 @@ const securityHeaders = [
   },
 ];
 
+/**
+ * Added after 30 October (lost commits); re-applied 2026-11-09 from the
+ * last production build's records (routes-manifest.json): week-long
+ * caching for brand images and the intro video, the 21mb upload limit
+ * (pinned by repair-uploads.test.ts), and no X-Powered-By header.
+ */
+const longCache = [
+  {
+    key: "Cache-Control",
+    value: "public, max-age=604800, stale-while-revalidate=86400",
+  },
+];
+
 const nextConfig: NextConfig = {
+  poweredByHeader: false,
+  experimental: {
+    serverActions: {
+      // Just above the 20MB repair-upload total (file-upload.ts), so the
+      // site's own plain-English message is shown, not a framework error.
+      bodySizeLimit: "21mb",
+    },
+  },
   // Tenants share the Buyers & Tenants page (SITEMAP.md S2.1).
   async redirects() {
     return [
@@ -75,6 +96,8 @@ const nextConfig: NextConfig = {
         source: "/:path*",
         headers: securityHeaders,
       },
+      { source: "/intro/:file*", headers: longCache },
+      { source: "/brand/:file*", headers: longCache },
     ];
   },
 };

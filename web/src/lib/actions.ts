@@ -53,10 +53,10 @@ export async function submitPropertyAlert(
     return { status: "error", fieldErrors };
   }
 
-  console.log(
-    "[property-alert] NOT SENT (no email provider approved):",
-    result.data,
-  );
+  // Never log the visitor's email address (re-applied 2026-11-09; the
+  // post-30-October fix was lost with the incomplete copy).
+  const { email: _email, ...criteria } = result.data;
+  console.log("[property-alert] NOT SENT (no email provider approved):", criteria);
 
   return {
     status: "success",

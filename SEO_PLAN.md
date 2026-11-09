@@ -1,5 +1,15 @@
 # SEO_PLAN.md — Times Estate Ltd
 
+## Current state (2026-10-31)
+
+As planned below; verified Day 7: sitemap lists 26 public pages,
+robots.txt blocks /admin and /favourites, structured data passes its
+tests, `/favicon.ico` now exists. **At deployment,
+`NEXT_PUBLIC_SITE_URL` must be set to the real domain** — until then
+canonical links and sharing tags point to localhost. Redirects from the
+old site (`SEO_REDIRECT_PLAN.md`) are applied at deployment.
+
+
 ## Day 6 Task 2 update (2026-10-30) — ethical local SEO, current plan
 
 **Plain-English summary.** The site is set up so search engines can

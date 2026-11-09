@@ -67,13 +67,16 @@ export function FavouriteButton({
         e.preventDefault();
         toggleFavourite(propertyId);
       }}
+      // Matches the secondary Button beside it (Share this property), so
+      // the two actions read as a pair at every width (Day 7 visual review).
       className={cn(
-        "-m-2 inline-flex min-h-6 items-center p-2 text-sm font-medium text-ink/70 hover:text-accent",
-        saved && "text-accent",
+        "inline-flex items-center justify-center gap-2 rounded-sm border border-ink px-5 py-3 text-sm font-medium text-ink transition-colors duration-150 hover:bg-ink hover:text-white",
+        saved && "border-accent text-accent",
         className,
       )}
     >
-      {saved ? "★ Saved" : "☆ Save"}
+      <IconHeart filled={saved} className="h-4 w-4" />
+      {saved ? "Saved" : "Save"}
     </button>
   );
 }

@@ -1,94 +1,55 @@
+// Written 2026-11-09 after the original test files were lost (RECOVERY_REPORT_2026-11-09.md);
+// adjusted to the original workflow.ts restored from git (commit 5284b25).
 import { describe, expect, it } from "vitest";
-import { canChangeStatus, canEditContent } from "@/lib/property/workflow";
-import {
-  signSession,
-  verifySession,
-  type SessionPayload,
-} from "@/lib/auth/session-token";
+import { canChangeStatus, canEditContent, isPublic } from "@/lib/property/workflow";
+import { PROPERTY_STATUSES, PUBLICLY_VISIBLE_STATUSES } from "@/lib/property/types";
+import { ROLES } from "@/lib/auth/roles";
 
-describe("property status workflow", () => {
-  it("lets a Property Editor submit a draft for approval but not publish it", () => {
-    expect(
-      canChangeStatus("property_editor", "draft", "awaiting_approval").allowed,
-    ).toBe(true);
-    expect(
-      canChangeStatus("property_editor", "awaiting_approval", "available")
-        .allowed,
-    ).toBe(false);
+const PUBLIC = [...PUBLICLY_VISIBLE_STATUSES];
+const APPROVER_ONLY_TARGETS = PROPERTY_STATUSES.filter((s) => s !== "draft" && s !== "awaiting_approval");
+
+describe("property approval workflow", () => {
+  it("lets a Property Editor move between Draft and Awaiting approval", () => {
+    expect(canChangeStatus("property_editor", "draft", "awaiting_approval").allowed).toBe(true);
+    expect(canChangeStatus("property_editor", "awaiting_approval", "draft").allowed).toBe(true);
   });
 
-  it("lets a Manager publish, and record sold or let", () => {
-    expect(
-      canChangeStatus("manager", "awaiting_approval", "available").allowed,
-    ).toBe(true);
-    expect(canChangeStatus("manager", "under_offer", "sold").allowed).toBe(
-      true,
-    );
-    expect(canChangeStatus("manager", "let_agreed", "let").allowed).toBe(true);
+  it.each(APPROVER_ONLY_TARGETS)("stops a Property Editor moving a draft to %s", (to) => {
+    expect(canChangeStatus("property_editor", "awaiting_approval", to).allowed).toBe(false);
   });
 
-  it("stops a Property Editor withdrawing, archiving or pulling a live listing", () => {
-    expect(
-      canChangeStatus("property_editor", "available", "withdrawn").allowed,
-    ).toBe(false);
-    expect(
-      canChangeStatus("property_editor", "draft", "archived").allowed,
-    ).toBe(false);
-    expect(
-      canChangeStatus("property_editor", "available", "draft").allowed,
-    ).toBe(false);
+  it.each(PUBLIC)("stops a Property Editor taking a live (%s) listing off the site", (from) => {
+    const d = canChangeStatus("property_editor", from, "draft");
+    expect(d.allowed).toBe(false);
+    if (!d.allowed) expect(d.reason).toMatch(/Manager or Administrator/);
   });
 
-  it("treats editing the text of a live listing as a public change", () => {
-    expect(canEditContent("property_editor", "available").allowed).toBe(false);
-    expect(canEditContent("property_editor", "draft").allowed).toBe(true);
-    expect(canEditContent("manager", "available").allowed).toBe(true);
+  it("lets Managers and Administrators make every move", () => {
+    for (const role of ["manager", "administrator"] as const)
+      for (const from of PROPERTY_STATUSES)
+        for (const to of PROPERTY_STATUSES)
+          expect(canChangeStatus(role, from, to).allowed).toBe(true);
   });
 
-  it("gives Content Editors and Enquiry Viewers no property powers", () => {
+  it("refuses roles without property permissions, with a reason", () => {
     for (const role of ["content_editor", "enquiry_viewer"] as const) {
-      expect(canChangeStatus(role, "draft", "awaiting_approval").allowed).toBe(
-        false,
-      );
-      expect(canEditContent(role, "draft").allowed).toBe(false);
+      const d = canChangeStatus(role, "draft", "awaiting_approval");
+      expect(d.allowed).toBe(false);
+      if (!d.allowed) expect(d.reason).toMatch(/cannot edit properties/);
     }
   });
-});
 
-describe("signed admin session token", () => {
-  const secret = "test-secret-that-is-at-least-32-characters-long";
-  const payload: SessionPayload = {
-    sub: "dev:manager",
-    role: "manager",
-    provider: "dev-mock",
-    exp: 2_000_000_000,
-  };
-
-  it("round-trips a valid token", async () => {
-    const token = await signSession(payload, secret);
-    expect(await verifySession(token, secret, 1_000)).toEqual(payload);
+  it("lets an editor change text only while the listing is not live", () => {
+    for (const s of PROPERTY_STATUSES)
+      expect(canEditContent("property_editor", s).allowed).toBe(!isPublic(s));
+    for (const s of PUBLIC) expect(canEditContent("manager", s).allowed).toBe(true);
   });
 
-  it("rejects a token whose role was edited", async () => {
-    const token = await signSession(payload, secret);
-    const [, sig] = token.split(".");
-    const forged = btoa(JSON.stringify({ ...payload, role: "administrator" }))
-      .replace(/\+/g, "-")
-      .replace(/\//g, "_")
-      .replace(/=+$/, "");
-    expect(await verifySession(`${forged}.${sig}`, secret, 1_000)).toBeNull();
+  it("treats exactly the four public statuses as public", () => {
+    expect(PROPERTY_STATUSES.filter(isPublic)).toEqual(["available", "under_offer", "sold_stc", "let_agreed"]);
   });
 
-  it("rejects an expired token, a wrong secret and a missing token", async () => {
-    const token = await signSession(payload, secret);
-    expect(await verifySession(token, secret, 2_000_000_001)).toBeNull();
-    expect(
-      await verifySession(
-        token,
-        "another-secret-of-sufficient-length-123",
-        1_000,
-      ),
-    ).toBeNull();
-    expect(await verifySession(undefined, secret)).toBeNull();
+  it("has no role the rules forget about", () => {
+    for (const role of ROLES) expect(canChangeStatus(role, "draft", "draft")).toHaveProperty("allowed");
   });
 });

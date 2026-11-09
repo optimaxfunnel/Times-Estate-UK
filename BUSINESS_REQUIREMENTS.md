@@ -1,5 +1,16 @@
 # BUSINESS_REQUIREMENTS.md — Times Estate Ltd
 
+## Current state (2026-10-31)
+
+Every service listed in §3 is built into the website and tested — see
+`REQUIREMENT_TRACEABILITY.md` §A for evidence row by row. Construction
+remains a phone-line mention only (owner decision 2026-09-09). Still
+**missing** from the owner: VAT number or confirmation of non-
+registration, ICO registration number, AML supervision, deposit
+protection scheme, professional body (if any), fee schedules, opening
+hours. Phone numbers and email are on the site as "Supplied by owner".
+
+
 All entries carry a status: **Confirmed / Supplied by owner / Missing /
 Requires verification / Requires professional review** (defined in
 `CLAUDE.md`). Nothing here is invented — blank or "Missing" fields are

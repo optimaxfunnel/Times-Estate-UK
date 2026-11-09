@@ -3,6 +3,7 @@ import { Merriweather, Inter } from "next/font/google";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { AssistantWidget } from "@/components/ai/AssistantWidget";
+import { IntroVideo } from "@/components/home/IntroVideo";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { organizationJsonLd } from "@/lib/seo/structured-data";
 import { env } from "@/lib/env";
@@ -52,11 +53,16 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
           Skip to main content
         </a>
         <Header />
-        <main id="main-content" className="flex-1">
+        <main
+          id="main-content"
+          tabIndex={-1}
+          className="flex-1 focus:outline-none"
+        >
           {children}
         </main>
         <Footer />
         <AssistantWidget />
+        <IntroVideo />
       </body>
     </html>
   );

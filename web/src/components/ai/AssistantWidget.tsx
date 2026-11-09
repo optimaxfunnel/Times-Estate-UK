@@ -26,14 +26,23 @@ export function AssistantWidget() {
   // Same keyboard/focus support as the mobile nav menu: Escape closes
   // the panel and returns focus to the button that opened it, and
   // opening it moves focus to the question field.
+  // The open button is unmounted while the panel shows, so focus is
+  // returned once it has re-rendered, not at the moment of closing.
+  const returnFocus = useRef(false);
+  function close() {
+    returnFocus.current = true;
+    setOpen(false);
+  }
+
   useEffect(() => {
-    if (!open) return;
+    if (!open) {
+      if (returnFocus.current) openButtonRef.current?.focus();
+      returnFocus.current = false;
+      return;
+    }
     inputRef.current?.focus();
     function onKeyDown(e: KeyboardEvent) {
-      if (e.key === "Escape") {
-        setOpen(false);
-        openButtonRef.current?.focus();
-      }
+      if (e.key === "Escape") close();
     }
     document.addEventListener("keydown", onKeyDown);
     return () => document.removeEventListener("keydown", onKeyDown);
@@ -52,7 +61,13 @@ export function AssistantWidget() {
     setInput("");
     setIsPending(true);
 
-    const response = await askAssistant(history, question);
+    // If the request itself fails (connection lost, server restarting),
+    // say so and point to a person, rather than leaving "sending" forever.
+    const response = await askAssistant(history, question).catch(() => ({
+      content:
+        "Sorry, I couldn't reach the assistant just now. Please try again, or use the Contact page to reach the team.",
+      sources: [{ href: "/contact", label: "Contact Us" }],
+    }));
 
     setMessages((prev) => [
       ...prev,
@@ -66,7 +81,9 @@ export function AssistantWidget() {
   }
 
   return (
-    <div className="fixed bottom-4 right-4 z-40">
+    // Hidden while the mobile menu is open, where it covered menu items
+    // (globals.css, Day 7 visual review).
+    <div data-assistant-fab className="fixed bottom-4 right-4 z-40">
       {open ? (
         <div
           role="dialog"
@@ -88,9 +105,9 @@ export function AssistantWidget() {
             </div>
             <button
               type="button"
-              onClick={() => setOpen(false)}
+              onClick={close}
               aria-label="Close assistant"
-              className="text-ink/70 hover:text-ink"
+              className="-m-2 inline-flex h-11 w-11 items-center justify-center rounded-sm text-ink/70 hover:bg-accent-tint hover:text-ink"
             >
               ✕
             </button>

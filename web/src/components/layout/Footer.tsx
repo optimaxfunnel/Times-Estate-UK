@@ -43,7 +43,7 @@ export function Footer() {
           <li>
             <a
               href="tel:+442086728080"
-              className="inline-flex items-center gap-2 hover:text-accent"
+              className="inline-flex min-h-6 items-center gap-2 hover:text-accent"
             >
               <IconPhone className="h-4 w-4 text-accent" />
               {siteConfig.phoneLandline.value}
@@ -52,7 +52,7 @@ export function Footer() {
           <li>
             <a
               href="tel:+447779991313"
-              className="inline-flex items-center gap-2 hover:text-accent"
+              className="inline-flex min-h-6 items-center gap-2 hover:text-accent"
             >
               <IconMobile className="h-4 w-4 text-accent" />
               {siteConfig.phoneMobile.value}
@@ -61,7 +61,7 @@ export function Footer() {
           <li>
             <a
               href={`mailto:${siteConfig.email.value}`}
-              className="inline-flex items-center gap-2 hover:text-accent"
+              className="inline-flex min-h-6 items-center gap-2 hover:text-accent"
             >
               <IconMail className="h-4 w-4 text-accent" />
               {siteConfig.email.value}
@@ -74,13 +74,18 @@ export function Footer() {
         <SocialLinks profiles={socialProfiles} variant="footer" />
       </Container>
 
-      <div className="border-t border-border bg-accent-tint/40">
+      <nav
+        aria-label="Site directory"
+        className="border-t border-border bg-accent-tint/40"
+      >
+        {/* One landmark for the whole link directory: a nav per column
+            gave screen-reader users seven near-identical landmarks. */}
         <Container
           size="wide"
           className="grid gap-8 py-8 sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-7"
         >
           {Object.entries(footerNav).map(([group, links]) => (
-            <nav key={group} aria-label={group}>
+            <div key={group}>
               <h2 className="mb-2 font-sans text-xs font-semibold uppercase tracking-wide text-ink/60">
                 {group}
               </h2>
@@ -96,7 +101,7 @@ export function Footer() {
                   </li>
                 ))}
               </ul>
-            </nav>
+            </div>
           ))}
 
           <div>
@@ -115,7 +120,7 @@ export function Footer() {
             </ul>
           </div>
         </Container>
-      </div>
+      </nav>
 
       <div className="border-t border-border py-5">
         <Container

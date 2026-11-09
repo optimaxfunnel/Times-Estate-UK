@@ -14,6 +14,7 @@ import {
   sanitiseFilename,
   matchesFileSignature,
   MAX_FILES,
+  totalSizeError,
 } from "@/lib/security/file-upload";
 import {
   REPAIR_ISSUE_CATEGORIES,
@@ -110,6 +111,10 @@ export async function submitRepairReport(
       status: "error",
       fieldErrors: { photos: `Please attach no more than ${MAX_FILES} files.` },
     };
+  }
+  const tooLarge = totalSizeError(photoFiles);
+  if (tooLarge) {
+    return { status: "error", fieldErrors: { photos: tooLarge } };
   }
   const fileNotes: string[] = [];
   for (const file of photoFiles) {

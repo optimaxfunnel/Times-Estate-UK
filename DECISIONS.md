@@ -1,5 +1,52 @@
 # DECISIONS.md — Times Estate Ltd
 
+> **Restored 9 November 2026 from the project's git history** (commit
+> `5284b25`, 30 October 2026). This file was missing from the folder on
+> this computer. Any changes made to it between 31 October and
+> 2 November could not be recovered, so Day 7 updates may be absent.
+> Anything dated 9 November was added after the restore. See
+> `RECOVERY_REPORT_2026-11-09.md`.
+
+---
+
+### 2026-11-09 — Intro video stays on every first-visited page (owner decision)
+
+- **Decision (owner):** keep the full-screen intro video on whichever
+  page a visitor first lands on, not only the homepage. The owner's
+  words: "Keep on every page".
+- **Trade-off accepted:** on a phone's first visit, the main content
+  appears after about 3.3–3.6 s (Lighthouse mobile performance 87–93).
+  Returning visitors are unaffected (97–100; 0.8–1.1 s). Measurements
+  are in `QA_REPORT.md` (2026-11-09 addendum).
+- **Not done:** no change to the code.
+
+### 2026-11-09 — Recovery of an incomplete project copy
+
+- **Decision:** Restore the website from the original source code kept
+  inside the last build (`web/.next`) rather than rewriting it. Where
+  a recovered file and an existing file differ, keep the existing
+  (newer) file. Rebuild only the modules that could not be recovered,
+  and label them "RECONSTRUCTED".
+- **Why:** That keeps the team's own tested work. 58 recovered files
+  matched existing ones exactly, which proves the source is genuine.
+- **Decision:** Remove the recovered `EnquiryForm.tsx` instead of
+  restoring it.
+- **Why:** Nothing uses it, and it contains the pattern behind the
+  Day 7 critical server-hang defect. The current regression test
+  rejects it.
+- **Decision:** Stop the early enquiry and alert actions from logging
+  personal details.
+- **Why:** The current privacy test requires it.
+- **Decision:** Keep Next.js at 16.3.4 when reinstalling.
+- **Why:** The upgrade still awaits the owner's written approval.
+- **Not done:** No commit or push, because the git history in this
+  folder is damaged. Nothing deployed.
+
+---
+
+---
+
+
 A running log of judgement calls made during this project that aren't
 simple bug fixes — what was decided, why, and what the alternative
 would have been. Business-facing decisions (pricing, legal wording,

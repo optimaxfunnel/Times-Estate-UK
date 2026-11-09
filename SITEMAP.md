@@ -1,5 +1,17 @@
 # SITEMAP.md — Times Estate Ltd
 
+## Current state (2026-10-31)
+
+Every page in the Phase 4 sitemap exists and is linked (link check: 37
+internal addresses, none broken). Added since: `/company-information`
+(company disclosure) and the staff `/admin/content` page. The Segment 2
+proposals `/investors`, `/how-we-protect-you` and a separate
+`/tenants` page are **not built**: they wait for the owner's Gate 2
+choice (A, B or C). `/tenants` currently redirects to
+`/buyers#tenants`. `/areas` exists but is hidden from search engines
+until coverage is confirmed.
+
+
 # Segment 2 — Proposed sitemap and navigation (2026-10-20, at Approval Gate 2)
 
 **Status.** A proposal for the owner's approval. It keeps every route

@@ -6,7 +6,7 @@ import { headerNav, siteConfig } from "@/lib/site-config";
 import { socialProfiles } from "@/lib/social-config";
 import { ButtonLink } from "@/components/ui/ButtonLink";
 import { SocialLinks } from "@/components/social/SocialLinks";
-import { IconPhone } from "@/components/icons";
+import { IconMobile, IconPhone } from "@/components/icons";
 
 export function MobileMenu() {
   const [open, setOpen] = useState(false);
@@ -27,7 +27,12 @@ export function MobileMenu() {
       }
     }
     document.addEventListener("keydown", onKeyDown);
-    return () => document.removeEventListener("keydown", onKeyDown);
+    // Lets the floating assistant button step aside while the menu is open.
+    document.documentElement.setAttribute("data-menu-open", "");
+    return () => {
+      document.removeEventListener("keydown", onKeyDown);
+      document.documentElement.removeAttribute("data-menu-open");
+    };
   }, [open]);
 
   return (
@@ -104,12 +109,21 @@ export function MobileMenu() {
           <ButtonLink href="/sell" className="mt-4 w-full">
             Get a Valuation
           </ButtonLink>
+          {/* Both numbers, landline first (owner, 2026-10-30): on the
+              smallest phones the header has room only for a call icon. */}
           <a
             href="tel:+442086728080"
-            className="mt-4 flex items-center gap-2 text-sm font-semibold text-ink"
+            className="mt-4 flex min-h-11 items-center gap-2 text-sm font-semibold text-ink"
           >
             <IconPhone className="h-5 w-5 text-accent" />
             {siteConfig.phoneLandline.value}
+          </a>
+          <a
+            href="tel:+447779991313"
+            className="flex min-h-11 items-center gap-2 text-sm font-semibold text-ink"
+          >
+            <IconMobile className="h-5 w-5 text-accent" />
+            {siteConfig.phoneMobile.value}
           </a>
           <SocialLinks
             profiles={socialProfiles}

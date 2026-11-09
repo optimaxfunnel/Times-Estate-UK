@@ -71,14 +71,17 @@ export function ServiceStrip() {
                 </span>
                 <span className="mt-1.5 flex flex-wrap items-center justify-center gap-x-2 gap-y-0.5 text-[0.6rem] font-semibold uppercase tracking-[0.2em] text-secondary">
                   {tags.map((tag, i) => (
+                    // Dot after each tag (not before), so a narrow tile
+                    // wraps as "BUY • SELL •" / "MOVE" rather than leaving a
+                    // bullet stranded at the start of a line.
                     <span key={tag} className="inline-flex items-center gap-2">
-                      {i > 0 && (
+                      {tag}
+                      {i < tags.length - 1 && (
                         <span
                           aria-hidden
                           className="inline-block h-1 w-1 rounded-full bg-accent"
                         />
                       )}
-                      {tag}
                     </span>
                   ))}
                 </span>

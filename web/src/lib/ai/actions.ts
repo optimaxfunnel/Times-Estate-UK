@@ -28,5 +28,18 @@ export async function askAssistant(
   }
 
   const messages: AIMessage[] = [...history, { role: "user", content: clean }];
-  return aiProvider.respond(messages);
+  try {
+    return await aiProvider.respond(messages);
+  } catch {
+    // A provider outage must never leave the visitor without an answer
+    // or a way to reach a person (Day 7 functional testing).
+    return ASSISTANT_UNAVAILABLE;
+  }
 }
+
+const ASSISTANT_UNAVAILABLE: AIResponse = {
+  content:
+    "Sorry, the assistant isn't available right now. Please use the Contact page or call us, and a member of the team will help.",
+  sources: [{ href: "/contact", label: "Contact Us" }],
+  suggestsHumanFollowUp: true,
+};

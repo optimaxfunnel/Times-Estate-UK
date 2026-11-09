@@ -41,7 +41,9 @@ export function BrandLockup({
       <picture className="contents">
         <source
           type="image/webp"
-          srcSet="/brand/times-estate-ltd-emblem.webp 1x, /brand/times-estate-ltd-emblem@2x.webp 2x"
+          // Right-sized copies of the owner-supplied emblem (shown at most
+          // ~100px wide); the 400/800px originals stay untouched in /brand.
+          srcSet="/brand/times-estate-ltd-emblem-120.webp 1x, /brand/times-estate-ltd-emblem-240.webp 2x, /brand/times-estate-ltd-emblem-360.webp 3x"
         />
         <img
           src="/brand/times-estate-ltd-emblem.png"

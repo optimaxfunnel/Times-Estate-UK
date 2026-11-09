@@ -1,184 +1,231 @@
-# OPERATIONS_MANUAL.md — Times Estates (Times Estate Ltd)
+# OPERATIONS_MANUAL.md — Times Estate Ltd
 
-## Phase 7 note (2026-09-09)
+**Rewritten 2026-10-31 (Day 7) to match the website exactly as it is
+built today.** Where something is not built yet, this manual says so
+plainly rather than describing how it might work.
 
-Everything below is unchanged and still accurate — none of the gaps it
-describes (no real login, no real email notifications, no persistent
-database) have closed. If you're looking for the launch decision
-itself, see `FINAL_LAUNCH_APPROVAL.md`; if you're a developer, see
-`TECHNICAL_HANDOVER.md`.
+## Before you start: what is and isn't live
 
-## Who this is for
+- **The website is not live.** It runs only on this computer. Nothing
+  has been published, and nothing will be until the owner writes
+  exactly: "I approve production deployment."
+- **All properties on the site are demonstration data**, marked
+  "Sample property — not real" on every card and page.
+- **Nothing is permanently stored yet.** Enquiries, staff changes and
+  the activity log are held in the server's memory and **are lost every
+  time the website restarts**. A database must be chosen and approved
+  before real use (see `DEPLOYMENT.md` §11).
+- **No emails are sent.** Every notification is recorded as "Not sent"
+  until an email service is approved.
 
-This is a plain-English guide for Times Estate Ltd staff using the
-website day to day, once it is live. It assumes no technical
-background. **Today, none of this is live for real visitors** — the
-site is still in development, and the admin area uses a temporary,
-insecure development login that must be replaced before anyone relies
-on this guide for real work (see "Signing in" below).
+---
 
-## Signing in
+## 1. Signing in
 
-**Not yet real.** Today's admin area (`/admin`) has a "development-only
-role switcher" at the top of the page instead of a real login — you
-pick a role from a dropdown and click "Switch role." This exists only
-so the system can be built and tested; it has no password and proves
-nothing about who you are. Before this site is used for real work, it
-will be replaced with a proper sign-in (username/password or similar),
-and this section will be rewritten to match. Do not treat the current
-switcher as how staff will really sign in.
+**Today (testing only).** Go to `/admin/sign-in`, pick a role
+(Administrator, Manager, Property Editor, Content Editor or Enquiry
+Viewer) and press **Sign in**. There is no password, so this proves
+nothing about who you are. It exists only so the system can be tested,
+and it **switches itself off automatically on the public website** —
+on a live build, every staff page sends you back to the sign-in page.
+Sessions last 8 hours; "Sign out" ends one immediately.
 
-## Staff roles
+**Before launch.** A real sign-in service must be chosen, with
+two-step verification (a code from your phone as well as a password)
+for every member of staff. This is a launch blocker. Each person will
+have their own account, so the activity log shows who did what.
 
-Five roles exist, each seeing only what their job needs:
+## 2. Staff roles
 
-| Role | Can do |
-|---|---|
-| **Administrator** | Everything below, plus anything an Manager can do. |
-| **Manager** | Approve properties for publication, manage enquiries/leads, view the audit log. |
-| **Property Editor** | Add and edit properties, but cannot publish them live — a Manager or Administrator must approve. |
-| **Content Editor** | Edit property content, similar restrictions to Property Editor. |
-| **Enquiry Viewer** | View enquiries/leads only, cannot act on them or change anything. |
+Each person gets the smallest role that lets them do their job.
 
-## Adding a property
+| Role | Can do | Cannot do |
+|---|---|---|
+| **Administrator** | Everything, including managing staff accounts (once real accounts exist) | — |
+| **Manager** | Approve and publish properties, change any status, withdraw or archive, manage enquiries, record valuations, read the activity log | Manage staff accounts |
+| **Property Editor** | Edit draft properties and submit them for approval | Publish, change a live listing, withdraw or archive, see enquiries |
+| **Content Editor** | Reserved for editing page text — **no page editor exists yet** (see §11) | Properties, enquiries |
+| **Enquiry Viewer** | Read enquiries ("View only") | Change an enquiry, read the activity log, touch properties |
 
-1. Go to **Admin → Properties**.
-2. (Once building this out further) use "Add property" and fill in the
-   details — address, price, description, photos, and so on.
-3. The property starts as **Draft** — it is never visible to the
-   public in this state.
+These rules are checked by the server every time, not just hidden on
+the screen, and tested automatically (`TEST_REPORT.md`).
 
-## Editing a property
+## 3. Adding a property
 
-1. Go to **Admin → Properties**, find the property, click **Edit**.
-2. Change the summary, description, status, or other details.
-3. Click **Save changes**. You'll see a confirmation, and the change is
-   recorded in the **Audit Log** automatically.
+**Not built yet.** There is no "Add property" screen. Today the
+listings come from a demonstration file. The plan is for new listings
+to arrive from your property software (CRM) through a feed, arriving as
+"Awaiting approval" so a Manager checks them before anything is public
+(`INTEGRATIONS.md`, `DATA_MODEL.md`). If you would rather add listings
+by hand on the website, that screen needs to be built — tell the
+developer which you prefer.
 
-## Approving publication
+## 4. Editing a property
 
-- A **Property Editor** or **Content Editor** can move a property to
-  **Awaiting approval**, but not further.
-- Only a **Manager** or **Administrator** can move a property from
-  Awaiting approval to a publicly visible status (e.g. **Available**).
-- If a Property Editor tries to publish directly, they'll see a clear
-  message explaining only a Manager/Administrator can do that — this
-  is intentional, not a fault.
+1. Sign in, open **Properties**, click the property.
+2. Change the summary or description, choose the status, press
+   **Save changes**.
+3. You'll see "Property updated." or a plain reason why not.
 
-## Changing a property's status
+A Property Editor can edit **drafts** only. A listing already on the
+public site can only be changed by a Manager or Administrator.
 
-Use the **Status** dropdown on the property's edit page: Draft →
-Awaiting approval → Available (or Under Offer, Sold, Let Agreed, and
-so on, once it's genuinely at that stage). Every change is logged.
+## 5. Approving publication
 
-## Reviewing enquiries (leads)
+1. A Property Editor sets a draft to **Awaiting approval** and saves.
+2. A Manager opens it, checks every detail against the source documents
+   (EPC certificate, title, the vendor's or landlord's confirmation),
+   sets the status to **Available** and presses **Save changes**.
+3. Only then does it appear on the public site. Drafts and properties
+   awaiting approval are never public.
 
-1. Go to **Admin → Leads** (only visible to roles with permission).
-2. You'll see every enquiry submitted through the website this session
-   — sales/rental valuations, viewing requests, repair reports,
-   general enquiries, and more — each with its category, priority, and
-   current stage.
-3. Click **Manage** on a lead to see full detail, change its stage
-   (New → Acknowledged → Assigned → Contact attempted → Appointment
-   booked → Qualified → Instruction won/lost → Closed), assign it to a
-   colleague, or add a note.
-4. **Today, no real email or text message is sent to you when a new
-   enquiry arrives** — you need to check this page directly. This is a
-   known, documented gap (see `AUTOMATION_WORKFLOWS.md`) that will be
-   closed once an email/notification provider is approved.
+Every approval, and every refused attempt, is written to the activity
+log (**Audit Log**).
 
-## Processing repair reports
+## 6. Changing a property's status
 
-Repair reports appear in the same Leads list, category "Repair
-report," with their urgency (Routine/Urgent/Emergency) shown as the
-priority. **An emergency-marked report is not automatically phoned or
-texted to anyone today** — it simply appears with "Emergency" priority
-in the list, so it's important to check this list regularly, or ask for
-this to be prioritised once a real alerting method is approved. Every
-repair report also records what photos were attempted to be attached
-(the photos themselves are not yet stored anywhere — only their name,
-size and type — see `SECURITY.md`).
+| Status | Public? | Who can set it |
+|---|---|---|
+| Draft, Awaiting approval | No | Editors (Managers if the listing is currently live) |
+| Available, Under offer, Sold STC, Sold, Let agreed, Let | Yes | Managers, Administrators |
+| Withdrawn, Archived | No | Managers, Administrators |
 
-## Reviewing AI-generated drafts
+Use the status list on the property's edit page, then **Save changes**.
 
-The website includes an AI assistant, currently in demonstration mode
-(it answers from a small, fixed set of approved facts, never invents
-one, and never connects to a real AI company). It does not draft
-anything for you to review today — it only answers visitor questions
-directly on the site, always saying clearly that it is an AI, and
-always refusing legal, financial, mortgage and surveying questions,
-negotiation, and tenancy confirmation. If this ever changes to draft
-messages for staff review, that review step will be built and
-documented here at that time — it does not exist today.
+## 7. Reviewing enquiries
 
-## Handling failed notifications
+1. Open **Leads**. Every enquiry from every form is listed with its
+   type, priority, stage, when it arrived, and whether the notification
+   was sent.
+2. Managers and Administrators click **Manage** to open one. Enquiry
+   Viewers see "View only".
+3. On the lead page you can: set the **stage** (New → Acknowledged →
+   Assigned → Contact attempted → Appointment booked → Qualified →
+   Instruction won or lost → Closed), **assign** it to a person, set the **priority**, set
+   a **follow-up date**, and add a **note**. Press **Update Lead**.
+4. Leads due for follow-up are flagged "Due soon"; missed ones
+   "Overdue".
 
-Every lead's detail page shows its notification status: "Sent," "Not
-sent (no provider)," or "Failed." Today, every lead shows "Not sent"
-because no real email provider is connected yet — this is expected,
-not a fault. Once a provider is connected, a "Failed" status means the
-system tried to notify someone and it didn't go through — check the
-notification log shown on that lead for the reason, and follow up with
-that person directly rather than assuming they were told.
+**Viewings:** a viewing can only be marked "Appointment booked" after
+you tick that the occupier has confirmed access. The website never
+confirms a viewing to a customer by itself.
 
-## Updating website content
+**Valuations:** only a Manager or Administrator can record a valuation
+figure on a lead (**Confirm valuation**). The website never gives an automatic valuation.
 
-Most page text (service descriptions, the About page, legal pages) is
-currently set directly in the code by the development team, not
-through an editable content system — see `INTEGRATIONS.md`'s CMS
-comparison for the options considered. To request a content change,
-tell the development team what needs to change and why; changes go
-through `CONTENT_VERIFICATION_REGISTER.md` first if they're a factual
-claim, to keep everything the site says checked and true.
+## 8. Processing repair reports
 
-## Backups
+Repair reports arrive in **Leads** as "Repair report", with the
+tenant's chosen urgency as the priority.
 
-**Not applicable today** — there is no permanent database yet; all
-data lives only in the website's memory while it's running and is
-lost when it restarts. Once a real database exists, see
-`DEPLOYMENT.md` §6 for the backup plan, and this section will be
-updated with what staff need to know (mainly: nothing day-to-day,
-backups will run automatically).
+1. **Emergencies first.** If the tenant chose "Emergency", treat it as
+   urgent immediately and phone them. The website shows tenants
+   emergency numbers (999, gas 0800 111 999, power cut 105) but **does
+   not decide whether something is an emergency** — a person does.
+2. Contact the tenant, arrange a contractor (the tenant has agreed to
+   their details being shared with one), and record each step as a
+   stage and note.
+3. **Photos:** the website checks each file (type, size, that it really
+   is a photo or PDF) but **does not keep them yet** — no secure file
+   storage has been approved. Ask the tenant to email photos if you
+   need them until storage is set up.
 
-## Restoring service
+Still needed from the owner: your out-of-hours process and response
+times (`CONTENT_REQUIRED.md`).
 
-If the website appears down or broken:
+## 9. Reviewing AI-generated drafts
 
-1. Do not attempt to fix the server yourself — contact the development
-   team or hosting provider (see "Obtaining technical support" below).
-2. If you know a recent change was made just before the problem
-   started, mention that — it helps diagnose faster.
-3. See `DEPLOYMENT.md` §10 for the technical rollback procedure that
-   the development team or hosting provider will follow.
+The assistant on the website **never sends anything to anyone**. The
+system can only create *drafts* marked "requires human approval", and
+refuses to draft anything about valuations, money, tenancies, legal
+matters or emergencies — those are always written by a person.
 
-## Security incident escalation
+**Not built yet:** a screen to list and review those drafts. Until it
+exists (and until an email service is approved), no drafts reach staff
+and none are sent. When it is built, the rule is: read every draft,
+edit it, and send it yourself — or delete it.
 
-If you suspect a security problem (e.g. you can see something you
-shouldn't, a form seems to be exposing other people's information, or
-you receive a suspicious request claiming to be from the website):
+## 10. Handling failed notifications
 
-1. Stop using the affected feature immediately.
-2. Contact the development team directly and describe exactly what you
-   saw, with a screenshot if possible.
-3. Do not discuss the specifics publicly or with anyone outside the
-   business until it's been assessed.
-4. See `SECURITY.md` for the technical controls already in place and
-   what's still outstanding.
+In **Leads**, the notification column shows:
 
-## Routine maintenance
+- **Not sent (no provider)** — normal today: no email service is
+  connected. Check the Leads list yourself several times a day.
+- **Failed** — the email service (once connected) could not deliver
+  the alert. The enquiry itself is safe in the list. Open it, deal with
+  it as normal, and tell the Administrator if failures continue.
 
-See `DEPLOYMENT.md` §12 for the technical maintenance schedule
-(weekly/monthly/quarterly checks). As a staff member, your part is
-mainly: check the Leads list regularly (until real notifications
-exist), and flag any content that needs updating via
-`CONTENT_VERIFICATION_REGISTER.md`.
+The customer always sees their confirmation, even if the staff alert
+fails.
 
-## Obtaining technical support
+## 11. Updating website content
 
-Contact the development team who built this site (see the project's
-`README.md` for how this repository is organised, if you're speaking
-with a new developer taking over). Have ready: what you were doing,
-what you expected to happen, what happened instead, and — if
-possible — a screenshot. For anything urgent affecting real visitors
-once the site is live, treat it with the same urgency as the
-"Restoring service" section above.
+- **Properties:** through the admin area (§4–6).
+- **Page text** (About, Fees, services, legal pages): **there is no page
+  editor yet** — text lives in the website's code, so changes are made
+  by the developer. Send the new wording, and its source, in writing.
+- **Facts** (phone numbers, addresses, memberships, fees): every fact
+  must first be recorded in `CONTENT_VERIFICATION_REGISTER.md` with its
+  source and status. Nothing unverified is presented as fact.
+- **Content gaps:** sign in and open **Content** to see everything
+  still missing and which items block launch.
+
+## 12. Backups
+
+**Nothing to back up yet** — there is no database, so data is not kept
+at all between restarts. When a database is approved, the plan in
+`DEPLOYMENT.md` §10 applies: automatic daily backups kept for at least
+30 days, a monthly test that a backup can actually be restored, and
+backups stored separately from the live site. The website's code is
+already backed up on GitHub after every working day.
+
+## 13. Restoring service
+
+If the website stops working once live:
+
+1. Check whether it's down for everyone (try a phone on mobile data).
+2. Tell the Administrator and the developer immediately.
+3. The developer follows `DEPLOYMENT.md` §12: restart the service, or
+   roll back to the last version that worked (every version is kept in
+   GitHub, so this takes minutes).
+4. Meanwhile, put the office phone numbers on your social pages so
+   customers can still reach you.
+
+## 14. Security incident escalation
+
+Treat any of these as an incident: a staff account used by someone
+else, a lost phone or laptop with access, strange changes in the Audit
+Log, customer data seen where it shouldn't be, or a message claiming
+your site has been hacked.
+
+1. **Immediately:** tell the Administrator and the developer. Don't
+   delete anything — evidence matters.
+2. **Within the hour:** the Administrator disables the affected
+   account(s) and the developer changes the website's secret keys.
+3. **If customer personal data may have been exposed:** the owner
+   decides, with advice, whether to report it to the Information
+   Commissioner's Office — this must be done **within 72 hours** of
+   becoming aware of a reportable breach — and whether to tell the
+   people affected. Record what happened, when, and what was done.
+
+## 15. Routine maintenance
+
+| How often | Task | Who |
+|---|---|---|
+| Daily | Check Leads (while emails are off, several times a day) | Staff |
+| Weekly | Look for "Overdue" leads; check the Audit Log for anything unexpected | Manager |
+| Monthly | Apply security updates to the website software and re-run the test suite (`TEST_REPORT.md`) | Developer |
+| Monthly | Remove staff accounts for anyone who has left | Administrator |
+| Quarterly | Test restoring a backup (once a database exists) | Developer |
+| Yearly | Renew and re-check redress scheme, Client Money Protection and insurance details on the site | Owner |
+
+## 16. Getting technical support
+
+- **Website code and history:** GitHub repository (branch
+  `segment-1-audit` today).
+- **Developer "start here":** `TECHNICAL_HANDOVER.md` and `README.md`.
+- **What's tested and how:** `TEST_REPORT.md`.
+- **What's still open:** `REQUIREMENT_TRACEABILITY.md` and the
+  **Content** page in admin.
+- When asking for help, say what you were doing, what you expected,
+  what happened, and the time — and never send passwords by email.

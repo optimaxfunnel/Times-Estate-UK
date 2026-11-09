@@ -1,5 +1,24 @@
 # CONTENT_REQUIRED.md — Master content checklist
 
+> **Restored 9 November 2026 from the project's git history** (commit
+> `5284b25`, 30 October 2026). This file was missing from the folder on
+> this computer. Any changes made to it between 31 October and
+> 2 November could not be recovered, so Day 7 updates may be absent.
+> Anything dated 9 November was added after the restore. See
+> `RECOVERY_REPORT_2026-11-09.md`.
+
+---
+
+## Added 9 November 2026
+
+- [ ] **Cookie Policy table update:** it lists a cookie name that no
+  longer exists (`dev_mock_role`; the staff cookie is now
+  `te_admin_session`) and omits the saved-searches and "intro seen"
+  browser storage. Include this in the solicitor review.
+
+---
+
+
 Every item below is required before the relevant part of the site can go
 live with real (non-demo) content. Nothing here should be filled in with
 invented material — if it isn't supplied or confirmed, it stays checked

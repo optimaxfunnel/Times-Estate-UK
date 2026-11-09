@@ -1,5 +1,57 @@
 # LAUNCH_CHECKLIST.md — Times Estates (Times Estate Ltd)
 
+> **Restored 9 November 2026 from the project's git history** (commit
+> `5284b25`, 30 October 2026). This file was missing from the folder on
+> this computer. Any changes made to it between 31 October and
+> 2 November could not be recovered, so Day 7 updates may be absent.
+> Anything dated 9 November was added after the restore. See
+> `RECOVERY_REPORT_2026-11-09.md`.
+
+---
+
+## Verdict: NO-GO
+
+### Must be done before launch
+
+- [x] **Lost tests rewritten.** 241 pass (9 Nov), against 157 on 31 Oct
+- [x] **Full QA re-run after recovery (9 Nov):** axe 74 scans / 0
+  violations; no sideways scrolling at 6 widths (1 fix); Lighthouse
+  100 on desktop; see `QA_REPORT.md`
+- [x] **Owner decision (9 Nov):** keep the intro video on every
+  first-visited page, accepting a slower first mobile visit (about
+  3.5 s). See `DECISIONS.md`.
+- [ ] **Correct the cookie table** on `/cookie-policy` (out-of-date
+  cookie name; two storage items missing). Part of the solicitor review.
+- [ ] Testing with a screen-reader user
+- [ ] **Approve and apply the Next.js upgrade** ("approve the Next.js
+  upgrade")
+- [ ] **Choose and connect a database**, so that leads aren't lost
+  on restart
+- [ ] **Real staff sign-in with two-step verification**
+- [ ] **Email provider, form recipients and reply-to addresses**
+  approved
+- [ ] **Fees and tenant fees** published with real amounts
+- [ ] **Redress and CMP memberships** verified; CMP certificate
+  published
+- [ ] **Solicitor review** of all legal pages
+- [ ] **Real listings** replace the sample properties
+- [ ] Domain ownership confirmed; DNS, monitoring and backups set up
+  (`DEPLOYMENT.md`)
+- [ ] The owner writes exactly: **"I approve production deployment."**
+
+### Already in place
+
+- [x] Production build passes (41 pages, re-checked 9 Nov)
+- [x] Type-check, lint and the surviving tests pass (re-checked 9 Nov)
+- [x] Server-hang defect fixed and guarded by a test
+- [x] Security headers in place
+- [x] No tracking, so no cookie banner is needed yet
+- [x] Demonstration content labelled everywhere
+- [x] Deployment and rollback procedures written (not exercised)
+
+---
+
+
 ## Status of this document
 
 Phase 6 deliverable (2026-09-09). A concise, plain-English go/no-go

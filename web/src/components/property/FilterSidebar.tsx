@@ -30,7 +30,7 @@ function Group({
 }) {
   return (
     <details open={open} className="group/filter border-b border-border py-3">
-      <summary className="flex cursor-pointer list-none items-center justify-between rounded-sm text-sm font-semibold text-ink [&::-webkit-details-marker]:hidden">
+      <summary className="flex min-h-6 cursor-pointer list-none items-center justify-between rounded-sm text-sm font-semibold text-ink [&::-webkit-details-marker]:hidden">
         {title}
         <IconChevronDown className="h-4 w-4 text-ink/50 transition-transform group-open/filter:rotate-180" />
       </summary>
@@ -283,7 +283,7 @@ export function FilterSidebar({
         </button>
         <a
           href={action}
-          className="text-center text-xs text-ink/60 underline underline-offset-4 hover:text-accent"
+          className="inline-flex min-h-6 items-center justify-center text-xs text-ink/60 underline underline-offset-4 hover:text-accent"
         >
           Clear all filters
         </a>

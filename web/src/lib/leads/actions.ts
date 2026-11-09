@@ -7,7 +7,13 @@ import {
   type LeadFormState,
 } from "@/lib/leads/lead-schema";
 import { createLead } from "@/lib/leads/provider";
-import type { LeadCategory } from "@/lib/leads/types";
+import {
+  CATEGORY_FIELD,
+  SOURCE_PAGE_FIELD,
+  REQUIRED_FIELDS_BY_CATEGORY,
+  parseLeadCategory,
+  parseSourcePage,
+} from "@/lib/leads/form-config";
 import {
   isHoneypotTriggered,
   HONEYPOT_FIELD_NAME,
@@ -23,6 +29,11 @@ type BaseFieldKey = keyof z.infer<typeof baseContactSchema>;
  * Handles every lead form on the site (valuations, registrations,
  * enquiries, viewing requests, callback requests, repair reports).
  *
+ * The action is deliberately not bound to per-form arguments — see
+ * /lib/leads/form-config.ts for why (server-hang defect). The category
+ * and source page arrive as plain hidden fields and are checked against
+ * a server-side list; the required fields come from that list too.
+ *
  * Order of checks matters for both security and honesty:
  * 1. Honeypot — silently "succeed" without creating a lead or logging
  *    a notification, so an automated submitter gets no signal.
@@ -37,12 +48,20 @@ type BaseFieldKey = keyof z.infer<typeof baseContactSchema>;
  *    notification attempt — see /lib/leads/notify.ts).
  */
 export async function submitLeadForm(
-  category: LeadCategory,
-  sourcePage: string,
-  requiredExtraFields: string[],
   _prevState: LeadFormState,
   formData: FormData,
 ): Promise<LeadFormState> {
+  const category = parseLeadCategory(formData.get(CATEGORY_FIELD));
+  if (!category) {
+    return {
+      status: "error",
+      message:
+        "Sorry, this form could not be sent. Please refresh the page and try again, or contact us directly.",
+    };
+  }
+  const sourcePage = parseSourcePage(formData.get(SOURCE_PAGE_FIELD));
+  const requiredExtraFields = REQUIRED_FIELDS_BY_CATEGORY[category] ?? [];
+
   if (isHoneypotTriggered(formData)) {
     return {
       status: "success",
@@ -60,16 +79,17 @@ export async function submitLeadForm(
     };
   }
 
-  // React injects hidden `$ACTION_*` fields into the FormData of a form
-  // bound to a server action (progressive-enhancement encoding of the
-  // bound arguments) — these are not real form input and must never be
-  // stored as lead data, so they're excluded before anything else runs.
+  // React injects hidden `$ACTION_*` fields into a server-action form's
+  // FormData for no-JavaScript submissions — not real form input, so they
+  // are never stored as lead data. Nor are the two routing fields.
   const raw = Object.fromEntries(
     Array.from(formData.entries()).filter(
       ([key, value]) => typeof value === "string" && !key.startsWith("$ACTION"),
     ),
   );
   delete raw[HONEYPOT_FIELD_NAME];
+  delete raw[CATEGORY_FIELD];
+  delete raw[SOURCE_PAGE_FIELD];
   const sanitised = sanitiseFields(raw as Record<string, string>);
 
   const contactResult = baseContactSchema.safeParse(sanitised);

@@ -22,6 +22,7 @@ import {
   toPublicCommercialDetails,
 } from "@/lib/property/types";
 import { formatPriceLabel, formatStatusLabel } from "@/lib/property/format";
+import { PlaceholderNotice } from "@/components/ui/PlaceholderNotice";
 
 export async function generateMetadata({
   params,
@@ -302,17 +303,15 @@ export default async function PropertyDetailPage({
             </div>
           )}
 
-          <div className="rounded-sm border border-dashed border-warning/60 bg-warning/5 p-4 text-xs text-ink/70">
-            <p className="font-semibold uppercase tracking-wide text-warning-text">
-              Material information &mdash; requires professional review
-            </p>
-            <p className="mt-1">
-              A full, solicitor-reviewed material information / property
-              particulars disclaimer has not yet been drafted for this site (see
-              /CONTENT_REQUIRED.md). Nothing above should be relied upon as a
-              legal description of the property until that review is complete.
-            </p>
-          </div>
+          {/* Internal note: hidden on the public build like every other
+              content gap. A solicitor-approved particulars disclaimer must
+              replace it before real listings go live (content register). */}
+          <PlaceholderNotice status="requires-professional-review">
+            <strong>Material information.</strong> A solicitor-reviewed property
+            particulars disclaimer has not yet been drafted. Nothing above
+            should be relied upon as a legal description of the property until
+            that review is complete.
+          </PlaceholderNotice>
         </div>
 
         <aside className="space-y-6">

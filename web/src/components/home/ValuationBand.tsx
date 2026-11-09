@@ -1,6 +1,5 @@
 import Link from "next/link";
 import { Container } from "@/components/ui/Container";
-import { Badge } from "@/components/ui/Badge";
 import { SkylineBackdrop } from "@/components/home/SkylineBackdrop";
 import { IconArrowRight, IconCheck, IconQuote } from "@/components/icons";
 
@@ -67,7 +66,12 @@ export function ValuationBand() {
           <IconQuote className="h-7 w-7 text-accent-vivid" />
           <p className="mt-2 flex flex-wrap items-center gap-2 text-sm font-semibold">
             Client reviews
-            <Badge status="missing" className="bg-white/95" />
+            {/* The labelled empty slot is the owner's decision (DECISIONS.md
+                2026-10-20); "Not yet published" says so without the internal
+                "Missing" status, which read as a broken page. */}
+            <span className="rounded-sm bg-white/95 px-1.5 py-0.5 text-[0.65rem] font-semibold uppercase tracking-wide text-ink">
+              Not yet published
+            </span>
           </p>
           <p className="mt-2 text-sm leading-relaxed text-white/70">
             Verified client reviews will be published here once supplied by

@@ -1,5 +1,13 @@
 # PRIVACY_DATA_MAP.md — Times Estate Ltd
 
+> **Restored 9 November 2026 from the project's git history** (commit
+> `5284b25`, 30 October 2026). This file was missing from the folder on
+> this computer. Any changes made to it between 31 October and
+> 2 November could not be recovered, so Day 7 updates may be absent.
+> Anything dated 9 November was added after the restore. See
+> `RECOVERY_REPORT_2026-11-09.md`.
+
+
 ## Day 5 Task 6 update (2026-10-29) — data map
 
 **This map does not claim legal compliance.** Every "basis" below is a

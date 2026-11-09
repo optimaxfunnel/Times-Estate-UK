@@ -1,5 +1,71 @@
 # FINAL LAUNCH APPROVAL REQUEST — Times Estates
 
+## Deployment-readiness checklist (2026-10-31, end of Day 7)
+
+**Recommendation: CONDITIONALLY READY for owner review — NOT ready to
+deploy.** The website is technically complete enough for the owner to
+review it in full. It must not be published until the blockers below
+are cleared and the owner writes exactly: "I approve production
+deployment." Earlier recommendations below this section are kept as
+history.
+
+### Status of each pre-deployment item
+
+| Item | Status | Detail |
+|---|---|---|
+| Successful production build | ✅ Ready | `next build` passes, 41 routes (31 Oct) |
+| Test report | ✅ Ready | `TEST_REPORT.md` Day 7: 17 of 18 checks pass |
+| Outstanding issues | ⚠️ Open | Next.js advisory; 10 "Not started" items in `REQUIREMENT_TRACEABILITY.md` |
+| Environment variables | ⚠️ Listed, not set | `DEPLOYMENT.md` R2; `NEXT_PUBLIC_SITE_URL` and `ADMIN_SESSION_SECRET` required |
+| Form recipients | ❌ Not decided | Owner to approve who receives each type of enquiry (`EMAIL_AND_FORM_ROUTING.md`) |
+| Reply-to addresses | ❌ Not decided | Owner to approve |
+| CRM settings | ❌ Not chosen | Adapter built; no CRM selected |
+| Property-feed authority | ❌ Not given | Written authority from the owner (and the CRM/portal terms) needed before any feed |
+| AI provider | ✅ Not needed for launch | Demonstration assistant works without one; optional later |
+| Analytics | ✅ None (by choice) | Nothing tracks visitors; adding analytics needs consent first |
+| Cookie consent | ✅ Not needed today | No tracking cookies; banner required before any analytics |
+| Legal pages | ⚠️ Drafted | Privacy, cookies, terms, complaints, fees, accessibility, company information — all marked draft |
+| Professional legal review | ❌ Not done | Solicitor / compliance review of all of the above, plus emergency wording and particulars disclaimer |
+| Backups | ❌ Nothing to back up | Needs the database; procedure ready (R6, R7) |
+| Domain | ⚠️ Unconfirmed | `timesestates.co.uk` supplied by owner; control and renewal not verified |
+| DNS | ⚠️ Plan ready | No change made; export-first procedure in R4 |
+| Monitoring | ⚠️ Plan ready | Not set up (R8, R9) |
+| Rollback | ✅ Procedure ready | R10; not exercised (nothing deployed) |
+
+### Completion standard — checked against evidence
+
+| Standard | Met? | Evidence |
+|---|---|---|
+| Approved pages exist | ✅ | All Phase 4 pages; link check 37/37 |
+| Residential and commercial services clearly separated | ✅ | Separate navigation, pages, search and enquiry forms |
+| Sales, lettings and management journeys work | ✅ | All forms tested on a production build |
+| Property search works | ✅ | Filters, sorting, empty state tested |
+| CMS controls work | ⚠️ Partly | Edit, approve, status, audit tested; **no add-property screen, no page-text editor** |
+| Automation retains human approval | ✅ | Drafts only; valuations and viewings need staff; tests |
+| Forms have been tested | ✅ | 14 forms valid + invalid, Day 7 |
+| Responsive | ✅ | 6 widths, 104 captures, 0 findings |
+| Accessibility reviewed | ✅ | axe 48 scans 0 violations; Lighthouse 100 |
+| Performance measured | ✅ | Lighthouse 100, under 1 s |
+| SEO essentials implemented | ✅ | Titles, canonicals, sitemap, robots, structured data |
+| Security checks complete | ✅ with failure | All run; **dependency audit fails** (Next.js) |
+| TypeScript passes | ✅ | — |
+| Lint passes | ✅ | — |
+| Required tests pass | ✅ | 157/157 |
+| Production build succeeds | ✅ | — |
+| Documentation complete | ✅ | Day 7 Task 5 |
+| No secrets committed | ✅ | Scan of all 43 commits |
+| Placeholders identified | ✅ | `/admin/content`, `CONTENT_REQUIRED.md` |
+| Unresolved decisions listed | ✅ | This checklist; `REQUIREMENT_TRACEABILITY.md` |
+| Deployment and rollback instructions ready | ✅ | `DEPLOYMENT.md` runbook R1–R12 |
+
+**Why not "fully complete":** a critical security update awaits
+approval; there is no database or real staff sign-in; fees and
+memberships are unverified; legal pages are unreviewed; three staff
+features (add property, AI-draft review, page editor) are not built.
+
+---
+
+
 **Prepared:** 2026-09-09 (Phase 7). **Status: awaiting your decision.**
 Nothing below has been actioned. Full detail behind every line: `DEPLOYMENT.md`,
 `EMAIL_AND_FORM_ROUTING.md`, `TECHNICAL_HANDOVER.md`, `QA_REPORT.md`,

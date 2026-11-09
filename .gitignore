@@ -44,3 +44,6 @@ Thumbs.db
 # Misc
 *.local
 qa-screenshots/
+
+# Recovery working files and backups (2026-11-09) — large; kept locally only
+_recovery/

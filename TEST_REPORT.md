@@ -1,5 +1,98 @@
 # TEST_REPORT.md — Times Estate Ltd
 
+> **Restored 9 November 2026 from the project's git history** (commit
+> `5284b25`, 30 October 2026). This file was missing from the folder on
+> this computer. Any changes made to it between 31 October and
+> 2 November could not be recovered, so Day 7 updates may be absent.
+> Anything dated 9 November was added after the restore. See
+> `RECOVERY_REPORT_2026-11-09.md`.
+
+---
+
+## 9 November 2026 (later) — lost tests rewritten
+
+The tests lost in the incomplete copy were rewritten from scratch
+against the current code. They are new tests, not the originals, and
+are marked as rewritten at the top of each file.
+
+| Check | Result |
+|---|---|
+| Automated tests | ✅ **241 passed, 0 failed** (32 files; up from 82 in 17 files) |
+| Type-check, lint | ✅ Pass |
+| Production build | ✅ 41 pages |
+
+**What the 15 new test files cover (159 new tests):**
+
+| Area | File | Examples of what is proven |
+|---|---|---|
+| Staff sign-in token | `auth/session-token.test.ts` | An edited role, wrong secret, expired, forged, unsigned or malformed token is rejected |
+| Publishing rules | `property/workflow.test.ts` | Editors can't publish, can't take live listings back to Draft and can't edit live text; Managers can; exactly four statuses are public |
+| Valuations and viewings | `leads/controls.test.ts` | An automated estimate is never recorded; only Managers/Admins record figures; formal valuations need the valuer's reference; viewings aren't "booked" until access is confirmed |
+| Every enquiry form | `leads/actions.test.ts` | Complete forms create a lead; forged categories, missing fields, past viewing dates and missing consent are refused; bots get a fake "success" and nothing is stored; repeat submissions are slowed; HTML is stripped; off-site source pages are ignored |
+| Repair reports | `leads/repair-actions.test.ts` | Urgency sets priority; emergencies are told not to wait; contractor-sharing consent is required; disguised programs and more than 5 files are rejected; photos are checked but not kept |
+| Lead store and notifications | `leads/provider.test.ts` | Newest first, filters, audit entries, notes, valuations; "not sent" is recorded; **no personal details in logs**; delivery failures are recorded; each type goes to the right team |
+| Contact details and wording | `leads/lead-schema.test.ts` | Readable error messages; every lead type has confirmation wording; never "viewing confirmed"; never a valuation figure |
+| Assistant refusals and drafts | `ai/refusals.test.ts` | Each "must never" in `AI_SAFETY_RULES.md`; ordinary questions still answered; sensitive topics are never drafted |
+| Input cleaning | `security/sanitize.test.ts` | Script and HTML tags and control characters removed; ordinary text (£, &, apostrophes) kept |
+| Audit log | `auth/audit-log.test.ts` | Newest first; can't be altered from outside |
+| Search | `property/search-params.test.ts` | Unknown filter values ignored; **drafts and withdrawn listings can't be revealed through the address bar** |
+| Prices and summaries | `property/format.test.ts` | Qualifier placement; POA instead of an invented figure; filter counts |
+| Property records and CRM feeds | `property/schema.test.ts` | Every sample record is valid; all six CRMs switched off; imports arrive unpublished, unverified and not demo; bad records reported |
+| Favourites and saved searches | `browser-storage.test.ts` | Toggle, no duplicates, max 20; survives corrupted or blocked storage |
+| Rules 1 and 2 guards | `content-guards.test.ts` | Only Companies House facts are "confirmed"; memberships stay "requires verification"; no invented opening hours; no social links; every sample property labelled demo; launch blockers listed |
+
+**Findings from the new tests:**
+1. **Fixed (small):** the plain-English search summary read "priced␣␣up
+   to £…", with a double space, when only a maximum price was set
+   (`search-params.ts`). No page displays it today.
+2. **Recorded, not changed (minor):** on enquiry forms, the "agree to
+   the Privacy Policy" message appears only after the other errors are
+   corrected (a quirk of the validation library). Consent is always
+   enforced, and a lead is never created without it.
+3. **Confirmed deliberate:** one sample listing (`demo-com-let-1`) is
+   marked "verified" so the staff screens can show both states. It is
+   still labelled demo.
+
+**Still not re-run:** the accessibility (axe/Lighthouse), screen-size
+and performance audits.
+
+---
+
+## 9 November 2026 — after recovery
+
+Run on this computer against the recovered project.
+
+| Check | Command | Result |
+|---|---|---|
+| Type-check | `npx tsc --noEmit` | ✅ No errors |
+| Lint | `npx eslint src` | ✅ No problems |
+| Unit and component tests | `npx vitest run` | ✅ 82 passed, 0 failed (17 files) |
+| Production build | `npx next build` | ✅ 41 pages generated |
+| Pages respond on the production build | Browser, `next start` | ✅ 23 pages checked: all 200 except `/tenants`, which redirects as designed |
+| Security headers | Browser | ✅ Content-Security-Policy, X-Frame-Options DENY and the others present |
+| Images | Browser | ✅ No broken images after restoring the favicon and emblem sizes |
+| Admin on a production build | Browser | ✅ Shows "Administration is not available", as designed |
+| Draft legal pages | Browser | ✅ Privacy Policy shows its draft banner |
+
+**Defects found and fixed during recovery:**
+- An old recovered form used the retired server-hang pattern. The
+  regression test caught it, and the form was removed.
+- An old recovered action logged visitors' email addresses. The
+  privacy test caught it, and the action was fixed.
+- A broken header logo (two emblem sizes missing) and a missing
+  favicon were both restored.
+
+**Gap against 31 October:** 157 tests then, 82 now. The other test
+files were lost and cannot be recovered from a build. They must be
+rewritten (or recovered from the original copy) before a launch
+decision. Accessibility (axe/Lighthouse), responsive and performance
+audits were **not** re-run today.
+
+---
+
+---
+
+
 ## 2026-10-29 (Day 5) — forms, leads, repairs, AI, privacy
 
 | Check | Command | Result |

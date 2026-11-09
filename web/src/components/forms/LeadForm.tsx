@@ -3,6 +3,7 @@
 import { useActionState, useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { submitLeadForm } from "@/lib/leads/actions";
+import { CATEGORY_FIELD, SOURCE_PAGE_FIELD } from "@/lib/leads/form-config";
 import {
   TextField,
   TextAreaField,
@@ -68,8 +69,12 @@ export function LeadForm({
   const requiredExtraFields = fields
     .filter((f) => f.required)
     .map((f) => f.name);
+  // Never bind arguments into this action: a re-created binding on each
+  // render made the server loop forever on no-JavaScript submissions.
+  // Category and page travel as hidden fields; the server owns the rules
+  // (lib/leads/form-config.ts).
   const [state, formAction, isPending] = useActionState(
-    submitLeadForm.bind(null, category, sourcePage, requiredExtraFields),
+    submitLeadForm,
     initialState,
   );
   const [clientErrors, setClientErrors] = useState<Record<string, string>>({});
@@ -136,6 +141,8 @@ export function LeadForm({
       noValidate
     >
       <HoneypotField />
+      <input type="hidden" name={CATEGORY_FIELD} value={category} />
+      <input type="hidden" name={SOURCE_PAGE_FIELD} value={sourcePage} />
       {propertyReference && (
         <input
           type="hidden"

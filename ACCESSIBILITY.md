@@ -1,5 +1,114 @@
 # ACCESSIBILITY.md — Times Estate Ltd
 
+## Re-test after recovery (2026-11-09)
+
+Run against the recovered project's production build (`next build &&
+next start`) in Microsoft Edge (headless), because the folder had been
+copied incompletely (`RECOVERY_REPORT_2026-11-09.md`).
+
+- **axe-core 4.13.0 (WCAG 2.0–2.2 A/AA): 74 scans, 0 violations.**
+  That is 34 pages at 375 px and 1280 px (every public page, two
+  property pages, a no-results search, the admin "not available" page
+  and the not-found page), plus 6 states: the intro overlay, the open
+  mobile menu, the open assistant, and the Sell, Repair and Contact
+  forms showing errors.
+- **Reflow:** every page checked at 320, 375, 768, 1024, 1280 and
+  1440 px for sideways scrolling.
+  - **1 real defect found and fixed:** on `/cookie-policy` the cookie
+    table made the whole page scroll sideways at 320 and 375 px (WCAG
+    1.4.10). The table now sits in its own keyboard-reachable,
+    labelled scroll box.
+  - After the fix: **0 pages scroll sideways at any width.**
+- **Lighthouse accessibility: 100** on 6 pages, on both mobile and
+  desktop.
+- **Screenshots:** 74 captures in
+  `qa-screenshots/2026-11-09-recovery/`.
+- **Still not done:** testing with a screen-reader user.
+
+## Day 7 re-test (2026-10-31)
+
+axe-core 4.13.0 (WCAG 2.0–2.2 A/AA): **48 scans, 0 violations** — 22
+pages at 375 px and 1280 px plus the open mobile menu, the open
+assistant, and two forms showing errors. Lighthouse accessibility 100
+on 6 pages. Fixed on Day 7: the homepage search form had
+`role="tabpanel"` on the form itself, hiding its form role (moved to a
+wrapper); upload errors from the server are now shown and announced;
+tap targets raised to at least 24 px; the assistant's close button is
+44 px. Not yet done: testing with a screen-reader user.
+
+
+## Day 6 Task 4 review (2026-10-30) — current record
+
+**Target:** WCAG 2.2 Level AA. **This is a record of testing, not a claim
+of conformance.** Automated scanning was used, but most of the checks
+below were done by hand with the keyboard, because an automated score
+cannot tell whether something is actually usable.
+
+**Result:** 6 defects found today. **All 6 fixed and re-tested.** No
+known material defects remain open. Two items depend on content that
+doesn't exist yet (real photos, a map) and are recorded below with what
+must happen when they arrive.
+
+### How it was tested
+
+- **Automated:** axe-core 4.13.0 (WCAG 2.0/2.1/2.2 A and AA rules) run
+  in a real browser against the running site: 14 pages at default size,
+  plus the open mobile menu, the open assistant panel, a form showing
+  errors, and the desktop header at 1280 px.
+- **Structure check on 27 pages** (every public page plus a property
+  page): one H1 each, no skipped heading levels, one main region,
+  header and footer present, page language set, no image without alt
+  text.
+- **Manual, by keyboard:** skip link, desktop dropdown menus, mobile
+  menu, assistant panel, contact form errors, focus visibility.
+- **Reflow and zoom:** pages at 320 px wide (equal to 400% zoom) and at
+  375, 1279, 1280 and 1536 px; text-spacing override (WCAG 1.4.12).
+- **Automated tests added:** assistant focus behaviour (2 tests).
+
+### Defects found and fixed today
+
+| # | Defect | WCAG | Fix | Re-tested |
+|---|---|---|---|---|
+| 1 | Skip link moved the page but not keyboard focus (focus fell back to the page itself) | 2.4.1 | Main content area made focusable | Focus now lands on main content |
+| 2 | Closing the assistant with Escape lost keyboard focus (sent to the top of the page) | 2.4.3 | Focus returns to "Ask the assistant" once it reappears; same for the Close button | Live + 2 automated tests |
+| 3 | Footer had seven separate navigation regions, cluttering screen-reader landmark lists | 1.3.1 (best practice) | One "Site directory" region with headed groups | 3 navigation regions per page |
+| 4 | Header dropdown menus could not be dismissed with Escape | 1.4.13 | Escape hides the open dropdown and returns focus to its menu item | Live |
+| 5 | **Introduced earlier today:** with both phone numbers, the desktop header was 131 px too wide at 1280–1535 px, so the page scrolled sideways | 1.4.10 | Search icon and button arrow shown only from 1536 px (search remains under Properties); slightly tighter menu spacing | No sideways scroll at 1279/1280/1536 |
+| 6 | **Introduced earlier today:** the two stacked header phone links were smaller than the 24 px minimum touch target | 2.5.8 | Each link given 24 px minimum height | axe clean |
+
+Also fixed: with enlarged text spacing at 320 px the menu button was
+pushed 17 px off screen; the logo can now shrink instead.
+
+### Checklist results
+
+| Area | Result |
+|---|---|
+| Semantic HTML, headings, landmarks | Pass on all 27 pages (after fix 3) |
+| Keyboard navigation | Pass: every control reachable, logical order |
+| Skip link | Pass (after fix 1) |
+| Visible focus | Pass: 3 px blue outline on keyboard focus |
+| Navigation menus | Pass: desktop dropdowns open on focus, Escape closes (fix 4); mobile menu moves focus in, Escape closes and returns focus |
+| Dialogs (assistant) | Pass: labelled, focus moves to the question field, Escape closes and returns focus (fix 2); answers announced through a polite live log |
+| Forms and validation errors | Pass: focus moves to an error summary linking to each field; fields marked invalid and linked to their messages; no data sent |
+| Colour contrast | Pass (axe, all scanned states) |
+| Alternative text | Pass: logo decorative beside its text; property images take stored alt text; "no photo" placeholder labelled |
+| Reduced motion | Pass: all animation and transitions switched off sitewide when the visitor asks for less motion |
+| Screen-reader announcements | Pass: assistant log is polite live; form error summary receives focus; results count is a heading on each search page |
+| Zoom and reflow | Pass at 320 px and with text-spacing override (after fix 5 and the logo shrink) |
+| Touch targets | Pass (after fix 6) |
+| Property filters | Pass: a labelled search form with headed groups and labelled fields; results update by normal page load |
+| Galleries | No real photos yet; current gallery is a simple grid of images with alt text, not a slideshow. **When real photos arrive:** every photo needs a short factual description; if a slideshow is added it needs keyboard controls and no auto-play. Owner: developer. |
+| Maps | None on the site (the "Search by Area" panel is text). **If a map is added:** it must have a text alternative (address and area list) and be keyboard-operable. Owner: developer. |
+
+### Not tested today (needs a person or a tool not available here)
+
+- A full pass with a real screen reader (NVDA or VoiceOver) by someone
+  who uses one. Recommended before launch.
+- Testing with real users with disabilities.
+
+---
+
+
 ## Status of this document
 
 **Confirmed as an accurate, dated record of testing actually performed

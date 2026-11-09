@@ -128,6 +128,7 @@ export function RepairReportForm() {
       />
       <FileUploadField
         name="photos"
+        error={state.fieldErrors?.photos}
         label="Photographs or documents (optional)"
       />
       <CheckboxField

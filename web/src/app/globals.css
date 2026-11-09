@@ -106,6 +106,12 @@ h4 {
   }
 }
 
+/* The floating assistant button covered mobile-menu items; it steps aside
+   while the menu is open (set by MobileMenu). */
+html[data-menu-open] [data-assistant-fab] {
+  display: none;
+}
+
 /* Respect the visitor's reduced-motion preference everywhere. */
 @media (prefers-reduced-motion: reduce) {
   *,

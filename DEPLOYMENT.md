@@ -1,5 +1,190 @@
 # DEPLOYMENT.md — Times Estates (Times Estate Ltd)
 
+## Current state (2026-10-31) — read first
+
+Nothing in this document has been carried out. Before any step:
+1. The owner approves the Next.js update (16.3.4 → 16.4.3).
+2. A database and a staff sign-in service are chosen and approved
+   (§1, §11).
+3. The checks in `TEST_REPORT.md` (Day 7 Task 4) are re-run on the
+   real host.
+4. The owner writes exactly: **"I approve production deployment."**
+
+**Environment settings at deployment** (`.env.example`):
+`NEXT_PUBLIC_SITE_URL` = the real domain (required — otherwise search
+and sharing data point to localhost); `ADMIN_SESSION_SECRET` = at least
+32 random characters; `NEXT_PUBLIC_SHOW_CONTENT_NOTES` **unset** on the
+public site. The critical server-hang blocker described below has
+been **fixed** (Day 7).
+
+
+## Day 7 deployment and rollback runbook (2026-10-31) — PREPARED, NOT EXECUTED
+
+**Nothing in this section has been done.** No hosting account, domain
+change, DNS change, database, email service or paid service exists.
+Every step waits for the owner's separate written instruction:
+**"I approve production deployment."** The sections further down (§1–13)
+are the earlier detailed plans; this runbook is the current, ordered
+version and takes precedence where they differ.
+
+### R1. Production environment checklist
+
+| # | Item | Required state before go-live |
+|---|---|---|
+| 1 | Next.js | 16.4.3 or later (owner approval needed), full test suite re-run after the update |
+| 2 | Host | Always-on Node host chosen and paid for by the owner (§1 options) |
+| 3 | Database | Chosen, created, migrated (R5), backups switched on (R6) |
+| 4 | Staff sign-in | Real sign-in service with two-step verification; development sign-in confirmed off |
+| 5 | Email | Provider chosen; recipients and reply-to addresses approved; domain authentication (SPF, DKIM, DMARC) set |
+| 6 | File storage | Private storage with malware scanning, or repair photos remain "checked, not kept" |
+| 7 | Settings | All "required" variables in R2 set on the host; none committed to git |
+| 8 | Content | Fees, VAT position and verified memberships published; internal notes hidden (automatic on a production build) |
+| 9 | Legal | Solicitor-approved privacy, cookie, terms, complaints and fee pages |
+| 10 | Monitoring | Uptime check and error alerts active (R8, R9) |
+
+### R2. Environment-variable list (names only — never values in git)
+
+| Variable | Needed at launch? | Notes |
+|---|---|---|
+| `NEXT_PUBLIC_SITE_URL` | **Yes** | Real domain, e.g. `https://www.timesestates.co.uk`. Without it, canonical links, sitemap and sharing data point to localhost |
+| `ADMIN_SESSION_SECRET` | **Yes** | At least 32 random characters, generated on the host |
+| `NODE_ENV` | Set by host | `production` |
+| `NEXT_PUBLIC_SHOW_CONTENT_NOTES` | **Must be unset** on the public site | Only `true` on a private staging copy |
+| `DATABASE_URL` | **Yes**, once the database is wired in | From the database provider |
+| `AUTH_SECRET`, `AUTH_URL` | **Yes**, once real sign-in is wired in | From the sign-in provider |
+| `EMAIL_FROM_ADDRESS`, `EMAIL_PROVIDER_API_KEY` | When email is approved | — |
+| `FILE_STORAGE_*` | When storage is approved | — |
+| `CRM_API_URL`, `CRM_API_KEY`, `PROPERTY_FEED_API_KEY` | When a feed is approved | — |
+| `AI_PROVIDER_API_KEY` | Optional | Demonstration mode needs none |
+| `ANALYTICS_ID` | Optional | Only with a cookie-consent banner |
+| `MONITORING_DSN` | Recommended | Error monitoring |
+
+### R3. Hosting instructions
+
+1. Owner chooses the host (§1) and creates the account in the business's
+   name, with two-step verification on the account.
+2. Connect the host to the GitHub repository; set the root directory to
+   `web/`, build command `npm run build`, start command `npm start`,
+   Node 20 or later.
+3. Enter the R2 variables in the host's settings screen (never in code).
+4. Deploy first to a **private preview address**; run R11 there.
+5. Only after R11 passes and the owner approves, attach the real domain
+   (R4).
+
+### R4. Domain and DNS instructions
+
+1. Confirm who controls `timesestates.co.uk` (registrar login, renewal
+   date) — currently unconfirmed.
+2. **Before changing anything, export and save the current DNS records**
+   (§4). Keep the existing email (MX) records exactly as they are.
+3. Lower the time-to-live on the website records to 5 minutes a day
+   before the switch, so a rollback takes effect quickly.
+4. Point the website records (`www` and the bare domain) to the host as
+   the host instructs; choose one as the main address and redirect the
+   other (§5).
+5. Wait for the host to issue the security certificate (automatic).
+6. Apply the old-site redirects in `SEO_REDIRECT_PLAN.md`.
+7. Add SPF, DKIM and DMARC records for the email service
+   (`EMAIL_AND_FORM_ROUTING.md`) — without touching existing MX records.
+
+### R5. Database migration procedure
+
+There is no database yet, so there is nothing to migrate from. When one
+is approved:
+
+1. The developer creates the tables from the data model
+   (`DATA_MODEL.md`) using a migration tool, so every change is a
+   numbered, reversible script kept in git.
+2. Run migrations on a **staging** database first, then run the full
+   test suite against it.
+3. Before any later migration on the live database: take a backup (R6),
+   confirm it restores (R7), run the migration, run R11. If anything
+   fails, restore the backup and roll back the code (R10).
+4. Real listings enter only through the approved CRM feed or the admin
+   approval workflow — never by bulk import of unverified data.
+
+### R6. Backup procedure
+
+- **Database:** automatic daily backups by the provider, kept at least
+  30 days, plus a manual backup before every migration or major release.
+  Stored separately from the website host.
+- **Code:** every version is in GitHub (already the case). Tag each
+  release (e.g. `release-2026-11-15`).
+- **Settings:** the owner keeps a private, offline record of which
+  services and accounts exist (not the secrets themselves).
+- **DNS:** the exported record set from R4 step 2.
+
+### R7. Restoration test
+
+Before launch, and then every quarter:
+1. Restore the latest database backup into a separate, temporary
+   database.
+2. Point a private preview copy of the site at it.
+3. Check: leads list loads, a known lead opens, properties show,
+   the audit log is intact.
+4. Record the date, how long it took, and the result in `TEST_REPORT.md`.
+5. Delete the temporary copy.
+
+### R8. Monitoring configuration
+
+| What | How | Alert goes to |
+|---|---|---|
+| Site up | External uptime check every 5 minutes on `/` and `/contact` | Owner and developer, by email and text |
+| Forms working | Daily automated test submission marked as a test (filtered out of leads) — or a weekly manual check | Developer |
+| Errors | Error-monitoring service (`MONITORING_DSN`) | Developer |
+| Certificate | Host's automatic renewal; uptime check alerts on expiry | Developer |
+| Security updates | Monthly `npm audit`; GitHub security alerts on | Developer |
+
+### R9. Error-alert procedure
+
+1. Alert arrives → developer acknowledges within 1 working hour (owner
+   to confirm this target).
+2. Check whether the site is down for everyone (uptime check, phone on
+   mobile data).
+3. If a recent release caused it → roll back (R10) first, investigate
+   second.
+4. If customer data may be affected → follow `OPERATIONS_MANUAL.md` §14
+   (security incident; 72-hour ICO decision).
+5. Record what happened and what was done in `CHANGELOG.md`.
+
+### R10. Rollback procedure
+
+| Problem | Rollback | Time |
+|---|---|---|
+| New release broken | On the host, redeploy the previous release (every deploy is kept) — or revert the commit in git and redeploy | Minutes |
+| Database change broke data | Restore the pre-migration backup (R6), then roll back the code | Under an hour |
+| DNS switch went wrong | Re-enter the saved DNS records (R4 step 2); short time-to-live means minutes | Minutes to an hour |
+| Whole new site unusable | Point DNS back to the old site's host (records saved in R4) | Minutes to an hour |
+
+After any rollback, run R11 and record it.
+
+### R11. Post-deployment verification
+
+Run within an hour of going live, on the real domain:
+
+1. Every page in the sitemap opens (link check).
+2. Each form submitted once with clearly marked test details; each lead
+   appears in admin; the email alert arrives at the approved address;
+   test leads then deleted.
+3. Staff sign-in works with two-step verification; each role sees only
+   what it should; the development sign-in is unavailable.
+4. Security headers present; no internal notes visible; `robots.txt` and
+   `sitemap.xml` show the real domain.
+5. Google Rich Results Test and Lighthouse on the live address.
+6. Phone and desktop spot check.
+7. Old-site redirects work for the top addresses in
+   `SEO_REDIRECT_PLAN.md`.
+8. Uptime and error alerts receive a test alert.
+
+### R12. Maintenance schedule
+
+See `OPERATIONS_MANUAL.md` §15: daily lead checks; weekly overdue-lead and
+audit-log review; monthly security updates, test-suite run and staff
+account review; quarterly restoration test; yearly renewal of
+membership and insurance details.
+
+---
+
 ## Status of this document
 
 **Phase 7 deliverable (2026-09-09) — prepared, nothing executed.** No

@@ -14,7 +14,6 @@ import {
   type PropertyCategory,
 } from "@/lib/property/types";
 import { cn } from "@/lib/cn";
-import { Badge } from "@/components/ui/Badge";
 import { ButtonLink } from "@/components/ui/ButtonLink";
 import { PropertyCard } from "@/components/ui/PropertyCard";
 import { EmptyState } from "@/components/ui/StatusPanel";
@@ -166,7 +165,11 @@ export async function ListingExplorer({
               Found
             </h2>
             <p className="mt-0.5 flex flex-wrap items-center gap-2 text-xs text-ink/60">
-              <Badge status="missing" />
+              {/* A plain "Demonstration" label rather than the internal
+                  "Missing" status badge, which read as an error to visitors. */}
+              <span className="rounded-sm bg-warning-text px-1.5 py-0.5 text-[0.65rem] font-semibold uppercase tracking-wide text-white">
+                Demonstration
+              </span>
               No live property feed is connected yet — every listing shown is
               demonstration data.
             </p>
