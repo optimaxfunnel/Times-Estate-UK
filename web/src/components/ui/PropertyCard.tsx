@@ -38,6 +38,7 @@ export function PropertyCard({
       ? "For Sale"
       : "To Let";
   const isList = variant === "list";
+  const photo = property.media.images[0];
 
   return (
     <article
@@ -60,7 +61,26 @@ export function PropertyCard({
           isList && "sm:aspect-auto sm:w-64 sm:shrink-0",
         )}
       >
-        <PropertyImagePlaceholder property={property} caption={false} />
+        {photo ? (
+          // eslint-disable-next-line @next/next/no-img-element
+          <img
+            src={photo.thumbnailUrl ?? photo.url}
+            srcSet={
+              photo.thumbnailUrl
+                ? `${photo.thumbnailUrl} 640w, ${photo.url} 1200w`
+                : undefined
+            }
+            sizes="(min-width: 1400px) 22vw, (min-width: 1280px) 25vw, (min-width: 640px) 45vw, 100vw"
+            alt=""
+            width={800}
+            height={600}
+            loading="lazy"
+            decoding="async"
+            className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-[1.03] motion-reduce:transition-none"
+          />
+        ) : (
+          <PropertyImagePlaceholder property={property} caption={false} />
+        )}
         <span
           className={cn(
             "absolute left-3 top-3 rounded-sm px-2 py-0.5 text-[0.65rem] font-bold uppercase tracking-wider text-white",

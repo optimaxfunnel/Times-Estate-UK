@@ -10,6 +10,7 @@
  * receive a `Property`, only a `PublicProperty`, so a private field can
  * never leak through a rendering mistake.
  */
+import { SAMPLE_PHOTOS } from "@/data/sample-photos";
 
 export type ListingType = "sale" | "letting";
 export type PropertyCategory = "residential" | "commercial";
@@ -81,6 +82,15 @@ export interface Coordinates {
 export interface PropertyImage {
   url: string;
   alt: string;
+  /** Smaller copy for listing cards, when one exists. */
+  thumbnailUrl?: string;
+  /** Photographer credit for licensed stock photos (sample listings). */
+  credit?: {
+    author: string;
+    licence: string;
+    licenceUrl?: string;
+    sourceUrl: string;
+  };
 }
 
 export interface PropertyMedia {
@@ -239,6 +249,12 @@ export function toPublicProperty(property: Property): PublicProperty {
     assignedStaffMemberId: _assignedStaffMemberId,
     ...publicFields
   } = property;
+  // Sample listings with no photos borrow the labelled stock photos in
+  // SAMPLE_PHOTOS; real listings only ever show their own.
+  const samples = property.isDemo ? SAMPLE_PHOTOS[property.id] : undefined;
+  if (samples?.length && publicFields.media.images.length === 0) {
+    return { ...publicFields, media: { ...publicFields.media, images: samples } };
+  }
   return publicFields;
 }
 

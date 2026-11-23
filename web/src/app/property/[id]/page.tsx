@@ -180,7 +180,10 @@ export default async function PropertyDetailPage({
 
       <Section containerClassName="grid gap-10 lg:grid-cols-3">
         <div className="space-y-8 lg:col-span-2">
-          <PropertyGallery images={publicProperty.media.images} />
+          <PropertyGallery
+            images={publicProperty.media.images}
+            isDemo={publicProperty.isDemo}
+          />
           <PropertyDocuments media={publicProperty.media} />
           <EpcPanel property={publicProperty} />
 

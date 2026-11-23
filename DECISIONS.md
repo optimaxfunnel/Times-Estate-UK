@@ -9,6 +9,27 @@
 
 ---
 
+### 2026-11-24 — Free stock photos on the sample listings (owner request)
+
+- **Request (owner):** add photos from free sources where listings have
+  none.
+- **What was done:** 7 Unsplash photos, one per public sample listing.
+  See `brand/property-photos/LICENCES.md`.
+- **Judgement calls, easy to reverse:**
+  - **Interiors only.** A real house front on a fabricated listing could
+    make a real home look as if it were for sale with Times Estate Ltd
+    (Rule 1), so every photo is an interior.
+  - **Labelled twice.** The existing "Sample property — not real" card
+    label stays. The property page adds "Sample photo — not this
+    property" with a photographer credit (Rule 2).
+  - **Added at display time.** The photos are not stored in the
+    listings. They appear only on records marked as demonstration that
+    have no photos of their own, so real listings never show them.
+  - **Unsplash, not Wikimedia Commons.** Commons refused connections
+    from this computer on 23–24 November.
+  - The shop-unit image is a 3D render, not a photograph. That is
+    acceptable for a labelled sample, but it can be swapped.
+
 ### 2026-11-23 — Sliding photos in the homepage hero (owner request)
 
 - **Request (owner):** a sliding-image hero like Foxtons, Rightmove and

@@ -9,6 +9,26 @@
 
 ---
 
+## 2026-11-24 — Photos on the sample listings
+
+- Owner request: "get images from free sources and update at the home
+  page, where properties images are missing".
+- The 7 public sample listings now show a free Unsplash photo instead
+  of the drawn picture: a living room, a flat sitting room, a kitchen, a
+  bedroom, a warehouse, an empty shop unit and an office. They are all
+  interiors, so no real home looks as if it were for sale.
+- Labels are unchanged: every card still says "Sample property — not
+  real". Each property page now also says "Sample photo — not this
+  property" and credits the photographer. Licence record:
+  `brand/property-photos/LICENCES.md`.
+- The photos are added when the page is shown, not saved into the
+  listings, so the sample listings already in the live database get
+  them too, and a real listing never can.
+- Wikimedia Commons (the hero photos' source) could not be reached from
+  this computer on 23–24 November, which is why Unsplash was used.
+- 308 tests; axe 0 violations on the homepage (375 and 1440 px) and a
+  property page; no sideways scrolling.
+
 ## 2026-11-23 — Hero photos brighter, clearer, changing every 3 seconds
 
 - Owner request: "too blur, make it bright and clear", "changes after
