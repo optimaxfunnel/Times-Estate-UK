@@ -46,6 +46,9 @@
     3-second change is fast. If the owner prefers, the earlier
     behaviour (reduced-motion visitors start paused) can be restored in
     one line.
+  - **Owner decision (2026-11-23):** keep it as is — the slideshow
+    moves for every visitor, including reduced-motion visitors (no
+    fade, pause button available). Supplied by owner.
 
 ### 2026-11-09 — Email: the domain's existing 20i StackMail (owner decision)
 
