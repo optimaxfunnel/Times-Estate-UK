@@ -50,3 +50,6 @@ _recovery/
 
 # Local development database (PGlite) — may contain test enquiries; never commit
 .data/
+
+# Full-size hero photo downloads (~27 MB); re-downloadable, see brand/hero-photos/LICENCES.md
+brand/hero-photos/originals/

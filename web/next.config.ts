@@ -100,6 +100,7 @@ const nextConfig: NextConfig = {
         headers: securityHeaders,
       },
       { source: "/intro/:file*", headers: longCache },
+      { source: "/hero/:file*", headers: longCache },
       { source: "/brand/:file*", headers: longCache },
     ];
   },

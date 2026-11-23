@@ -9,6 +9,20 @@
 
 ---
 
+## 2026-11-23 — Sliding photo hero on the homepage
+
+- New `HeroPhotoSlides`: five openly licensed London photos
+  (Wikimedia Commons) behind the headline and search card. Each is
+  credited; there is a pause button and dots; reduced-motion visitors
+  start paused, but Play still works; only the current and next photo
+  are downloaded.
+- Photos in `web/public/hero/` (960 and 1920 px WebP, 58–310 KB);
+  originals kept locally in `brand/hero-photos/originals/` (git-ignored);
+  licence record `brand/hero-photos/LICENCES.md`.
+- Bug fixed before release: Play did nothing for reduced-motion
+  visitors.
+- 294 tests.
+
 ## 2026-11-09 — Staff email notifications via 20i StackMail (switched off)
 
 - New `lib/leads/email.ts`: one staff email per enquiry, with no

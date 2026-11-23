@@ -9,6 +9,31 @@
 
 ---
 
+## 23 November 2026 — sliding photo hero
+
+Tested on a production build with the local database (see the finding
+below).
+
+| Check | Result |
+|---|---|
+| Type-check, lint, automated tests | ✅ 294 / 294 (43 files). New: files present for every photo; full credit and licence links; credit shown and moves with the photo; pause and play; reduced-motion visitors start paused, but Play works; only the current and next photo downloaded; photos hidden from screen readers |
+| Production build | ✅ 44 routes |
+| Browser, 1280 px and 375 px | ✅ Photos behind the headline and search card; controls and credit visible; no sideways scrolling. Pause holds the photo; Play advances it (photo 1 → 2, credit updates) |
+| Accessibility (axe-core 4.13.0, run in the browser pane) | ✅ 0 violations on all 5 photos, at both widths. axe cannot measure text over photos, so contrast was checked by calculation: with the 65% dark layer, even a pure-white photo leaves the headline at about 5.7:1 and the credit at about 5.0:1 (minimum 4.5:1) |
+| Download on a phone | ✅ After the fix, 2 photos on first load (was 5, about 1.2 MB) |
+| Lighthouse | ⏸ Not run: the separate test browser would not start in this session (3 attempts) |
+
+**Bug found and fixed:** for visitors whose device asks for reduced
+motion, the Play button did nothing. An explicit Play now always works.
+
+**Finding, not caused by this change: the homepage failed with
+"Something went wrong" against the live database.** The Supabase
+project (Free plan) had **paused after a week without activity**; its
+address stopped resolving. The owner needs to restore it, and should
+upgrade to Pro so it cannot pause. The homepage also currently fails
+completely when the database is unreachable; making it degrade
+gracefully (hero and search still shown) is recommended.
+
 ## 9 November 2026 — staff email (20i StackMail), built and switched off
 
 | Check | Result |

@@ -9,6 +9,28 @@
 
 ---
 
+### 2026-11-23 — Sliding photos in the homepage hero (owner request)
+
+- **Request (owner):** a sliding-image hero like Foxtons, Rightmove and
+  Zoopla, using "images from the website that have no copy rights".
+- **Not done, and why:** the photos on those three sites are
+  copyrighted (by the companies, their photographers, or the agents
+  whose listings they show). Copying them would infringe that
+  copyright, so none was used.
+- **Done instead:** five **openly licensed** London photos from
+  Wikimedia Commons (CC BY 2.0, CC BY-SA 2.0/3.0/4.0), chosen from a
+  checked shortlist and **downloaded with the owner's approval**.
+  - Each slide credits the photographer and licence, and says "London
+    scene, not a property for sale" (Rule 1).
+  - Left out: Tooting station photos (the London Underground roundel
+    is a TfL trademark); a "Clapham" photo that is Clapham, Yorkshire.
+  - Licence record: `brand/hero-photos/LICENCES.md`.
+- **This reverses part of the 2026-10-20 decision** to show no
+  photograph until real photography exists, at the owner's request.
+  The headline and search card stay still; only the photos behind them
+  slide (every 7 seconds), with a pause button and dots, and no
+  automatic movement for visitors who ask for reduced motion.
+
 ### 2026-11-09 — Email: the domain's existing 20i StackMail (owner decision)
 
 - **Found:** `timesestates.co.uk` is run by 20i and already has email
