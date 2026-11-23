@@ -32,7 +32,7 @@ Replace them with the business's own photography when it exists.
 
 ## Files
 
-- `web/public/hero/*-1920.webp` and `*-960.webp`: what the website uses
+- `web/public/hero/*-960.webp`, `*-1920.webp` and `*-2560.webp`: what the website uses (re-exported sharper on 2026-11-23; cropped and resized only, colours unchanged)
   (made with the project's `sharp` image tool: cropped to 16:9, resized,
   WebP).
 - `brand/hero-photos/originals/`: the full-size downloads (about 27 MB),

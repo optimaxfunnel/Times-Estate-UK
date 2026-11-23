@@ -1,13 +1,15 @@
 "use client";
 
-import { useEffect, useReducer, useState, useSyncExternalStore } from "react";
+import { useEffect, useReducer, useState } from "react";
 import { cn } from "@/lib/cn";
 import { Container } from "@/components/ui/Container";
 
 /**
  * Sliding background photos for the homepage hero (owner request
  * 2026-11-23). The headline and search card stay still; only the photos
- * behind them change, every 7 seconds.
+ * behind them change, every 3 seconds, moving forward automatically
+ * (owner instruction 2026-11-23: "bright and clear", "changes after
+ * every 3 sec").
  *
  * PHOTOS: openly licensed London scenes from Wikimedia Commons, NOT Times
  * Estate Ltd properties, and never captioned as listings (Rule 1). Each
@@ -15,9 +17,10 @@ import { Container } from "@/components/ui/Container";
  * its source and licence. Full record: brand/hero-photos/LICENCES.md.
  *
  * ACCESSIBILITY (WCAG 2.2): a pause control for moving content (2.2.2);
- * dots are real buttons with labels; visitors who ask their device for
- * reduced motion get no automatic movement; the photos are decorative
- * (alt=""), so screen readers skip them.
+ * dots are real buttons with labels; the photos are decorative (alt=""),
+ * so screen readers skip them. Visitors who ask their device for reduced
+ * motion still see the photos change (owner's instruction), but as an
+ * instant swap with no fade, and can stop them with the pause button.
  */
 export const HERO_PHOTOS = [
   {
@@ -62,18 +65,7 @@ export const HERO_PHOTOS = [
   },
 ] as const;
 
-const INTERVAL_MS = 7000;
-
-const MOTION_QUERY = "(prefers-reduced-motion: reduce)";
-// Guarded: very old browsers (and test environments) have no matchMedia.
-const motionQuery = () =>
-  typeof window.matchMedia === "function" ? window.matchMedia(MOTION_QUERY) : null;
-function subscribeMotion(onChange: () => void) {
-  const query = motionQuery();
-  query?.addEventListener("change", onChange);
-  return () => query?.removeEventListener("change", onChange);
-}
-const reducedMotionNow = () => motionQuery()?.matches ?? false;
+const INTERVAL_MS = 3000;
 
 /**
  * Which photo is showing, and which photos the browser may download.
@@ -96,11 +88,8 @@ function slideReducer(state: SlideState, action: { type: "next" } | { type: "go"
 export function HeroPhotoSlides() {
   const [{ index, loaded }, dispatch] = useReducer(slideReducer, { index: 0, loaded: new Set([0, 1]) });
   const setIndex = (to: number) => dispatch({ type: "go", to });
-  // "auto" until the visitor presses the button: reduced-motion visitors
-  // start paused, but an explicit Play (or Pause) always wins.
-  const [choice, setChoice] = useState<"auto" | "play" | "pause">("auto");
-  const reducedMotion = useSyncExternalStore(subscribeMotion, reducedMotionNow, () => false);
-  const playing = choice === "play" || (choice === "auto" && !reducedMotion);
+  // Plays automatically for everyone until the visitor presses Pause.
+  const [playing, setPlaying] = useState(true);
 
   useEffect(() => {
     if (!playing) return;
@@ -119,7 +108,7 @@ export function HeroPhotoSlides() {
           <img
             key={photo.slug}
             src={`/hero/${photo.slug}-1920.webp`}
-            srcSet={`/hero/${photo.slug}-960.webp 960w, /hero/${photo.slug}-1920.webp 1920w`}
+            srcSet={`/hero/${photo.slug}-960.webp 960w, /hero/${photo.slug}-1920.webp 1920w, /hero/${photo.slug}-2560.webp 2560w`}
             sizes="100vw"
             alt=""
             width={1920}
@@ -129,14 +118,19 @@ export function HeroPhotoSlides() {
             decoding="async"
             style={{ objectPosition: photo.position }}
             className={cn(
-              "absolute inset-0 h-full w-full object-cover motion-safe:transition-opacity motion-safe:duration-1000",
+              "absolute inset-0 h-full w-full object-cover motion-safe:transition-opacity motion-safe:duration-700",
               i === index ? "opacity-100" : "opacity-0",
             )}
           />
         ))}
-        {/* Darkening layers keep white text above 4.5:1 over any photo. */}
-        <div className="absolute inset-0 bg-ink/65" />
-        <div className="absolute inset-0 bg-gradient-to-r from-ink/60 via-ink/20 to-transparent" />
+        {/* Shading only where text sits, so the photos stay bright and
+            clear: a left-hand fade behind the headline on wide screens, a
+            top-down fade on phones (where the text sits at the top), a
+            bottom fade behind the controls, and a small backing behind
+            the credit. Measured to keep
+            white text at 4.5:1 or better — see TEST_REPORT.md. */}
+        <div className="absolute inset-0 bg-[linear-gradient(to_bottom,rgb(20_20_20/0.66)_0%,rgb(20_20_20/0.6)_42%,rgb(20_20_20/0.1)_72%)] lg:bg-[linear-gradient(to_right,rgb(20_20_20/0.78)_0%,rgb(20_20_20/0.62)_42%,transparent_68%)]" />
+        <div className="absolute inset-x-0 bottom-0 h-20 bg-gradient-to-t from-ink/70 to-transparent" />
       </div>
 
       {/* Controls and the licence credit for the photo on screen. */}
@@ -145,7 +139,7 @@ export function HeroPhotoSlides() {
           <div className="flex items-center gap-2">
             <button
               type="button"
-              onClick={() => setChoice(playing ? "pause" : "play")}
+              onClick={() => setPlaying(!playing)}
               aria-label={playing ? "Pause background photos" : "Play background photos"}
               className="inline-flex h-7 w-7 items-center justify-center rounded-full border border-white/60 text-white hover:bg-white/15"
             >
@@ -174,7 +168,7 @@ export function HeroPhotoSlides() {
               </button>
             ))}
           </div>
-          <p className="text-[0.7rem] text-white/90">
+          <p className="rounded-sm bg-ink/60 px-1.5 py-0.5 text-[0.7rem] text-white">
             Photo:{" "}
             <a href={current.source} target="_blank" rel="noopener noreferrer" className="underline underline-offset-2 hover:text-white">
               {current.author}

@@ -30,6 +30,22 @@
   The headline and search card stay still; only the photos behind them
   slide (every 7 seconds), with a pause button and dots, and no
   automatic movement for visitors who ask for reduced motion.
+- **Changed later the same day (owner instruction):** "too blur, make
+  it bright and clear and image changes after every 3 sec and move
+  forward automatically".
+  - Shading now sits only behind the words, so the rest of the photo
+    is bright. White text was measured at 4.5:1 or better on every
+    photo (`TEST_REPORT.md`).
+  - The photos change every **3 seconds**. They now move
+    **automatically for every visitor**, including those whose device
+    asks for reduced motion. Those visitors get an instant change with
+    no fade, and the pause button stops it for anyone (WCAG 2.2.2 is
+    still met).
+  - Judgement call, easy to reverse: honouring the reduced-motion
+    setting is good practice for people with motion sensitivity, and a
+    3-second change is fast. If the owner prefers, the earlier
+    behaviour (reduced-motion visitors start paused) can be restored in
+    one line.
 
 ### 2026-11-09 — Email: the domain's existing 20i StackMail (owner decision)
 

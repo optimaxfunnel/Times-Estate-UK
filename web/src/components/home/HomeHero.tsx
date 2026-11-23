@@ -16,15 +16,15 @@ export function HomeHero() {
         size="wide"
         className="relative grid gap-10 pt-14 pb-20 lg:grid-cols-[1.05fr_1fr] lg:items-center lg:pt-20 lg:pb-24 xl:grid-cols-[1.2fr_1fr]"
       >
-        <div className="max-w-xl">
-          <p className="flex items-center gap-3 text-[0.7rem] font-semibold uppercase tracking-[0.35em] text-white/85">
+        <div className="max-w-xl [text-shadow:0_1px_3px_rgb(0_0_0/0.55)]">
+          <p className="flex items-center gap-3 text-[0.7rem] font-semibold uppercase tracking-[0.35em] text-white">
             London Property Experts
             <span aria-hidden className="h-px w-12 bg-accent-vivid" />
           </p>
           <h1 className="mt-4 text-4xl font-bold leading-[1.05] text-white sm:text-5xl lg:text-6xl text-balance">
             Browse London Properties
           </h1>
-          <p className="mt-5 max-w-md text-base leading-relaxed text-white/80 sm:text-lg">
+          <p className="mt-5 max-w-md text-base leading-relaxed text-white sm:text-lg">
             Homes and commercial property to buy and rent, from our office on
             Upper Tooting Road in South West London.
           </p>

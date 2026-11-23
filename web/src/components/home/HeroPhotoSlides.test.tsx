@@ -1,14 +1,14 @@
 // Homepage hero photo slideshow (owner request 2026-11-23).
 import fs from "node:fs";
 import path from "node:path";
-import { describe, expect, it } from "vitest";
-import { fireEvent, render, screen } from "@testing-library/react";
+import { describe, expect, it, vi } from "vitest";
+import { act, fireEvent, render, screen } from "@testing-library/react";
 import { HERO_PHOTOS, HeroPhotoSlides } from "@/components/home/HeroPhotoSlides";
 
 describe("hero photo slideshow", () => {
-  it("has both image sizes on disk for every photo", () => {
+  it("has all three image sizes on disk for every photo", () => {
     for (const p of HERO_PHOTOS) {
-      for (const w of [960, 1920]) {
+      for (const w of [960, 1920, 2560]) {
         expect(fs.existsSync(path.join(process.cwd(), "public", "hero", `${p.slug}-${w}.webp`))).toBe(true);
       }
     }
@@ -36,15 +36,33 @@ describe("hero photo slideshow", () => {
     expect(screen.getByRole("button", { name: "Play background photos" })).toBeInTheDocument();
   });
 
-  it("starts paused for reduced-motion visitors, but Play still works", () => {
+  it("moves forward on its own every 3 seconds, and stops when paused", () => {
+    vi.useFakeTimers();
+    try {
+      render(<HeroPhotoSlides />);
+      const dots = () => screen.getAllByRole("button", { name: /Show background photo/ });
+      expect(dots()[0]).toHaveAttribute("aria-current", "true");
+      act(() => vi.advanceTimersByTime(3000));
+      expect(dots()[1]).toHaveAttribute("aria-current", "true");
+      act(() => vi.advanceTimersByTime(3000));
+      expect(dots()[2]).toHaveAttribute("aria-current", "true");
+      fireEvent.click(screen.getByRole("button", { name: "Pause background photos" }));
+      act(() => vi.advanceTimersByTime(9000));
+      expect(dots()[2]).toHaveAttribute("aria-current", "true");
+    } finally {
+      vi.useRealTimers();
+    }
+  });
+
+  it("plays automatically even for reduced-motion visitors (owner instruction), and Pause works", () => {
     const original = window.matchMedia;
     window.matchMedia = ((q: string) => ({
       matches: q.includes("reduce"), media: q, addEventListener() {}, removeEventListener() {},
     })) as unknown as typeof window.matchMedia;
     try {
       render(<HeroPhotoSlides />);
-      fireEvent.click(screen.getByRole("button", { name: "Play background photos" }));
-      expect(screen.getByRole("button", { name: "Pause background photos" })).toBeInTheDocument();
+      fireEvent.click(screen.getByRole("button", { name: "Pause background photos" }));
+      expect(screen.getByRole("button", { name: "Play background photos" })).toBeInTheDocument();
     } finally {
       window.matchMedia = original;
     }

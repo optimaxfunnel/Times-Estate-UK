@@ -9,6 +9,25 @@
 
 ---
 
+## 2026-11-23 — Hero photos brighter, clearer, changing every 3 seconds
+
+- Owner request: "too blur, make it bright and clear", "changes after
+  every 3 sec and move forward automatically".
+- The photos were sharp, but a 65% dark layer covered the whole picture
+  and the files were heavily compressed. Now the shading sits only
+  behind the words (left-hand side on wide screens, top on phones), and
+  the right side of the photo is clear. The photos were re-exported at
+  higher quality with light sharpening, plus a new 2560 px size for
+  large, high-resolution screens.
+- White text is still readable on every photo. I measured each one at
+  desktop and phone sizes: the worst case is 4.9:1, and the target is
+  4.5:1. Details are in `TEST_REPORT.md`.
+- The photos change every 3 seconds and loop. They now move for every
+  visitor, including those whose device asks for reduced motion (the
+  owner's instruction). Those visitors get an instant change with no
+  fade. The pause button still works for everyone.
+- 301 tests; axe 0 violations at 375 and 1440 px.
+
 ## 2026-11-23 — Site keeps working when the database is unreachable
 
 - Found when the Supabase project paused (Free plan): the whole

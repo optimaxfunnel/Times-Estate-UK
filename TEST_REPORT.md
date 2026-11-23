@@ -693,3 +693,17 @@ Supabase project paused, so every database call failed.
 | Server log | Only short lines like "save enquiry failed — database unavailable (XX000)"; no names, emails or query text |
 | Automated tests | 300 pass in 44 files (6 new in `web/src/lib/db/outage.test.ts`); lint and type-check clean |
 
+## Addendum 2026-11-23 — brighter hero: text contrast over each photo
+
+This is the worst-case contrast of the white hero text. "Worst case" means the brightest 5% of photo pixels under each text block, with the new shading applied. It was measured from the actual image files at the hero's real sizes (desktop 1425×443, phone 375×657). The target is 4.5:1, or 3:1 for the large headline.
+
+| Photo | Desktop (eyebrow / headline / intro / credit) | Phone |
+|---|---|---|
+| City skyline at dusk | 13.9 / 13.8 / 14.5 / 9.9 | 13.8 / 13.9 / 11.9 / 16.0 |
+| Richmond Green houses | 5.2 / 5.2 / 5.9 / 8.9 | 13.4 / 5.4 / 4.9 / 14.0 |
+| City skyline, Thames | 7.8 / 6.6 / 6.6 / 10.0 | 7.3 / 6.9 / 6.7 / 12.4 |
+| Redcliffe Square | 6.4 / 6.0 / 6.3 / 14.5 | 6.2 / 5.9 / 5.6 / 11.9 |
+| Queen Anne's Gate | 6.4 / 6.7 / 7.5 / 10.6 | 7.5 / 6.8 / 6.3 / 15.6 |
+
+All pass, without counting the added text shadow. In the browser on the production build, the photo changed every 3.0 seconds and looped. axe found 0 violations at 375 and 1440 px, and there was no sideways scrolling. Tests: 301 pass.
+
