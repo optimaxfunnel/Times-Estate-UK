@@ -2,6 +2,7 @@ import type { AIMessage, AIProvider, AIResponse } from "@/lib/ai/provider";
 import { checkRefusal } from "@/lib/ai/refusals";
 import { searchKnowledgeBase } from "@/lib/ai/knowledge-base";
 import { propertyProvider } from "@/lib/property/provider";
+import { tryDb } from "@/lib/db/safe";
 import { formatPriceLabel } from "@/lib/property/format";
 import { toPublicProperty } from "@/lib/property/types";
 import { AI_GREETING } from "@/lib/ai/greeting";
@@ -50,17 +51,28 @@ async function tryPropertyLookup(query: string): Promise<AIResponse | null> {
   )
     return null;
 
-  const result = await propertyProvider.list({
-    filter: {
-      category: "residential",
-      listingType: wantsLetting ? "letting" : "sale",
-      // Only listings actually on the market — never under offer, let
-      // agreed, or anything not publicly approved.
-      statuses: ["available"],
-    },
-    pageSize: 3,
-    sort: "newest",
-  });
+  const loaded = await tryDb("assistant property lookup", () =>
+    propertyProvider.list({
+      filter: {
+        category: "residential",
+        listingType: wantsLetting ? "letting" : "sale",
+        // Only listings actually on the market — never under offer, let
+        // agreed, or anything not publicly approved.
+        statuses: ["available"],
+      },
+      pageSize: 3,
+      sort: "newest",
+    }),
+  );
+  if (!loaded.ok) {
+    return {
+      content:
+        "I can't look up properties just now because of a technical problem. Please try again in a few minutes, or call us on 0208 672 8080.",
+      sources: [{ href: "/contact", label: "Contact us" }],
+      suggestsHumanFollowUp: true,
+    };
+  }
+  const result = loaded.value;
 
   if (result.items.length === 0) {
     return {

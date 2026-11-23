@@ -9,6 +9,25 @@
 
 ---
 
+## 2026-11-23 — Site keeps working when the database is unreachable
+
+- Found when the Supabase project paused (Free plan): the whole
+  homepage showed "Something went wrong".
+- Now the homepage hero, search, services and valuation band always
+  show. Where listings would be, visitors see "Listings are
+  temporarily unavailable" with the phone number. Property pages say
+  "temporarily unavailable" (not "not found"). Enquiry and repair
+  forms say clearly that nothing was sent and give the phone number.
+  Favourites say they can't be shown, not that none are saved. The
+  assistant says it can't look up properties.
+- Database connection attempts now give up after 8 seconds instead of
+  30. The server log records only a short line such as
+  "save enquiry failed — database unavailable", never customer details.
+- New `web/src/lib/db/safe.ts`; 6 new tests (300 in total). Checked on
+  the production build against the paused project.
+- The owner still needs to restore the Supabase project and move to
+  the Pro plan: until then no enquiry can be saved.
+
 ## 2026-11-23 — Sliding photo hero on the homepage
 
 - New `HeroPhotoSlides`: five openly licensed London photos

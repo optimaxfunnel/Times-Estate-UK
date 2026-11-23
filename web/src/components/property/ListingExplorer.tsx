@@ -17,6 +17,7 @@ import { cn } from "@/lib/cn";
 import { ButtonLink } from "@/components/ui/ButtonLink";
 import { PropertyCard } from "@/components/ui/PropertyCard";
 import { EmptyState } from "@/components/ui/StatusPanel";
+import { tryDb } from "@/lib/db/safe";
 import { SaveSearchButton } from "@/components/property/SaveSearchButton";
 import { CategorySwitcher } from "@/components/property/CategorySwitcher";
 import { FilterSidebar } from "@/components/property/FilterSidebar";
@@ -50,15 +51,21 @@ export async function ListingExplorer({
   const listParams = buildListParams(params, category, listingType, {
     pageSize: PAGE_SIZE,
   });
-  const [result, scope] = await Promise.all([
-    propertyProvider.list(listParams),
-    // Facet counts come from the whole public set this page covers, so
-    // the sidebar shows what *could* match, not just what currently does.
-    propertyProvider.list({
-      filter: { category, listingType },
-      pageSize: 1000,
-    }),
-  ]);
+  const loaded = await tryDb("listing explorer", () =>
+    Promise.all([
+      propertyProvider.list(listParams),
+      // Facet counts come from the whole public set this page covers, so
+      // the sidebar shows what *could* match, not just what currently does.
+      propertyProvider.list({
+        filter: { category, listingType },
+        pageSize: 1000,
+      }),
+    ]),
+  );
+  if (!loaded.ok) {
+    return <ListingsUnavailable alertHref={alertHref} />;
+  }
+  const [result, scope] = loaded.value;
   const facets = computeFacets(scope.items);
   const urlParams = toUrlSearchParams(params);
   const query = urlParams.toString();
@@ -297,5 +304,35 @@ export async function ListingExplorer({
         <AreaPanel basePath={basePath} areas={facets.postcodes} />
       </div>
     </div>
+  );
+}
+
+/**
+ * Shown instead of the listings when the database cannot be reached, so
+ * the rest of the page (hero, search, valuation band) keeps working.
+ */
+export function ListingsUnavailable({ alertHref }: { alertHref: string }) {
+  return (
+    <EmptyState
+      title="Listings are temporarily unavailable"
+      actions={
+        <>
+          <ButtonLink href="/contact" variant="secondary">
+            Contact us
+          </ButtonLink>
+          <ButtonLink href={alertHref}>Create a Property Alert</ButtonLink>
+        </>
+      }
+    >
+      We can&rsquo;t show properties just now because of a technical problem on
+      our side. Please try again in a few minutes, or call us on{" "}
+      <a
+        href="tel:+442086728080"
+        className="font-medium text-accent underline underline-offset-4"
+      >
+        0208 672 8080
+      </a>
+      .
+    </EmptyState>
   );
 }

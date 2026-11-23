@@ -23,6 +23,9 @@ import {
 } from "@/lib/property/types";
 import { formatPriceLabel, formatStatusLabel } from "@/lib/property/format";
 import { PlaceholderNotice } from "@/components/ui/PlaceholderNotice";
+import { EmptyState } from "@/components/ui/StatusPanel";
+import { ButtonLink } from "@/components/ui/ButtonLink";
+import { tryDb } from "@/lib/db/safe";
 
 export async function generateMetadata({
   params,
@@ -30,7 +33,16 @@ export async function generateMetadata({
   params: Promise<{ id: string }>;
 }): Promise<Metadata> {
   const { id } = await params;
-  const property = await propertyProvider.getById(id);
+  const loaded = await tryDb("property metadata", () =>
+    propertyProvider.getById(id),
+  );
+  if (!loaded.ok) {
+    return {
+      title: "Property temporarily unavailable",
+      robots: { index: false, follow: true },
+    };
+  }
+  const property = loaded.value;
   if (!property || !PUBLICLY_VISIBLE_STATUSES.includes(property.status)) {
     return { title: "Property not found" };
   }
@@ -53,7 +65,39 @@ export default async function PropertyDetailPage({
   params: Promise<{ id: string }>;
 }) {
   const { id } = await params;
-  const property = await propertyProvider.getById(id);
+  const loaded = await tryDb("property detail", () =>
+    propertyProvider.getById(id),
+  );
+  // Database unreachable: say so politely rather than claiming the
+  // property does not exist (a 404 would be wrong and could be cached).
+  if (!loaded.ok) {
+    return (
+      <Section>
+        <EmptyState
+          title="This property is temporarily unavailable"
+          actions={
+            <>
+              <ButtonLink href="/" variant="secondary">
+                Back to the homepage
+              </ButtonLink>
+              <ButtonLink href="/contact">Contact us</ButtonLink>
+            </>
+          }
+        >
+          We can&rsquo;t show property details just now because of a technical
+          problem on our side. Please try again in a few minutes, or call us on{" "}
+          <a
+            href="tel:+442086728080"
+            className="font-medium text-accent underline underline-offset-4"
+          >
+            0208 672 8080
+          </a>
+          .
+        </EmptyState>
+      </Section>
+    );
+  }
+  const property = loaded.value;
 
   // Draft/unapproved/withdrawn/sold/let properties must never render
   // publicly, regardless of whether someone guesses or bookmarks the URL.

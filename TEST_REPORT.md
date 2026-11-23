@@ -676,3 +676,20 @@ re-run and confirmed the CSP header in production still excludes
 | **Critical defect (§5)** | **Unresolved — absolute launch blocker** |
 | End-to-end/API test automation | Not run — does not exist |
 | **Overall recommendation** | **Not ready for deployment** — see the final report for full reasoning |
+
+---
+
+## Addendum 2026-11-23 — database outage behaviour
+
+Run on the production build (`next build && next start`) with the real
+Supabase project paused, so every database call failed.
+
+| Check | Result |
+|---|---|
+| Homepage | Loads; hero, search, services and valuation band shown; listings area says "Listings are temporarily unavailable" with phone number |
+| `/buy`, `/rent`, `/commercial/to-let` | 200, same polite panel |
+| `/property/demo-res-sale-001` | 200, "This property is temporarily unavailable" (not a 404) |
+| Valuation form on `/sell`, real click | Stays on page; message says nothing was sent and gives 0208 672 8080 |
+| Server log | Only short lines like "save enquiry failed — database unavailable (XX000)"; no names, emails or query text |
+| Automated tests | 300 pass in 44 files (6 new in `web/src/lib/db/outage.test.ts`); lint and type-check clean |
+

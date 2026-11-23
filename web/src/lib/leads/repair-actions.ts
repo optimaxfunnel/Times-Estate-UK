@@ -3,6 +3,7 @@
 import { z } from "zod";
 import { type LeadFormState } from "@/lib/leads/lead-schema";
 import { createLead } from "@/lib/leads/provider";
+import { SAVE_FAILED_MESSAGE, tryDb } from "@/lib/db/safe";
 import {
   isHoneypotTriggered,
   HONEYPOT_FIELD_NAME,
@@ -149,28 +150,33 @@ export async function submitRepairReport(
     tenancyReference,
   } = result.data;
 
-  const lead = await createLead({
-    category: "repair_report",
-    sourcePage: "/report-a-repair",
-    propertyReference: propertyAddress,
-    contactName: fullName,
-    contactEmail: email,
-    contactPhone: phone,
-    detail: sanitiseText(description),
-    extra: {
-      issueCategory,
-      urgency,
-      accessInformation: sanitiseText(accessInformation),
-      tenancyReference: sanitiseText(tenancyReference) || "not given",
-      attachments: fileNotes.length > 0 ? fileNotes.join("; ") : "none",
-    },
-    consentGiven: true,
-    priority: urgency as "routine" | "urgent" | "emergency",
-  });
+  const saved = await tryDb("save repair report", () =>
+    createLead({
+      category: "repair_report",
+      sourcePage: "/report-a-repair",
+      propertyReference: propertyAddress,
+      contactName: fullName,
+      contactEmail: email,
+      contactPhone: phone,
+      detail: sanitiseText(description),
+      extra: {
+        issueCategory,
+        urgency,
+        accessInformation: sanitiseText(accessInformation),
+        tenancyReference: sanitiseText(tenancyReference) || "not given",
+        attachments: fileNotes.length > 0 ? fileNotes.join("; ") : "none",
+      },
+      consentGiven: true,
+      priority: urgency as "routine" | "urgent" | "emergency",
+    }),
+  );
+  if (!saved.ok) {
+    return { status: "error", message: SAVE_FAILED_MESSAGE };
+  }
 
   return {
     status: "success",
-    reference: lead.id,
+    reference: saved.value.id,
     message:
       urgency === "emergency"
         ? "Your report has been logged as an emergency. If you are in immediate danger, please also call the relevant number shown above — do not wait for a response here."

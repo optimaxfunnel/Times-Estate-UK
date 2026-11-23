@@ -66,6 +66,10 @@ async function open(): Promise<Db> {
       ssl: isLocalHost ? false : "require",
       max: 5,
       idle_timeout: 20,
+      // Give up quickly if the database is unreachable (e.g. the Supabase
+      // project is paused), so pages can show a polite fallback instead
+      // of hanging for the 30-second default.
+      connect_timeout: 8,
       onnotice: () => {},
     });
     return {

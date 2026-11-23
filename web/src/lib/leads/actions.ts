@@ -7,6 +7,7 @@ import {
   type LeadFormState,
 } from "@/lib/leads/lead-schema";
 import { createLead } from "@/lib/leads/provider";
+import { SAVE_FAILED_MESSAGE, tryDb } from "@/lib/db/safe";
 import {
   CATEGORY_FIELD,
   SOURCE_PAGE_FIELD,
@@ -148,25 +149,34 @@ export async function submitLeadForm(
   // notification goes to the assigned staff member (or the branch).
   if (category === "viewing_request" && propertyReference) {
     const propertyId = propertyReference.split(" — ")[0];
-    const property = await propertyProvider.getById(propertyId);
-    extra.assignedStaff = property?.assignedStaffMemberId ?? "unassigned";
+    const found = await tryDb("viewing property lookup", () =>
+      propertyProvider.getById(propertyId),
+    );
+    extra.assignedStaff =
+      (found.ok ? found.value?.assignedStaffMemberId : undefined) ??
+      "unassigned";
   }
 
-  const lead = await createLead({
-    category,
-    sourcePage,
-    propertyReference,
-    contactName: fullName,
-    contactEmail: email,
-    contactPhone: phone,
-    detail,
-    extra: Object.keys(extra).length > 0 ? extra : undefined,
-    consentGiven: true,
-  });
+  const saved = await tryDb("save enquiry", () =>
+    createLead({
+      category,
+      sourcePage,
+      propertyReference,
+      contactName: fullName,
+      contactEmail: email,
+      contactPhone: phone,
+      detail,
+      extra: Object.keys(extra).length > 0 ? extra : undefined,
+      consentGiven: true,
+    }),
+  );
+  if (!saved.ok) {
+    return { status: "error", message: SAVE_FAILED_MESSAGE };
+  }
 
   return {
     status: "success",
-    reference: lead.id,
+    reference: saved.value.id,
     message:
       LEAD_CONFIRMATION_COPY[category] ??
       "Thank you — we've received your submission.",

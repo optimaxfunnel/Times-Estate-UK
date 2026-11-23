@@ -155,8 +155,9 @@ export function RepairReportForm() {
       {state.status === "error" &&
         Object.keys(state.fieldErrors ?? {}).length === 0 && (
           <Alert tone="danger">
-            Something went wrong. Please try again, or use the emergency numbers
-            above if urgent.
+            {state.message
+              ? `${state.message} If it is urgent, use the emergency numbers above.`
+              : "Something went wrong. Please try again, or use the emergency numbers above if urgent."}
           </Alert>
         )}
       <Button type="submit" disabled={isPending}>

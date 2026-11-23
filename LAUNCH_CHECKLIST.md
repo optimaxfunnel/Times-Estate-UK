@@ -37,7 +37,7 @@
 - [ ] **Owner:** create hello@ and noreply@ in StackCP; enter SMTP in Supabase; add the noreply@ password to web/.env (DEPLOYMENT.md §11c)
 - [ ] **Owner:** approve the staff-email recipient and wording; then switch on and send a test
 - [ ] **Owner: restore the paused Supabase project and upgrade to Pro** (it paused on the Free plan and the homepage went down, 23 Nov)
-- [ ] Make the homepage keep working (hero, search) if the database is briefly unreachable
+- [x] **Site keeps working if the database is unreachable (23 Nov):** listings and property pages show "temporarily unavailable" with the phone number; forms say nothing was sent instead of crashing. Tested against the paused Supabase project
 - [ ] Switch off sample listings (`SEED_DEMO_PROPERTIES=false`) when real ones arrive
 - [ ] **Real staff sign-in with two-step verification**
 - [ ] **Email provider, form recipients and reply-to addresses**

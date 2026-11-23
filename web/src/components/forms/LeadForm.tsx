@@ -273,7 +273,8 @@ export function LeadForm({
       {state.status === "error" &&
         Object.keys(state.fieldErrors ?? {}).length === 0 && (
           <Alert tone="danger">
-            Something went wrong. Please try again, or call us on 0208 672 8080.
+            {state.message ??
+              "Something went wrong. Please try again, or call us on 0208 672 8080."}
           </Alert>
         )}
 

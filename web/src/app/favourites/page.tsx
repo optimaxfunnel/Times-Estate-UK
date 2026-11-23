@@ -10,14 +10,16 @@ import { getFavouriteProperties } from "@/lib/property/actions";
 import type { PublicProperty } from "@/lib/property/types";
 
 export default function FavouritesPage() {
-  const [properties, setProperties] = useState<PublicProperty[] | null>(null);
+  const [properties, setProperties] = useState<
+    PublicProperty[] | "unavailable" | null
+  >(null);
 
   useEffect(() => {
     let cancelled = false;
     async function load() {
       const ids = getFavouriteIds();
       const result = await getFavouriteProperties(ids);
-      if (!cancelled) setProperties(result);
+      if (!cancelled) setProperties(result ?? "unavailable");
     }
     load();
     window.addEventListener("favourites-changed", load);
@@ -37,6 +39,12 @@ export default function FavouritesPage() {
       <Section>
         {properties === null ? (
           <p className="text-sm text-ink/70">Loading…</p>
+        ) : properties === "unavailable" ? (
+          <p role="alert" className="text-sm text-ink/70">
+            Your saved properties can&rsquo;t be shown just now because of a
+            technical problem on our side. They are still saved in this browser
+            — please try again in a few minutes.
+          </p>
         ) : properties.length === 0 ? (
           <p className="text-sm text-ink/70">
             You haven&rsquo;t saved any properties yet. Use the
