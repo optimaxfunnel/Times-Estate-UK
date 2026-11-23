@@ -36,7 +36,8 @@
 - [x] **Email service chosen (9 Nov):** existing 20i StackMail; staff notifications built (off)
 - [ ] **Owner:** create hello@ and noreply@ in StackCP; enter SMTP in Supabase; add the noreply@ password to web/.env (DEPLOYMENT.md §11c)
 - [ ] **Owner:** approve the staff-email recipient and wording; then switch on and send a test
-- [ ] **Owner: restore the paused Supabase project and upgrade to Pro** (it paused on the Free plan and the homepage went down, 23 Nov)
+- [x] **Supabase project restored by the owner (23 Nov)** — homepage, search and property pages read from it again (checked on the production build)
+- [ ] **Owner: upgrade Supabase to Pro** so the project cannot pause again (it paused on the Free plan on 23 Nov)
 - [x] **Site keeps working if the database is unreachable (23 Nov):** listings and property pages show "temporarily unavailable" with the phone number; forms say nothing was sent instead of crashing. Tested against the paused Supabase project
 - [ ] Switch off sample listings (`SEED_DEMO_PROPERTIES=false`) when real ones arrive
 - [ ] **Real staff sign-in with two-step verification**

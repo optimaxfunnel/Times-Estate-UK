@@ -25,8 +25,11 @@
   "save enquiry failed — database unavailable", never customer details.
 - New `web/src/lib/db/safe.ts`; 6 new tests (300 in total). Checked on
   the production build against the paused project.
-- The owner still needs to restore the Supabase project and move to
-  the Pro plan: until then no enquiry can be saved.
+- Later the same day the owner restored the Supabase project. The
+  production build reads from it again: homepage 7 listings, each
+  search page 2, a listing page and staff sign-in all load (under
+  2 seconds), with no server errors. The Pro plan is still needed so
+  it cannot pause again.
 
 ## 2026-11-23 — Sliding photo hero on the homepage
 
