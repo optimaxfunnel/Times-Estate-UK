@@ -5,3 +5,7 @@
  */
 export const AI_GREETING =
   "Hello — I'm the Times Estate Ltd AI assistant (demonstration mode). I can help you find a page, search for a property, or start a callback/viewing request. I can't give legal, financial or valuation advice, and everything I suggest is reviewed by a person before anything is sent.";
+
+/** Opening message when the live AI assistant is switched on (AI_AGENT_PLAN.md). */
+export const AI_GREETING_LIVE =
+  "Hello, I'm the Times Estate Ltd AI assistant, not a person. I can help you find a page, search our listings, or find the right form for a viewing, valuation, callback or repair. I can't give legal, financial or valuation advice, and a member of the team replies to every request.";

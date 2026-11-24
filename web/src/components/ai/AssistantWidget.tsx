@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { askAssistant } from "@/lib/ai/actions";
-import { AI_GREETING } from "@/lib/ai/greeting";
+import { AI_GREETING, AI_GREETING_LIVE } from "@/lib/ai/greeting";
 import type { AIMessage, AISource } from "@/lib/ai/provider";
 import { Button } from "@/components/ui/Button";
 
@@ -13,10 +13,14 @@ interface DisplayMessage {
   sources?: AISource[];
 }
 
-export function AssistantWidget() {
+/**
+ * `live` is true only when the real AI assistant is switched on
+ * (lib/ai/ai-mode.ts); the label always says it is AI, not a person.
+ */
+export function AssistantWidget({ live = false }: { live?: boolean }) {
   const [open, setOpen] = useState(false);
   const [messages, setMessages] = useState<DisplayMessage[]>([
-    { role: "assistant", content: AI_GREETING },
+    { role: "assistant", content: live ? AI_GREETING_LIVE : AI_GREETING },
   ]);
   const [input, setInput] = useState("");
   const [isPending, setIsPending] = useState(false);
@@ -100,7 +104,7 @@ export function AssistantWidget() {
                 Times Estate Ltd assistant
               </p>
               <p className="text-xs text-warning-text">
-                AI · Demonstration mode — not a real person
+                {live ? "AI assistant · not a real person" : "AI · Demonstration mode — not a real person"}
               </p>
             </div>
             <button

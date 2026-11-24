@@ -8,6 +8,36 @@
 > `RECOVERY_REPORT_2026-11-09.md`.
 
 
+## Update 2026-11-24: live AI assistant built, switched OFF
+
+A real AI version (Claude, via Anthropic's API) is built behind a
+switch, per `AI_AGENT_PLAN.md`. **It is off.** No account or key exists,
+so visitors still get the rule-based assistant described below. When
+switched on, the rules in this document still apply, enforced in
+layers:
+
+1. **The same refusal and injection checks run first.** They are now
+   shared through `precheck()` in `demo-provider.ts`. If they trigger,
+   the AI model is never asked.
+2. **The model has four read-only tools** (search available listings,
+   open one available listing, look up approved answers, get a form
+   link). It cannot send, submit, book, approve, price or delete
+   anything. Listings reach it without private address, owner details
+   or notes.
+3. **Every reply is checked** (`output-guard.ts`). Valuation figures,
+   promises ("I've booked…", "approved", "guarantee"), claims to be a
+   person, advice phrases, and links to listings the tools did not
+   return are blocked and replaced with a safe answer.
+4. **Any failure falls back** to the rule-based assistant.
+5. **The chat window still says it is AI, not a person.**
+
+The structural guarantee described below ("nothing for an injection to
+influence") holds fully only for the rule-based assistant. With the
+live model, protection comes from points 1–4 plus the stage 2 test set,
+which must pass before the switch is turned on.
+
+---
+
 ## Day 5 Task 5 update (2026-10-29)
 
 **Plain-English summary.** The website assistant is a rule-based

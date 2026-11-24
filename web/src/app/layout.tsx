@@ -3,6 +3,7 @@ import { Merriweather, Inter } from "next/font/google";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { AssistantWidget } from "@/components/ai/AssistantWidget";
+import { isLiveAssistantEnabled } from "@/lib/ai/ai-mode";
 import { IntroVideo } from "@/components/home/IntroVideo";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { organizationJsonLd } from "@/lib/seo/structured-data";
@@ -61,7 +62,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
           {children}
         </main>
         <Footer />
-        <AssistantWidget />
+        <AssistantWidget live={isLiveAssistantEnabled()} />
         <IntroVideo />
       </body>
     </html>

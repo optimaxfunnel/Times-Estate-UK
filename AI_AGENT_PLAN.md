@@ -1,8 +1,12 @@
 # AI_AGENT_PLAN.md — Times Estate Ltd
 
-**Status: PROPOSAL (24 November 2026).** Nothing in this plan has been
-built, connected or paid for. It needs the owner's decisions in §9
-before any work starts. Written for a non-technical reader; the
+**Status (24 November 2026):** the owner approved building **Part A,
+the website assistant**. **Stage 1 (build) is done; the assistant is
+switched OFF.** No AI account exists, no key is set, nothing is paid
+for, and visitors still get the rule-based assistant. Turning it on
+needs the owner's remaining decisions in §9 (account, spending cap,
+data location, privacy wording) and the stage 2 test set. Part B (staff
+assistant) is not started. Written for a non-technical reader; the
 technical detail is in the appendix at the end (CLAUDE.md Rule 8).
 
 ---
@@ -178,7 +182,7 @@ Each stage needs the owner's go-ahead before the next starts.
 | Stage | What happens | Visitors affected? |
 |---|---|---|
 | **0. Decisions** | Owner answers §9; AI account opened **by the owner**, with a spending cap; key added privately to Vercel by the owner (never in chat) | No |
-| **1. Build** | Build the website assistant behind an off-by-default switch; old assistant stays as the fallback | No (switch off) |
+| **1. Build** ✅ 24 Nov 2026 | Built behind an off-by-default switch; old assistant stays as the fallback. 29 new tests with a fake AI (no account, no cost) | No (switch off) |
 | **2. Test set** | About 150 test questions: everyday questions, listing searches, the refusal topics, trick and injection attempts, and Welsh/Polish/Urdu speakers asking in English. Each has a pass/fail rule. **The assistant must pass 100% of the safety questions**, and a high bar on the rest | No |
 | **3. Staff pilot** | Turned on in the private preview only. Staff use it for 2–4 weeks, and costs are measured | No |
 | **4. Staff assistant** | Build Part B the same way, tested and piloted | No |
@@ -292,6 +296,31 @@ decision.
 - `AI_MODEL` (default `claude-opus-5-5`).
 - `AI_MONTHLY_BUDGET_GBP` (soft cap checked against logged usage), plus
   the hard spend limit set in the provider console.
+
+### A4a. As built (stage 1, 24 November 2026)
+
+| File | What it does |
+|---|---|
+| `web/src/lib/ai/claude-provider.ts` | `ClaudeAIProvider`: prechecks → model with tools (max 4 rounds, 20 s timeout, 1 retry, effort `low`, automatic caching) → output guard. Any error, model refusal or cut-off answer throws; `FallbackAIProvider` then answers with the rule-based assistant. Logs token usage (no message text) for cost tracking |
+| `web/src/lib/ai/claude-tools.ts` | The four read-only tools (`strict: true`). Listings reduced to public, available fields |
+| `web/src/lib/ai/output-guard.ts` | Blocks valuation figures, promises, "I'm a person", advice phrases and unknown listing links |
+| `web/src/lib/ai/ai-mode.ts`, `select-provider.ts` | The switch: live only when `AI_ASSISTANT=live` **and** `ANTHROPIC_API_KEY` is set |
+| `web/src/lib/ai/demo-provider.ts` | `precheck()` extracted, so both assistants share the same refusal and injection checks |
+| `AssistantWidget.tsx`, `layout.tsx` | Label reads "AI assistant · not a real person" when live, "Demonstration mode" otherwise |
+
+Design choices:
+
+- **A manual tool loop rather than the SDK's (beta) Tool Runner.** This
+  gives a hard round limit, a guard on every reply, and no beta
+  dependency.
+- **Non-streaming for now,** because the widget renders whole replies.
+  Streaming can come later.
+- **No server-side model fallback.** A model refusal falls back to the
+  rule-based assistant's safe answer instead of re-running the
+  visitor's message on another model.
+- **Pending: the monthly budget soft cap** (`AI_MONTHLY_BUDGET_GBP`).
+  For stage 3, the hard spending limit is set in the provider's
+  console, and per-visitor rate limiting already exists.
 
 ### A5. Tests to add
 

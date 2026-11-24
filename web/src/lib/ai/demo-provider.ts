@@ -100,6 +100,34 @@ async function tryPropertyLookup(query: string): Promise<AIResponse | null> {
   };
 }
 
+/**
+ * The safety checks that run before ANY assistant (rule-based or live
+ * AI) handles a message. Refusals are checked first and unconditionally:
+ * nothing after this, including text asking the assistant to ignore its
+ * rules, can override them (see /lib/ai/refusals.ts). Then attempts to
+ * change the assistant's rules or extract internal data get one fixed
+ * answer and are never acted on. Returns null when the message may go on.
+ */
+export function precheck(query: string): AIResponse | null {
+  const refusal = checkRefusal(query);
+  if (refusal) {
+    return {
+      content: refusal,
+      sources: sourcesForRefusal(refusal),
+      suggestsHumanFollowUp: true,
+    };
+  }
+  if (looksLikeInjection(query)) {
+    return {
+      content:
+        "I can't change how I work or share internal or private information. I can help you search properties, find a page, or start a callback or viewing request.",
+      sources: [{ href: "/contact", label: "Contact Us" }],
+      suggestsHumanFollowUp: false,
+    };
+  }
+  return null;
+}
+
 export class DemoAIProvider implements AIProvider {
   readonly name =
     "Demonstration (rule-based, no external AI service connected)";
@@ -115,28 +143,8 @@ export class DemoAIProvider implements AIProvider {
 
     const query = lastUserMessage.content.trim();
 
-    // Refusals are checked first and unconditionally — nothing below can
-    // override this, including text in the message asking the assistant
-    // to ignore its rules (see /lib/ai/refusals.ts).
-    const refusal = checkRefusal(query);
-    if (refusal) {
-      return {
-        content: refusal,
-        sources: sourcesForRefusal(refusal),
-        suggestsHumanFollowUp: true,
-      };
-    }
-
-    // Then: attempts to change the assistant's rules or extract internal data
-    // get one fixed answer; the request itself is never acted on.
-    if (looksLikeInjection(query)) {
-      return {
-        content:
-          "I can't change how I work or share internal or private information. I can help you search properties, find a page, or start a callback or viewing request.",
-        sources: [{ href: "/contact", label: "Contact Us" }],
-        suggestsHumanFollowUp: false,
-      };
-    }
+    const blocked = precheck(query);
+    if (blocked) return blocked;
 
     const propertyAnswer = await tryPropertyLookup(query);
     if (propertyAnswer) return propertyAnswer;

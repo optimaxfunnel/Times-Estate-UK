@@ -15,6 +15,7 @@
     "setup:photo-storage": "node --env-file=.env scripts/setup-photo-storage.mjs"
   },
   "dependencies": {
+    "@anthropic-ai/sdk": "^1.13.0",
     "@electric-sql/pglite": "0.5.11",
     "@supabase/ssr": "0.12.7",
     "@supabase/supabase-js": "2.118.0",

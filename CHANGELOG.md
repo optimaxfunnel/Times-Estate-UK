@@ -9,6 +9,24 @@
 
 ---
 
+## 2026-11-24 — Live AI website assistant built (switched off)
+
+- Owner request: "Yes, website assistant" (AI_AGENT_PLAN.md, stage 1).
+- A Claude-powered version of the chat assistant is built:
+  - read-only tools: listings, approved answers, form links;
+  - the same safety pre-checks as before;
+  - a check on every reply before it is shown;
+  - automatic fallback to the rule-based assistant.
+- **Off by default:** needs both `AI_ASSISTANT=live` and an
+  `ANTHROPIC_API_KEY`, and neither is set. Visitors see no change;
+  checked in the browser.
+- New package `@anthropic-ai/sdk` (0 known vulnerabilities).
+- 372 tests pass (29 new, using a fake AI: no account, no cost).
+  Lint and build clean.
+- To turn it on (owner): open the AI account with a spending cap,
+  decide data location and privacy wording, then the stage 2 test set
+  and stage 3 staff pilot on the private preview.
+
 ## 2026-11-24 — AI agent plan (proposal only)
 
 - Owner request: "plan an AI Agent for this website".

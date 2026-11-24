@@ -1,6 +1,6 @@
 "use server";
 
-import { aiProvider } from "@/lib/ai/demo-provider";
+import { getAIProvider } from "@/lib/ai/select-provider";
 import { checkRateLimit } from "@/lib/security/rate-limit";
 import { sanitiseText } from "@/lib/security/sanitize";
 import type { AIMessage, AIResponse } from "@/lib/ai/provider";
@@ -29,7 +29,7 @@ export async function askAssistant(
 
   const messages: AIMessage[] = [...history, { role: "user", content: clean }];
   try {
-    return await aiProvider.respond(messages);
+    return await getAIProvider().respond(messages);
   } catch {
     // A provider outage must never leave the visitor without an answer
     // or a way to reach a person (Day 7 functional testing).
