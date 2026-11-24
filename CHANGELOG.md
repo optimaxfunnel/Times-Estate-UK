@@ -9,6 +9,25 @@
 
 ---
 
+## 2026-11-24 — Property photo upload (Supabase Storage)
+
+- Owner approval: "Yes, use Supabase Storage".
+- Set up on the live Supabase project: a `property-photos` bucket.
+  Supabase's own rules let only staff with two-step verification and a
+  property role add or remove files (`web/scripts/setup-photo-storage.mjs`).
+  Checked live: an upload without a staff sign-in was refused.
+- Staff screen: the property edit page has a **Photos** section to
+  upload (JPEG/PNG/WebP, 10 MB, 20 per property), describe, set the
+  main photo and remove photos. Same approval rules as editing text.
+- Every upload is cropped to 4:3 and saved as WebP at 1200 and 640 px.
+  Hidden camera data such as GPS location is removed.
+- Visitors get photos from the website's own `/media/…` address, so
+  their browsers never contact Supabase and the security policy is
+  unchanged. Listing cards and property pages already show uploaded
+  photos; sample listings keep their stock photos.
+- 330 tests (6 new). Not tested end-to-end with a real staff sign-in
+  (needs the owner's password): see `LAUNCH_CHECKLIST.md`.
+
 ## 2026-11-24 — Back-end: add property, data requests, health check
 
 - Owner request: "move forward what's left in the backend".

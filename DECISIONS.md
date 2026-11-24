@@ -9,6 +9,24 @@
 
 ---
 
+### 2026-11-24 — Property photos in Supabase Storage (owner decision)
+
+- **Owner approval:** "Yes, use Supabase Storage".
+- **Judgement calls, easy to reverse:**
+  - **Public bucket, served through the website.** Photos are fetched
+    by the website's server and shown from `/media/…`. Visitors never
+    contact Supabase, and the image security policy stays "this site
+    only". A private bucket would need a secret service key on the
+    server. The public bucket only exposes a photo to someone who knows
+    its random 36-character name.
+  - **Uploads use the staff member's own sign-in**, not a master key,
+    so Supabase checks two-step verification and role a second time.
+  - **One description per upload batch**, so staff upload rooms
+    separately. This keeps the descriptions read to blind visitors
+    meaningful.
+  - **Everything is cropped to landscape 4:3.** Listing cards are 4:3;
+    portrait photos lose their top and bottom.
+
 ### 2026-11-24 — Add-property screen built without waiting for a CRM choice
 
 - **Context:** E9 was waiting for the owner to choose between a CRM feed

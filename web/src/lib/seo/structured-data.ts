@@ -80,7 +80,9 @@ export function propertyJsonLd(
     url: `${env.NEXT_PUBLIC_SITE_URL}/property/${property.id}`,
     name: property.displayAddress,
     description: property.summary,
-    ...(property.media.images[0] && { image: property.media.images[0].url }),
+    ...(property.media.images[0] && {
+      image: new URL(property.media.images[0].url, env.NEXT_PUBLIC_SITE_URL).href,
+    }),
     offers: {
       "@type": "Offer",
       price: property.price,

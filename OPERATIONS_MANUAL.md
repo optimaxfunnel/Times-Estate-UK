@@ -64,10 +64,22 @@ Administrators can add listings by hand:
 4. On the next screen, change the status to **Awaiting approval** when
    it's ready. A Manager or Administrator then publishes it (section 5).
 
-**Not yet possible:** uploading photos and floor plans. That needs a
-file storage service, which the owner must approve first. If your
-property software (CRM) later sends listings automatically, they will
-go through the same approval step.
+**Photos** *(built 24 November 2026)*: after saving, the property's
+page has a **Photos** section. Choose one or more photos (JPEG, PNG or
+WebP, up to 10 MB each, 20 per property), describe them (for example
+"Kitchen with garden view"; the description is read aloud to blind
+visitors), and press **Upload**. Upload different rooms separately so
+each has its own description. The first photo is the **main photo**,
+shown on listing cards; use **Make main photo** to change it, and
+**Remove** to delete one. Photos are cropped to landscape, and hidden
+camera data such as location is removed automatically. Only use photos
+you have permission to use, and avoid showing people or tenants'
+personal belongings. Once a listing is live, only a Manager or
+Administrator can change its photos.
+
+**Not yet possible:** floor plans and brochures. If your property
+software (CRM) later sends listings automatically, they will go through
+the same approval step.
 
 ## 4. Editing a property
 

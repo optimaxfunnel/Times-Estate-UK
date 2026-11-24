@@ -101,7 +101,7 @@ kept as history.
 | E6 | CRM / portal feed | `lib/property/feeds` adapter boundary only | `feed-adapter.test.ts` | Requires owner approval | Owner to choose CRM/portal |
 | E7 | Staff content-status view | `app/admin/content`, `lib/content-gaps.ts` | `PlaceholderNotice.test.tsx` | Complete | — |
 | E8 | Demonstration data labelled visibly | Card and detail labels ("Sample property — invented for testing") | Production HTML read Day 6; `PropertyCard.test.tsx` | Complete | — |
-| E9 | Staff can add a new property | `/admin/properties/new`, `lib/property/create-action.ts` (saves a private Draft; existing approval workflow publishes) — built 2026-11-24 | `create-action.test.ts`, `AddPropertyForm.test.tsx` | Complete with limitation | No photo upload yet (needs a storage service the owner approves). A CRM feed (E6) can still be added later |
+| E9 | Staff can add a new property | `/admin/properties/new`, `lib/property/create-action.ts` (saves a private Draft; existing approval workflow publishes) — built 2026-11-24 | `create-action.test.ts`, `AddPropertyForm.test.tsx` | Complete with limitation | Photos: Supabase Storage approved and built 2026-11-24 (`photo-actions.ts`, `photo-actions.test.ts`). Still to do: floor plans and brochures. A CRM feed (E6) can still be added later |
 
 ## F. Automation and AI (AUTOMATION_WORKFLOWS.md, AI_SAFETY_RULES.md)
 

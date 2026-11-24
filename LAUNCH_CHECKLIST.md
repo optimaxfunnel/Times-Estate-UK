@@ -38,7 +38,10 @@
 - [x] **Supabase project restored by the owner (23 Nov)** — homepage, search and property pages read from it again (checked on the production build)
 - [ ] **Owner: upgrade Supabase to Pro** so the project cannot pause again (it paused on the Free plan on 23 Nov)
 - [x] **Site keeps working if the database is unreachable (23 Nov):** listings and property pages show "temporarily unavailable" with the phone number; forms say nothing was sent instead of crashing. Tested against the paused Supabase project
-- [x] **Staff can add properties (24 Nov):** saved as private drafts, published through the approval step. No photo upload yet (needs a storage service the owner approves)
+- [x] **Staff can add properties (24 Nov):** saved as private drafts, published through the approval step
+- [x] **Property photos (24 Nov):** Supabase Storage approved by the owner and set up; staff upload, reorder and remove photos; outsiders refused (tested live)
+- [ ] **Owner:** try uploading one photo to a draft property after signing in (the end-to-end upload with a real staff sign-in could not be tested without your password)
+- [ ] Add photo files to the backup procedure (Supabase database backups don't include them)
 - [x] **Data requests (24 Nov):** staff can find, export and erase one person's enquiries; audited (`OPERATIONS_MANUAL.md` §7a). Retention periods still to be agreed
 - [x] **Health check for monitoring (24 Nov):** `/api/health`; connect an uptime monitor at launch (`DEPLOYMENT.md` R8)
 - [ ] Switch off sample listings (`SEED_DEMO_PROPERTIES=false`) when real ones arrive

@@ -141,6 +141,29 @@ of upload risk (malware storage, unbounded disk growth, unauthorised
 file access) until a real, access-controlled storage provider with
 malware scanning is approved (see `INTEGRATIONS.md`).
 
+### Property photos (2026-11-24, owner approved Supabase Storage)
+
+Customer form uploads above are still never stored. Staff property
+photos are stored, with these controls:
+
+- **Who:** only Administrators, Managers and Property Editors, under
+  the same approval rules as editing text (an editor cannot change a
+  live listing). This is checked by the website, and again by Supabase,
+  whose rules also require a two-step-verified session
+  (`web/scripts/setup-photo-storage.mjs`). Tested 2026-11-24: an upload
+  without a staff sign-in was refused, and an outsider could not list
+  or delete files.
+- **What:** JPEG, PNG or WebP only, 10 MB each, 20 per property. Every
+  file is decoded and re-encoded as WebP, so anything that isn't a real
+  picture is rejected, and hidden camera data (including GPS location)
+  is removed. The bucket itself accepts only WebP up to 5 MB.
+- **Serving:** visitors get photos from the website's own `/media/…`
+  address. Only random, well-formed names are accepted there (no path
+  tricks). The site's image policy stays "this site only".
+- **Known limit:** the bucket is publicly readable, so a draft's photos
+  could be seen by someone who knew their 36-character random name.
+  Names are never published until the listing is.
+
 ## Dependency vulnerabilities
 
 ```

@@ -22,8 +22,7 @@ export default async function NewPropertyPage() {
         </p>
       </div>
       <Alert tone="info">
-        Photos and floor plans can&rsquo;t be uploaded yet. That needs a file
-        storage service, which must be approved first.
+        You can add photos on the next screen, once the draft is saved.
       </Alert>
       <AddPropertyForm />
     </div>

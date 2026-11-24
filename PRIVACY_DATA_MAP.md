@@ -139,7 +139,15 @@ in-memory store.
 
 ## Deletion
 
-**No deletion mechanism exists today** beyond restarting the server
+> **Update 2026-11-24:** staff can now find, download and erase one
+> person's enquiries (Admin → Data requests; `OPERATIONS_MANUAL.md`
+> §7a). Retention periods still need the owner's and solicitor's
+> decision. Property photos are stored in Supabase Storage (Ireland)
+> with camera location data removed. Staff should not upload photos
+> showing people, or personal items that identify a tenant, without
+> permission.
+
+*Historical (Day 5):* **No deletion mechanism exists today** beyond restarting the server
 (which deletes everything indiscriminately, not on request). A real
 deployment needs a way to delete one specific person's data on request
 (supporting a data-subject erasure request) — this has not been built,

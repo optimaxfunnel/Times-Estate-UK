@@ -5,6 +5,8 @@ import { getCurrentRole } from "@/lib/auth/session";
 import { hasPermission } from "@/lib/auth/roles";
 import { Alert } from "@/components/ui/Alert";
 import { PropertyEditForm } from "@/components/admin/PropertyEditForm";
+import { PropertyPhotosManager } from "@/components/admin/PropertyPhotosManager";
+import { canEditContent } from "@/lib/property/workflow";
 
 export const metadata: Metadata = { title: "Admin — Edit Property" };
 
@@ -38,8 +40,10 @@ export default async function AdminEditPropertyPage({
     );
   }
 
+  const photoDecision = canEditContent(role, property.status);
+
   return (
-    <div className="max-w-2xl">
+    <div className="max-w-3xl">
       <h1 className="text-2xl font-semibold text-ink">
         {property.displayAddress}
       </h1>
@@ -57,6 +61,14 @@ export default async function AdminEditPropertyPage({
         <PropertyEditForm
           property={property}
           canApprove={hasPermission(role, "approve_property")}
+        />
+      </div>
+      <div className="mt-10">
+        <PropertyPhotosManager
+          propertyId={property.id}
+          images={property.media.images}
+          canEdit={photoDecision.allowed}
+          reason={photoDecision.allowed ? undefined : photoDecision.reason}
         />
       </div>
     </div>

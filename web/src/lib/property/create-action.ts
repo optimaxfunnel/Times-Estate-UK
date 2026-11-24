@@ -28,8 +28,8 @@ function opt(fd: FormData, name: string): string | undefined {
  * publishes it (workflow.ts). New records are never demonstration data
  * (isDemo false) and start "unverified".
  *
- * Photos are not uploaded here yet: that needs file storage, a third-party
- * service the owner has to approve first (CLAUDE.md Rule 4).
+ * Photos are added on the next screen (photo-actions.ts), once the draft
+ * exists.
  */
 export async function createPropertyAction(
   _prev: CreatePropertyState,

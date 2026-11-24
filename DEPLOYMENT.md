@@ -519,6 +519,28 @@ admin two-step page (from the local-database helper). It is harmless
 but should be checked when the hosting provider is chosen, as it can
 enlarge serverless bundles.
 
+## 11d. Property photos — Supabase Storage
+
+**Status 2026-11-24: set up on the live project (owner approval: "Yes,
+use Supabase Storage").** No new account or cost on the Free plan. Photo
+storage counts toward the plan's storage allowance (1 GB Free, 100 GB
+Pro). Each photo is stored at two sizes, about 0.2 MB together.
+
+- Bucket `property-photos` and its access rules were created by
+  `web/scripts/setup-photo-storage.mjs`
+  (`node --env-file=.env scripts/setup-photo-storage.mjs`). The script
+  is safe to run again, and must be run once on any new Supabase
+  project.
+- Nothing new goes in the host's settings: uploads use the staff
+  member's own sign-in.
+- **To-do when npm can reach its registry:** add `sharp` (the image
+  tool) to `web/package.json` as a direct dependency. Today it is
+  installed through Next.js, which most hosts include, but listing it
+  directly is safer.
+- **Backups:** Supabase's daily database backups do not include
+  Storage files. Keep the original photos, or export the bucket
+  periodically (to be added to the backup procedure).
+
 ## 11c. Email — the business's existing 20i StackMail
 
 **Status 2026-11-09: built, switched off.** Owner decision: use the
