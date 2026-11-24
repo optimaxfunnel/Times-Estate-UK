@@ -95,8 +95,12 @@ the same approval step.
 > Properties**. The top form changes the summary, description and
 > status. Below it, **Property details** changes everything else: type,
 > address, price, rooms, tenure, EPC, council tax band, features, and
-> an optional video or virtual-tour link. Details you can't see in the
-> form (deposit, lease length, service charge) are kept as they are.
+> an optional video or virtual-tour link. It also covers the details
+> buyers and tenants must be told before they enquire: lease years
+> remaining, service charge, ground rent and chain (sales); deposit and
+> available date (lettings); use class, business rates, VAT, EPC,
+> possession date and lease terms (commercial). Leave a field blank if
+> you haven't checked it with the owner or landlord.
 > Once a listing is live, only a Manager or Administrator can change it.
 
 1. Sign in, open **Properties**, click the property.

@@ -224,6 +224,34 @@ export function AddPropertyForm({ property }: { property?: Property } = {}) {
               ))}
             </select>
           </Field>
+          <Field id="leaseLengthYears" text="Lease years remaining" hint="Leasehold only.">
+            <input id="leaseLengthYears" name="leaseLengthYears" type="number" min={0} max={999} defaultValue={v(r?.leaseLengthYears)} aria-describedby="leaseLengthYears-hint" className={input} />
+          </Field>
+          <Field id="serviceCharge" text="Service charge (£ a year)">
+            <input id="serviceCharge" name="serviceCharge" inputMode="numeric" defaultValue={v(r?.serviceCharge)} className={input} />
+          </Field>
+          <Field id="groundRent" text="Ground rent (£ a year)">
+            <input id="groundRent" name="groundRent" inputMode="numeric" defaultValue={v(r?.groundRent)} className={input} />
+          </Field>
+          {listingType === "sale" ? (
+            <Field id="chainStatus" text="Chain">
+              <select id="chainStatus" name="chainStatus" defaultValue={r?.chainStatus ?? ""} className={input}>
+                <option value="">Not stated</option>
+                <option value="no_chain">No chain</option>
+                <option value="chain_free_seller">Chain-free seller</option>
+                <option value="in_a_chain">In a chain</option>
+              </select>
+            </Field>
+          ) : (
+            <>
+              <Field id="deposit" text="Deposit (£)">
+                <input id="deposit" name="deposit" inputMode="numeric" defaultValue={v(r?.deposit)} className={input} />
+              </Field>
+              <Field id="availableFrom" text="Available from">
+                <input id="availableFrom" name="availableFrom" type="date" defaultValue={r?.availableFrom ?? ""} className={input} />
+              </Field>
+            </>
+          )}
         </fieldset>
       ) : (
         <fieldset className="grid gap-4 rounded-sm border border-border bg-surface p-5 sm:grid-cols-3">
@@ -250,6 +278,41 @@ export function AddPropertyForm({ property }: { property?: Property } = {}) {
               ))}
             </select>
           </Field>
+          <Field id="useClass" text="Use class" hint="e.g. E, B2, B8, Sui generis.">
+            <input id="useClass" name="useClass" maxLength={20} defaultValue={c?.useClass ?? ""} aria-describedby="useClass-hint" className={input} />
+          </Field>
+          <Field id="businessRatesPayable" text="Business rates (£ a year)">
+            <input id="businessRatesPayable" name="businessRatesPayable" inputMode="numeric" defaultValue={v(c?.businessRatesPayable)} className={input} />
+          </Field>
+          <Field id="serviceChargePerAnnum" text="Service charge (£ a year)">
+            <input id="serviceChargePerAnnum" name="serviceChargePerAnnum" inputMode="numeric" defaultValue={v(c?.serviceChargePerAnnum)} className={input} />
+          </Field>
+          <Field id="vatPosition" text="VAT">
+            <select id="vatPosition" name="vatPosition" defaultValue={c?.vatPosition ?? ""} className={input}>
+              <option value="">Not stated</option>
+              <option value="vat_applicable">VAT applicable</option>
+              <option value="vat_not_applicable">VAT not applicable</option>
+              <option value="tbc">To be confirmed</option>
+            </select>
+          </Field>
+          <Field id="energyRating" text="EPC rating" hint="Must match the real certificate.">
+            <select id="energyRating" name="energyRating" defaultValue={c?.energyRating ?? ""} aria-describedby="energyRating-hint" className={input}>
+              <option value="">Not yet known</option>
+              {["A+", "A", "B", "C", "D", "E", "F", "G", "exempt"].map((x) => (
+                <option key={x} value={x}>
+                  {x === "exempt" ? "Exempt" : x}
+                </option>
+              ))}
+            </select>
+          </Field>
+          <Field id="possessionDate" text="Possession date">
+            <input id="possessionDate" name="possessionDate" type="date" defaultValue={c?.possessionDate ?? ""} className={input} />
+          </Field>
+          <div className="sm:col-span-3">
+            <Field id="leaseTermsSummary" text="Lease terms" hint="A short summary, e.g. “New 10-year FRI lease, rent review at year 5”.">
+              <textarea id="leaseTermsSummary" name="leaseTermsSummary" rows={2} maxLength={2000} defaultValue={c?.leaseTermsSummary ?? ""} aria-describedby="leaseTermsSummary-hint" className={input} />
+            </Field>
+          </div>
         </fieldset>
       )}
 

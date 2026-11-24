@@ -9,6 +9,19 @@
 
 ---
 
+## 2026-11-24 — Material-information fields on the property form
+
+- Owner request: "move forward with what's left".
+- Staff can now enter and edit the details buyers and tenants must be
+  given before they enquire. All were already shown on the property
+  page, but could only be set in the sample data:
+  - **Sales:** lease years remaining, service charge, ground rent, chain.
+  - **Lettings:** deposit, available from.
+  - **Commercial:** use class, business rates, service charge, VAT, EPC,
+    possession date, lease terms.
+- Money can be typed as "£1,800". Blank means "not stated".
+- 343 tests; axe 0 violations on the edit page; build clean.
+
 ## 2026-11-24 — Edit all property details; PDF brochures
 
 - Owner request: "move forward with what's left".

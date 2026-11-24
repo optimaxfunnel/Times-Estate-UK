@@ -7,14 +7,17 @@ export function opt(fd: FormData, name: string): string | undefined {
   return typeof v === "string" && v.trim() !== "" ? v.trim() : undefined;
 }
 
+/** "£1,800" → "1800", so staff can type money the way they write it. */
+const money = (v: string | undefined) => v?.replace(/[£,\s]/g, "");
+
 /**
  * Reads the add/edit property form into a candidate record and validates
  * it with the shared server-side schema (schema.ts). Shared by "Add a
  * property" and "Edit property details", so both apply the same rules.
  *
- * `existing` (edit only): fields the form does not show — lease length,
- * deposit, service charge, coordinates, notes and so on — are kept as
- * they were, never wiped by an edit.
+ * `existing` (edit only): fields the form does not show — coordinates,
+ * internal notes, an investment yield — are kept as they were, never
+ * wiped by an edit.
  */
 export function parsePropertyForm(
   fd: FormData,
@@ -32,7 +35,7 @@ export function parsePropertyForm(
     postcode: (opt(fd, "postcode") ?? "").toUpperCase(),
     listingType: opt(fd, "listingType"),
     category,
-    price: opt(fd, "price")?.replace(/[£,\s]/g, ""),
+    price: money(opt(fd, "price")),
     priceQualifier: opt(fd, "priceQualifier"),
     status: base.status,
     summary: base.summary,
@@ -55,6 +58,12 @@ export function parsePropertyForm(
             councilTaxBand: opt(fd, "councilTaxBand"),
             epcRating: opt(fd, "epcRating"),
             furnishing: opt(fd, "furnishing"),
+            leaseLengthYears: opt(fd, "leaseLengthYears"),
+            serviceCharge: money(opt(fd, "serviceCharge")),
+            groundRent: money(opt(fd, "groundRent")),
+            chainStatus: opt(fd, "chainStatus"),
+            deposit: money(opt(fd, "deposit")),
+            availableFrom: opt(fd, "availableFrom"),
           }
         : undefined,
     commercial:
@@ -64,6 +73,13 @@ export function parsePropertyForm(
             commercialUse: opt(fd, "commercialUse"),
             floorAreaSqFt: opt(fd, "floorAreaSqFt"),
             tenure: opt(fd, "commercialTenure"),
+            useClass: opt(fd, "useClass"),
+            businessRatesPayable: money(opt(fd, "businessRatesPayable")),
+            serviceChargePerAnnum: money(opt(fd, "serviceChargePerAnnum")),
+            vatPosition: opt(fd, "vatPosition"),
+            energyRating: opt(fd, "energyRating"),
+            possessionDate: opt(fd, "possessionDate"),
+            leaseTermsSummary: opt(fd, "leaseTermsSummary"),
           }
         : undefined,
   };

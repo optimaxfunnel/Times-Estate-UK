@@ -113,14 +113,23 @@ describe("add a property", () => {
     await propertyProvider.update(
       id,
       {
-        residential: { ...before.residential!, deposit: 2250, availableFrom: "2027-01-01" },
+        coordinates: { lat: 51.43, lng: -0.17 },
         media: { ...before.media, images: [{ url: "/media/x.webp", alt: "Photo" }] },
       },
       "test",
     );
     const r = await updatePropertyDetailsAction(
       { status: "idle" },
-      form({ ...flat, id, price: "2,100", bedrooms: "3", virtualTourUrl: "https://example.com/tour" }),
+      form({
+        ...flat,
+        id,
+        price: "2,100",
+        bedrooms: "3",
+        deposit: "£2,250",
+        availableFrom: "2027-01-01",
+        serviceCharge: "1,200",
+        virtualTourUrl: "https://example.com/tour",
+      }),
     );
     expect(r).toEqual({ status: "success", message: "Details saved." });
     const p = (await propertyProvider.getById(id))!;
@@ -128,6 +137,8 @@ describe("add a property", () => {
     expect(p.residential?.bedrooms).toBe(3);
     expect(p.residential?.deposit).toBe(2250);
     expect(p.residential?.availableFrom).toBe("2027-01-01");
+    expect(p.residential?.serviceCharge).toBe(1200);
+    expect(p.coordinates).toEqual({ lat: 51.43, lng: -0.17 }); // not on the form: kept
     expect(p.media.images).toHaveLength(1);
     expect(p.media.virtualTourUrl).toBe("https://example.com/tour");
     expect([p.status, p.summary, p.isDemo]).toEqual(["draft", flat.summary, false]);
@@ -148,5 +159,30 @@ describe("add a property", () => {
     role = "manager";
     expect((await updatePropertyDetailsAction({ status: "idle" }, form({ ...flat, id, price: "2000" }))).status).toBe("success");
     expect((await propertyProvider.getById(id))!.price).toBe(2000);
+  });
+
+  it("saves commercial lease and rates details", async () => {
+    await create({
+      ...flat,
+      category: "commercial",
+      listingType: "letting",
+      priceQualifier: "per_annum",
+      commercialUse: "retail",
+      floorAreaSqFt: "850",
+      useClass: "E",
+      businessRatesPayable: "£9,500",
+      vatPosition: "vat_applicable",
+      energyRating: "B",
+      leaseTermsSummary: "New 10-year FRI lease.",
+    });
+    const id = redirectedTo.match(/\/admin\/properties\/([^?]+)/)![1];
+    const c = (await propertyProvider.getById(id))!.commercial!;
+    expect([c.useClass, c.businessRatesPayable, c.vatPosition, c.energyRating, c.leaseTermsSummary]).toEqual([
+      "E",
+      9500,
+      "vat_applicable",
+      "B",
+      "New 10-year FRI lease.",
+    ]);
   });
 });
