@@ -20,9 +20,12 @@
   `client-preview` (same code as `recovery-2026-11-09`, commit c6f9b59).
 - **Locked:** Vercel sign-in is required on every address. Checked:
   without the link, a visitor is sent to the Vercel log-in page.
-- **Shareable link** for the client: anyone holding it can view; it
-  expires about 23 hours after it was made (25 Nov 2026, 14:25). A new
-  one can be made from the Vercel deployment page ("Share").
+- **Shareable link** for the client: anyone holding it can view. The
+  first link (23 hours) was replaced the same day at the owner's
+  request by a 30-day link, expiring 24 Dec 2026. It is tied to the
+  `client-preview` address, so it keeps working when the preview is
+  rebuilt. Revoke or renew it in Vercel (project → Deployment
+  Protection → Shareable Links) or ask the AI team.
 - **Demo mode:** `LOCAL_DB=memory`, so the preview runs on built-in
   sample data, and anything typed into a form is not kept. The live
   database setting (`DATABASE_URL`) was not added. Adding it later
