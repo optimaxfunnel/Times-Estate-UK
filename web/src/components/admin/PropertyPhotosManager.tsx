@@ -3,7 +3,9 @@
 import { useActionState, useId } from "react";
 import {
   makeMainPhotoAction,
+  removeBrochureAction,
   removePropertyPhotoAction,
+  uploadBrochureAction,
   uploadPropertyPhotosAction,
   type PhotoActionState,
 } from "@/lib/property/photo-actions";
@@ -233,6 +235,73 @@ export function FloorPlansManager({
           </div>
           <Button type="submit" disabled={uploading}>
             {uploading ? "Uploading…" : "Upload floor plans"}
+          </Button>
+          <Feedback state={state} />
+        </form>
+      )}
+    </section>
+  );
+}
+
+/** One PDF brochure per property; uploading again replaces it. */
+export function BrochureManager({
+  propertyId,
+  brochureUrl,
+  canEdit,
+}: {
+  propertyId: string;
+  brochureUrl?: string;
+  canEdit: boolean;
+}) {
+  const [state, uploadAction, uploading] = useActionState(uploadBrochureAction, idle);
+  const [removeState, removeAction, removing] = useActionState(removeBrochureAction, idle);
+  const id = useId();
+  return (
+    <section aria-labelledby={`${id}-h`} className="space-y-4">
+      <h2 id={`${id}-h`} className="text-lg font-semibold text-ink">
+        Brochure
+      </h2>
+      {brochureUrl ? (
+        <div className="flex flex-wrap items-center gap-3 text-sm">
+          <a href={brochureUrl} className="text-accent underline underline-offset-4">
+            Download the current brochure (PDF)
+          </a>
+          {canEdit && (
+            <form action={removeAction}>
+              <input type="hidden" name="id" value={propertyId} />
+              <Button type="submit" variant="secondary" className="px-3 py-1.5 text-xs" disabled={removing}>
+                Remove brochure
+              </Button>
+            </form>
+          )}
+        </div>
+      ) : (
+        <p className="text-sm text-ink/70">No brochure yet.</p>
+      )}
+      <Feedback state={removeState} />
+      {canEdit && (
+        <form action={uploadAction} className="space-y-3 rounded-sm border border-border bg-surface p-4">
+          <input type="hidden" name="id" value={propertyId} />
+          <div className="space-y-1">
+            <label htmlFor={`${id}-file`} className="block text-sm font-medium text-ink">
+              {brochureUrl ? "Replace brochure" : "Add a brochure"}
+            </label>
+            <input
+              id={`${id}-file`}
+              name="brochure"
+              type="file"
+              accept="application/pdf"
+              required
+              aria-describedby={`${id}-hint`}
+              className="block w-full text-sm"
+            />
+            <p id={`${id}-hint`} className="text-xs text-ink/60">
+              A PDF up to 10 MB. Visitors download it from the property page.
+              PDFs with scripts or attached files are refused for safety.
+            </p>
+          </div>
+          <Button type="submit" disabled={uploading}>
+            {uploading ? "Uploading…" : "Upload brochure"}
           </Button>
           <Feedback state={state} />
         </form>

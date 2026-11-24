@@ -4,22 +4,18 @@ import { randomUUID } from "node:crypto";
 import { redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
 import { propertyProvider } from "@/lib/property/provider";
-import { propertySchema } from "@/lib/property/schema";
+import { opt, parsePropertyForm, readTourUrl } from "@/lib/property/property-form";
 import { requireRole } from "@/lib/auth/session";
 import { hasPermission } from "@/lib/auth/roles";
 import { recordAuditEvent } from "@/lib/auth/audit-log";
+import { canEditContent } from "@/lib/property/workflow";
 import type { Property } from "@/lib/property/types";
 
 export type CreatePropertyState = {
-  status: "idle" | "error";
+  status: "idle" | "success" | "error";
   message?: string;
 };
 
-/** A form value, or undefined when the field was left blank. */
-function opt(fd: FormData, name: string): string | undefined {
-  const v = fd.get(name);
-  return typeof v === "string" && v.trim() !== "" ? v.trim() : undefined;
-}
 
 /**
  * Adds a new, real property as a **Draft** (E9). It never appears on the
@@ -46,65 +42,23 @@ export async function createPropertyAction(
     return { status: "error", message: "Your current role cannot add properties." };
   }
 
-  const category = opt(fd, "category");
-  const candidate = {
-    id: `prop-${Date.now().toString(36)}-${randomUUID().slice(0, 6)}`,
-    privateAddress: opt(fd, "privateAddress") ?? "",
-    displayAddress: opt(fd, "displayAddress") ?? "",
-    postcode: (opt(fd, "postcode") ?? "").toUpperCase(),
-    listingType: opt(fd, "listingType"),
-    category,
-    price: opt(fd, "price")?.replace(/[£,\s]/g, ""),
-    priceQualifier: opt(fd, "priceQualifier"),
+  const id = `prop-${Date.now().toString(36)}-${randomUUID().slice(0, 6)}`;
+  const parsed = parsePropertyForm(fd, {
+    id,
     status: "draft",
     summary: opt(fd, "summary") ?? "",
     description: opt(fd, "description") ?? "",
-    features: (opt(fd, "features") ?? "")
-      .split("\n")
-      .map((f) => f.trim())
-      .filter(Boolean)
-      .slice(0, 20),
-    verification: "unverified",
-    residential:
-      category === "residential"
-        ? {
-            propertyType: opt(fd, "propertyType"),
-            bedrooms: opt(fd, "bedrooms"),
-            bathrooms: opt(fd, "bathrooms"),
-            receptionRooms: opt(fd, "receptionRooms"),
-            tenure: opt(fd, "tenure"),
-            councilTaxBand: opt(fd, "councilTaxBand"),
-            epcRating: opt(fd, "epcRating"),
-            furnishing: opt(fd, "furnishing"),
-          }
-        : undefined,
-    commercial:
-      category === "commercial"
-        ? {
-            commercialUse: opt(fd, "commercialUse"),
-            floorAreaSqFt: opt(fd, "floorAreaSqFt"),
-            tenure: opt(fd, "commercialTenure"),
-          }
-        : undefined,
-  };
-
-  const parsed = propertySchema.safeParse(candidate);
-  if (!parsed.success) {
-    const issue = parsed.error.issues[0];
-    return {
-      status: "error",
-      message: issue
-        ? `${issue.path.length ? `${issue.path.join(" › ")}: ` : ""}${issue.message}`
-        : "Check the form.",
-    };
-  }
+  });
+  if (!parsed.ok) return { status: "error", message: parsed.message };
+  const tour = readTourUrl(fd);
+  if (!tour.ok) return { status: "error", message: tour.message };
 
   const now = new Date().toISOString();
   const property: Property = {
-    ...(parsed.data as unknown as Property),
+    ...parsed.data,
     status: "draft",
     isDemo: false,
-    media: { images: [], floorPlans: [] },
+    media: { images: [], floorPlans: [], virtualTourUrl: tour.url },
     createdAt: now,
     updatedAt: now,
   };
@@ -112,4 +66,47 @@ export async function createPropertyAction(
   revalidatePath("/admin/properties");
   revalidatePath("/admin/audit");
   redirect(`/admin/properties/${property.id}?created=1`);
+}
+
+export type UpdateDetailsState = CreatePropertyState;
+
+/**
+ * Edits a property's details (address, price, rooms, features, tour
+ * link). Same rules as editing its text (workflow.ts canEditContent): an
+ * editor may change drafts; once a listing is live only a Manager or
+ * Administrator may. Status, summary, description, photos and anything
+ * the form doesn't show are left as they were.
+ */
+export async function updatePropertyDetailsAction(
+  _prev: UpdateDetailsState,
+  fd: FormData,
+): Promise<UpdateDetailsState> {
+  const role = await requireRole();
+  const id = String(fd.get("id") ?? "");
+  const existing = await propertyProvider.getById(id);
+  if (!existing) return { status: "error", message: "Property not found." };
+  const decision = canEditContent(role, existing.status);
+  if (!decision.allowed) {
+    await recordAuditEvent({ actor: role, action: "denied", propertyId: id, details: `Details: ${decision.reason}` });
+    return { status: "error", message: decision.reason };
+  }
+
+  const parsed = parsePropertyForm(
+    fd,
+    { id, status: existing.status, summary: existing.summary, description: existing.description },
+    existing,
+  );
+  if (!parsed.ok) return { status: "error", message: parsed.message };
+  const tour = readTourUrl(fd);
+  if (!tour.ok) return { status: "error", message: tour.message };
+
+  await propertyProvider.update(
+    id,
+    { ...parsed.data, media: { ...existing.media, virtualTourUrl: tour.url } },
+    role,
+  );
+  revalidatePath("/admin/properties");
+  revalidatePath("/admin/audit");
+  revalidatePath(`/property/${id}`);
+  return { status: "success", message: "Details saved." };
 }

@@ -6,10 +6,12 @@ import { hasPermission } from "@/lib/auth/roles";
 import { Alert } from "@/components/ui/Alert";
 import { PropertyEditForm } from "@/components/admin/PropertyEditForm";
 import {
+  BrochureManager,
   FloorPlansManager,
   PropertyPhotosManager,
 } from "@/components/admin/PropertyPhotosManager";
 import { canEditContent } from "@/lib/property/workflow";
+import { AddPropertyForm } from "@/components/admin/AddPropertyForm";
 
 export const metadata: Metadata = { title: "Admin — Edit Property" };
 
@@ -66,6 +68,16 @@ export default async function AdminEditPropertyPage({
           canApprove={hasPermission(role, "approve_property")}
         />
       </div>
+      <section aria-labelledby="details-heading" className="mt-10 space-y-4">
+        <h2 id="details-heading" className="text-lg font-semibold text-ink">
+          Property details
+        </h2>
+        {photoDecision.allowed ? (
+          <AddPropertyForm property={property} />
+        ) : (
+          <Alert tone="info">{photoDecision.reason}</Alert>
+        )}
+      </section>
       <div className="mt-10">
         <PropertyPhotosManager
           propertyId={property.id}
@@ -78,6 +90,13 @@ export default async function AdminEditPropertyPage({
         <FloorPlansManager
           propertyId={property.id}
           floorPlans={property.media.floorPlans}
+          canEdit={photoDecision.allowed}
+        />
+      </div>
+      <div className="mt-10">
+        <BrochureManager
+          propertyId={property.id}
+          brochureUrl={property.media.brochureUrl}
           canEdit={photoDecision.allowed}
         />
       </div>

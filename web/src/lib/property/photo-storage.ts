@@ -22,8 +22,8 @@ import {
  */
 export const PHOTO_BUCKET = "property-photos";
 
-/** Keys look like "<propertyId>/<random>-1200.webp" (or -640, or -plan for floor plans) — nothing else is allowed. */
-const KEY_PATTERN = /^[a-z0-9-]{3,60}\/[a-f0-9-]{36}-(640|1200|plan)\.webp$/;
+/** Keys look like "<propertyId>/<random>-1200.webp" (or -640 / -plan .webp, or -brochure.pdf) — nothing else is allowed. */
+const KEY_PATTERN = /^[a-z0-9-]{3,60}\/[a-f0-9-]{36}-((640|1200|plan)\.webp|brochure\.pdf)$/;
 
 export function isValidPhotoKey(key: string): boolean {
   return KEY_PATTERN.test(key);
@@ -50,13 +50,17 @@ function supabaseConfigured(): boolean {
   return isSupabaseAuthConfigured();
 }
 
+export function contentTypeFor(key: string): "image/webp" | "application/pdf" {
+  return key.endsWith(".pdf") ? "application/pdf" : "image/webp";
+}
+
 export async function storePhoto(key: string, body: Buffer): Promise<void> {
   if (!isValidPhotoKey(key)) throw new Error("Invalid photo key");
   if (supabaseConfigured()) {
     const supabase = await createSupabaseServer();
     const { error } = await supabase.storage
       .from(PHOTO_BUCKET)
-      .upload(key, body, { contentType: "image/webp", upsert: false, cacheControl: "31536000" });
+      .upload(key, body, { contentType: contentTypeFor(key), upsert: false, cacheControl: "31536000" });
     if (error) throw new Error(`Photo upload refused: ${error.message}`);
     return;
   }

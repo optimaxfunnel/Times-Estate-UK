@@ -12,7 +12,8 @@
 //  - Adding, replacing, removing: only a signed-in staff member who has
 //    passed two-step verification (session "aal2") AND has the role
 //    Administrator, Manager or Property Editor in staff_roles.
-//  - Only WebP images up to 5 MB (the website converts every upload).
+//  - Only WebP images (the website converts every photo) and PDF
+//    brochures (checked by the website first), up to 10 MB.
 import postgres from "postgres";
 
 const url = process.env.DATABASE_URL;
@@ -26,9 +27,9 @@ const steps = [
   [
     "bucket",
     `insert into storage.buckets (id, name, public, file_size_limit, allowed_mime_types)
-     values ('property-photos', 'property-photos', true, 5242880, array['image/webp'])
-     on conflict (id) do update set public = true, file_size_limit = 5242880,
-       allowed_mime_types = array['image/webp']`,
+     values ('property-photos', 'property-photos', true, 10485760, array['image/webp', 'application/pdf'])
+     on conflict (id) do update set public = true, file_size_limit = 10485760,
+       allowed_mime_types = array['image/webp', 'application/pdf']`,
   ],
   [
     "staff check",

@@ -3,6 +3,7 @@
 import { useActionState, useState } from "react";
 import {
   createPropertyAction,
+  updatePropertyDetailsAction,
   type CreatePropertyState,
 } from "@/lib/property/create-action";
 import {
@@ -12,6 +13,7 @@ import {
   RESIDENTIAL_PROPERTY_TYPES,
   RESIDENTIAL_PROPERTY_TYPE_LABELS,
   type PriceQualifier,
+  type Property,
 } from "@/lib/property/types";
 import { Button } from "@/components/ui/Button";
 import { Alert } from "@/components/ui/Alert";
@@ -67,19 +69,31 @@ function Field({
   );
 }
 
-export function AddPropertyForm() {
+/**
+ * Add a property, or (with `property`) edit an existing one's details.
+ * In edit mode the summary, description and status are edited in their
+ * own form above, so they are not repeated here.
+ */
+export function AddPropertyForm({ property }: { property?: Property } = {}) {
+  const editing = Boolean(property);
   const [state, formAction, isPending] = useActionState(
-    createPropertyAction,
+    editing ? updatePropertyDetailsAction : createPropertyAction,
     initialState,
   );
   const [category, setCategory] = useState<"residential" | "commercial">(
-    "residential",
+    property?.category ?? "residential",
   );
-  const [listingType, setListingType] = useState<"sale" | "letting">("sale");
+  const [listingType, setListingType] = useState<"sale" | "letting">(
+    property?.listingType ?? "sale",
+  );
+  const r = property?.residential;
+  const c = property?.commercial;
+  const v = (x: number | string | undefined | null) => (x === undefined || x === null ? "" : String(x));
   const qualifiers = listingType === "sale" ? SALE_QUALIFIERS : LET_QUALIFIERS;
 
   return (
     <form action={formAction} className="space-y-8">
+      {property && <input type="hidden" name="id" value={property.id} />}
       {state.status === "error" && state.message && (
         <Alert tone="danger">{state.message}</Alert>
       )}
@@ -120,7 +134,7 @@ export function AddPropertyForm() {
             text="Full address (private)"
             hint="Staff only. Never shown on the website."
           >
-            <input id="privateAddress" name="privateAddress" required aria-describedby="privateAddress-hint" className={input} />
+            <input id="privateAddress" name="privateAddress" defaultValue={property?.privateAddress} required aria-describedby="privateAddress-hint" className={input} />
           </Field>
         </div>
         <Field
@@ -128,20 +142,20 @@ export function AddPropertyForm() {
           text="Address shown on the website"
           hint="Usually the street and area only, e.g. “Mitcham Road, Tooting”."
         >
-          <input id="displayAddress" name="displayAddress" required aria-describedby="displayAddress-hint" className={input} />
+          <input id="displayAddress" name="displayAddress" defaultValue={property?.displayAddress} required aria-describedby="displayAddress-hint" className={input} />
         </Field>
         <Field id="postcode" text="Postcode" hint="The full postcode. Only the first part is shown publicly.">
-          <input id="postcode" name="postcode" required autoComplete="off" aria-describedby="postcode-hint" className={input} />
+          <input id="postcode" name="postcode" defaultValue={property?.postcode} required autoComplete="off" aria-describedby="postcode-hint" className={input} />
         </Field>
       </fieldset>
 
       <fieldset className="grid gap-4 rounded-sm border border-border bg-surface p-5 sm:grid-cols-2">
         <legend className="px-1 font-semibold text-ink">Price</legend>
         <Field id="price" text={listingType === "sale" ? "Price (£)" : "Rent (£)"} hint="Leave blank for POA.">
-          <input id="price" name="price" inputMode="numeric" aria-describedby="price-hint" className={input} />
+          <input id="price" name="price" defaultValue={v(property?.price)} inputMode="numeric" aria-describedby="price-hint" className={input} />
         </Field>
         <Field id="priceQualifier" text="Shown as">
-          <select id="priceQualifier" name="priceQualifier" key={listingType} className={input}>
+          <select id="priceQualifier" name="priceQualifier" key={listingType} defaultValue={property && qualifiers.includes(property.priceQualifier) ? property.priceQualifier : undefined} className={input}>
             {qualifiers.map((q) => (
               <option key={q} value={q}>
                 {PRICE_QUALIFIER_LABELS[q]}
@@ -155,7 +169,7 @@ export function AddPropertyForm() {
         <fieldset className="grid gap-4 rounded-sm border border-border bg-surface p-5 sm:grid-cols-3">
           <legend className="px-1 font-semibold text-ink">Home details</legend>
           <Field id="propertyType" text="Property type">
-            <select id="propertyType" name="propertyType" className={input}>
+            <select id="propertyType" name="propertyType" defaultValue={r?.propertyType} className={input}>
               {RESIDENTIAL_PROPERTY_TYPES.map((t) => (
                 <option key={t} value={t}>
                   {RESIDENTIAL_PROPERTY_TYPE_LABELS[t]}
@@ -164,16 +178,16 @@ export function AddPropertyForm() {
             </select>
           </Field>
           <Field id="bedrooms" text="Bedrooms">
-            <input id="bedrooms" name="bedrooms" type="number" min={0} max={20} required className={input} />
+            <input id="bedrooms" name="bedrooms" defaultValue={v(r?.bedrooms)} type="number" min={0} max={20} required className={input} />
           </Field>
           <Field id="bathrooms" text="Bathrooms">
-            <input id="bathrooms" name="bathrooms" type="number" min={0} max={20} required className={input} />
+            <input id="bathrooms" name="bathrooms" defaultValue={v(r?.bathrooms)} type="number" min={0} max={20} required className={input} />
           </Field>
           <Field id="receptionRooms" text="Reception rooms">
-            <input id="receptionRooms" name="receptionRooms" type="number" min={0} max={20} className={input} />
+            <input id="receptionRooms" name="receptionRooms" defaultValue={v(r?.receptionRooms)} type="number" min={0} max={20} className={input} />
           </Field>
           <Field id="tenure" text="Tenure">
-            <select id="tenure" name="tenure" className={input}>
+            <select id="tenure" name="tenure" defaultValue={r?.tenure ?? ""} className={input}>
               <option value="">Not stated</option>
               {TENURES.map(([v, l]) => (
                 <option key={v} value={v}>
@@ -183,7 +197,7 @@ export function AddPropertyForm() {
             </select>
           </Field>
           <Field id="furnishing" text="Furnishing">
-            <select id="furnishing" name="furnishing" className={input}>
+            <select id="furnishing" name="furnishing" defaultValue={r?.furnishing ?? ""} className={input}>
               <option value="">Not stated</option>
               <option value="furnished">Furnished</option>
               <option value="part_furnished">Part furnished</option>
@@ -191,7 +205,7 @@ export function AddPropertyForm() {
             </select>
           </Field>
           <Field id="epcRating" text="EPC rating" hint="Must match the real certificate.">
-            <select id="epcRating" name="epcRating" aria-describedby="epcRating-hint" className={input}>
+            <select id="epcRating" name="epcRating" defaultValue={r?.epcRating ?? ""} aria-describedby="epcRating-hint" className={input}>
               <option value="">Not yet known</option>
               {["A", "B", "C", "D", "E", "F", "G", "exempt"].map((r) => (
                 <option key={r} value={r}>
@@ -201,7 +215,7 @@ export function AddPropertyForm() {
             </select>
           </Field>
           <Field id="councilTaxBand" text="Council tax band">
-            <select id="councilTaxBand" name="councilTaxBand" className={input}>
+            <select id="councilTaxBand" name="councilTaxBand" defaultValue={r?.councilTaxBand ?? ""} className={input}>
               <option value="">Not yet known</option>
               {["A", "B", "C", "D", "E", "F", "G", "H"].map((b) => (
                 <option key={b} value={b}>
@@ -215,7 +229,7 @@ export function AddPropertyForm() {
         <fieldset className="grid gap-4 rounded-sm border border-border bg-surface p-5 sm:grid-cols-3">
           <legend className="px-1 font-semibold text-ink">Commercial details</legend>
           <Field id="commercialUse" text="Use">
-            <select id="commercialUse" name="commercialUse" className={input}>
+            <select id="commercialUse" name="commercialUse" defaultValue={c?.commercialUse} className={input}>
               {COMMERCIAL_USES.map((u) => (
                 <option key={u} value={u}>
                   {COMMERCIAL_USE_LABELS[u]}
@@ -224,10 +238,10 @@ export function AddPropertyForm() {
             </select>
           </Field>
           <Field id="floorAreaSqFt" text="Floor area (sq ft)">
-            <input id="floorAreaSqFt" name="floorAreaSqFt" type="number" min={0} required className={input} />
+            <input id="floorAreaSqFt" name="floorAreaSqFt" defaultValue={v(c?.floorAreaSqFt)} type="number" min={0} required className={input} />
           </Field>
           <Field id="commercialTenure" text="Tenure">
-            <select id="commercialTenure" name="commercialTenure" className={input}>
+            <select id="commercialTenure" name="commercialTenure" defaultValue={c?.tenure ?? ""} className={input}>
               <option value="">Not stated</option>
               {TENURES.map(([v, l]) => (
                 <option key={v} value={v}>
@@ -240,26 +254,38 @@ export function AddPropertyForm() {
       )}
 
       <fieldset className="space-y-4 rounded-sm border border-border bg-surface p-5">
-        <legend className="px-1 font-semibold text-ink">Description</legend>
+        <legend className="px-1 font-semibold text-ink">{editing ? "Features and tour" : "Description"}</legend>
+        {!editing && (
+          <>
         <Field id="summary" text="Short summary" hint="One sentence, shown on listing cards.">
           <input id="summary" name="summary" required minLength={10} maxLength={200} aria-describedby="summary-hint" className={input} />
         </Field>
         <Field id="description" text="Full description">
           <textarea id="description" name="description" required minLength={20} rows={6} className={input} />
         </Field>
+          </>
+        )}
         <Field id="features" text="Key features" hint="One per line, up to 20.">
-          <textarea id="features" name="features" rows={4} aria-describedby="features-hint" className={input} />
+          <textarea id="features" name="features" defaultValue={property?.features.join("\n")} rows={4} aria-describedby="features-hint" className={input} />
+        </Field>
+        <Field id="virtualTourUrl" text="Video or virtual tour link (optional)" hint="A full https:// address, e.g. a YouTube or Matterport link.">
+          <input id="virtualTourUrl" name="virtualTourUrl" type="url" inputMode="url" defaultValue={property?.media.virtualTourUrl} aria-describedby="virtualTourUrl-hint" className={input} />
         </Field>
       </fieldset>
 
       <div className="flex flex-wrap items-center gap-4">
         <Button type="submit" disabled={isPending}>
-          {isPending ? "Saving…" : "Save as draft"}
+          {isPending ? "Saving…" : editing ? "Save details" : "Save as draft"}
         </Button>
-        <p className="text-sm text-ink/70">
-          Drafts are never shown on the website. Submit it for approval from
-          the next screen.
-        </p>
+        {editing ? (
+          state.status === "success" &&
+          state.message && <p role="status" className="text-sm text-success">{state.message}</p>
+        ) : (
+          <p className="text-sm text-ink/70">
+            Drafts are never shown on the website. Submit it for approval from
+            the next screen.
+          </p>
+        )}
       </div>
     </form>
   );

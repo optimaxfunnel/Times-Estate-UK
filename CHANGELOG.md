@@ -9,6 +9,23 @@
 
 ---
 
+## 2026-11-24 — Edit all property details; PDF brochures
+
+- Owner request: "move forward with what's left".
+- **Edit property details:** staff could only change a property's
+  summary, description and status once it was saved. The edit page now
+  has a **Property details** form for type, address, price, rooms,
+  tenure, EPC, council tax band, features and an optional https video
+  or tour link. Fields the form doesn't show are kept. The usual
+  approval rules apply to live listings.
+- **PDF brochures:** one per property, up to 10 MB, replaced on
+  re-upload. Refused if the file is not a real PDF, or contains
+  scripts, automatic actions or attached files. Always downloaded, not
+  opened inside the site. The Supabase bucket now also accepts PDFs
+  (setup script re-run), and the backup script copies brochures too.
+- 342 tests; axe 0 violations on the full edit page; redirect check
+  still 40/40; production build clean.
+
 ## 2026-11-24 — Old website addresses redirected
 
 - Owner approval: "Yes, build redirects".

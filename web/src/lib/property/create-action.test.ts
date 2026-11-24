@@ -14,7 +14,7 @@ vi.mock("next/navigation", () => ({
   },
 }));
 
-import { createPropertyAction } from "@/lib/property/create-action";
+import { createPropertyAction, updatePropertyDetailsAction } from "@/lib/property/create-action";
 import { propertyProvider } from "@/lib/property/provider";
 import { __truncateAllForTests } from "@/lib/db/client";
 
@@ -103,5 +103,50 @@ describe("add a property", () => {
       role = r;
       expect((await create(flat)).status).toBe("error");
     }
+  });
+
+  it("edits details, keeps fields the form doesn't show, and keeps text, status and photos", async () => {
+    await create(flat);
+    const id = redirectedTo.match(/\/admin\/properties\/([^?]+)/)![1];
+    // Fields the form doesn't show, and a photo, set elsewhere.
+    const before = (await propertyProvider.getById(id))!;
+    await propertyProvider.update(
+      id,
+      {
+        residential: { ...before.residential!, deposit: 2250, availableFrom: "2027-01-01" },
+        media: { ...before.media, images: [{ url: "/media/x.webp", alt: "Photo" }] },
+      },
+      "test",
+    );
+    const r = await updatePropertyDetailsAction(
+      { status: "idle" },
+      form({ ...flat, id, price: "2,100", bedrooms: "3", virtualTourUrl: "https://example.com/tour" }),
+    );
+    expect(r).toEqual({ status: "success", message: "Details saved." });
+    const p = (await propertyProvider.getById(id))!;
+    expect(p.price).toBe(2100);
+    expect(p.residential?.bedrooms).toBe(3);
+    expect(p.residential?.deposit).toBe(2250);
+    expect(p.residential?.availableFrom).toBe("2027-01-01");
+    expect(p.media.images).toHaveLength(1);
+    expect(p.media.virtualTourUrl).toBe("https://example.com/tour");
+    expect([p.status, p.summary, p.isDemo]).toEqual(["draft", flat.summary, false]);
+  });
+
+  it("rejects a tour link that isn't https", async () => {
+    await create(flat);
+    const id = redirectedTo.match(/\/admin\/properties\/([^?]+)/)![1];
+    const r = await updatePropertyDetailsAction({ status: "idle" }, form({ ...flat, id, virtualTourUrl: "javascript:alert(1)" }));
+    expect(r.status).toBe("error");
+  });
+
+  it("an editor cannot change a live listing's details; a manager can", async () => {
+    await create(flat);
+    const id = redirectedTo.match(/\/admin\/properties\/([^?]+)/)![1];
+    await propertyProvider.update(id, { status: "available" }, "test");
+    expect((await updatePropertyDetailsAction({ status: "idle" }, form({ ...flat, id, price: "1" }))).status).toBe("error");
+    role = "manager";
+    expect((await updatePropertyDetailsAction({ status: "idle" }, form({ ...flat, id, price: "2000" }))).status).toBe("success");
+    expect((await propertyProvider.getById(id))!.price).toBe(2000);
   });
 });

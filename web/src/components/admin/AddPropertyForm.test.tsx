@@ -5,9 +5,11 @@ import { fireEvent, render, screen } from "@testing-library/react";
 
 vi.mock("@/lib/property/create-action", () => ({
   createPropertyAction: async () => ({ status: "idle" }),
+  updatePropertyDetailsAction: async () => ({ status: "idle" }),
 }));
 
 import { AddPropertyForm } from "@/components/admin/AddPropertyForm";
+import { demoProperties } from "@/data/demo-properties";
 
 describe("AddPropertyForm", () => {
   it("shows home details for residential and commercial details for commercial", () => {
@@ -32,5 +34,15 @@ describe("AddPropertyForm", () => {
   it("explains that drafts are private", () => {
     render(<AddPropertyForm />);
     expect(screen.getByText(/Drafts are never shown on the website/)).toBeInTheDocument();
+  });
+
+  it("in edit mode, starts from the property's current values", () => {
+    const office = demoProperties.find((p) => p.id === "demo-com-let-2")!;
+    render(<AddPropertyForm property={office} />);
+    expect((screen.getByLabelText("Category") as HTMLSelectElement).value).toBe("commercial");
+    expect((screen.getByLabelText("Floor area (sq ft)") as HTMLInputElement).value).toBe("1100");
+    expect((screen.getByLabelText(/Address shown on the website/) as HTMLInputElement).value).toBe(office.displayAddress);
+    expect(screen.queryByLabelText("Short summary")).toBeNull(); // edited in the form above
+    expect(screen.getByRole("button", { name: "Save details" })).toBeInTheDocument();
   });
 });

@@ -160,6 +160,13 @@ photos are stored, with these controls:
 - **Serving:** visitors get photos from the website's own `/media/…`
   address. Only random, well-formed names are accepted there (no path
   tricks). The site's image policy stays "this site only".
+- **Brochures (24 Nov):** PDF only, 10 MB. Refused if the file doesn't
+  start like a PDF, or contains scripts, automatic actions, launch
+  commands or attached files. Always served as a download
+  (`Content-Disposition: attachment`), never opened inside the site.
+  Limit: the check reads the file as stored, so content hidden inside
+  compressed sections isn't seen. The download-only rule is the main
+  protection.
 - **Known limit:** the bucket is publicly readable, so a draft's photos
   could be seen by someone who knew their 36-character random name.
   Names are never published until the listing is.

@@ -16,9 +16,12 @@ vi.mock("next/cache", () => ({ revalidatePath: () => {} }));
 
 import {
   makeMainPhotoAction,
+  removeBrochureAction,
   removePropertyPhotoAction,
+  uploadBrochureAction,
   uploadPropertyPhotosAction,
 } from "@/lib/property/photo-actions";
+import { GET as mediaGET } from "@/app/media/[...key]/route";
 import { propertyProvider } from "@/lib/property/provider";
 import { readPhoto, keyFromMediaUrl } from "@/lib/property/photo-storage";
 import { __truncateAllForTests } from "@/lib/db/client";
@@ -163,6 +166,42 @@ describe("property photos", () => {
 
     expect((await removePropertyPhotoAction(idle, form({ id: p.id, url: saved.floorPlans[0].url }))).status).toBe("success");
     expect((await propertyProvider.getById(p.id))!.media.floorPlans).toHaveLength(0);
+  });
+
+  it("accepts a plain PDF brochure, replaces it on re-upload, serves it as a download, and removes it", async () => {
+    const pdf = (body: string) =>
+      new File([new TextEncoder().encode(`%PDF-1.4
+${body}
+%%EOF`)], "brochure.pdf", { type: "application/pdf" });
+    const p = await draft();
+    expect(await uploadBrochureAction(idle, form({ id: p.id, brochure: pdf("1 0 obj << /Type /Catalog >> endobj") }))).toEqual({ status: "success", message: "Brochure added." });
+    const first = (await propertyProvider.getById(p.id))!.media.brochureUrl!;
+    expect(first).toMatch(/-brochure\.pdf$/);
+
+    const key = keyFromMediaUrl(first)!.split("/");
+    const res = await mediaGET(new Request("http://x"), { params: Promise.resolve({ key }) });
+    expect(res.headers.get("content-type")).toBe("application/pdf");
+    expect(res.headers.get("content-disposition")).toMatch(/^attachment/);
+
+    expect((await uploadBrochureAction(idle, form({ id: p.id, brochure: pdf("second") }))).message).toBe("Brochure replaced.");
+    expect(await readPhoto(keyFromMediaUrl(first)!)).toBeNull(); // old file deleted
+
+    expect((await removeBrochureAction(idle, form({ id: p.id }))).status).toBe("success");
+    expect((await propertyProvider.getById(p.id))!.media.brochureUrl).toBeUndefined();
+  });
+
+  it("refuses a fake PDF or one with scripts or attachments", async () => {
+    const p = await draft();
+    const file = (text: string) => new File([new TextEncoder().encode(text)], "b.pdf", { type: "application/pdf" });
+    for (const bad of [
+      "MZ not a pdf",
+      "%PDF-1.4 1 0 obj << /OpenAction << /S /JavaScript /JS (app.alert(1)) >> >>",
+      "%PDF-1.4 1 0 obj << /Type /EmbeddedFile >>",
+      "%PDF-1.4 << /S /Launch /F (cmd.exe) >>",
+    ]) {
+      expect((await uploadBrochureAction(idle, form({ id: p.id, brochure: file(bad) }))).status, bad).toBe("error");
+    }
+    expect((await propertyProvider.getById(p.id))!.media.brochureUrl).toBeUndefined();
   });
 
   it("the media address only serves well-formed photo names", async () => {

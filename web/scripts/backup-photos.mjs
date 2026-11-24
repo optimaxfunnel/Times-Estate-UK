@@ -1,4 +1,4 @@
-// Copies every property photo and floor plan from Supabase Storage to
+// Copies every property photo, floor plan and brochure from Supabase Storage to
 // this computer. Supabase's daily database backups do NOT include
 // Storage files, so run this regularly (weekly is plenty).
 //
@@ -17,7 +17,7 @@ if (!DATABASE_URL || !NEXT_PUBLIC_SUPABASE_URL) {
   process.exit(1);
 }
 const target = path.resolve(process.argv[2] ?? path.join("..", "backups", "property-photos"));
-const KEY = /^[a-z0-9-]{3,60}\/[a-f0-9-]{36}-(640|1200|plan)\.webp$/;
+const KEY = /^[a-z0-9-]{3,60}\/[a-f0-9-]{36}-((640|1200|plan)\.webp|brochure\.pdf)$/;
 
 const sql = postgres(DATABASE_URL, { prepare: false, ssl: "require", max: 1, onnotice: () => {} });
 let copied = 0;

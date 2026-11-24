@@ -81,11 +81,23 @@ Administrator can change its photos.
 (up to 5). Plans are shown whole, never cropped. If your plan is a PDF,
 save it as an image first.
 
-**Not yet possible:** PDF brochures. If your property
+**Brochure** *(24 November 2026)*: one PDF per property, up to 10 MB,
+in the **Brochure** section. Uploading again replaces it. Visitors
+download it from the property page. PDFs containing scripts or attached
+files are refused for safety; if yours is refused, save it again with
+"Save as PDF" or "Print to PDF". If your property
 software (CRM) later sends listings automatically, they will go through
 the same approval step.
 
 ## 4. Editing a property
+
+> **Update 24 November 2026.** Open a property from **Admin →
+> Properties**. The top form changes the summary, description and
+> status. Below it, **Property details** changes everything else: type,
+> address, price, rooms, tenure, EPC, council tax band, features, and
+> an optional video or virtual-tour link. Details you can't see in the
+> form (deposit, lease length, service charge) are kept as they are.
+> Once a listing is live, only a Manager or Administrator can change it.
 
 1. Sign in, open **Properties**, click the property.
 2. Change the summary or description, choose the status, press

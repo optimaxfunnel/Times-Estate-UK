@@ -216,3 +216,70 @@ export async function makeMainPhotoAction(
   revalidatePath(`/property/${id}`);
   return { status: "success", message: "Main photo changed." };
 }
+
+const MAX_BROCHURE_BYTES = 10 * 1024 * 1024;
+
+/**
+ * Refuses anything that isn't a plain PDF document: it must start like a
+ * PDF, and must not contain scripts, launch actions or embedded files —
+ * features a property brochure never needs and malware often uses.
+ */
+function brochureProblem(bytes: Buffer): string | null {
+  if (bytes.subarray(0, 5).toString("latin1") !== "%PDF-") return "That file is not a PDF.";
+  const text = bytes.toString("latin1");
+  if (/\/(JavaScript|JS|Launch|EmbeddedFile|RichMedia|OpenAction|AA)\b/.test(text)) {
+    return "That PDF contains scripts, automatic actions or attached files, so it can't be published. Export it again as a plain PDF (for example “Save as PDF” or “Print to PDF”).";
+  }
+  return null;
+}
+
+export async function uploadBrochureAction(
+  _prev: PhotoActionState,
+  formData: FormData,
+): Promise<PhotoActionState> {
+  const id = String(formData.get("id") ?? "");
+  const auth = await authorise(id);
+  if (!auth.ok) return { status: "error", message: auth.message };
+
+  const file = formData.get("brochure");
+  if (!(typeof file === "object" && file !== null && "arrayBuffer" in file) || (file as File).size === 0) {
+    return { status: "error", message: "Choose a PDF brochure." };
+  }
+  if ((file as File).size > MAX_BROCHURE_BYTES) {
+    return { status: "error", message: "The brochure is larger than 10 MB." };
+  }
+  const bytes = Buffer.from(await (file as File).arrayBuffer());
+  const problem = brochureProblem(bytes);
+  if (problem) return { status: "error", message: problem };
+
+  const key = `${id}/${randomUUID()}-brochure.pdf`;
+  try {
+    await storePhoto(key, bytes);
+  } catch {
+    return { status: "error", message: "The brochure could not be saved just now. Please try again." };
+  }
+  const old = auth.property.media.brochureUrl ? keyFromMediaUrl(auth.property.media.brochureUrl) : null;
+  await propertyProvider.update(id, { media: { ...auth.property.media, brochureUrl: mediaUrl(key) } }, auth.role);
+  if (old) await deletePhotos([old]).catch(() => {});
+  await recordAuditEvent({ actor: auth.role, action: "update", propertyId: id, details: old ? "Brochure replaced" : "Brochure added" });
+  revalidatePath("/admin/audit");
+  revalidatePath(`/property/${id}`);
+  return { status: "success", message: old ? "Brochure replaced." : "Brochure added." };
+}
+
+export async function removeBrochureAction(
+  _prev: PhotoActionState,
+  formData: FormData,
+): Promise<PhotoActionState> {
+  const id = String(formData.get("id") ?? "");
+  const auth = await authorise(id);
+  if (!auth.ok) return { status: "error", message: auth.message };
+  const url = auth.property.media.brochureUrl;
+  if (!url) return { status: "error", message: "This property has no brochure." };
+  await propertyProvider.update(id, { media: { ...auth.property.media, brochureUrl: undefined } }, auth.role);
+  const key = keyFromMediaUrl(url);
+  if (key) await deletePhotos([key]).catch(() => {});
+  await recordAuditEvent({ actor: auth.role, action: "update", propertyId: id, details: "Brochure removed" });
+  revalidatePath(`/property/${id}`);
+  return { status: "success", message: "Brochure removed." };
+}
