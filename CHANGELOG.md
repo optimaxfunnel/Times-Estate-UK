@@ -9,6 +9,16 @@
 
 ---
 
+## 2026-11-24 — Faster property photos on phones; mobile speed measured
+
+- Owner request: "move forward with what's left".
+- Property pages now give phones the smaller (640px) copy of each photo,
+  and the main photo loads first. Speed score on a simulated phone:
+  average 81 before (76, 88, 80), 85 after (86, 85, 83).
+- The biggest remaining factor is the owner's intro video (accepted by
+  the owner) — see the `QA_REPORT.md` addendum.
+- 343 tests; build clean.
+
 ## 2026-11-24 — Material-information fields on the property form
 
 - Owner request: "move forward with what's left".

@@ -384,3 +384,25 @@ sitemap and `/api/health` are unchanged, and the 410 page carries the
 site's security headers. Still to do: the same run on staging, and on
 the real domain within an hour of go-live.
 
+
+## Addendum 2026-11-24 — mobile page speed (Lighthouse)
+
+Lighthouse, simulated mobile phone, production build on this computer,
+property page `/property/demo-res-sale-1`, three runs each:
+
+| Version | Scores | Largest image shown after |
+|---|---|---|
+| Before | 76, 88, 80 (average 81) | 3.6–4.2 s |
+| After (smaller photo for phones, main photo first) | 86, 85, 83 (average 85) | 4.0–4.2 s |
+
+Accessibility and best-practice scores stay at 100.
+
+- **Main remaining factor:** the intro video (687 KB) that plays on a
+  first visit. The owner chose to keep it. Returning visitors don't see
+  it, so their pages are faster.
+- **"Missing meta description" warning:** a false positive. Next.js
+  sends the description after the page starts loading; search engines
+  receive it in the page head. Confirmed by requesting the page as a
+  search-engine robot.
+- **Not tested here:** Firefox and Safari (iPhone). Only Chrome and Edge
+  are on this computer. Test both on staging before launch.

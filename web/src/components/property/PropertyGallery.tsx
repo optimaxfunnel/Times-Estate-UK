@@ -35,10 +35,20 @@ export function PropertyGallery({
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
               src={image.url}
+              // Phones get the 640px copy when one exists (sample photos,
+              // staff uploads); the first photo is the page's main image,
+              // so the browser fetches it first.
+              srcSet={image.thumbnailUrl ? `${image.thumbnailUrl} 640w, ${image.url} 1200w` : undefined}
+              sizes={
+                i === 0
+                  ? "(min-width: 1024px) 760px, 100vw"
+                  : "(min-width: 1024px) 380px, (min-width: 640px) 50vw, 100vw"
+              }
               alt={image.alt}
               width={1200}
               height={900}
               loading={i === 0 ? "eager" : "lazy"}
+              fetchPriority={i === 0 ? "high" : "auto"}
               decoding="async"
               className="aspect-[4/3] w-full rounded-sm object-cover"
             />
