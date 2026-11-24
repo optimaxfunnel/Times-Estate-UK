@@ -1,5 +1,15 @@
 # SEO_REDIRECT_PLAN.md — Times Estate Ltd
 
+> **Update 2026-11-24 — §2 built** (owner approval: "Yes, build
+> redirects"). Every row is in `web/src/lib/seo/legacy-urls.ts` and
+> answered by `web/src/proxy.ts`, in one step whether or not the address
+> ends in "/". `web/scripts/check-legacy-urls.mjs` passed 40/40 on the
+> production build. Judgement calls (DECISIONS.md, 2026-11-24): rows 4–5
+> (Q6) → 301 to `/rent`; row 9 `/blog/` → 410 until `/insights` has a
+> real article; row 22 has no area exceptions (no area guide approved).
+> Rows 23 and 25 stay with the host and DNS at launch. Nothing is live
+> until deployment.
+
 **Segment 2 deliverable (2026-10-20) — a plan, nothing executed.** No
 DNS record, redirect rule, sitemap entry or page has been changed by
 this document. It builds on `SEO_PLAN.md` (Day 6, still accurate for

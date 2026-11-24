@@ -371,3 +371,16 @@ Lighthouse) — not just edited and assumed correct.
 
 See `LAUNCH_CHECKLIST.md` for the concise, standalone version of this
 section.
+
+---
+
+## Addendum 2026-11-24 — old website addresses (SEO_REDIRECT_PLAN.md §2.2)
+
+`node scripts/check-legacy-urls.mjs http://localhost:3100` against the
+production build (`next build && next start`): **40/40 passed.** Every
+old address answered in one step: 301 to the new page, or 410 "gone".
+Each 301 destination answered 200 (no chains, no loops). New pages, the
+sitemap and `/api/health` are unchanged, and the 410 page carries the
+site's security headers. Still to do: the same run on staging, and on
+the real domain within an hour of go-live.
+

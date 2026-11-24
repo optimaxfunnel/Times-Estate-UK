@@ -21,11 +21,11 @@ kept as history.
 | Status | Count |
 |---|---|
 | Complete | 39 |
-| Complete with limitation | 23 |
+| Complete with limitation | 24 |
 | Blocked | 3 |
 | Requires owner approval | 10 |
 | Requires professional review | 7 |
-| Not started | 7 |
+| Not started | 6 |
 | **Total** | **89** |
 
 ## A. Business requirements (BUSINESS_REQUIREMENTS.md §1–4)
@@ -76,7 +76,7 @@ kept as history.
 | C7 | Investor → conversation | — (`/investors` not built) | — | Requires owner approval | Gate 2 |
 | C8 | Managed tenant → repair | Footer + Tenants menu → `/report-a-repair` (emergency guidance first) | `repair-uploads.test.ts`; live keyboard check | Complete with limitation | Emergency wording needs professional review (see F4) |
 | C9 | Due diligence → contact | `/about`, `/company-information`, `/complaints` | Live | Complete with limitation | Memberships unverified (A14–A15) |
-| C10 | Old links → new site (301/410 map) | `SEO_REDIRECT_PLAN.md` (plan only) | — | Not started | Implement at deployment, after owner approval |
+| C10 | Old links → new site (301/410 map) | `web/src/lib/seo/legacy-urls.ts` + `web/src/proxy.ts`, every row of `SEO_REDIRECT_PLAN.md` §2 (owner approval 2026-11-24) | `legacy-urls.test.ts`; `scripts/check-legacy-urls.mjs` 40/40 on the production build, one hop each | Complete with limitation | Re-run the check script on staging and within an hour of go-live; host-level http→https and bare→www rules are set at the host (row 25) |
 
 ## D. Design system (DESIGN_SYSTEM.md, brand decisions)
 

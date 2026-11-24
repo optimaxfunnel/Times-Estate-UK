@@ -1,5 +1,6 @@
 import type { NextConfig } from "next";
 
+
 /**
  * Security headers applied to every response. See /SECURITY.md for the
  * reasoning behind each one. `Strict-Transport-Security` is only
@@ -87,6 +88,11 @@ const nextConfig: NextConfig = {
       bodySizeLimit: "21mb",
     },
   },
+  // Trailing slashes are handled in src/proxy.ts instead, so an old
+  // WordPress address like /contact-us/ reaches its new page in ONE
+  // redirect, not two (SEO_REDIRECT_PLAN.md §2.2). Other addresses ending
+  // in "/" still get the usual permanent redirect to the version without.
+  skipTrailingSlashRedirect: true,
   // Tenants share the Buyers & Tenants page (SITEMAP.md S2.1).
   async redirects() {
     return [

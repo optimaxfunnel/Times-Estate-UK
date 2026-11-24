@@ -9,6 +9,24 @@
 
 ---
 
+### 2026-11-24 — Old website redirects built (owner approval)
+
+- **Owner approval:** "Yes, build redirects" (`SEO_REDIRECT_PLAN.md`).
+- **Judgement calls on the rows the plan left open, easy to change in
+  `web/src/lib/seo/legacy-urls.ts`:**
+  - **Rows 4–5, the two 2022 listings (Q6) → 301 to `/rent`.** Someone
+    with an old link lands on current lettings rather than a dead
+    page. If the owner prefers those listings to disappear from search
+    faster, change them to 410.
+  - **Row 9, `/blog/` → 410** until `/insights` has a real article (the
+    plan's own rule).
+  - **Row 22: no area exceptions.** No area guide has been approved, so
+    every old `/property_area/…` address is 410.
+- **Technical:** Next.js's built-in trailing-slash redirect was turned
+  off and the proxy does it instead. This keeps old links at one hop.
+  Every other address ending in "/" still gets the same permanent
+  redirect as before.
+
 ### 2026-11-24 — Property photos in Supabase Storage (owner decision)
 
 - **Owner approval:** "Yes, use Supabase Storage".

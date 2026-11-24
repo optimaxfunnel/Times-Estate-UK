@@ -45,6 +45,8 @@
 - [x] **Floor plans (24 Nov):** staff upload floor plans (shown whole, never cropped)
 - [x] **Data requests (24 Nov):** staff can find, export and erase one person's enquiries; audited (`OPERATIONS_MANUAL.md` §7a). Retention periods still to be agreed
 - [x] **Health check for monitoring (24 Nov):** `/api/health`; connect an uptime monitor at launch (`DEPLOYMENT.md` R8)
+- [x] **Old website addresses (24 Nov):** every row of `SEO_REDIRECT_PLAN.md` §2 built; 40/40 checks pass on the production build, one hop each
+- [ ] At launch: run `node scripts/check-legacy-urls.mjs https://<staging>` then against the real domain within an hour of go-live; set http→https and bare→www at the host
 - [ ] Switch off sample listings (`SEED_DEMO_PROPERTIES=false`) when real ones arrive
 - [ ] **Email provider, form recipients and reply-to addresses**
   approved

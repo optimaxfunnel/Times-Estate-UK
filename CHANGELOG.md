@@ -9,6 +9,20 @@
 
 ---
 
+## 2026-11-24 — Old website addresses redirected
+
+- Owner approval: "Yes, build redirects".
+- Every address from the old WordPress site (`SEO_REDIRECT_PLAN.md` §2)
+  now has an answer. Pages with a successor go permanently (301) to
+  it: for example `/contact-us/` → `/contact`, `/properties/` → `/rent`,
+  `/agents/` → `/about`. Dead-end WordPress pages, archives and system
+  addresses answer 410 "gone", with a short page linking home.
+- Next.js normally adds a redirect for addresses ending in "/", which
+  would have made old links take two hops. That step is now handled in
+  `src/proxy.ts`, so every old link takes one hop.
+- `scripts/check-legacy-urls.mjs`: 40/40 on the production build. 336
+  tests.
+
 ## 2026-11-24 — Floor plans, photo backups, sharing image
 
 - Owner request: "move forward with what's left".
