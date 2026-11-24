@@ -75,6 +75,12 @@
 
 ## Status of this document
 
+> **Tidied 24 November 2026.** Everything below this line is the older
+> Phase 6 list (9 September), kept for the record. **The current list
+> is "Must be done before launch" at the top of this page.** Items
+> fixed since September are ticked below with the date they were
+> fixed.
+
 Phase 6 deliverable (2026-09-09). A concise, plain-English go/no-go
 list for the business owner. Full evidence for every line is in
 `QA_REPORT.md`; full regulatory detail is in `COMPLIANCE_REGISTER.md`.
@@ -82,17 +88,17 @@ list for the business owner. Full evidence for every line is in
 marked "professional confirmation needed" require a named professional
 or the owner's own sign-off, not this project's testing.
 
-## ❌ Blockers — must be resolved before deployment can even be considered
+## ❌ Blockers (September) — both now fixed
 
-- [ ] **Fix the critical server-hang defect.** Confirmed still present
-      today, via a real click, not just an automated script — a single
-      visitor can take the whole site offline. No code fix exists yet;
-      needs either root-causing (a Node profiler, not available in
-      this environment) or a Next.js version change (needs your
-      explicit approval, since it's a stack migration). See
-      `QA_REPORT.md` §9 and `TEST_REPORT.md` §5.
-- [ ] **Replace the admin area's mock login** with real authentication
-      before the admin area is ever exposed publicly.
+- [x] **Fix the critical server-hang defect.** *Fixed 31 October 2026*
+      (a server action looping forever on form posts made without
+      JavaScript), and confirmed fixed in every QA run since. See
+      `QA_REPORT.md` and `REQUIREMENT_TRACEABILITY.md` (I8).
+- [x] **Replace the admin area's mock login** with real authentication.
+      *Done 9 November 2026:* Supabase Auth with two-step verification
+      and owner-assigned roles. The practice login only exists on a
+      development computer, and is switched off automatically in a
+      production build.
 
 ## ⚠ Needs your decision or a professional's confirmation — not a QA/code item
 
@@ -107,10 +113,10 @@ or the owner's own sign-off, not this project's testing.
       Website Use, Complaints Procedure, material-information
       disclaimer
 - [ ] Opening hours — supply
-- [ ] Construction services — you've already decided this stays a
+- [x] Construction services — you've already decided this stays a
       mention-only line, not a page (recorded, done)
 
-## ✅ Confirmed working (Phase 6 testing)
+## ✅ Confirmed working (Phase 6 testing, September; current figures: 343 tests, see the top of this page and `QA_REPORT.md`)
 
 - [x] Real brand (black + orange, real logo) applied consistently
       site-wide, no leftover old colours found anywhere in the code
@@ -140,6 +146,7 @@ or the owner's own sign-off, not this project's testing.
 ## What happens next
 
 Nothing is deployed, and nothing will be, until you say the exact
-words **"I approve production deployment"** (`CLAUDE.md` Rule 6) — and
-even then, the critical server-hang defect above must be fixed first;
-it is a launch blocker regardless of any approval.
+words **"I approve production deployment"** (`CLAUDE.md` Rule 6). The
+September server-hang blocker is fixed. What still stands between the
+site and launch is the "Must be done before launch" list at the top of
+this page.
