@@ -18,6 +18,7 @@ import type { Property, PropertyImage } from "@/lib/property/types";
 export type PhotoActionState = { status: "idle" | "success" | "error"; message?: string };
 
 const MAX_PHOTOS = 20;
+const MAX_FLOOR_PLANS = 5;
 const MAX_UPLOAD_BYTES = 10 * 1024 * 1024; // per photo, before resizing
 const ACCEPTED = ["image/jpeg", "image/png", "image/webp"];
 
@@ -55,6 +56,20 @@ async function toWebp(input: Buffer): Promise<{ large: Buffer; small: Buffer }> 
   return { large, small };
 }
 
+/**
+ * Floor plans are never cropped (a cut-off room would mislead): scaled to
+ * fit within 1600 px, on white, sharper WebP. Camera data is removed too.
+ */
+async function floorPlanToWebp(input: Buffer): Promise<Buffer> {
+  const { default: sharp } = await import("sharp");
+  return sharp(input, { failOn: "error", limitInputPixels: 80_000_000 })
+    .rotate()
+    .resize(1600, 1600, { fit: "inside", withoutEnlargement: true })
+    .flatten({ background: "#ffffff" })
+    .webp({ quality: 88 })
+    .toBuffer();
+}
+
 export async function uploadPropertyPhotosAction(
   _prev: PhotoActionState,
   formData: FormData,
@@ -62,22 +77,27 @@ export async function uploadPropertyPhotosAction(
   const id = String(formData.get("id") ?? "");
   const auth = await authorise(id);
   if (!auth.ok) return { status: "error", message: auth.message };
+  const isPlan = formData.get("kind") === "floorplan";
+  const noun = isPlan ? "floor plan" : "photo";
 
   const alt = String(formData.get("alt") ?? "").trim();
   if (alt.length < 5 || alt.length > 150) {
     return {
       status: "error",
-      message: "Describe the photo in 5–150 characters, e.g. “Kitchen with garden view”. This is read aloud to blind visitors.",
+      message: isPlan
+        ? "Describe the floor plan in 5–150 characters, e.g. “Ground and first floor plan”."
+        : "Describe the photo in 5–150 characters, e.g. “Kitchen with garden view”. This is read aloud to blind visitors.",
     };
   }
   const files = formData
     .getAll("photos")
     .filter((f): f is File => typeof f === "object" && f !== null && "arrayBuffer" in f && (f as File).size > 0);
-  if (files.length === 0) return { status: "error", message: "Choose at least one photo." };
+  if (files.length === 0) return { status: "error", message: `Choose at least one ${noun}.` };
 
-  const existing = auth.property.media.images;
-  if (existing.length + files.length > MAX_PHOTOS) {
-    return { status: "error", message: `A property can have up to ${MAX_PHOTOS} photos.` };
+  const existing = isPlan ? auth.property.media.floorPlans : auth.property.media.images;
+  const limit = isPlan ? MAX_FLOOR_PLANS : MAX_PHOTOS;
+  if (existing.length + files.length > limit) {
+    return { status: "error", message: `A property can have up to ${limit} ${noun}s.` };
   }
   for (const f of files) {
     if (!ACCEPTED.includes(f.type)) {
@@ -92,6 +112,13 @@ export async function uploadPropertyPhotosAction(
   const written: string[] = [];
   try {
     for (const f of files) {
+      if (isPlan) {
+        const key = `${id}/${randomUUID()}-plan.webp`;
+        await storePhoto(key, await floorPlanToWebp(Buffer.from(await f.arrayBuffer())));
+        written.push(key);
+        added.push({ url: mediaUrl(key), alt });
+        continue;
+      }
       const { large, small } = await toWebp(Buffer.from(await f.arrayBuffer()));
       const name = randomUUID();
       const largeKey = `${id}/${name}-1200.webp`;
@@ -109,25 +136,29 @@ export async function uploadPropertyPhotosAction(
     return {
       status: "error",
       message: unreadable
-        ? "One of the files could not be read as a photo. Nothing was saved."
-        : "The photos could not be saved just now. Nothing was saved — please try again.",
+        ? `One of the files could not be read as a ${noun}. Nothing was saved.`
+        : `The ${noun}s could not be saved just now. Nothing was saved — please try again.`,
     };
   }
 
   await propertyProvider.update(
     id,
-    { media: { ...auth.property.media, images: [...existing, ...added] } },
+    {
+      media: isPlan
+        ? { ...auth.property.media, floorPlans: [...existing, ...added] }
+        : { ...auth.property.media, images: [...existing, ...added] },
+    },
     auth.role,
   );
   await recordAuditEvent({
     actor: auth.role,
     action: "update",
     propertyId: id,
-    details: `${added.length} photo(s) added`,
+    details: `${added.length} ${noun}(s) added`,
   });
   revalidatePath("/admin/audit");
   revalidatePath(`/property/${id}`);
-  return { status: "success", message: `${added.length} photo${added.length === 1 ? "" : "s"} added.` };
+  return { status: "success", message: `${added.length} ${noun}${added.length === 1 ? "" : "s"} added.` };
 }
 
 export async function removePropertyPhotoAction(
@@ -139,12 +170,19 @@ export async function removePropertyPhotoAction(
   const auth = await authorise(id);
   if (!auth.ok) return { status: "error", message: auth.message };
 
-  const image = auth.property.media.images.find((i) => i.url === url);
-  if (!image) return { status: "error", message: "That photo is no longer on this property." };
+  const { images, floorPlans } = auth.property.media;
+  const image = images.find((i) => i.url === url) ?? floorPlans.find((i) => i.url === url);
+  if (!image) return { status: "error", message: "That file is no longer on this property." };
 
   await propertyProvider.update(
     id,
-    { media: { ...auth.property.media, images: auth.property.media.images.filter((i) => i !== image) } },
+    {
+      media: {
+        ...auth.property.media,
+        images: images.filter((i) => i !== image),
+        floorPlans: floorPlans.filter((i) => i !== image),
+      },
+    },
     auth.role,
   );
   const keys = [image.url, image.thumbnailUrl ?? ""].map(keyFromMediaUrl).filter((k): k is string => !!k);
@@ -152,10 +190,10 @@ export async function removePropertyPhotoAction(
     // The listing no longer shows it; a leftover file is harmless and is
     // recorded so it can be tidied up.
   });
-  await recordAuditEvent({ actor: auth.role, action: "update", propertyId: id, details: "1 photo removed" });
+  await recordAuditEvent({ actor: auth.role, action: "update", propertyId: id, details: "1 photo or floor plan removed" });
   revalidatePath("/admin/audit");
   revalidatePath(`/property/${id}`);
-  return { status: "success", message: "Photo removed." };
+  return { status: "success", message: "Removed." };
 }
 
 export async function makeMainPhotoAction(

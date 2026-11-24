@@ -41,7 +41,8 @@
 - [x] **Staff can add properties (24 Nov):** saved as private drafts, published through the approval step
 - [x] **Property photos (24 Nov):** Supabase Storage approved by the owner and set up; staff upload, reorder and remove photos; outsiders refused (tested live)
 - [ ] **Owner:** try uploading one photo to a draft property after signing in (the end-to-end upload with a real staff sign-in could not be tested without your password)
-- [ ] Add photo files to the backup procedure (Supabase database backups don't include them)
+- [x] **Photo backups (24 Nov):** `npm run backup:photos` (in `web/`) copies every photo and floor plan to `backups/property-photos/`; run weekly (`OPERATIONS_MANUAL.md` §12)
+- [x] **Floor plans (24 Nov):** staff upload floor plans (shown whole, never cropped)
 - [x] **Data requests (24 Nov):** staff can find, export and erase one person's enquiries; audited (`OPERATIONS_MANUAL.md` §7a). Retention periods still to be agreed
 - [x] **Health check for monitoring (24 Nov):** `/api/health`; connect an uptime monitor at launch (`DEPLOYMENT.md` R8)
 - [ ] Switch off sample listings (`SEED_DEMO_PROPERTIES=false`) when real ones arrive
@@ -129,8 +130,7 @@ or the owner's own sign-off, not this project's testing.
 
 - [ ] Page load speed (LCP) is about 100–200ms over the internal
       target on a simulated slow mobile connection — small, not urgent
-- [ ] No preview image yet for shared links on social media (Open
-      Graph image)
+- [x] **Sharing image (24 Nov):** a 1200×630 picture with the emblem and name is attached to every page (`web/scripts/make-share-image.mjs`; re-run when a clean logo export arrives)
 - [ ] Testing could only be done in one browser engine (Chromium) —
       no Firefox/Safari testing was possible in this environment
 

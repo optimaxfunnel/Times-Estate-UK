@@ -9,6 +9,29 @@
 
 ---
 
+## 2026-11-24 — Floor plans, photo backups, sharing image
+
+- Owner request: "move forward with what's left".
+- **Floor plans:** staff upload up to 5 per property. They are scaled
+  to fit, never cropped, with transparent areas made white and camera
+  data removed. They show under "Floor plans" on the property page.
+- **Photo backups:** `npm run backup:photos` copies every stored photo
+  and floor plan from Supabase to `backups/property-photos/`
+  (git-ignored). It downloads only new files and never changes
+  anything in Supabase. Ran successfully on the live project (no
+  photos yet).
+- **Sharing image:** links shared on WhatsApp, Facebook, LinkedIn or X
+  now show a 1200×630 picture with the emblem, the name and the four
+  services (`scripts/make-share-image.mjs`; re-run when a clean logo
+  export arrives).
+- `sharp` is now a direct dependency (npm could reach its registry
+  again); 0 known vulnerabilities.
+- 331 tests; production build clean.
+- **Not done, waiting on the owner:** redirects from the old website's
+  addresses (`SEO_REDIRECT_PLAN.md`, needs approval), the AI draft
+  review screen (waits for email to be switched on), a map, a page-text
+  editor, an investors page, and data retention periods.
+
 ## 2026-11-24 — Property photo upload (Supabase Storage)
 
 - Owner approval: "Yes, use Supabase Storage".

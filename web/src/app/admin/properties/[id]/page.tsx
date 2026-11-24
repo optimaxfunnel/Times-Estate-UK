@@ -5,7 +5,10 @@ import { getCurrentRole } from "@/lib/auth/session";
 import { hasPermission } from "@/lib/auth/roles";
 import { Alert } from "@/components/ui/Alert";
 import { PropertyEditForm } from "@/components/admin/PropertyEditForm";
-import { PropertyPhotosManager } from "@/components/admin/PropertyPhotosManager";
+import {
+  FloorPlansManager,
+  PropertyPhotosManager,
+} from "@/components/admin/PropertyPhotosManager";
 import { canEditContent } from "@/lib/property/workflow";
 
 export const metadata: Metadata = { title: "Admin — Edit Property" };
@@ -69,6 +72,13 @@ export default async function AdminEditPropertyPage({
           images={property.media.images}
           canEdit={photoDecision.allowed}
           reason={photoDecision.allowed ? undefined : photoDecision.reason}
+        />
+      </div>
+      <div className="mt-10">
+        <FloorPlansManager
+          propertyId={property.id}
+          floorPlans={property.media.floorPlans}
+          canEdit={photoDecision.allowed}
         />
       </div>
     </div>

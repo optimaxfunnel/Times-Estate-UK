@@ -141,6 +141,30 @@ describe("property photos", () => {
     }
   });
 
+  it("keeps a floor plan whole (scaled, never cropped) and separate from photos", async () => {
+    const p = await draft();
+    const tall = await sharp({ create: { width: 1000, height: 3000, channels: 4, background: { r: 0, g: 0, b: 0, alpha: 0 } } })
+      .png()
+      .toBuffer();
+    const plan = new File([new Uint8Array(tall)], "plan.png", { type: "image/png" });
+    const r = await uploadPropertyPhotosAction(
+      idle,
+      form({ id: p.id, kind: "floorplan", alt: "Ground and first floor plan", photos: [plan] }),
+    );
+    expect(r).toEqual({ status: "success", message: "1 floor plan added." });
+    const saved = (await propertyProvider.getById(p.id))!.media;
+    expect(saved.images).toHaveLength(0);
+    expect(saved.floorPlans[0].url).toMatch(/-plan\.webp$/);
+    const meta = await sharp((await readPhoto(keyFromMediaUrl(saved.floorPlans[0].url)!))!).metadata();
+    expect([meta.width, meta.height]).toEqual([533, 1600]); // same 1:3 shape
+    // Transparent areas become white, so plans stay readable.
+    const { data } = await sharp((await readPhoto(keyFromMediaUrl(saved.floorPlans[0].url)!))!).raw().toBuffer({ resolveWithObject: true });
+    expect([data[0], data[1], data[2]]).toEqual([255, 255, 255]);
+
+    expect((await removePropertyPhotoAction(idle, form({ id: p.id, url: saved.floorPlans[0].url }))).status).toBe("success");
+    expect((await propertyProvider.getById(p.id))!.media.floorPlans).toHaveLength(0);
+  });
+
   it("the media address only serves well-formed photo names", async () => {
     expect(await readPhoto("../../.env")).toBeNull();
     expect(keyFromMediaUrl("/media/../secret")).toBeNull();

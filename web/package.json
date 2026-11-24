@@ -10,7 +10,9 @@
     "typecheck": "tsc --noEmit",
     "test": "vitest run",
     "format": "prettier --check .",
-    "check:contrast": "node scripts/check-contrast.mjs"
+    "check:contrast": "node scripts/check-contrast.mjs",
+    "backup:photos": "node --env-file=.env scripts/backup-photos.mjs",
+    "setup:photo-storage": "node --env-file=.env scripts/setup-photo-storage.mjs"
   },
   "dependencies": {
     "@electric-sql/pglite": "0.5.11",
@@ -21,6 +23,7 @@
     "postgres": "3.4.9",
     "react": "19.2.8",
     "react-dom": "19.2.8",
+    "sharp": "0.35.5",
     "zod": "^4.5.4"
   },
   "devDependencies": {

@@ -533,13 +533,13 @@ Pro). Each photo is stored at two sizes, about 0.2 MB together.
   project.
 - Nothing new goes in the host's settings: uploads use the staff
   member's own sign-in.
-- **To-do when npm can reach its registry:** add `sharp` (the image
-  tool) to `web/package.json` as a direct dependency. Today it is
-  installed through Next.js, which most hosts include, but listing it
-  directly is safer.
+- `sharp` (the image tool) is a direct dependency of `web/` (added
+  2026-11-24).
 - **Backups:** Supabase's daily database backups do not include
-  Storage files. Keep the original photos, or export the bucket
-  periodically (to be added to the backup procedure).
+  Storage files. `npm run backup:photos` (in `web/`) copies every photo
+  and floor plan to `backups/property-photos/`, downloading only new
+  files. It only reads from Supabase. Run it weekly, and keep that folder
+  in the business's normal computer backup.
 
 ## 11c. Email — the business's existing 20i StackMail
 

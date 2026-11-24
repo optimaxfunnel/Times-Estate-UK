@@ -22,8 +22,8 @@ import {
  */
 export const PHOTO_BUCKET = "property-photos";
 
-/** Keys look like "<propertyId>/<random>-1200.webp" — nothing else is allowed. */
-const KEY_PATTERN = /^[a-z0-9-]{3,60}\/[a-f0-9-]{36}-(640|1200)\.webp$/;
+/** Keys look like "<propertyId>/<random>-1200.webp" (or -640, or -plan for floor plans) — nothing else is allowed. */
+const KEY_PATTERN = /^[a-z0-9-]{3,60}\/[a-f0-9-]{36}-(640|1200|plan)\.webp$/;
 
 export function isValidPhotoKey(key: string): boolean {
   return KEY_PATTERN.test(key);

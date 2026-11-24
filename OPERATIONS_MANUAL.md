@@ -77,7 +77,11 @@ you have permission to use, and avoid showing people or tenants'
 personal belongings. Once a listing is live, only a Manager or
 Administrator can change its photos.
 
-**Not yet possible:** floor plans and brochures. If your property
+**Floor plans:** below the photos there is a **Floor plans** section
+(up to 5). Plans are shown whole, never cropped. If your plan is a PDF,
+save it as an image first.
+
+**Not yet possible:** PDF brochures. If your property
 software (CRM) later sends listings automatically, they will go through
 the same approval step.
 
@@ -213,6 +217,16 @@ fails.
   still missing and which items block launch.
 
 ## 12. Backups
+
+> **Update 24 November 2026.** The database (enquiries, properties,
+> audit log) is in Supabase, which backs it up daily on the Pro plan.
+> **Property photos and floor plans are not in those backups.** Once a
+> week, ask whoever looks after the computer to run
+> `npm run backup:photos` in the `web` folder. It copies any new photos
+> to `backups/property-photos/`. Keep that folder in your normal
+> computer backup.
+>
+> *Historical text follows.*
 
 **Nothing to back up yet** — there is no database, so data is not kept
 at all between restarts. When a database is approved, the plan in

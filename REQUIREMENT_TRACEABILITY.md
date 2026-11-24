@@ -21,11 +21,11 @@ kept as history.
 | Status | Count |
 |---|---|
 | Complete | 39 |
-| Complete with limitation | 22 |
+| Complete with limitation | 23 |
 | Blocked | 3 |
 | Requires owner approval | 10 |
 | Requires professional review | 7 |
-| Not started | 8 |
+| Not started | 7 |
 | **Total** | **89** |
 
 ## A. Business requirements (BUSINESS_REQUIREMENTS.md §1–4)
@@ -101,7 +101,7 @@ kept as history.
 | E6 | CRM / portal feed | `lib/property/feeds` adapter boundary only | `feed-adapter.test.ts` | Requires owner approval | Owner to choose CRM/portal |
 | E7 | Staff content-status view | `app/admin/content`, `lib/content-gaps.ts` | `PlaceholderNotice.test.tsx` | Complete | — |
 | E8 | Demonstration data labelled visibly | Card and detail labels ("Sample property — invented for testing") | Production HTML read Day 6; `PropertyCard.test.tsx` | Complete | — |
-| E9 | Staff can add a new property | `/admin/properties/new`, `lib/property/create-action.ts` (saves a private Draft; existing approval workflow publishes) — built 2026-11-24 | `create-action.test.ts`, `AddPropertyForm.test.tsx` | Complete with limitation | Photos: Supabase Storage approved and built 2026-11-24 (`photo-actions.ts`, `photo-actions.test.ts`). Still to do: floor plans and brochures. A CRM feed (E6) can still be added later |
+| E9 | Staff can add a new property | `/admin/properties/new`, `lib/property/create-action.ts` (saves a private Draft; existing approval workflow publishes) — built 2026-11-24 | `create-action.test.ts`, `AddPropertyForm.test.tsx` | Complete with limitation | Photos and floor plans: Supabase Storage approved and built 2026-11-24 (`photo-actions.ts`, `photo-actions.test.ts`). Still to do: PDF brochures. A CRM feed (E6) can still be added later |
 
 ## F. Automation and AI (AUTOMATION_WORKFLOWS.md, AI_SAFETY_RULES.md)
 
@@ -133,7 +133,7 @@ kept as history.
 | H2 | Sitemap and robots, private pages excluded | `app/sitemap.ts`, `app/robots.ts`, noindex metadata | `structured-data.test.ts` (2 tests) | Complete | — |
 | H3 | Honest structured data (no ratings/reviews/demo listings) | `lib/seo/structured-data.ts` | `structured-data.test.ts` (4 tests) | Complete | Rich Results Test once public |
 | H4 | Phone numbers in structured data | Omitted | Test asserts what is emitted | Requires owner approval | Owner to approve using owner-supplied numbers |
-| H5 | Sharing image (Open Graph) | Site name, locale and card type set in `app/layout.tsx`; no image | — | Not started | Needs clean logo export to make one |
+| H5 | Sharing image (Open Graph) | `app/opengraph-image.png` + `twitter-image.png` with alt text, made by `scripts/make-share-image.mjs` from the emblem (built 2026-11-24) | Production build lists both; meta tags checked on the built site | Complete with limitation | Re-run the script when a clean logo export arrives |
 
 ## I. Security (SECURITY.md)
 

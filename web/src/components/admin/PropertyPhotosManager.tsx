@@ -27,11 +27,14 @@ function PhotoItem({
   image,
   isMain,
   position,
+  noun = "photo",
 }: {
   propertyId: string;
   image: PropertyImage;
-  isMain: boolean;
+  /** Photos only: the first photo is the main one. */
+  isMain?: boolean;
   position: number;
+  noun?: "photo" | "floor plan";
 }) {
   const [removeState, removeAction, removing] = useActionState(removePropertyPhotoAction, idle);
   const [mainState, mainAction, choosing] = useActionState(makeMainPhotoAction, idle);
@@ -44,7 +47,11 @@ function PhotoItem({
         width={640}
         height={480}
         loading="lazy"
-        className="aspect-[4/3] w-full rounded-sm object-cover"
+        className={
+          noun === "photo"
+            ? "aspect-[4/3] w-full rounded-sm object-cover"
+            : "aspect-[4/3] w-full rounded-sm bg-white object-contain"
+        }
       />
       <p className="text-xs text-ink/70">
         {isMain && (
@@ -55,7 +62,7 @@ function PhotoItem({
         {image.alt}
       </p>
       <div className="flex flex-wrap gap-2">
-        {!isMain && (
+        {noun === "photo" && !isMain && (
           <form action={mainAction}>
             <input type="hidden" name="id" value={propertyId} />
             <input type="hidden" name="url" value={image.url} />
@@ -68,7 +75,7 @@ function PhotoItem({
           <input type="hidden" name="id" value={propertyId} />
           <input type="hidden" name="url" value={image.url} />
           <Button type="submit" variant="secondary" className="px-3 py-1.5 text-xs" disabled={removing}>
-            Remove<span className="sr-only"> photo {position}</span>
+            Remove<span className="sr-only"> {noun} {position}</span>
           </Button>
         </form>
       </div>
@@ -157,6 +164,78 @@ export function PropertyPhotosManager({
         </form>
       ) : (
         reason && <Alert tone="info">{reason}</Alert>
+      )}
+    </section>
+  );
+}
+
+/** Floor plans: shown whole (never cropped), up to 5 per property. */
+export function FloorPlansManager({
+  propertyId,
+  floorPlans,
+  canEdit,
+}: {
+  propertyId: string;
+  floorPlans: PropertyImage[];
+  canEdit: boolean;
+}) {
+  const [state, uploadAction, uploading] = useActionState(uploadPropertyPhotosAction, idle);
+  const id = useId();
+  return (
+    <section aria-labelledby={`${id}-h`} className="space-y-4">
+      <h2 id={`${id}-h`} className="text-lg font-semibold text-ink">
+        Floor plans ({floorPlans.length})
+      </h2>
+      {floorPlans.length > 0 && (
+        <ul className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+          {floorPlans.map((plan, i) => (
+            <PhotoItem key={plan.url} propertyId={propertyId} image={plan} position={i + 1} noun="floor plan" />
+          ))}
+        </ul>
+      )}
+      {canEdit && (
+        <form action={uploadAction} className="space-y-3 rounded-sm border border-border bg-surface p-4">
+          <input type="hidden" name="id" value={propertyId} />
+          <input type="hidden" name="kind" value="floorplan" />
+          <div className="space-y-1">
+            <label htmlFor={`${id}-files`} className="block text-sm font-medium text-ink">
+              Add floor plans
+            </label>
+            <input
+              id={`${id}-files`}
+              name="photos"
+              type="file"
+              accept="image/jpeg,image/png,image/webp"
+              multiple
+              required
+              aria-describedby={`${id}-files-hint`}
+              className="block w-full text-sm"
+            />
+            <p id={`${id}-files-hint`} className="text-xs text-ink/60">
+              An image of the plan (JPEG, PNG or WebP), up to 5 per property.
+              Plans are shown whole, never cropped. Export a PDF plan as an
+              image first.
+            </p>
+          </div>
+          <div className="space-y-1">
+            <label htmlFor={`${id}-alt`} className="block text-sm font-medium text-ink">
+              Describe the floor plan(s)
+            </label>
+            <input
+              id={`${id}-alt`}
+              name="alt"
+              required
+              minLength={5}
+              maxLength={150}
+              placeholder="e.g. Ground and first floor plan"
+              className={input}
+            />
+          </div>
+          <Button type="submit" disabled={uploading}>
+            {uploading ? "Uploading…" : "Upload floor plans"}
+          </Button>
+          <Feedback state={state} />
+        </form>
       )}
     </section>
   );

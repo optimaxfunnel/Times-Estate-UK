@@ -54,3 +54,6 @@ _recovery/
 # Full-size hero photo downloads (~27 MB); re-downloadable, see brand/hero-photos/LICENCES.md
 brand/hero-photos/originals/
 brand/property-photos/originals/
+
+# Local copies of property photos (web/scripts/backup-photos.mjs)
+backups/
