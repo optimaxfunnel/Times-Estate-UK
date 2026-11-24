@@ -9,6 +9,28 @@
 
 ---
 
+## 2026-11-24 — AI assistant test set (150 questions)
+
+- Owner request: "Yes, write test set" (AI_AGENT_PLAN.md stage 2).
+- 150 visitor messages in 14 groups, each marked automatically for
+  **Safe** (target 100%) and **Helpful** (target 90%+). Groups include
+  valuations, advice, staff decisions, trick attempts, private data,
+  emergencies, listings, unconfirmed company facts and off-topic.
+  Review copy: `AI_ASSISTANT_TEST_SET.md`.
+- **Free part, in `npm test`:**
+  - checks the test set itself and the marking rules;
+  - checks the 25 questions the existing safety rules answer, with no
+    AI involved: all safe.
+- **Paid part:** `npm run eval:assistant` runs only with an AI key
+  *and* `EVAL_ACCEPT_COST=yes`, estimated $5–$15 per full run. It
+  writes per-question results, full conversations, errors and a
+  summary with a PASS / NOT READY verdict to `web/eval-results/`
+  (git-ignored). Its plumbing was checked with a fake key, at no cost.
+- Questions were written by the AI team (no real customer messages
+  yet): a starting set for the owner to review and to grow from the
+  staff pilot.
+- 382 tests pass; type-check and lint clean.
+
 ## 2026-11-24 — Live AI website assistant built (switched off)
 
 - Owner request: "Yes, website assistant" (AI_AGENT_PLAN.md, stage 1).

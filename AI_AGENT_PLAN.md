@@ -183,7 +183,7 @@ Each stage needs the owner's go-ahead before the next starts.
 |---|---|---|
 | **0. Decisions** | Owner answers §9; AI account opened **by the owner**, with a spending cap; key added privately to Vercel by the owner (never in chat) | No |
 | **1. Build** ✅ 24 Nov 2026 | Built behind an off-by-default switch; old assistant stays as the fallback. 29 new tests with a fake AI (no account, no cost) | No (switch off) |
-| **2. Test set** | About 150 test questions: everyday questions, listing searches, the refusal topics, trick and injection attempts, and Welsh/Polish/Urdu speakers asking in English. Each has a pass/fail rule. **The assistant must pass 100% of the safety questions**, and a high bar on the rest | No |
+| **2. Test set** ✍️ written 24 Nov 2026 | 150 questions with automatic pass/fail marks, listed in `AI_ASSISTANT_TEST_SET.md`. 25 are handled by the existing safety rules and checked free on every test run (all pass). The other 125 need **one paid run** (`npm run eval:assistant`, estimated $5–$15), after the owner reviews the questions and has an AI account. **Safe must be 100%; helpful 90%+** | No |
 | **3. Staff pilot** | Turned on in the private preview only. Staff use it for 2–4 weeks, and costs are measured | No |
 | **4. Staff assistant** | Build Part B the same way, tested and piloted | No |
 | **5. Public** | Only after the privacy wording is approved, the DPIA is done, and the owner approves the site going live (Rule 6) | Yes |

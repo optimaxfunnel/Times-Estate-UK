@@ -57,3 +57,6 @@ brand/property-photos/originals/
 
 # Local copies of property photos (web/scripts/backup-photos.mjs)
 backups/
+
+# Live AI test-set results (may contain model replies; regenerate any time)
+web/eval-results/
