@@ -9,6 +9,23 @@
 
 ---
 
+### 2026-11-24 — Add-property screen built without waiting for a CRM choice
+
+- **Context:** E9 was waiting for the owner to choose between a CRM feed
+  and an add-property screen. The owner asked for the remaining back-end
+  work to move forward.
+- **Decision:** build the screen now. It is free, needs no third-party
+  service, and saves listings as Drafts into the same approval workflow
+  a CRM feed would use. It does not rule out a feed later.
+- **Not built:** photo upload. It needs file storage, which is a
+  third-party service the owner must approve first (Rule 4). Supabase
+  Storage is the obvious choice, since the project already uses
+  Supabase.
+- **Data requests:** retention periods (how long enquiries are kept
+  before deletion) are a legal decision for the owner and solicitor
+  (Rule 5). The screen lets staff erase on request but deletes nothing
+  automatically.
+
 ### 2026-11-24 — Free stock photos on the sample listings (owner request)
 
 - **Request (owner):** add photos from free sources where listings have

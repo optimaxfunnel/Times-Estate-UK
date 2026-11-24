@@ -234,6 +234,45 @@ export async function recordLeadValuation(
   return lead;
 }
 
+/**
+ * Every enquiry from one email address (case-insensitive), oldest first —
+ * used to answer a person's request for a copy of their data, or to
+ * erase it.
+ */
+export async function findLeadsByEmail(email: string): Promise<Lead[]> {
+  const db = await getDb();
+  const rows = await db.query<Row>(
+    "select data from leads where lower(data->>'contactEmail') = lower($1) order by seq",
+    [email.trim()],
+  );
+  return rows.map(parse);
+}
+
+/**
+ * Permanently removes one enquiry (a person's erasure request). The audit
+ * log keeps only the lead id, who erased it and the request reference —
+ * never the person's details.
+ */
+export async function eraseLead(
+  id: string,
+  actor: string,
+  reference: string,
+): Promise<boolean> {
+  const db = await getDb();
+  const rows = await db.query<{ id: string }>(
+    "delete from leads where id = $1 returning id",
+    [id],
+  );
+  if (rows.length === 0) return false;
+  await recordAuditEvent({
+    actor,
+    action: "delete",
+    propertyId: id,
+    details: `Lead ${id} erased on a data request (ref: ${reference})`,
+  });
+  return true;
+}
+
 /** Test-only reset so each test starts from a clean slate. */
 export async function __resetLeadsForTests(): Promise<void> {
   await __truncateAllForTests();

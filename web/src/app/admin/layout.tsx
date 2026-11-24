@@ -39,8 +39,8 @@ export default async function AdminLayout({
     <div className="min-h-screen bg-secondary/5">
       {session.provider === "dev-mock" && <RoleSwitcher currentRole={role} />}
       <header className="border-b border-border bg-surface">
-        <Container className="flex h-16 items-center justify-between">
-          <nav aria-label="Admin" className="flex items-center gap-6">
+        <Container className="flex min-h-16 flex-wrap items-center justify-between gap-x-6 gap-y-2 py-3">
+          <nav aria-label="Admin" className="flex flex-wrap items-center gap-x-6 gap-y-2">
             <Link
               href="/admin/properties"
               className="font-heading font-semibold text-ink"
@@ -67,6 +67,14 @@ export default async function AdminLayout({
             >
               Content
             </Link>
+            {hasPermission(role, "handle_data_requests") && (
+              <Link
+                href="/admin/data-requests"
+                className="text-sm text-ink hover:text-accent"
+              >
+                Data requests
+              </Link>
+            )}
             {hasPermission(role, "view_audit_log") && (
               <Link
                 href="/admin/audit"

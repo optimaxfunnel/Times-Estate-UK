@@ -130,7 +130,7 @@ Before launch, and then every quarter:
 
 | What | How | Alert goes to |
 |---|---|---|
-| Site up | External uptime check every 5 minutes on `/` and `/contact` | Owner and developer, by email and text |
+| Site up | External uptime check every 5 minutes on `/`, `/contact` and **`/api/health`** (built 24 Nov 2026: returns 200 "ok", or 503 "degraded" when the database cannot be reached, for example a paused Supabase project) | Owner and developer, by email and text |
 | Forms working | Daily automated test submission marked as a test (filtered out of leads) — or a weekly manual check | Developer |
 | Errors | Error-monitoring service (`MONITORING_DSN`) | Developer |
 | Certificate | Host's automatic renewal; uptime check alerts on expiry | Developer |

@@ -10,10 +10,13 @@ export const metadata: Metadata = { title: "Admin — Edit Property" };
 
 export default async function AdminEditPropertyPage({
   params,
+  searchParams,
 }: {
   params: Promise<{ id: string }>;
+  searchParams: Promise<{ created?: string }>;
 }) {
   const { id } = await params;
+  const { created } = await searchParams;
   const role = await getCurrentRole();
 
   if (!hasPermission(role, "view_admin")) {
@@ -44,6 +47,12 @@ export default async function AdminEditPropertyPage({
         Internal reference: {property.id} &middot; Private address (never
         public): {property.privateAddress}
       </p>
+      {created === "1" && (
+        <Alert tone="success" className="mt-4">
+          Draft saved. It is not on the website yet. When it&rsquo;s ready,
+          change the status to &ldquo;Awaiting approval&rdquo; below.
+        </Alert>
+      )}
       <div className="mt-6">
         <PropertyEditForm
           property={property}

@@ -22,12 +22,23 @@ export default async function AdminPropertiesPage() {
     sort: "newest",
   });
   const canEdit = hasPermission(role, "edit_property");
+  const canCreate = hasPermission(role, "create_property");
 
   return (
     <div>
-      <h1 className="text-2xl font-semibold text-ink">
-        Properties ({result.total})
-      </h1>
+      <div className="flex flex-wrap items-center justify-between gap-3">
+        <h1 className="text-2xl font-semibold text-ink">
+          Properties ({result.total})
+        </h1>
+        {canCreate && (
+          <Link
+            href="/admin/properties/new"
+            className="inline-flex items-center rounded-sm bg-accent px-4 py-2 text-sm font-medium text-white hover:bg-accent-dark"
+          >
+            Add a property
+          </Link>
+        )}
+      </div>
       <p className="mt-1 text-sm text-ink/70">
         Every property, including Draft and Awaiting approval records that never
         appear on the public site.

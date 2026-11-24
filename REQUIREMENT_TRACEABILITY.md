@@ -21,11 +21,11 @@ kept as history.
 | Status | Count |
 |---|---|
 | Complete | 39 |
-| Complete with limitation | 20 |
+| Complete with limitation | 22 |
 | Blocked | 3 |
 | Requires owner approval | 10 |
 | Requires professional review | 7 |
-| Not started | 10 |
+| Not started | 8 |
 | **Total** | **89** |
 
 ## A. Business requirements (BUSINESS_REQUIREMENTS.md §1–4)
@@ -101,7 +101,7 @@ kept as history.
 | E6 | CRM / portal feed | `lib/property/feeds` adapter boundary only | `feed-adapter.test.ts` | Requires owner approval | Owner to choose CRM/portal |
 | E7 | Staff content-status view | `app/admin/content`, `lib/content-gaps.ts` | `PlaceholderNotice.test.tsx` | Complete | — |
 | E8 | Demonstration data labelled visibly | Card and detail labels ("Sample property — invented for testing") | Production HTML read Day 6; `PropertyCard.test.tsx` | Complete | — |
-| E9 | Staff can add a new property | — (no add-property screen; listings come from demonstration data) | — | Not started | Owner to choose: CRM feed (E6) or an add-property screen (found Day 7 handover) |
+| E9 | Staff can add a new property | `/admin/properties/new`, `lib/property/create-action.ts` (saves a private Draft; existing approval workflow publishes) — built 2026-11-24 | `create-action.test.ts`, `AddPropertyForm.test.tsx` | Complete with limitation | No photo upload yet (needs a storage service the owner approves). A CRM feed (E6) can still be added later |
 
 ## F. Automation and AI (AUTOMATION_WORKFLOWS.md, AI_SAFETY_RULES.md)
 
@@ -156,7 +156,7 @@ kept as history.
 | J2 | Consent captured (privacy; separate marketing consent) | `LeadForm`, alert form | `LeadForm.test.tsx` | Complete | — |
 | J3 | Privacy and cookie notices | `app/privacy-policy`, `app/cookie-policy` | Live | Requires professional review | Solicitor review |
 | J4 | No tracking cookies without consent | No analytics loaded; CSP blocks third-party scripts | Lighthouse: 0 third-party bytes | Complete | Consent banner needed before any analytics |
-| J5 | Deletion / data-subject request process | — | — | Not started | Build admin deletion; agree process |
+| J5 | Deletion / data-subject request process | `/admin/data-requests`, `lib/leads/data-request-actions.ts` (find, download a copy, erase; Administrator/Manager; audited by reference) — built 2026-11-24; procedure in `OPERATIONS_MANUAL.md` §7a | `data-request-actions.test.ts` | Complete with limitation | Owner/solicitor to agree retention periods and the identity-check step |
 | J6 | Retention periods | Proposals only | — | Requires professional review | Owner and adviser to decide |
 
 ## K. Owner decisions and project rules

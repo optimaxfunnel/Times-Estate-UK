@@ -9,6 +9,30 @@
 
 ---
 
+## 2026-11-24 — Back-end: add property, data requests, health check
+
+- Owner request: "move forward what's left in the backend".
+- **Add a property** (`/admin/properties/new`): Property Editors,
+  Managers and Administrators can add real listings. They are saved as
+  private drafts and go live only through the existing approval step.
+  Photo upload is not built yet, because it needs a storage service the
+  owner must approve.
+- **Data requests** (`/admin/data-requests`): Administrators and
+  Managers can find every enquiry from one email address, download a
+  copy, and erase records permanently on request. Each step is logged
+  with a request reference, never the person's details. Procedure:
+  `OPERATIONS_MANUAL.md` §7a.
+- **Health check** (`/api/health`): for an uptime monitor. It returns
+  "ok", or "degraded" when the database cannot be reached.
+- **Cookie table** on `/cookie-policy` corrected to match what the site
+  really stores. It still needs solicitor review.
+- **Fixes:** the admin menu now wraps on phones. A build warning that
+  would have bundled the whole project folder into a deployment is
+  gone.
+- 324 tests (16 new); axe 0 violations on the new admin pages at phone
+  width; production build clean; health check answered "ok" against
+  the live database.
+
 ## 2026-11-24 — Photos on the sample listings
 
 - Owner request: "get images from free sources and update at the home

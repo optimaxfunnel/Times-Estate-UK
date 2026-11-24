@@ -52,13 +52,22 @@ the screen, and tested automatically (`TEST_REPORT.md`).
 
 ## 3. Adding a property
 
-**Not built yet.** There is no "Add property" screen. Today the
-listings come from a demonstration file. The plan is for new listings
-to arrive from your property software (CRM) through a feed, arriving as
-"Awaiting approval" so a Manager checks them before anything is public
-(`INTEGRATIONS.md`, `DATA_MODEL.md`). If you would rather add listings
-by hand on the website, that screen needs to be built — tell the
-developer which you prefer.
+*(Built 24 November 2026.)* Property Editors, Managers and
+Administrators can add listings by hand:
+
+1. Go to **Admin → Properties** and press **Add a property**.
+2. Choose residential or commercial, and for sale or to let. Fill in
+   the address (the full address stays private; you choose what the
+   website shows), the price, the details and the description. Only
+   enter facts you have checked with the owner or landlord.
+3. Press **Save as draft**. The draft is never shown on the website.
+4. On the next screen, change the status to **Awaiting approval** when
+   it's ready. A Manager or Administrator then publishes it (section 5).
+
+**Not yet possible:** uploading photos and floor plans. That needs a
+file storage service, which the owner must approve first. If your
+property software (CRM) later sends listings automatically, they will
+go through the same approval step.
 
 ## 4. Editing a property
 
@@ -112,6 +121,27 @@ confirms a viewing to a customer by itself.
 
 **Valuations:** only a Manager or Administrator can record a valuation
 figure on a lead (**Confirm valuation**). The website never gives an automatic valuation.
+
+## 7a. Data requests (copy or deletion of someone's information)
+
+*(Built 24 November 2026; Administrators and Managers only.)* By law,
+anyone can ask what information we hold about them, or ask for it to be
+deleted. You normally have **one month** to respond.
+
+1. Check the person is who they say they are before you reply.
+2. Give the request your own reference, such as `DR-2026-001`. Never
+   use their name: the reference goes in the audit log.
+3. Go to **Admin → Data requests** and enter the email address they
+   used and your reference. Every enquiry from that address is listed.
+4. **For a copy:** press **Download a copy (JSON)** and send it to them
+   securely.
+5. **For deletion:** tick **Erase permanently** next to each enquiry,
+   then press **Erase**. This cannot be undone. Do not erase anything
+   the law requires you to keep, such as anti-money-laundering checks on
+   a sale, or records in an open dispute. If unsure, ask first.
+
+Every search and erasure is recorded in the audit log with your
+reference and who did it, but never the person's details.
 
 ## 8. Processing repair reports
 

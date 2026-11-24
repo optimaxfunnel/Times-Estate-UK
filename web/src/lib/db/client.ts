@@ -8,8 +8,11 @@ import { SCHEMA_STATEMENTS } from "@/lib/db/schema";
  */
 function appDir(): string {
   const cwd = process.cwd();
-  if (fs.existsSync(path.join(cwd, "next.config.ts"))) return cwd;
-  if (fs.existsSync(path.join(cwd, "web", "next.config.ts"))) return path.join(cwd, "web");
+  // turbopackIgnore: these run on the server at start-up only; without the
+  // hint the build would bundle the whole project folder (build warning).
+  if (fs.existsSync(/*turbopackIgnore: true*/ path.join(/*turbopackIgnore: true*/ cwd, "next.config.ts"))) return cwd;
+  if (fs.existsSync(/*turbopackIgnore: true*/ path.join(/*turbopackIgnore: true*/ cwd, "web", "next.config.ts")))
+    return path.join(/*turbopackIgnore: true*/ cwd, "web");
   return cwd;
 }
 
@@ -84,8 +87,9 @@ async function open(): Promise<Db> {
   if (localKind() === "pglite-memory") {
     pg = new PGlite();
   } else {
-    const dir = process.env.LOCAL_DB_DIR ?? path.join(appDir(), ".data", "pglite");
-    fs.mkdirSync(dir, { recursive: true }); // PGlite does not create parent folders
+    const dir =
+      process.env.LOCAL_DB_DIR ?? path.join(/*turbopackIgnore: true*/ appDir(), ".data", "pglite");
+    fs.mkdirSync(/*turbopackIgnore: true*/ dir, { recursive: true }); // PGlite does not create parent folders
     pg = new PGlite(dir);
   }
   return {

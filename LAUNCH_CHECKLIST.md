@@ -20,8 +20,7 @@
 - [x] **Owner decision (9 Nov):** keep the intro video on every
   first-visited page, accepting a slower first mobile visit (about
   3.5 s). See `DECISIONS.md`.
-- [ ] **Correct the cookie table** on `/cookie-policy` (out-of-date
-  cookie name; two storage items missing). Part of the solicitor review.
+- [x] **Cookie table corrected (24 Nov):** `/cookie-policy` now lists the real staff sign-in cookies and all three browser-storage items. The solicitor review still has to confirm the wording and the intro-video item's category
 - [ ] Testing with a screen-reader user
 - [x] **Next.js upgrade approved and applied (9 Nov):** 16.4.5; website
   dependencies have 0 known vulnerabilities; all checks re-run
@@ -39,8 +38,10 @@
 - [x] **Supabase project restored by the owner (23 Nov)** — homepage, search and property pages read from it again (checked on the production build)
 - [ ] **Owner: upgrade Supabase to Pro** so the project cannot pause again (it paused on the Free plan on 23 Nov)
 - [x] **Site keeps working if the database is unreachable (23 Nov):** listings and property pages show "temporarily unavailable" with the phone number; forms say nothing was sent instead of crashing. Tested against the paused Supabase project
+- [x] **Staff can add properties (24 Nov):** saved as private drafts, published through the approval step. No photo upload yet (needs a storage service the owner approves)
+- [x] **Data requests (24 Nov):** staff can find, export and erase one person's enquiries; audited (`OPERATIONS_MANUAL.md` §7a). Retention periods still to be agreed
+- [x] **Health check for monitoring (24 Nov):** `/api/health`; connect an uptime monitor at launch (`DEPLOYMENT.md` R8)
 - [ ] Switch off sample listings (`SEED_DEMO_PROPERTIES=false`) when real ones arrive
-- [ ] **Real staff sign-in with two-step verification**
 - [ ] **Email provider, form recipients and reply-to addresses**
   approved
 - [ ] **Fees and tenant fees** published with real amounts

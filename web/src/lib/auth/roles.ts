@@ -36,6 +36,9 @@ export const PERMISSIONS = [
   "manage_leads",
   "manage_users",
   "view_audit_log",
+  // Find, export or erase one person's enquiries on request (UK GDPR
+  // access and erasure rights). Senior roles only.
+  "handle_data_requests",
 ] as const;
 export type Permission = (typeof PERMISSIONS)[number];
 
@@ -51,6 +54,7 @@ const ROLE_PERMISSIONS: Record<Role, readonly Permission[]> = {
     "view_enquiries",
     "manage_leads",
     "view_audit_log",
+    "handle_data_requests",
   ],
   property_editor: [
     "view_admin",
