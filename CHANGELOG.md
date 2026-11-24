@@ -11,6 +11,8 @@
 
 ## 2026-11-24 — AI assistant test set (150 questions)
 
+- **Approved by the owner the same day: "Yes, approved".**
+
 - Owner request: "Yes, write test set" (AI_AGENT_PLAN.md stage 2).
 - 150 visitor messages in 14 groups, each marked automatically for
   **Safe** (target 100%) and **Helpful** (target 90%+). Groups include

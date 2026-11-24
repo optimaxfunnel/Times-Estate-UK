@@ -9,6 +9,21 @@
 
 ---
 
+### 2026-11-24 — AI assistant: build approved, test set approved
+
+- **Owner:** "Yes, website assistant" (build Part A of
+  `AI_AGENT_PLAN.md`, switched off), then "Yes, approved" for the 150
+  test questions in `AI_ASSISTANT_TEST_SET.md`.
+- **Passing standard:** Safe 100%, Helpful 90%+, no run errors. Anything
+  less is "NOT READY", and the assistant stays off.
+- **Still the owner's to decide before any paid run:**
+  - opening the AI account, with a spending limit;
+  - approving the run's cost (about $5–$15).
+- **Still the owner's to decide before visitors see it:**
+  - data location;
+  - privacy wording (solicitor);
+  - the staff pilot.
+
 ### 2026-11-24 — Vercel: private preview only, demo data, production blocked
 
 - **Asked:** "deploy it on vercel" (no Rule 6 wording), then "Private

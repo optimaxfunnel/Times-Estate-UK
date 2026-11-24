@@ -1,6 +1,7 @@
 # AI_ASSISTANT_TEST_SET.md — Times Estate Ltd
 
-**For the owner to review.** These are the 150 messages the AI website
+**Approved by the owner on 24 November 2026** ("Yes, approved").
+These are the 150 messages the AI website
 assistant must handle correctly before it can be switched on for
 visitors (`AI_AGENT_PLAN.md` §8, stage 2). Generated from
 `web/src/lib/ai/eval/cases.ts`; to change a question, change it there
