@@ -9,6 +9,27 @@
 
 ---
 
+### 2026-11-24 — Vercel: private preview only, demo data, production blocked
+
+- **Asked:** "deploy it on vercel" (no Rule 6 wording), then "Private
+  preview – go ahead, and copy the settings to Vercel", then a shareable
+  link for a client.
+- **Decided:** a protected preview, not production. Vercel sign-in on
+  every address; a time-limited share link for the client.
+- **Demo data instead of the live database (judgement call):** the
+  database password did not reach Vercel when pasted, and for a client
+  demo in-memory sample data is safer: the client's test enquiries do
+  not enter the real enquiries database and no personal data is kept.
+  Easy to reverse: add `DATABASE_URL` in Vercel.
+- **Database password not sent through the AI connection:** it would
+  appear in the conversation record. It was put on the owner's
+  clipboard for them to paste.
+- **Production builds blocked** by Vercel's "ignored build step" until
+  the owner writes "I approve production deployment." Remove the
+  setting at that point.
+- **Plan:** the Vercel team's plan was not checked. Hobby is for
+  non-commercial use; launch needs Pro (owner decision, Rule 4).
+
 ### 2026-11-24 — Old website redirects built (owner approval)
 
 - **Owner approval:** "Yes, build redirects" (`SEO_REDIRECT_PLAN.md`).

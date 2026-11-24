@@ -9,6 +9,31 @@
 
 ---
 
+## 2026-11-24 — Private client preview on Vercel (not production)
+
+- Owner request: "deploy it on vercel", then "Private preview – go ahead,
+  and copy the settings to Vercel", then a shareable link for a client.
+  The exact Rule 6 approval words were **not** given, so this is a
+  preview only. Nothing public; no domain; no DNS change.
+- Vercel team "Times Estate", project `times-estate-web` (root folder
+  `web`, Node 24, server in Dublin). Built from GitHub branch
+  `client-preview` (same code as `recovery-2026-11-09`, commit c6f9b59).
+- **Locked:** Vercel sign-in is required on every address. Checked:
+  without the link, a visitor is sent to the Vercel log-in page.
+- **Shareable link** for the client: anyone holding it can view; it
+  expires about 23 hours after it was made (25 Nov 2026, 14:25). A new
+  one can be made from the Vercel deployment page ("Share").
+- **Demo mode:** `LOCAL_DB=memory`, so the preview runs on built-in
+  sample data, and anything typed into a form is not kept. The live
+  database setting (`DATABASE_URL`) was not added. Adding it later
+  switches the preview to the live Supabase database.
+- `EMAIL_NOTIFICATIONS=off`; no email settings copied.
+- **Production builds blocked:** Vercel's "ignored build step" skips
+  any production build until the owner writes "I approve production
+  deployment." An accidental first build that Vercel labelled
+  "production" was cancelled before it finished.
+- Not tested: Firefox/Safari (to do on this preview).
+
 ## 2026-11-24 — Faster property photos on phones; mobile speed measured
 
 - Owner request: "move forward with what's left".
