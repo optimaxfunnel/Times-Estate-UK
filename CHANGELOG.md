@@ -9,6 +9,21 @@
 
 ---
 
+## 2026-11-24 — AI agent plan (proposal only)
+
+- Owner request: "plan an AI Agent for this website".
+- New `AI_AGENT_PLAN.md`:
+  - a **website assistant** for visitors (answers from approved pages,
+    finds real available listings, prepares forms the visitor submits
+    themselves);
+  - a **staff assistant** (enquiry summaries, reply and listing-text
+    drafts, missing-information checks, repair triage);
+  - read-and-draft only, behind the existing refusal rules, with an off
+    switch and automatic fallback to today's rule-based assistant;
+  - UK GDPR steps, cost estimates by model, a staged rollout and eight
+    owner decisions.
+- Nothing built, no AI account, no key, no cost.
+
 ## 2026-11-24 — Private client preview on Vercel (not production)
 
 - Owner request: "deploy it on vercel", then "Private preview – go ahead,
