@@ -5,8 +5,11 @@
 Nothing in this document has been carried out. Before any step:
 1. ~~The owner approves the Next.js update~~ — **done 2026-11-09**
    (approved by the owner; upgraded to 16.4.5).
-2. A database and a staff sign-in service are chosen and approved
-   (§1, §11).
+2. ~~A database and a staff sign-in service are chosen and approved~~
+   — **done 2026-11-09** (Supabase, Ireland; staff sign-in with two-step
+   verification; §11, §11b). Photo storage added 2026-11-24 (§11d).
+   The server-hang defect mentioned further down was **fixed on
+   2026-10-31**. Text below that says it is still present is history.
 3. The checks in `TEST_REPORT.md` (Day 7 Task 4) are re-run on the
    real host.
 4. The owner writes exactly: **"I approve production deployment."**

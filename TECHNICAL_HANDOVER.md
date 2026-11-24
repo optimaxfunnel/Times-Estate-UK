@@ -2,6 +2,21 @@
 
 ## Status of this document
 
+> **Update 24 November 2026: read this first.** Several things this
+> September document describes as open are now done:
+> - The server-hang defect was **fixed on 31 October** (a bound server
+>   action looping on no-JavaScript form posts).
+> - The data is stored in a real database (Supabase, Ireland) since
+>   9 November.
+> - Staff sign in through Supabase Auth with two-step verification;
+>   the practice login runs on development computers only.
+> - Photos, floor plans and brochures are stored in Supabase Storage,
+>   and old website addresses redirect (24 November).
+>
+> For what is still open, see the top of `LAUNCH_CHECKLIST.md`; for
+> the history, see `CHANGELOG.md` and `DECISIONS.md`. The text below
+> is kept as it was written.
+
 Phase 7 deliverable (2026-09-09). Written for whoever takes technical
 responsibility for this project next — a new developer, an agency, or
 the owner working with one. It's the "start here" technical document;

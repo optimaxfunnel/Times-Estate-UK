@@ -9,6 +9,12 @@ are cleared and the owner writes exactly: "I approve production
 deployment." Earlier recommendations below this section are kept as
 history.
 
+> **Update 24 November 2026:** the server-hang defect (fixed 31
+> October), the database and the staff sign-in are all done. The
+> current list of what remains is at the top of `LAUNCH_CHECKLIST.md`.
+> Where older text below says the hang is "still present", that is
+> history.
+
 ### Status of each pre-deployment item
 
 | Item | Status | Detail |
